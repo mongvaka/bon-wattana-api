@@ -1,5 +1,5 @@
+import { BasicData } from "../shared/entities/basic-data";
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {BasicData} from "../shared/entities/basic-data";
 import {TypeCode} from "./type-code.entity";
 
 @Entity('DEPARTMENT_CODE')

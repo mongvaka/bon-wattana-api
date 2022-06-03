@@ -5,7 +5,6 @@ import {NestExpressApplication} from "@nestjs/platform-express";
 import {init as SentryInit} from '@sentry/node';
 import {ValidationPipe} from "@nestjs/common";
 import {SwaggerModule, DocumentBuilder} from '@nestjs/swagger';
-import { json } from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -13,7 +12,7 @@ async function bootstrap() {
     dsn: ""
   });
   const version = 'v1';
-  const globalPrefix = `/api/${version}`;
+  const globalPrefix = `/api`;
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(
     new ValidationPipe({
@@ -23,7 +22,6 @@ async function bootstrap() {
       },
     }),
   );
-  app.use(json({ limit: '10mb' }));
   app.useStaticAssets(join(__dirname, '..', 'public'), {prefix: '/public'});
   const options = new DocumentBuilder()
     .setTitle('BRT CONTRACT API')
@@ -38,6 +36,10 @@ async function bootstrap() {
   const port = process.env.PORT || '3000';
   const server = await app.listen(port);
   server.setTimeout(1800000); // 30 min
+  console.log(
+    `Application is running on: ${await app.getUrl()}${globalPrefix}`
+  );
+  console.log(`docs ${await app.getUrl()}${globalPrefix}/docs/`);
 }
 
 bootstrap();

@@ -1,4 +1,3 @@
-import { SupplieGroup } from "src/supplie-group/supplie-group.entity";
 import { Connection, ViewColumn, ViewEntity } from "typeorm";
 import { View } from "typeorm/schema-builder/view/View";
 import { Users } from "./users.entity";

@@ -1,4 +1,4 @@
-export class Response {
+export class Responses {
 
   static error(message: string,
         traceback: any,

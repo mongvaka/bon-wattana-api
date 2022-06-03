@@ -23,12 +23,10 @@ import {UsersService} from "./users.service";
 import {CreatedUsersDto, DeletedUsersDto, SearchUsersDto, UpdatedUsersDto} from "./users.dto";
 import {Users} from "./users.entity";
 import {MessageResponse} from "../shared/responses/message.response";
-import {JwtAuthGuard} from "../authentications/jwt-auth.guard";
 import {CreatedUsersValidation, UpdatedUsersValidation} from "./users.validation";
 
 @ApiTags('users')
 @Controller('users')
-@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {
