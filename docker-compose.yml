@@ -5,7 +5,7 @@ services:
         build: 
             dockerfile: Dockerfile
             context: .
-        image: mongmang/monghub
+        image: mongmang/monghub:first-deploy
         depends_on:
             - postgres
         environment:
