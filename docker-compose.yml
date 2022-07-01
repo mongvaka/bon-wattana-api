@@ -4,7 +4,7 @@ services:
     api:
         build: 
             dockerfile: Dockerfile
-            context: .
+            context: https://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@github.com/mongvaka/bon-wattana-api.git
         image: mongmang/monghub:first-deploy
         depends_on:
             - postgres
