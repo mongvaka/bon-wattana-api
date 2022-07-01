@@ -32,7 +32,7 @@ export class ProductCategoryController extends BaseController{
   @Post('dropdown')
   async dropdown(@Body() dto: SearchProductCategoryDto) {
     try{      
-      return this.success(await this.dropdownService.productCategoryDropdown(dto))
+      // return this.success(await this.dropdownService.productCategoryDropdown(dto))
     }catch(e){
       return this.error(e)
     }

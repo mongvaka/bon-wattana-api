@@ -24,7 +24,7 @@ export class SearchCondition {
   public parameterName?: string = null;
   public value?: string = null;
   public values?: string[] = null;
-  public type: ColumnType = null;
+  public inputType: ColumnType = null;
   public operator?: string = Operators.AND;
   public isParentKey?: boolean = false;
   public equalityOperator?: string = Operators.EQUAL;

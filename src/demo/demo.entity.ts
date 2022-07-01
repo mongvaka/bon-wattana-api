@@ -95,10 +95,10 @@ export class VwDemoItem {
     demoEmail: string;
 
     @ViewColumn({name:'DEMO_NUMBER'})
-    demoNumber: string;
+    demoNumber: number;
 
     @ViewColumn({name:'DEMO_DATE'})
-    demoDate: string;
+    demoDate: Date;
 
     @ViewColumn({name:'DEMO_ENUM'})
     demoEnum: string;

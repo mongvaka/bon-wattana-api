@@ -12,26 +12,24 @@ export class DropdownService extends BaseService{
     ){
         super()
     }
-    async demoDropdown(dto:SearchParameter):Promise<SelectItems[]>{
-        const repository = new Repository<VwDemoDropdown>()
+    async demoDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
         const buider = this.createQueryBuider(dto,repository)
-        const [data,count] =await buider.getManyAndCount();
+        const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
             const model:VwDemoDropdown = el as unknown as VwDemoDropdown
             const dropdownModel:SelectItems ={
-                label:model.demoEnum,
+                label:model.demoEmail,
                 value:model.id,
                 rowData:model
             }
             dropdownList.push(dropdownModel)
-        });
+        });        
         return dropdownList;
     }
-    async productCategoryDropdown(dto:SearchParameter):Promise<SelectItems[]>{
-        const repository = new Repository<VwProductCategoryDropdown>()
+    async productCategoryDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{
         const buider = this.createQueryBuider(dto,repository)
-        const [data,count] =await buider.getManyAndCount();
+        const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
             const model:VwProductCategoryDropdown = el as unknown as VwProductCategoryDropdown
@@ -44,10 +42,9 @@ export class DropdownService extends BaseService{
         });
         return dropdownList;
     }
-    async productDropdown(dto:SearchParameter):Promise<SelectItems[]>{
-        const repository = new Repository<VwProductDropdown>()
+    async productDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{
         const buider = this.createQueryBuider(dto,repository)
-        const [data,count] =await buider.getManyAndCount();
+        const data=await buider.getManyAndCount();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
             const model:VwProductDropdown = el as unknown as VwProductDropdown
