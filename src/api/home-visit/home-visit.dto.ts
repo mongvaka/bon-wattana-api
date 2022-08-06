@@ -1,0 +1,117 @@
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { SearchParameter } from "src/core/shared/models/search-param-model";
+
+export class SearchHomeVisitDto extends SearchParameter {
+    studentId?:number
+}
+export class HomeVisitDto {
+    studentId:number
+    siblingCount:number
+    siblingOrder:number
+    male:boolean
+    female:boolean
+    houseType:number
+    aliveWith:number
+    parentStatus:number
+    netIncome:number
+    getMoneyFrom:number
+    moneyToSchool:number
+    studentPartTime:boolean
+    partTimeIncome:number
+    timeStartPartTime:string
+    timeEndPartTime:string
+    parentFirstName:string
+    parentLastName:string
+    fatherFirstName:string
+    motherFirstName:string
+    fatherLastName:string
+    motherLastName:string
+    fatherOccupation:string
+    motherOccupation:string
+    parentOccupation:string
+    nationality:string
+    ethnicity:string
+    religion:string
+    bloodType:number
+    weight:number
+    height:number
+    congenitalDiseaseId:number
+    disabled:string
+    phoneNumber:string
+    facebook:string
+    email:string
+} 
+export class CreateHomeVisitDto extends HomeVisitDto{
+    studentId:number
+    siblingCount:number
+    siblingOrder:number
+    male:boolean
+    female:boolean
+    houseType:number
+    aliveWith:number
+    parentStatus:number
+    netIncome:number
+    getMoneyFrom:number
+    moneyToSchool:number
+    studentPartTime:boolean
+    partTimeIncome:number
+    timeStartPartTime:string
+    timeEndPartTime:string
+    parentFirstName:string
+    parentLastName:string
+    fatherFirstName:string
+    motherFirstName:string
+    fatherLastName:string
+    motherLastName:string
+    fatherOccupation:string
+    motherOccupation:string
+    parentOccupation:string
+    nationality:string
+    ethnicity:string
+    religion:string
+    bloodType:number
+    weight:number
+    height:number
+    congenitalDiseaseId:number
+    disabled:string
+    phoneNumber:string
+    facebook:string
+    email:string
+}
+export class UpdateHomeVisitDto extends HomeVisitDto{
+    studentId:number
+    siblingCount:number
+    siblingOrder:number
+    male:boolean
+    female:boolean
+    houseType:number
+    aliveWith:number
+    parentStatus:number
+    netIncome:number
+    getMoneyFrom:number
+    moneyToSchool:number
+    studentPartTime:boolean
+    partTimeIncome:number
+    timeStartPartTime:string
+    timeEndPartTime:string
+    parentFirstName:string
+    parentLastName:string
+    fatherFirstName:string
+    motherFirstName:string
+    fatherLastName:string
+    motherLastName:string
+    fatherOccupation:string
+    motherOccupation:string
+    parentOccupation:string
+    nationality:string
+    ethnicity:string
+    religion:string
+    bloodType:number
+    weight:number
+    height:number
+    congenitalDiseaseId:number
+    disabled:string
+    phoneNumber:string
+    facebook:string
+    email:string
+}

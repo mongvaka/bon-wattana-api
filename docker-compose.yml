@@ -1,11 +1,29 @@
 version: '3.8'
 
 services:
+    app:
+        # build: 
+        #     dockerfile: Dockerfile
+        #     context: https://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@github.com/mongvaka/bon-wattana-web.git#develop
+        image: mongmang/monghub:app
+        depends_on:
+            - api
+        environment:
+            API_URL: api
+            NODE_ENV: development
+            PORT: 4200:80
+        # command: sh -c "npm start"
+        ports:
+        - 4200:80
+        working_dir: /home/node/app
+        volumes:
+        - ./:/home/node/app
+        - node_modules:/home/node/app/node_modules
     api:
-        build: 
-            dockerfile: Dockerfile
-            context: https://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@github.com/mongvaka/bon-wattana-api.git
-        image: mongmang/monghub:first-deploy
+        # build: 
+        #     dockerfile: Dockerfile
+        #     context: https://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@github.com/mongvaka/bon-wattana-api.git#develop
+        image: mongmang/monghub:api
         depends_on:
             - postgres
         environment:
@@ -20,7 +38,13 @@ services:
             - 5432
         ports:
             - 5432:5432
-        environment: 
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: postgres
+        volumes:
+            - postgres_data:/var/postgres_data  #<----- modify
+        environment:
+            - PGDATA: /var/postgres_data 
+            - POSTGRES_USER: postgres
+            - POSTGRES_PASSWORD: password
+            - POSTGRES_DB: postgres
+volumes:
+  node_modules:
+  postgres_data:
