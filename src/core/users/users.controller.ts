@@ -19,16 +19,16 @@ import {
   ApiParam,
   ApiTags
 } from "@nestjs/swagger";
-import {UsersService} from "./users.service";
-import {CreatedUsersDto, DeletedUsersDto, SearchUsersDto, UpdatedUsersDto} from "./users.dto";
-import {Users} from "./users.entity";
+import {UserService} from "./users.service";
+import {CreatedUserDto, DeletedUserDto, SearchUserDto, UpdatedUserDto} from "./users.dto";
+import {User} from "./users.entity";
 import {MessageResponse} from "../shared/responses/message.response";
 
 @ApiTags('users')
 @Controller('users')
 @ApiBearerAuth()
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {
+export class UserController {
+  constructor(private readonly usersService: UserService) {
   }
 
  

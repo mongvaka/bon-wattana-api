@@ -1,7 +1,7 @@
 import {BadRequestException, Injectable, NotAcceptableException, UnauthorizedException} from "@nestjs/common";
-import {UsersService} from "../users/users.service";
+import {UserService} from "../users/users.service";
 import {JwtService} from "@nestjs/jwt";
-import {Users} from "../users/users.entity";
+import {User} from "../users/users.entity";
 import {IToken} from "./authentications.interface";
 import {AuthenticationsDto, RegisterDto} from "./authentications.dto";
 import * as bcrypt from "bcrypt"
@@ -9,12 +9,12 @@ import * as bcrypt from "bcrypt"
 @Injectable()
 export class AuthenticationsService {
   constructor(
-    private readonly usersService: UsersService,
+    private readonly usersService: UserService,
     private readonly jwtService: JwtService,
   ) {
   }
 
-  async jwtGenerated(user: Users) {
+  async jwtGenerated(user: User) {
     const payload = {
       id: user.id,
       username: user.username,
@@ -59,7 +59,7 @@ export class AuthenticationsService {
   //       if (auth) {
   //         console.log('Authenticated successfully.');
   //         const query = `cn=${dto.username}`;
-  //         return ad.findUsers(query, async (err, users) => {
+  //         return ad.findUser(query, async (err, users) => {
   //           if (err) {
   //             console.error('Error authenticate : ' + JSON.stringify(err));
   //             reject(err)
@@ -111,7 +111,7 @@ export class AuthenticationsService {
       throw new BadRequestException('อีเมลล์นี้ถูกใช้ไปแล้ว')
     }
     const hasepassword = await bcrypt.hash(dto.password,12);
-    const user = new Users()
+    const user = new User()
     user.username = dto.email
     user.password = hasepassword
     user.firstname = dto.firstname

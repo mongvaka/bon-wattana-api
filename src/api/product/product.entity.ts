@@ -1,73 +1,89 @@
 import { BasicData } from "src/core/shared/entities/basic-data";
 import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
 
-@Entity('PRODUCT')
+@Entity('product')
 export class Product extends BasicData {
   @PrimaryGeneratedColumn({type: 'bigint'})
-  productId?: number;
-  @Column({ nullable: true})
+  id?: number;
+
+  @Column({nullable: true})
   productCode?: string;
-  @Column({ nullable: true})
+
+  @Column({nullable: true})
   productName?: string;
-  @Column({ nullable: true})
+
+  @Column({nullable: false})
   productDescription?: string;
 
+  @Column({nullable: true})
+  price?: number;
 }
 @ViewEntity({
-    name:'PRODUCT_LIST',
+    name:'product_list',
     expression: (connection: Connection) => connection.createQueryBuilder()
-        .select("en.productId", "productId")
-        .addSelect("en.productCode", "productCode")
-        .addSelect("en.productName", "productName")
-        .addSelect("en.productDescription", "productDescription")
-        .from(Product, "en")
+        .select("product.id", "id")
+        .addSelect("product.productCode", "productCode")
+        .addSelect("product.productName", "productName")
+        .addSelect("product.productDescription", "productDescription")
+        .addSelect("product.price", "price")
+        .from(Product, "product")
 })
 export class VwProductList {
     @ViewColumn()
-    productId: number;
+    id: number;
+
     @ViewColumn()
     productCode: string;
+
     @ViewColumn()
     productName: string;
+
     @ViewColumn()
     productDescription: string;
+
+    @ViewColumn()
+    price: number;
 }
 
 @ViewEntity({
-  name:'PRODUCT_DROPDOWN',
+  name:'product_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("en.productId", "productId")
-  .addSelect("en.productCode", "productCode")
-  .addSelect("en.productName", "productName")
-  .addSelect("en.productDescription", "productDescription")
-  .from(Product, "en")
+  .select("product.id", "value")
+  .addSelect("CONCAT(product.productCode , '[' , product.productName, ']')", "label")
+      .from(Product, "product")
 })
 export class VwProductDropdown {
+
   @ViewColumn()
-  productId: number;
-  @ViewColumn()
-  productCode: string;
-  @ViewColumn()
-  productName: string;
-  @ViewColumn()
-  productDescription: string;
+    value: number;
+
+    @ViewColumn()
+    label: string;
 }
 @ViewEntity({
-  name:'PRODUCT_ITEM',
+  name:'product_item',
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("en.productId", "productId")
-  .addSelect("en.productCode", "productCode")
-  .addSelect("en.productName", "productName")
-  .addSelect("en.productDescription", "productDescription")
-  .from(Product, "en")
+  .select("product.id", "id")
+        .addSelect("product.productCode", "productCode")
+        .addSelect("product.productName", "productName")
+        .addSelect("product.productDescription", "productDescription")
+        .addSelect("product.price", "price")
+      .from(Product, "product")
 })
 export class VwProductItem {
+
   @ViewColumn()
-  productId: number;
-  @ViewColumn()
-  productCode: string;
-  @ViewColumn()
-  productName: string;
-  @ViewColumn()
-  productDescription: string;
+    id: number;
+
+    @ViewColumn()
+    productCode: string;
+
+    @ViewColumn()
+    productName: string;
+
+    @ViewColumn()
+    productDescription: string;
+
+    @ViewColumn()
+    price: number;
 }

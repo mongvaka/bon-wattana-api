@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Users } from "src/core/users/users.entity";
+import { User } from "src/core/users/users.entity";
 import { DeepPartial, Repository, SelectQueryBuilder } from "typeorm";
 import { Operators } from "../constans/constanst";
 import { ColumnType } from "../constans/enum-system";

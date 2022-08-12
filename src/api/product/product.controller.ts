@@ -1,22 +1,24 @@
-import { BadRequestException, Body, Controller, Delete, Get, InternalServerErrorException, Param, Post, Put, Query, Req } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { JwtAuthGuard } from "src/core/authentications/jwt-auth.guard";
 import { BaseController } from "src/core/shared/controller/base-controller";
 import { CustomRequest } from "src/core/shared/models/request-model";
 import { DropdownService } from "src/core/shared/services/dropdown.service";
 import { CreateProductDto, SearchProductDto, UpdateProductDto } from "./product.dto";
 import { ProductService } from "./product.service";
 @ApiTags("product")
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 @Controller('product')
 export class ProductController extends BaseController{
-    constructor(private readonly service:ProductService,
-      private readonly dropdownService:DropdownService
+    constructor(private readonly productService:ProductService,
       ){
       super()
     }
   @Get('item/:id')
   async item(@Param('id') id: number) {
     try{
-      return this.success(await this.service.item(id))
+      return this.success(await this.productService.item(id))
     }catch(e){
       return this.error(e)
     }
@@ -24,26 +26,15 @@ export class ProductController extends BaseController{
   @Post('list')
   async findAll(@Body() dto: SearchProductDto) {
     try{      
-      console.log('thisList');
-      
-      return this.success(await this.service.list(dto))
-    }catch(e){
-      return this.error(e)
-    }
-  }
-  @Post('dropdown')
-  async dropdown(@Body() dto: SearchProductDto) {
-    try{      
-      // return this.success(await this.dropdownService.productDropdown(dto))
+      return this.success(await this.productService.list(dto))
     }catch(e){
       return this.error(e)
     }
   }
   @Post('create')
   async create(@Body() dto: CreateProductDto, @Req() req:CustomRequest,){ 
-    try{
-      console.log('create');
-      return this.success(await this.service.create(dto,req))
+    try{      
+      return this.success(await this.productService.create(dto,req))
     }catch(e){
       return this.error(e)
     }   
@@ -51,7 +42,7 @@ export class ProductController extends BaseController{
   @Put('update/:id')
   async update(@Param('id') id: number,@Body() dto: UpdateProductDto, @Req() req:CustomRequest,){    
     try{
-      return this.success(await this.service.update(id,dto,req))
+      return this.success(await this.productService.update(id,dto,req))
     }catch(e){
       return this.error(e)
     }   
@@ -59,9 +50,7 @@ export class ProductController extends BaseController{
   @Delete('delete/:id')
   async delete(@Param('id') id: number, @Req() req:CustomRequest,){
     try{
-
-      
-      return this.success(await this.service.delete(id,req))
+      return this.success(await this.productService.delete(id,req))
     }catch(e){
       return this.error(e)
     }    

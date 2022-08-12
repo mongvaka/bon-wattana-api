@@ -1,8 +1,8 @@
-import {UsersDto} from "./users.dto";
+import {UserDto} from "./users.dto";
 import {ApiProperty} from "@nestjs/swagger";
 import {IResponse} from "../shared/interfaces/response.interface";
 
-export class UsersPagenation implements IResponse<UsersDto[]> {
+export class UserPagenation implements IResponse<UserDto[]> {
   @ApiProperty()
   success: boolean;
 
@@ -10,7 +10,7 @@ export class UsersPagenation implements IResponse<UsersDto[]> {
   error: string[];
 
   @ApiProperty()
-  data: UsersDto[];
+  data: UserDto[];
 
   @ApiProperty()
   currentPage?: number;

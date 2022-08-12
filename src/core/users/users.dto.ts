@@ -4,13 +4,14 @@ import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
 import {IsNumber, IsString} from "class-validator";
 import {Column} from "typeorm";
 import {ToBoolean} from "../shared/services/dto.service";
+import { SearchParameter } from "../shared/models/search-param-model";
 
-export class UsersDto extends BasicDataDto {
+export class UserDto extends BasicDataDto {
 
 
 }
 
-export class SearchUsersDto extends BaseSearchDataDto {
+export class SearchUserDto extends SearchParameter {
   // @ApiPropertyOptional()
   // username: string;
 
@@ -27,7 +28,7 @@ export class SearchUsersDto extends BaseSearchDataDto {
   // status: string;
 }
 
-export class CreatedUsersDto extends UsersDto {
+export class CreatedUserDto extends UserDto {
   // id: null;
   // token: null;
   // @ApiProperty({required: true})
@@ -43,7 +44,7 @@ export class CreatedUsersDto extends UsersDto {
   // departmentCodeId: number;
 }
 
-export class UpdatedUsersDto extends UsersDto {
+export class UpdatedUserDto extends UserDto {
   // id: number;
 
   // @ApiProperty({required: true})
@@ -55,6 +56,6 @@ export class UpdatedUsersDto extends UsersDto {
   // departmentCodeId: number;
 }
 
-export class DeletedUsersDto extends BasicDataDto {
+export class DeletedUserDto extends BasicDataDto {
   id: number;
 }
