@@ -8,130 +8,247 @@ export class SearchStudentDto extends SearchParameter {
 }
 export class StudentDto {
     studentCode:string
+    imageProfile:string
     status:number
     title:number
     firstname:string
     lastname:string
-    gendar:number
+    firstnameEn:string
+    lastnameEn:string
+    gendarId:number
     birthDate:Date
-    nationality:string
-    ethnicity:string
-    religion:string
+    nationalityId:number
+    ethnicityId:number
+    religionId:number
     email:string
     phoneNumber:string
     specialAbility:string
-    birthHospitalId:number
+    birthHospital:string
     birthCountryId:number
-    birthSubDistrictId:string
-    birthDistrictId:string
     birthProvinceId:string
-    address:string
+    birthDistrictId:string
+    birthSubDistrictId:string
+    houseNumber:string
+    village:string
+    road:string
     countryId:number
-    subDistrictId:number
-    districtId:number
     provinceId:number
-    postCode:string
-    contractAddress:string
+    districtId:number
+    subDistrictId:number
+    contractHouseNumber:string
+    contractVillage:string
+    contractRoad:string
     contractCountryId:number
-    contractSubDistrictId:number
-    contractDistrictId:number
     contractProvinceId:number
-    contractPostCode:string
-    oldSchoolId:number
-    className:number
-    mentorTeacherFirstId:number
-    mentorTeacherSecondId:number
-    closeFreindInClassId:number
-    closeFreindOtherClassId:number
+    contractDistrictId:number
+    contractSubDistrictId:number
+    oldSchoolName:string
+    oldSchoolCountryId:string
+    oldSchoolProvinceId:string
+    oldSchoolDistrictId:string
+    oldSchoolSubDistrictId:string
+    closeFriendInClass:string
+    closeFriendInClassNickname:string
+    closeFriendInClassSchool:string
+    closeFriendInClassPhone:string
+    closeFriendOtherClass:string
+    closeFriendOtherClassNickname:string
+    closeFriendOtherClassSchool:string
+    closeFriendOtherClassPhone:string
     bloodType:number
-    liveWith:number
+    congenitalDisease:string
+    height:number
+    weight:number
+    defect:string
+    aliveWithId:number
     parentStatus:number
-    imageProfile:string
-    room:number
+    classroomId:number
+    fatherTitle:number
+    fatherFirstname:string
+    fatherLastname:string
+    fatherPersonalCode:string
+    fatherBloodType:number
+    fatherIncome:string
+    fatherOccupation:string
+    fatherPhone:string
+    motherTitle:number
+    motherFirstname:string
+    motherLastname:string
+    motherPersonalCode:string
+    motherBloodType:number
+    motherIncome:string
+    motherOccupation:string
+    motherPhone:string
+    parentTitle:number
+    parentFirstname:string
+    parentLastname:string
+    parentPersonalCode:string
+    parentBloodType:number
+    parentIncome:string
+    parentOccupation:string
+    parentPhone:string
 } 
 export class CreateStudentDto extends StudentDto{
     studentCode:string
+    imageProfile:string
     status:number
     title:number
     firstname:string
     lastname:string
-    gendar:number
+    firstnameEn:string
+    lastnameEn:string
+    gendarId:number
     birthDate:Date
-    nationality:string
-    ethnicity:string
-    religion:string
+    nationalityId:number
+    ethnicityId:number
+    religionId:number
     email:string
     phoneNumber:string
     specialAbility:string
-    birthHospitalId:number
+    birthHospital:string
     birthCountryId:number
-    birthSubDistrictId:string
-    birthDistrictId:string
     birthProvinceId:string
-    address:string
+    birthDistrictId:string
+    birthSubDistrictId:string
+    houseNumber:string
+    village:string
+    road:string
     countryId:number
-    subDistrictId:number
-    districtId:number
     provinceId:number
-    postCode:string
-    contractAddress:string
+    districtId:number
+    subDistrictId:number
+    contractHouseNumber:string
+    contractVillage:string
+    contractRoad:string
     contractCountryId:number
-    contractSubDistrictId:number
-    contractDistrictId:number
     contractProvinceId:number
-    contractPostCode:string
-    oldSchoolId:number
-    className:number
-    mentorTeacherFirstId:number
-    mentorTeacherSecondId:number
-    closeFreindInClassId:number
-    closeFreindOtherClassId:number
+    contractDistrictId:number
+    contractSubDistrictId:number
+    oldSchoolName:string
+    oldSchoolCountryId:string
+    oldSchoolProvinceId:string
+    oldSchoolDistrictId:string
+    oldSchoolSubDistrictId:string
+    closeFriendInClass:string
+    closeFriendInClassNickname:string
+    closeFriendInClassSchool:string
+    closeFriendInClassPhone:string
+    closeFriendOtherClass:string
+    closeFriendOtherClassNickname:string
+    closeFriendOtherClassSchool:string
+    closeFriendOtherClassPhone:string
     bloodType:number
-    liveWith:number
+    congenitalDisease:string
+    height:number
+    weight:number
+    defect:string
+    aliveWithId:number
     parentStatus:number
-    imageProfile:string
-    room:number
+    classroomId:number
+    fatherTitle:number
+    fatherFirstname:string
+    fatherLastname:string
+    fatherPersonalCode:string
+    fatherBloodType:number
+    fatherIncome:string
+    fatherOccupation:string
+    fatherPhone:string
+    motherTitle:number
+    motherFirstname:string
+    motherLastname:string
+    motherPersonalCode:string
+    motherBloodType:number
+    motherIncome:string
+    motherOccupation:string
+    motherPhone:string
+    parentTitle:number
+    parentFirstname:string
+    parentLastname:string
+    parentPersonalCode:string
+    parentBloodType:number
+    parentIncome:string
+    parentOccupation:string
+    parentPhone:string
 }
 export class UpdateStudentDto extends StudentDto{
     studentCode:string
+    imageProfile:string
     status:number
     title:number
     firstname:string
     lastname:string
-    gendar:number
+    firstnameEn:string
+    lastnameEn:string
+    gendarId:number
     birthDate:Date
-    nationality:string
-    ethnicity:string
-    religion:string
+    nationalityId:number
+    ethnicityId:number
+    religionId:number
     email:string
     phoneNumber:string
     specialAbility:string
-    birthHospitalId:number
+    birthHospital:string
     birthCountryId:number
-    birthSubDistrictId:string
-    birthDistrictId:string
     birthProvinceId:string
-    address:string
+    birthDistrictId:string
+    birthSubDistrictId:string
+    houseNumber:string
+    village:string
+    road:string
     countryId:number
-    subDistrictId:number
-    districtId:number
     provinceId:number
-    postCode:string
-    contractAddress:string
+    districtId:number
+    subDistrictId:number
+    contractHouseNumber:string
+    contractVillage:string
+    contractRoad:string
     contractCountryId:number
-    contractSubDistrictId:number
-    contractDistrictId:number
     contractProvinceId:number
-    contractPostCode:string
-    oldSchoolId:number
-    className:number
-    mentorTeacherFirstId:number
-    mentorTeacherSecondId:number
-    closeFreindInClassId:number
-    closeFreindOtherClassId:number
+    contractDistrictId:number
+    contractSubDistrictId:number
+    oldSchoolName:string
+    oldSchoolCountryId:string
+    oldSchoolProvinceId:string
+    oldSchoolDistrictId:string
+    oldSchoolSubDistrictId:string
+    closeFriendInClass:string
+    closeFriendInClassNickname:string
+    closeFriendInClassSchool:string
+    closeFriendInClassPhone:string
+    closeFriendOtherClass:string
+    closeFriendOtherClassNickname:string
+    closeFriendOtherClassSchool:string
+    closeFriendOtherClassPhone:string
     bloodType:number
-    liveWith:number
+    congenitalDisease:string
+    height:number
+    weight:number
+    defect:string
+    aliveWithId:number
     parentStatus:number
-    imageProfile:string
-    room:number
+    classroomId:number
+    fatherTitle:number
+    fatherFirstname:string
+    fatherLastname:string
+    fatherPersonalCode:string
+    fatherBloodType:number
+    fatherIncome:string
+    fatherOccupation:string
+    fatherPhone:string
+    motherTitle:number
+    motherFirstname:string
+    motherLastname:string
+    motherPersonalCode:string
+    motherBloodType:number
+    motherIncome:string
+    motherOccupation:string
+    motherPhone:string
+    parentTitle:number
+    parentFirstname:string
+    parentLastname:string
+    parentPersonalCode:string
+    parentBloodType:number
+    parentIncome:string
+    parentOccupation:string
+    parentPhone:string
 }

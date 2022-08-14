@@ -5,6 +5,7 @@ import {Users} from "../users/users.entity";
 import {IToken} from "./authentications.interface";
 import {AuthenticationsDto, RegisterDto} from "./authentications.dto";
 import * as bcrypt from "bcrypt"
+import { UserType } from "../shared/constans/enum-constans";
 
 @Injectable()
 export class AuthenticationsService {
@@ -30,7 +31,7 @@ export class AuthenticationsService {
     await this.usersService.tokenUpdated(user, token.accessToken);
 
     return {
-        user: {...payload},
+        user: {...user},
         token: token,
       }
   }
@@ -117,6 +118,7 @@ export class AuthenticationsService {
     user.firstname = dto.firstname
     user.lastname = dto.lastname
     user.createdAt = new Date()
+    user.type = UserType.ADMIN
     const result = await this.usersService.create(user)
     console.log('result',result);
     return result

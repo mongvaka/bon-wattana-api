@@ -9,9 +9,24 @@ import { CreateSubDistrictDto, SubDistrictDto, SearchSubDistrictDto, UpdateSubDi
 import { SubDistrict, VwSubDistrictDropdown, VwSubDistrictItem, VwSubDistrictList } from './sub-district.entity';
 import { VwDistrictDropdown } from 'src/api/district/district.entity';
 import { SearchDistrictDto } from 'src/api/district/district.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { ImportExcelDto } from 'src/core/excel/excel.dto';
 
 @Injectable()
 export class SubDistrictService extends BaseService {
+    async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:SubDistrict[] = []
+        data.forEach(el=>{
+            dataBulkInsert.push({...el})
+        })
+        return await this.subdistrictRepository.save(
+            this.subdistrictRepository.create(dataBulkInsert)
+        )
+    }
+    async export():Promise<any>{
+      const data = await this.itemRepository.find()
+      return exportExcel(data)
+    }
 
     constructor(
         @InjectRepository(SubDistrict)

@@ -1,20 +1,26 @@
 import { BasicData } from "src/core/shared/entities/basic-data";
 import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
-import { Hopital } from "src/api/hopital/hopital.entity";
+import { Gendar } from "src/api/gendar/gendar.entity";
+import { Nationality } from "src/api/nationality/nationality.entity";
+import { Ethnicity } from "src/api/ethnicity/ethnicity.entity";
+import { Religion } from "src/api/religion/religion.entity";
 import { Country } from "src/api/country/country.entity";
 import { SubDistrict } from "src/api/sub-district/sub-district.entity";
 import { District } from "src/api/district/district.entity";
 import { Province } from "src/api/province/province.entity";
-import { OldSchool } from "src/api/old-school/old-school.entity";
-import { Teacher } from "src/api/teacher/teacher.entity";
+import { AliveWith } from "src/api/alive-with/alive-with.entity";
+import { Classroom } from "src/api/classroom/classroom.entity";
 
 @Entity('student')
 export class Student extends BasicData {
   @PrimaryGeneratedColumn({type: 'bigint'})
   id?: number;
 
-  @Column({nullable: false})
+  @Column({nullable: true})
   studentCode?: string;
+
+  @Column({nullable: true})
+  imageProfile?: string;
 
   @Column({nullable: true})
   status?: number;
@@ -29,112 +35,226 @@ export class Student extends BasicData {
   lastname?: string;
 
   @Column({nullable: true})
-  gendar?: number;
+  firstnameEn?: string;
 
-  @Column({nullable: false})
+  @Column({nullable: true})
+  lastnameEn?: string;
+
+  @Column({nullable: true})
+  gendarId?: number;
+
+  @Column({nullable: true})
   birthDate?: Date;
 
-  @Column({nullable: false})
-  nationality?: string;
+  @Column({nullable: true})
+  nationalityId?: number;
 
-  @Column({nullable: false})
-  ethnicity?: string;
+  @Column({nullable: true})
+  ethnicityId?: number;
 
-  @Column({nullable: false})
-  religion?: string;
+  @Column({nullable: true})
+  religionId?: number;
 
-  @Column({nullable: false})
+  @Column({nullable: true})
   email?: string;
 
-  @Column({nullable: false})
+  @Column({nullable: true})
   phoneNumber?: string;
 
-  @Column({nullable: false})
+  @Column({nullable: true})
   specialAbility?: string;
 
-  @Column({nullable: false})
-  birthHospitalId?: number;
+  @Column({nullable: true})
+  birthHospital?: string;
 
-  @Column({nullable: false})
+  @Column({nullable: true})
   birthCountryId?: number;
 
-  @Column({nullable: false})
-  birthSubDistrictId?: string;
-
-  @Column({nullable: false})
-  birthDistrictId?: string;
-
-  @Column({nullable: false})
+  @Column({nullable: true})
   birthProvinceId?: string;
 
   @Column({nullable: true})
-  address?: string;
+  birthDistrictId?: string;
 
-  @Column({nullable: false})
+  @Column({nullable: true})
+  birthSubDistrictId?: string;
+
+  @Column({nullable: true})
+  houseNumber?: string;
+
+  @Column({nullable: true})
+  village?: string;
+
+  @Column({nullable: true})
+  road?: string;
+
+  @Column({nullable: true})
   countryId?: number;
 
   @Column({nullable: true})
-  subDistrictId?: number;
+  provinceId?: number;
 
   @Column({nullable: true})
   districtId?: number;
 
   @Column({nullable: true})
-  provinceId?: number;
+  subDistrictId?: number;
 
-  @Column({nullable: false})
-  postCode?: string;
+  @Column({nullable: true})
+  contractHouseNumber?: string;
 
-  @Column({nullable: false})
-  contractAddress?: string;
+  @Column({nullable: true})
+  contractVillage?: string;
 
-  @Column({nullable: false})
+  @Column({nullable: true})
+  contractRoad?: string;
+
+  @Column({nullable: true})
   contractCountryId?: number;
 
-  @Column({nullable: false})
-  contractSubDistrictId?: number;
-
-  @Column({nullable: false})
-  contractDistrictId?: number;
-
-  @Column({nullable: false})
+  @Column({nullable: true})
   contractProvinceId?: number;
 
-  @Column({nullable: false})
-  contractPostCode?: string;
+  @Column({nullable: true})
+  contractDistrictId?: number;
 
-  @Column({nullable: false})
-  oldSchoolId?: number;
+  @Column({nullable: true})
+  contractSubDistrictId?: number;
 
-  @Column({nullable: false})
-  className?: number;
+  @Column({nullable: true})
+  oldSchoolName?: string;
 
-  @Column({nullable: false})
-  mentorTeacherFirstId?: number;
+  @Column({nullable: true})
+  oldSchoolCountryId?: string;
 
-  @Column({nullable: false})
-  mentorTeacherSecondId?: number;
+  @Column({nullable: true})
+  oldSchoolProvinceId?: string;
 
-  @Column({nullable: false})
-  closeFreindInClassId?: number;
+  @Column({nullable: true})
+  oldSchoolDistrictId?: string;
 
-  @Column({nullable: false})
-  closeFreindOtherClassId?: number;
+  @Column({nullable: true})
+  oldSchoolSubDistrictId?: string;
 
-  @Column({nullable: false})
+  @Column({nullable: true})
+  closeFriendInClass?: string;
+
+  @Column({nullable: true})
+  closeFriendInClassNickname?: string;
+
+  @Column({nullable: true})
+  closeFriendInClassSchool?: string;
+
+  @Column({nullable: true})
+  closeFriendInClassPhone?: string;
+
+  @Column({nullable: true})
+  closeFriendOtherClass?: string;
+
+  @Column({nullable: true})
+  closeFriendOtherClassNickname?: string;
+
+  @Column({nullable: true})
+  closeFriendOtherClassSchool?: string;
+
+  @Column({nullable: true})
+  closeFriendOtherClassPhone?: string;
+
+  @Column({nullable: true})
   bloodType?: number;
 
   @Column({nullable: true})
-  liveWith?: number;
+  congenitalDisease?: string;
 
-  @Column({nullable: false})
+  @Column({nullable: true})
+  height?: number;
+
+  @Column({nullable: true})
+  weight?: number;
+
+  @Column({nullable: true})
+  defect?: string;
+
+  @Column({nullable: true})
+  aliveWithId?: number;
+
+  @Column({nullable: true})
   parentStatus?: number;
 
-  @Column({nullable: false})
-  imageProfile?: string;
+  @Column({nullable: true})
+  classroomId?: number;
 
-  @Column({nullable: false})
-  room?: number;
+  @Column({nullable: true})
+  fatherTitle?: number;
+
+  @Column({nullable: true})
+  fatherFirstname?: string;
+
+  @Column({nullable: true})
+  fatherLastname?: string;
+
+  @Column({nullable: true})
+  fatherPersonalCode?: string;
+
+  @Column({nullable: true})
+  fatherBloodType?: number;
+
+  @Column({nullable: true})
+  fatherIncome?: string;
+
+  @Column({nullable: true})
+  fatherOccupation?: string;
+
+  @Column({nullable: true})
+  fatherPhone?: string;
+
+  @Column({nullable: true})
+  motherTitle?: number;
+
+  @Column({nullable: true})
+  motherFirstname?: string;
+
+  @Column({nullable: true})
+  motherLastname?: string;
+
+  @Column({nullable: true})
+  motherPersonalCode?: string;
+
+  @Column({nullable: true})
+  motherBloodType?: number;
+
+  @Column({nullable: true})
+  motherIncome?: string;
+
+  @Column({nullable: true})
+  motherOccupation?: string;
+
+  @Column({nullable: true})
+  motherPhone?: string;
+
+  @Column({nullable: true})
+  parentTitle?: number;
+
+  @Column({nullable: true})
+  parentFirstname?: string;
+
+  @Column({nullable: true})
+  parentLastname?: string;
+
+  @Column({nullable: true})
+  parentPersonalCode?: string;
+
+  @Column({nullable: true})
+  parentBloodType?: number;
+
+  @Column({nullable: true})
+  parentIncome?: string;
+
+  @Column({nullable: true})
+  parentOccupation?: string;
+
+  @Column({nullable: true})
+  parentPhone?: string;
 }
 @ViewEntity({
     name:'student_list',
@@ -144,8 +264,10 @@ export class Student extends BasicData {
         .addSelect("student.status", "status")
         .addSelect("student.firstname", "firstname")
         .addSelect("student.lastname", "lastname")
-        .addSelect("student.gendar", "gendar")
+        .addSelect("student.gendarId", "gendarId")
+        .addSelect("CONCAT(gendar_id.gendarName , '[' , gendar_id.gendarDescription, ']')", "gendarValue")
         .from(Student, "student")
+        .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
 })
 export class VwStudentList {
     @ViewColumn()
@@ -164,14 +286,17 @@ export class VwStudentList {
     lastname: string;
 
     @ViewColumn()
-    gendar: number;
+    gendarId: number;
+
+    @ViewColumn()
+    gendarValue: string;
 }
 
 @ViewEntity({
   name:'student_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("student.id", "value")
-  .addSelect("CONCAT(student.studentCode , '[' , student.firstname, ']')", "label")
+  .addSelect("CONCAT(student.firstname , '[' , student.lastname, ']')", "label")
       .from(Student, "student")
 })
 export class VwStudentDropdown {
@@ -187,77 +312,116 @@ export class VwStudentDropdown {
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("student.id", "id")
         .addSelect("student.studentCode", "studentCode")
+        .addSelect("student.imageProfile", "imageProfile")
         .addSelect("student.status", "status")
         .addSelect("student.title", "title")
         .addSelect("student.firstname", "firstname")
         .addSelect("student.lastname", "lastname")
-        .addSelect("student.gendar", "gendar")
+        .addSelect("student.firstnameEn", "firstnameEn")
+        .addSelect("student.lastnameEn", "lastnameEn")
+        .addSelect("student.gendarId", "gendarId")
+        .addSelect("CONCAT(gendar_id.gendarName , '[' , gendar_id.gendarDescription, ']')", "gendarValue")
         .addSelect("student.birthDate", "birthDate")
-        .addSelect("student.nationality", "nationality")
-        .addSelect("student.ethnicity", "ethnicity")
-        .addSelect("student.religion", "religion")
+        .addSelect("student.nationalityId", "nationalityId")
+        .addSelect("CONCAT(nationality_id.nationalityName , '[' , nationality_id.nationalityDescription, ']')", "nationalityValue")
+        .addSelect("student.ethnicityId", "ethnicityId")
+        .addSelect("CONCAT(ethnicity_id.ethnicityName , '[' , ethnicity_id.ethnicityDescription, ']')", "ethnicityValue")
+        .addSelect("student.religionId", "religionId")
+        .addSelect("CONCAT(religion_id.religionName , '[' , religion_id.religionDescription, ']')", "religionValue")
         .addSelect("student.email", "email")
         .addSelect("student.phoneNumber", "phoneNumber")
         .addSelect("student.specialAbility", "specialAbility")
-        .addSelect("student.birthHospitalId", "birthHospitalId")
-        .addSelect("CONCAT(birth_hospital_id.name , '[' , birth_hospital_id.addressId, ']')", "birthHospitalValue")
+        .addSelect("student.birthHospital", "birthHospital")
         .addSelect("student.birthCountryId", "birthCountryId")
         .addSelect("CONCAT(birth_country_id.code , '[' , birth_country_id.name, ']')", "birthCountryValue")
-        .addSelect("student.birthSubDistrictId", "birthSubDistrictId")
-        .addSelect("student.birthDistrictId", "birthDistrictId")
         .addSelect("student.birthProvinceId", "birthProvinceId")
-        .addSelect("student.address", "address")
+        .addSelect("student.birthDistrictId", "birthDistrictId")
+        .addSelect("student.birthSubDistrictId", "birthSubDistrictId")
+        .addSelect("student.houseNumber", "houseNumber")
+        .addSelect("student.village", "village")
+        .addSelect("student.road", "road")
         .addSelect("student.countryId", "countryId")
         .addSelect("CONCAT(country_id.code , '[' , country_id.name, ']')", "countryValue")
-        .addSelect("student.subDistrictId", "subDistrictId")
-        .addSelect("CONCAT(sub_district_id.name , '[' , sub_district_id.postCode, ']')", "subDistrictValue")
-        .addSelect("student.districtId", "districtId")
-        .addSelect("CONCAT(district_id.code , '[' , district_id.name, ']')", "districtValue")
         .addSelect("student.provinceId", "provinceId")
         .addSelect("CONCAT(province_id.code , '[' , province_id.name, ']')", "provinceValue")
-        .addSelect("student.postCode", "postCode")
-        .addSelect("student.contractAddress", "contractAddress")
+        .addSelect("student.districtId", "districtId")
+        .addSelect("CONCAT(district_id.code , '[' , district_id.name, ']')", "districtValue")
+        .addSelect("student.subDistrictId", "subDistrictId")
+        .addSelect("CONCAT(sub_district_id.code , '[' , sub_district_id.name, ']')", "subDistrictValue")
+        .addSelect("student.contractHouseNumber", "contractHouseNumber")
+        .addSelect("student.contractVillage", "contractVillage")
+        .addSelect("student.contractRoad", "contractRoad")
         .addSelect("student.contractCountryId", "contractCountryId")
         .addSelect("CONCAT(contract_country_id.code , '[' , contract_country_id.name, ']')", "contractCountryValue")
-        .addSelect("student.contractSubDistrictId", "contractSubDistrictId")
-        .addSelect("CONCAT(contract_sub_district_id.name , '[' , contract_sub_district_id.postCode, ']')", "contractSubDistrictValue")
-        .addSelect("student.contractDistrictId", "contractDistrictId")
-        .addSelect("CONCAT(contract_district_id.code , '[' , contract_district_id.name, ']')", "contractDistrictValue")
         .addSelect("student.contractProvinceId", "contractProvinceId")
         .addSelect("CONCAT(contract_province_id.code , '[' , contract_province_id.name, ']')", "contractProvinceValue")
-        .addSelect("student.contractPostCode", "contractPostCode")
-        .addSelect("student.oldSchoolId", "oldSchoolId")
-        .addSelect("CONCAT(old_school_id.name , '[' , old_school_id.addressId, ']')", "oldSchoolValue")
-        .addSelect("student.className", "className")
-        .addSelect("student.mentorTeacherFirstId", "mentorTeacherFirstId")
-        .addSelect("CONCAT(mentor_teacher_first_id.firstname , '[' , mentor_teacher_first_id.lastname, ']')", "mentorTeacherFirstValue")
-        .addSelect("student.mentorTeacherSecondId", "mentorTeacherSecondId")
-        .addSelect("CONCAT(mentor_teacher_second_id.firstname , '[' , mentor_teacher_second_id.lastname, ']')", "mentorTeacherSecondValue")
-        .addSelect("student.closeFreindInClassId", "closeFreindInClassId")
-        .addSelect("CONCAT(close_freind_in_class_id.studentCode , '[' , close_freind_in_class_id.firstname, ']')", "closeFreindInClassValue")
-        .addSelect("student.closeFreindOtherClassId", "closeFreindOtherClassId")
-        .addSelect("CONCAT(close_freind_other_class_id.studentCode , '[' , close_freind_other_class_id.firstname, ']')", "closeFreindOtherClassValue")
+        .addSelect("student.contractDistrictId", "contractDistrictId")
+        .addSelect("CONCAT(contract_district_id.code , '[' , contract_district_id.name, ']')", "contractDistrictValue")
+        .addSelect("student.contractSubDistrictId", "contractSubDistrictId")
+        .addSelect("CONCAT(contract_sub_district_id.code , '[' , contract_sub_district_id.name, ']')", "contractSubDistrictValue")
+        .addSelect("student.oldSchoolName", "oldSchoolName")
+        .addSelect("student.oldSchoolCountryId", "oldSchoolCountryId")
+        .addSelect("student.oldSchoolProvinceId", "oldSchoolProvinceId")
+        .addSelect("student.oldSchoolDistrictId", "oldSchoolDistrictId")
+        .addSelect("student.oldSchoolSubDistrictId", "oldSchoolSubDistrictId")
+        .addSelect("student.closeFriendInClass", "closeFriendInClass")
+        .addSelect("student.closeFriendInClassNickname", "closeFriendInClassNickname")
+        .addSelect("student.closeFriendInClassSchool", "closeFriendInClassSchool")
+        .addSelect("student.closeFriendInClassPhone", "closeFriendInClassPhone")
+        .addSelect("student.closeFriendOtherClass", "closeFriendOtherClass")
+        .addSelect("student.closeFriendOtherClassNickname", "closeFriendOtherClassNickname")
+        .addSelect("student.closeFriendOtherClassSchool", "closeFriendOtherClassSchool")
+        .addSelect("student.closeFriendOtherClassPhone", "closeFriendOtherClassPhone")
         .addSelect("student.bloodType", "bloodType")
-        .addSelect("student.liveWith", "liveWith")
+        .addSelect("student.congenitalDisease", "congenitalDisease")
+        .addSelect("student.height", "height")
+        .addSelect("student.weight", "weight")
+        .addSelect("student.defect", "defect")
+        .addSelect("student.aliveWithId", "aliveWithId")
+        .addSelect("CONCAT(alive_with_id.aliveWithName , '[' , alive_with_id.aliveWithDescription, ']')", "aliveWithValue")
         .addSelect("student.parentStatus", "parentStatus")
-        .addSelect("student.imageProfile", "imageProfile")
-        .addSelect("student.room", "room")
+        .addSelect("student.classroomId", "classroomId")
+        .addSelect("CONCAT(classroom_id.classroomTypeId , '[' , classroom_id.mentorFirst, ']')", "classroomValue")
+        .addSelect("student.fatherTitle", "fatherTitle")
+        .addSelect("student.fatherFirstname", "fatherFirstname")
+        .addSelect("student.fatherLastname", "fatherLastname")
+        .addSelect("student.fatherPersonalCode", "fatherPersonalCode")
+        .addSelect("student.fatherBloodType", "fatherBloodType")
+        .addSelect("student.fatherIncome", "fatherIncome")
+        .addSelect("student.fatherOccupation", "fatherOccupation")
+        .addSelect("student.fatherPhone", "fatherPhone")
+        .addSelect("student.motherTitle", "motherTitle")
+        .addSelect("student.motherFirstname", "motherFirstname")
+        .addSelect("student.motherLastname", "motherLastname")
+        .addSelect("student.motherPersonalCode", "motherPersonalCode")
+        .addSelect("student.motherBloodType", "motherBloodType")
+        .addSelect("student.motherIncome", "motherIncome")
+        .addSelect("student.motherOccupation", "motherOccupation")
+        .addSelect("student.motherPhone", "motherPhone")
+        .addSelect("student.parentTitle", "parentTitle")
+        .addSelect("student.parentFirstname", "parentFirstname")
+        .addSelect("student.parentLastname", "parentLastname")
+        .addSelect("student.parentPersonalCode", "parentPersonalCode")
+        .addSelect("student.parentBloodType", "parentBloodType")
+        .addSelect("student.parentIncome", "parentIncome")
+        .addSelect("student.parentOccupation", "parentOccupation")
+        .addSelect("student.parentPhone", "parentPhone")
       .from(Student, "student")
-        .leftJoin(Hopital, "birth_hospital_id","birth_hospital_id.Id = student.birthHospitalId")
+        .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
+        .leftJoin(Nationality, "nationality_id","nationality_id.Id = student.nationalityId")
+        .leftJoin(Ethnicity, "ethnicity_id","ethnicity_id.Id = student.ethnicityId")
+        .leftJoin(Religion, "religion_id","religion_id.Id = student.religionId")
         .leftJoin(Country, "birth_country_id","birth_country_id.Id = student.birthCountryId")
         .leftJoin(Country, "country_id","country_id.Id = student.countryId")
-        .leftJoin(SubDistrict, "sub_district_id","sub_district_id.Id = student.subDistrictId")
+        .leftJoin(SubDistrict, "province_id","province_id.Id = student.provinceId")
         .leftJoin(District, "district_id","district_id.Id = student.districtId")
-        .leftJoin(Province, "province_id","province_id.Id = student.provinceId")
+        .leftJoin(Province, "sub_district_id","sub_district_id.Id = student.subDistrictId")
         .leftJoin(Country, "contract_country_id","contract_country_id.Id = student.contractCountryId")
-        .leftJoin(SubDistrict, "contract_sub_district_id","contract_sub_district_id.Id = student.contractSubDistrictId")
+        .leftJoin(SubDistrict, "contract_province_id","contract_province_id.Id = student.contractProvinceId")
         .leftJoin(District, "contract_district_id","contract_district_id.Id = student.contractDistrictId")
-        .leftJoin(Province, "contract_province_id","contract_province_id.Id = student.contractProvinceId")
-        .leftJoin(OldSchool, "old_school_id","old_school_id.Id = student.oldSchoolId")
-        .leftJoin(Teacher, "mentor_teacher_first_id","mentor_teacher_first_id.Id = student.mentorTeacherFirstId")
-        .leftJoin(Teacher, "mentor_teacher_second_id","mentor_teacher_second_id.Id = student.mentorTeacherSecondId")
-        .leftJoin(Student, "close_freind_in_class_id","close_freind_in_class_id.Id = student.closeFreindInClassId")
-        .leftJoin(Student, "close_freind_other_class_id","close_freind_other_class_id.Id = student.closeFreindOtherClassId")
+        .leftJoin(Province, "contract_sub_district_id","contract_sub_district_id.Id = student.contractSubDistrictId")
+        .leftJoin(AliveWith, "alive_with_id","alive_with_id.Id = student.aliveWithId")
+        .leftJoin(Classroom, "classroom_id","classroom_id.Id = student.classroomId")
 })
 export class VwStudentItem {
 
@@ -266,6 +430,9 @@ export class VwStudentItem {
 
     @ViewColumn()
     studentCode: string;
+
+    @ViewColumn()
+    imageProfile: string;
 
     @ViewColumn()
     status: number;
@@ -280,19 +447,37 @@ export class VwStudentItem {
     lastname: string;
 
     @ViewColumn()
-    gendar: number;
+    firstnameEn: string;
+
+    @ViewColumn()
+    lastnameEn: string;
+
+    @ViewColumn()
+    gendarId: number;
+
+    @ViewColumn()
+    gendarValue: string;
 
     @ViewColumn()
     birthDate: Date;
 
     @ViewColumn()
-    nationality: string;
+    nationalityId: number;
 
     @ViewColumn()
-    ethnicity: string;
+    nationalityValue: string;
 
     @ViewColumn()
-    religion: string;
+    ethnicityId: number;
+
+    @ViewColumn()
+    ethnicityValue: string;
+
+    @ViewColumn()
+    religionId: number;
+
+    @ViewColumn()
+    religionValue: string;
 
     @ViewColumn()
     email: string;
@@ -304,10 +489,7 @@ export class VwStudentItem {
     specialAbility: string;
 
     @ViewColumn()
-    birthHospitalId: number;
-
-    @ViewColumn()
-    birthHospitalValue: string;
+    birthHospital: string;
 
     @ViewColumn()
     birthCountryId: number;
@@ -316,16 +498,22 @@ export class VwStudentItem {
     birthCountryValue: string;
 
     @ViewColumn()
-    birthSubDistrictId: string;
+    birthProvinceId: string;
 
     @ViewColumn()
     birthDistrictId: string;
 
     @ViewColumn()
-    birthProvinceId: string;
+    birthSubDistrictId: string;
 
     @ViewColumn()
-    address: string;
+    houseNumber: string;
+
+    @ViewColumn()
+    village: string;
+
+    @ViewColumn()
+    road: string;
 
     @ViewColumn()
     countryId: number;
@@ -334,10 +522,10 @@ export class VwStudentItem {
     countryValue: string;
 
     @ViewColumn()
-    subDistrictId: number;
+    provinceId: number;
 
     @ViewColumn()
-    subDistrictValue: string;
+    provinceValue: string;
 
     @ViewColumn()
     districtId: number;
@@ -346,16 +534,19 @@ export class VwStudentItem {
     districtValue: string;
 
     @ViewColumn()
-    provinceId: number;
+    subDistrictId: number;
 
     @ViewColumn()
-    provinceValue: string;
+    subDistrictValue: string;
 
     @ViewColumn()
-    postCode: string;
+    contractHouseNumber: string;
 
     @ViewColumn()
-    contractAddress: string;
+    contractVillage: string;
+
+    @ViewColumn()
+    contractRoad: string;
 
     @ViewColumn()
     contractCountryId: number;
@@ -364,10 +555,10 @@ export class VwStudentItem {
     contractCountryValue: string;
 
     @ViewColumn()
-    contractSubDistrictId: number;
+    contractProvinceId: number;
 
     @ViewColumn()
-    contractSubDistrictValue: string;
+    contractProvinceValue: string;
 
     @ViewColumn()
     contractDistrictId: number;
@@ -376,59 +567,149 @@ export class VwStudentItem {
     contractDistrictValue: string;
 
     @ViewColumn()
-    contractProvinceId: number;
+    contractSubDistrictId: number;
 
     @ViewColumn()
-    contractProvinceValue: string;
+    contractSubDistrictValue: string;
 
     @ViewColumn()
-    contractPostCode: string;
+    oldSchoolName: string;
 
     @ViewColumn()
-    oldSchoolId: number;
+    oldSchoolCountryId: string;
 
     @ViewColumn()
-    oldSchoolValue: string;
+    oldSchoolProvinceId: string;
 
     @ViewColumn()
-    className: number;
+    oldSchoolDistrictId: string;
 
     @ViewColumn()
-    mentorTeacherFirstId: number;
+    oldSchoolSubDistrictId: string;
 
     @ViewColumn()
-    mentorTeacherFirstValue: string;
+    closeFriendInClass: string;
 
     @ViewColumn()
-    mentorTeacherSecondId: number;
+    closeFriendInClassNickname: string;
 
     @ViewColumn()
-    mentorTeacherSecondValue: string;
+    closeFriendInClassSchool: string;
 
     @ViewColumn()
-    closeFreindInClassId: number;
+    closeFriendInClassPhone: string;
 
     @ViewColumn()
-    closeFreindInClassValue: string;
+    closeFriendOtherClass: string;
 
     @ViewColumn()
-    closeFreindOtherClassId: number;
+    closeFriendOtherClassNickname: string;
 
     @ViewColumn()
-    closeFreindOtherClassValue: string;
+    closeFriendOtherClassSchool: string;
+
+    @ViewColumn()
+    closeFriendOtherClassPhone: string;
 
     @ViewColumn()
     bloodType: number;
 
     @ViewColumn()
-    liveWith: number;
+    congenitalDisease: string;
+
+    @ViewColumn()
+    height: number;
+
+    @ViewColumn()
+    weight: number;
+
+    @ViewColumn()
+    defect: string;
+
+    @ViewColumn()
+    aliveWithId: number;
+
+    @ViewColumn()
+    aliveWithValue: string;
 
     @ViewColumn()
     parentStatus: number;
 
     @ViewColumn()
-    imageProfile: string;
+    classroomId: number;
 
     @ViewColumn()
-    room: number;
+    classroomValue: string;
+
+    @ViewColumn()
+    fatherTitle: number;
+
+    @ViewColumn()
+    fatherFirstname: string;
+
+    @ViewColumn()
+    fatherLastname: string;
+
+    @ViewColumn()
+    fatherPersonalCode: string;
+
+    @ViewColumn()
+    fatherBloodType: number;
+
+    @ViewColumn()
+    fatherIncome: string;
+
+    @ViewColumn()
+    fatherOccupation: string;
+
+    @ViewColumn()
+    fatherPhone: string;
+
+    @ViewColumn()
+    motherTitle: number;
+
+    @ViewColumn()
+    motherFirstname: string;
+
+    @ViewColumn()
+    motherLastname: string;
+
+    @ViewColumn()
+    motherPersonalCode: string;
+
+    @ViewColumn()
+    motherBloodType: number;
+
+    @ViewColumn()
+    motherIncome: string;
+
+    @ViewColumn()
+    motherOccupation: string;
+
+    @ViewColumn()
+    motherPhone: string;
+
+    @ViewColumn()
+    parentTitle: number;
+
+    @ViewColumn()
+    parentFirstname: string;
+
+    @ViewColumn()
+    parentLastname: string;
+
+    @ViewColumn()
+    parentPersonalCode: string;
+
+    @ViewColumn()
+    parentBloodType: number;
+
+    @ViewColumn()
+    parentIncome: string;
+
+    @ViewColumn()
+    parentOccupation: string;
+
+    @ViewColumn()
+    parentPhone: string;
 }

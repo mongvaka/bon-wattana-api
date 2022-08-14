@@ -1,15 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ImportExcelDto } from 'src/core/excel/excel.dto';
 import { CustomRequest } from 'src/core/shared/models/request-model';
 import { SearchResult, SelectItems } from 'src/core/shared/models/search-param-model';
 import { BaseService } from 'src/core/shared/services/base.service';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
 import { Repository } from 'typeorm';
 import { CreateCountryDto, CountryDto, SearchCountryDto, UpdateCountryDto } from './country.dto';
 import { Country, VwCountryDropdown, VwCountryItem, VwCountryList } from './country.entity';
 
 @Injectable()
 export class CountryService extends BaseService {
+    async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:Country[] = []
+        data.forEach(el=>{
+            dataBulkInsert.push({...el})
+        })
+        return await this.countryRepository.save(
+            this.countryRepository.create(dataBulkInsert)
+        )
+    }
+    async export():Promise<any>{
+      const data = await this.itemRepository.find()
+      return exportExcel(data)
+    }
 
     constructor(
         @InjectRepository(Country)

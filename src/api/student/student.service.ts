@@ -7,8 +7,14 @@ import { DropdownService } from 'src/core/shared/services/dropdown.service';
 import { Repository } from 'typeorm';
 import { CreateStudentDto, StudentDto, SearchStudentDto, UpdateStudentDto } from './student.dto';
 import { Student, VwStudentDropdown, VwStudentItem, VwStudentList } from './student.entity';
-import { VwHopitalDropdown } from 'src/api/hopital/hopital.entity';
-import { SearchHopitalDto } from 'src/api/hopital/hopital.dto';
+import { VwGendarDropdown } from 'src/api/gendar/gendar.entity';
+import { SearchGendarDto } from 'src/api/gendar/gendar.dto';
+import { VwNationalityDropdown } from 'src/api/nationality/nationality.entity';
+import { SearchNationalityDto } from 'src/api/nationality/nationality.dto';
+import { VwEthnicityDropdown } from 'src/api/ethnicity/ethnicity.entity';
+import { SearchEthnicityDto } from 'src/api/ethnicity/ethnicity.dto';
+import { VwReligionDropdown } from 'src/api/religion/religion.entity';
+import { SearchReligionDto } from 'src/api/religion/religion.dto';
 import { VwCountryDropdown } from 'src/api/country/country.entity';
 import { SearchCountryDto } from 'src/api/country/country.dto';
 import { VwSubDistrictDropdown } from 'src/api/sub-district/sub-district.entity';
@@ -17,14 +23,25 @@ import { VwDistrictDropdown } from 'src/api/district/district.entity';
 import { SearchDistrictDto } from 'src/api/district/district.dto';
 import { VwProvinceDropdown } from 'src/api/province/province.entity';
 import { SearchProvinceDto } from 'src/api/province/province.dto';
-import { VwOldSchoolDropdown } from 'src/api/old-school/old-school.entity';
-import { SearchOldSchoolDto } from 'src/api/old-school/old-school.dto';
-import { VwTeacherDropdown } from 'src/api/teacher/teacher.entity';
-import { SearchTeacherDto } from 'src/api/teacher/teacher.dto';
-
+import { VwAliveWithDropdown } from 'src/api/alive-with/alive-with.entity';
+import { SearchAliveWithDto } from 'src/api/alive-with/alive-with.dto';
+import { VwClassroomDropdown } from 'src/api/classroom/classroom.entity';
+import { SearchClassroomDto } from 'src/api/classroom/classroom.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { ImportExcelDto } from 'src/core/excel/excel.dto';
+import { VwParentStatusDropdown } from '../parent-status/parent-status.entity';
 
 @Injectable()
 export class StudentService extends BaseService {
+    async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:Student[] = []
+        data.forEach(el=>{
+            dataBulkInsert.push({...el})
+        })
+        return await this.studentRepository.save(
+            this.studentRepository.create(dataBulkInsert)
+        )
+    }
 
     constructor(
         @InjectRepository(Student)
@@ -33,8 +50,14 @@ export class StudentService extends BaseService {
         private readonly vwStudentRepository: Repository<VwStudentList>,
         @InjectRepository(VwStudentItem)
         private readonly itemRepository:Repository<VwStudentItem>,
-        @InjectRepository(VwHopitalDropdown)
-        private readonly vwDropdownHopitalRepository:Repository<VwHopitalDropdown>,
+        @InjectRepository(VwGendarDropdown)
+        private readonly vwDropdownGendarRepository:Repository<VwGendarDropdown>,
+        @InjectRepository(VwNationalityDropdown)
+        private readonly vwDropdownNationalityRepository:Repository<VwNationalityDropdown>,
+        @InjectRepository(VwEthnicityDropdown)
+        private readonly vwDropdownEthnicityRepository:Repository<VwEthnicityDropdown>,
+        @InjectRepository(VwReligionDropdown)
+        private readonly vwDropdownReligionRepository:Repository<VwReligionDropdown>,
         @InjectRepository(VwCountryDropdown)
         private readonly vwDropdownCountryRepository:Repository<VwCountryDropdown>,
         @InjectRepository(VwSubDistrictDropdown)
@@ -43,18 +66,27 @@ export class StudentService extends BaseService {
         private readonly vwDropdownDistrictRepository:Repository<VwDistrictDropdown>,
         @InjectRepository(VwProvinceDropdown)
         private readonly vwDropdownProvinceRepository:Repository<VwProvinceDropdown>,
-        @InjectRepository(VwOldSchoolDropdown)
-        private readonly vwDropdownOldSchoolRepository:Repository<VwOldSchoolDropdown>,
-        @InjectRepository(VwTeacherDropdown)
-        private readonly vwDropdownTeacherRepository:Repository<VwTeacherDropdown>,
-        @InjectRepository(VwStudentDropdown)
-        private readonly vwDropdownStudentRepository:Repository<VwStudentDropdown>,
+        @InjectRepository(VwAliveWithDropdown)
+        private readonly vwDropdownAliveWithRepository:Repository<VwAliveWithDropdown>,
+        @InjectRepository(VwClassroomDropdown)
+        private readonly vwDropdownClassroomRepository:Repository<VwClassroomDropdown>,
+        @InjectRepository(VwParentStatusDropdown)
+        private readonly vwDropdownParentStatusRepository:Repository<VwParentStatusDropdown>,
         private readonly dropdownService: DropdownService
         ){
         super()
     }
-    async hopitalDropdown(dto: SearchHopitalDto):Promise<SelectItems[]> {
-        return await this.dropdownService.hopitalDropdown(dto,this.vwDropdownHopitalRepository);
+    async gendarDropdown(dto: SearchGendarDto):Promise<SelectItems[]> {
+        return await this.dropdownService.gendarDropdown(dto,this.vwDropdownGendarRepository);
+      }
+    async nationalityDropdown(dto: SearchNationalityDto):Promise<SelectItems[]> {
+        return await this.dropdownService.nationalityDropdown(dto,this.vwDropdownNationalityRepository);
+      }
+    async ethnicityDropdown(dto: SearchEthnicityDto):Promise<SelectItems[]> {
+        return await this.dropdownService.ethnicityDropdown(dto,this.vwDropdownEthnicityRepository);
+      }
+    async religionDropdown(dto: SearchReligionDto):Promise<SelectItems[]> {
+        return await this.dropdownService.religionDropdown(dto,this.vwDropdownReligionRepository);
       }
     async countryDropdown(dto: SearchCountryDto):Promise<SelectItems[]> {
         return await this.dropdownService.countryDropdown(dto,this.vwDropdownCountryRepository);
@@ -68,22 +100,24 @@ export class StudentService extends BaseService {
     async provinceDropdown(dto: SearchProvinceDto):Promise<SelectItems[]> {
         return await this.dropdownService.provinceDropdown(dto,this.vwDropdownProvinceRepository);
       }
-    async oldSchoolDropdown(dto: SearchOldSchoolDto):Promise<SelectItems[]> {
-        return await this.dropdownService.oldSchoolDropdown(dto,this.vwDropdownOldSchoolRepository);
+    async aliveWithDropdown(dto: SearchAliveWithDto):Promise<SelectItems[]> {
+        return await this.dropdownService.aliveWithDropdown(dto,this.vwDropdownAliveWithRepository);
       }
-    async teacherDropdown(dto: SearchTeacherDto):Promise<SelectItems[]> {
-        return await this.dropdownService.teacherDropdown(dto,this.vwDropdownTeacherRepository);
+    async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return await this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
       }
-    async studentDropdown(dto: SearchStudentDto):Promise<SelectItems[]> {
-        return await this.dropdownService.studentDropdown(dto,this.vwDropdownStudentRepository);
+      async parentStatusDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return await this.dropdownService.parentStatusDropdown(dto,this.vwDropdownParentStatusRepository);
       }
+      
     async list(dto:SearchStudentDto):Promise<SearchResult<VwStudentList>>{
         const builder = this.createQueryBuider<VwStudentList>(dto,this.vwStudentRepository)
         const [data, count] = await builder
         .getManyAndCount();
         return this.toSearchResult<VwStudentList>(dto.paginator,count,data);
     }
-    async create(dto:CreateStudentDto,req:CustomRequest):Promise<Student>{        
+    async create(dto:CreateStudentDto,req:CustomRequest):Promise<Student>{   
+        const imageUrl =      
         const en = this.toCreateModel(dto,req) as Student  
         return await this.studentRepository.save(
             this.studentRepository.create(en)
@@ -105,5 +139,9 @@ export class StudentService extends BaseService {
     }
     async item(id:number):Promise<any>{
         return await this.itemRepository.findOne({where:{id:id}})
+    }
+    async export():Promise<any>{
+      const data = await this.itemRepository.find()
+      return exportExcel(data)
     }
 }

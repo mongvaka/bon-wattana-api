@@ -15,4 +15,6 @@ export class Users extends BasicData {
   firstname?:string;
   @Column({nullable: true})
   lastname?:string;
+  @Column({nullable: true})
+  type?:string;
 }

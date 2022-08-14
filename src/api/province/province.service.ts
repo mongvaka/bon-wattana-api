@@ -9,9 +9,24 @@ import { CreateProvinceDto, ProvinceDto, SearchProvinceDto, UpdateProvinceDto } 
 import { Province, VwProvinceDropdown, VwProvinceItem, VwProvinceList } from './province.entity';
 import { VwCountryDropdown } from 'src/api/country/country.entity';
 import { SearchCountryDto } from 'src/api/country/country.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { ImportExcelDto } from 'src/core/excel/excel.dto';
 
 @Injectable()
 export class ProvinceService extends BaseService {
+    async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:Province[] = []
+        data.forEach(el=>{
+            dataBulkInsert.push({...el})
+        })
+        return await this.provinceRepository.save(
+            this.provinceRepository.create(dataBulkInsert)
+        )
+    }
+    async export():Promise<any>{
+      const data = await this.itemRepository.find()
+      return exportExcel(data)
+    }
 
     constructor(
         @InjectRepository(Province)

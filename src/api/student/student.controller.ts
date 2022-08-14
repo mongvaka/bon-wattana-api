@@ -4,18 +4,21 @@ import { JwtAuthGuard } from "src/core/authentications/jwt-auth.guard";
 import { BaseController } from "src/core/shared/controller/base-controller";
 import { CustomRequest } from "src/core/shared/models/request-model";
 import { DropdownService } from "src/core/shared/services/dropdown.service";
-import { SearchHopitalDto } from "src/api/hopital/hopital.dto";
+import { SearchGendarDto } from "src/api/gendar/gendar.dto";
+import { SearchNationalityDto } from "src/api/nationality/nationality.dto";
+import { SearchEthnicityDto } from "src/api/ethnicity/ethnicity.dto";
+import { SearchReligionDto } from "src/api/religion/religion.dto";
 import { SearchCountryDto } from "src/api/country/country.dto";
 import { SearchSubDistrictDto } from "src/api/sub-district/sub-district.dto";
 import { SearchDistrictDto } from "src/api/district/district.dto";
 import { SearchProvinceDto } from "src/api/province/province.dto";
-import { SearchOldSchoolDto } from "src/api/old-school/old-school.dto";
-import { SearchTeacherDto } from "src/api/teacher/teacher.dto";
+import { SearchAliveWithDto } from "src/api/alive-with/alive-with.dto";
+import { SearchClassroomDto } from "src/api/classroom/classroom.dto";
 import { CreateStudentDto, SearchStudentDto, UpdateStudentDto } from "./student.dto";
 import { StudentService } from "./student.service";
 @ApiTags("student")
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
+// @UseGuards(JwtAuthGuard)
+// @ApiBearerAuth()
 @Controller('student')
 export class StudentController extends BaseController{
     constructor(private readonly studentService:StudentService,
@@ -30,6 +33,14 @@ export class StudentController extends BaseController{
       return this.error(e)
     }
   }
+  @Get('export')
+  async export() {
+    try{
+      return this.success(await this.studentService.export())
+    }catch(e){
+      return this.error(e)
+    }
+  }
   @Post('list')
   async findAll(@Body() dto: SearchStudentDto) {
     try{      
@@ -38,10 +49,34 @@ export class StudentController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('birth-hospital-dropdown')
-  async birthHospitalDropdown(@Body() dto: SearchHopitalDto) {
+  @Get('gendar-dropdown')
+  async gendarDropdown(@Body() dto: SearchGendarDto) {
     try{      
-      return this.success(await this.studentService.hopitalDropdown(dto))
+      return this.success(await this.studentService.gendarDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('nationality-dropdown')
+  async nationalityDropdown(@Body() dto: SearchNationalityDto) {
+    try{      
+      return this.success(await this.studentService.nationalityDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('ethnicity-dropdown')
+  async ethnicityDropdown(@Body() dto: SearchEthnicityDto) {
+    try{      
+      return this.success(await this.studentService.ethnicityDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('religion-dropdown')
+  async religionDropdown(@Body() dto: SearchReligionDto) {
+    try{      
+      return this.success(await this.studentService.religionDropdown(dto))
     }catch(e){
       return this.error(e)
     }
@@ -62,10 +97,10 @@ export class StudentController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('sub-district-dropdown')
-  async subDistrictDropdown(@Body() dto: SearchSubDistrictDto) {
+  @Get('province-dropdown')
+  async provinceDropdown(@Body() dto: SearchSubDistrictDto) {
     try{      
-      return this.success(await this.studentService.subDistrictDropdown(dto))
+      return this.success(await this.studentService.provinceDropdown(dto))
     }catch(e){
       return this.error(e)
     }
@@ -78,10 +113,10 @@ export class StudentController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('province-dropdown')
-  async provinceDropdown(@Body() dto: SearchProvinceDto) {
+  @Get('sub-district-dropdown')
+  async subDistrictDropdown(@Body() dto: SearchProvinceDto) {
     try{      
-      return this.success(await this.studentService.provinceDropdown(dto))
+      return this.success(await this.studentService.subDistrictDropdown(dto))
     }catch(e){
       return this.error(e)
     }
@@ -94,10 +129,10 @@ export class StudentController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('contract-sub-district-dropdown')
-  async contractSubDistrictDropdown(@Body() dto: SearchSubDistrictDto) {
+  @Get('contract-province-dropdown')
+  async contractProvinceDropdown(@Body() dto: SearchSubDistrictDto) {
     try{      
-      return this.success(await this.studentService.subDistrictDropdown(dto))
+      return this.success(await this.studentService.provinceDropdown(dto))
     }catch(e){
       return this.error(e)
     }
@@ -110,54 +145,39 @@ export class StudentController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('contract-province-dropdown')
-  async contractProvinceDropdown(@Body() dto: SearchProvinceDto) {
+  @Get('contract-sub-district-dropdown')
+  async contractSubDistrictDropdown(@Body() dto: SearchProvinceDto) {
     try{      
-      return this.success(await this.studentService.provinceDropdown(dto))
+      return this.success(await this.studentService.subDistrictDropdown(dto))
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('old-school-dropdown')
-  async oldSchoolDropdown(@Body() dto: SearchOldSchoolDto) {
+  @Get('alive-with-dropdown')
+  async aliveWithDropdown(@Body() dto: SearchAliveWithDto) {
     try{      
-      return this.success(await this.studentService.oldSchoolDropdown(dto))
+      return this.success(await this.studentService.aliveWithDropdown(dto))
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('mentor-teacher-first-dropdown')
-  async mentorTeacherFirstDropdown(@Body() dto: SearchTeacherDto) {
+  @Get('classroom-dropdown')
+  async classroomDropdown(@Body() dto: SearchClassroomDto) {
     try{      
-      return this.success(await this.studentService.teacherDropdown(dto))
+      return this.success(await this.studentService.classroomDropdown(dto))
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('mentor-teacher-second-dropdown')
-  async mentorTeacherSecondDropdown(@Body() dto: SearchTeacherDto) {
+  @Get('parent-status-dropdown')
+  async parentStatusDropdown(@Body() dto: SearchClassroomDto) {
     try{      
-      return this.success(await this.studentService.teacherDropdown(dto))
+      return this.success(await this.studentService.parentStatusDropdown(dto))
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('close-freind-in-class-dropdown')
-  async closeFreindInClassDropdown(@Body() dto: SearchStudentDto) {
-    try{      
-      return this.success(await this.studentService.studentDropdown(dto))
-    }catch(e){
-      return this.error(e)
-    }
-  }
-  @Get('close-freind-other-class-dropdown')
-  async closeFreindOtherClassDropdown(@Body() dto: SearchStudentDto) {
-    try{      
-      return this.success(await this.studentService.studentDropdown(dto))
-    }catch(e){
-      return this.error(e)
-    }
-  }
+  
   @Post('create')
   async create(@Body() dto: CreateStudentDto, @Req() req:CustomRequest,){ 
     try{      
