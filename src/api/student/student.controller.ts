@@ -97,26 +97,26 @@ export class StudentController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('province-dropdown')
-  async provinceDropdown(@Body() dto: SearchSubDistrictDto) {
+  @Get('province-dropdown/:id')
+  async provinceDropdown(@Body() dto: SearchProvinceDto,@Param('id') id:number) {
     try{      
-      return this.success(await this.studentService.provinceDropdown(dto))
+      return this.success(await this.studentService.provinceDropdown(dto,id))
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('district-dropdown')
-  async districtDropdown(@Body() dto: SearchDistrictDto) {
+  @Get('district-dropdown/:id')
+  async districtDropdown(@Body() dto: SearchDistrictDto,@Param('id') id:number) {
     try{      
-      return this.success(await this.studentService.districtDropdown(dto))
+      return this.success(await this.studentService.districtDropdown(dto,id))
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('sub-district-dropdown')
-  async subDistrictDropdown(@Body() dto: SearchProvinceDto) {
+  @Get('sub-district-dropdown/:id')
+  async subDistrictDropdown(@Body() dto: SearchSubDistrictDto,@Param('id') id:number) {
     try{      
-      return this.success(await this.studentService.subDistrictDropdown(dto))
+      return this.success(await this.studentService.subDistrictDropdown(dto,id))
     }catch(e){
       return this.error(e)
     }
@@ -129,26 +129,26 @@ export class StudentController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('contract-province-dropdown')
-  async contractProvinceDropdown(@Body() dto: SearchSubDistrictDto) {
+  @Get('contract-province-dropdown/:id')
+  async contractProvinceDropdown(@Body() dto: SearchProvinceDto,@Param('id') id:number) {
     try{      
-      return this.success(await this.studentService.provinceDropdown(dto))
+      return this.success(await this.studentService.provinceDropdown(dto,id))
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('contract-district-dropdown')
-  async contractDistrictDropdown(@Body() dto: SearchDistrictDto) {
+  @Get('contract-district-dropdown/:id')
+  async contractDistrictDropdown(@Body() dto: SearchDistrictDto,@Param('id') id:number) {
     try{      
-      return this.success(await this.studentService.districtDropdown(dto))
+      return this.success(await this.studentService.districtDropdown(dto,id))
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('contract-sub-district-dropdown')
-  async contractSubDistrictDropdown(@Body() dto: SearchProvinceDto) {
+  @Get('contract-sub-district-dropdown/:id')
+  async contractSubDistrictDropdown(@Body() dto: SearchSubDistrictDto,@Param('id') id:number) {
     try{      
-      return this.success(await this.studentService.subDistrictDropdown(dto))
+      return this.success(await this.studentService.subDistrictDropdown(dto,id))
     }catch(e){
       return this.error(e)
     }

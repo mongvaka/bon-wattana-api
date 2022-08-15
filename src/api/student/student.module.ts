@@ -15,6 +15,8 @@ import { StudentController } from './student.controller';
 import { Student, VwStudentDropdown, VwStudentItem, VwStudentList } from './student.entity';
 import { StudentService } from './student.service';
 import { VwParentStatusDropdown } from '../parent-status/parent-status.entity';
+import { ImagesModule } from 'src/core/images/images.module';
+import { AuthenticationsModule } from 'src/core/authentications/authentications.module';
 
 @Module({
   imports: [
@@ -29,8 +31,11 @@ import { VwParentStatusDropdown } from '../parent-status/parent-status.entity';
     VwProvinceDropdown,
     VwAliveWithDropdown,
     VwClassroomDropdown,
-    VwParentStatusDropdown
-    ])
+    VwParentStatusDropdown,
+    ]),
+    ImagesModule,
+    AuthenticationsModule
+
   ],
   controllers: [StudentController],
   providers: [StudentService,DropdownService],

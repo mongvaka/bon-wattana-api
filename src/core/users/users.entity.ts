@@ -17,4 +17,6 @@ export class Users extends BasicData {
   lastname?:string;
   @Column({nullable: true})
   type?:string;
+  @Column({nullable: true})
+  inforId?:number
 }

@@ -48,11 +48,13 @@ export class VwDistrictList {
   name:'district_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("district.id", "value")
+  .addSelect("district.provinceId", "refId")
   .addSelect("CONCAT(district.code , '[' , district.name, ']')", "label")
       .from(District, "district")
 })
 export class VwDistrictDropdown {
-
+  @ViewColumn()
+  refId: number;
   @ViewColumn()
     value: number;
 

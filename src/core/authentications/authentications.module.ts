@@ -6,6 +6,9 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 import { JwtStrategy } from "./jwt.strategy";
+import { StudentModule } from "src/api/student/student.module";
+import { Student } from "src/api/student/student.entity";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
   imports: [
@@ -23,6 +26,8 @@ import { JwtStrategy } from "./jwt.strategy";
         signOptions: { expiresIn: "7d" },
       }),
     }),
+    TypeOrmModule.forFeature([Student
+      ]),
   ],
   providers: [AuthenticationsService, JwtStrategy],
   controllers: [AuthenticationsController],

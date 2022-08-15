@@ -19,8 +19,8 @@ export class Student extends BasicData {
   @Column({nullable: true})
   studentCode?: string;
 
-  @Column({nullable: true})
-  imageProfile?: string;
+  // @Column({nullable: true})
+  // imageProfile?: string;
 
   @Column({nullable: true})
   status?: number;
@@ -71,13 +71,13 @@ export class Student extends BasicData {
   birthCountryId?: number;
 
   @Column({nullable: true})
-  birthProvinceId?: string;
+  birthProvinceId?: number;
 
   @Column({nullable: true})
-  birthDistrictId?: string;
+  birthDistrictId?: number;
 
   @Column({nullable: true})
-  birthSubDistrictId?: string;
+  birthSubDistrictId?: number;
 
   @Column({nullable: true})
   houseNumber?: string;
@@ -125,16 +125,16 @@ export class Student extends BasicData {
   oldSchoolName?: string;
 
   @Column({nullable: true})
-  oldSchoolCountryId?: string;
+  oldSchoolCountryId?: number;
 
   @Column({nullable: true})
-  oldSchoolProvinceId?: string;
+  oldSchoolProvinceId?: number;
 
   @Column({nullable: true})
-  oldSchoolDistrictId?: string;
+  oldSchoolDistrictId?: number;
 
   @Column({nullable: true})
-  oldSchoolSubDistrictId?: string;
+  oldSchoolSubDistrictId?: number;
 
   @Column({nullable: true})
   closeFriendInClass?: string;
@@ -312,7 +312,6 @@ export class VwStudentDropdown {
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("student.id", "id")
         .addSelect("student.studentCode", "studentCode")
-        .addSelect("student.imageProfile", "imageProfile")
         .addSelect("student.status", "status")
         .addSelect("student.title", "title")
         .addSelect("student.firstname", "firstname")
@@ -431,8 +430,7 @@ export class VwStudentItem {
     @ViewColumn()
     studentCode: string;
 
-    @ViewColumn()
-    imageProfile: string;
+   
 
     @ViewColumn()
     status: number;

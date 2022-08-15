@@ -55,7 +55,7 @@ ConfigModule.forRoot({
           database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
           useUTC:true,
         
-          synchronize: true,
+          synchronize: false,
           entities: ["dist/**/**/*.entity{.ts,.js}"],
           
         };

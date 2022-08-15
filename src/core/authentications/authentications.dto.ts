@@ -29,4 +29,6 @@ export class RegisterDto {
   @IsString()
   @IsNotEmpty()
   lastname?:string;
+  inforId?:number;
+  type:string;
 }

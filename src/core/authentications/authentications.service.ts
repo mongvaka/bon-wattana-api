@@ -6,12 +6,18 @@ import {IToken} from "./authentications.interface";
 import {AuthenticationsDto, RegisterDto} from "./authentications.dto";
 import * as bcrypt from "bcrypt"
 import { UserType } from "../shared/constans/enum-constans";
+import { StudentService } from "src/api/student/student.service";
+import { Student } from "src/api/student/student.entity";
+import { Repository } from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable()
 export class AuthenticationsService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    @InjectRepository(Student)
+    private readonly studentRepository:Repository<Student>
   ) {
   }
 
@@ -29,9 +35,19 @@ export class AuthenticationsService {
       expiresIn: "7d",
     };
     await this.usersService.tokenUpdated(user, token.accessToken);
-
+    const info = await this.studentRepository.findOne({where:{id:user.inforId}}) as Student
+    let userModel:Users;
+    if(user.type==UserType.STUDENT){
+      userModel = {...user,firstname:info.firstname,lastname:info.lastname}
+    }else{
+      userModel={
+        ...user
+      }
+    }
+    
+    
     return {
-        user: {...user},
+        user: userModel,
         token: token,
       }
   }
@@ -109,7 +125,7 @@ export class AuthenticationsService {
   async register(dto: RegisterDto) {
     const duplicateEmail = await this.usersService.findByEmail(dto.email)
     if(duplicateEmail){
-      throw new BadRequestException('อีเมลล์นี้ถูกใช้ไปแล้ว')
+      throw new BadRequestException('ชื่อผู้ถูกสร้างไปแล้ว...')
     }
     const hasepassword = await bcrypt.hash(dto.password,12);
     const user = new Users()
@@ -118,7 +134,8 @@ export class AuthenticationsService {
     user.firstname = dto.firstname
     user.lastname = dto.lastname
     user.createdAt = new Date()
-    user.type = UserType.ADMIN
+    user.type = dto.type
+    user.inforId = dto.inforId
     const result = await this.usersService.create(user)
     console.log('result',result);
     return result

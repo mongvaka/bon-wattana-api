@@ -4,7 +4,7 @@ import { CustomRequest } from 'src/core/shared/models/request-model';
 import { SearchResult, SelectItems } from 'src/core/shared/models/search-param-model';
 import { BaseService } from 'src/core/shared/services/base.service';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
-import { Repository } from 'typeorm';
+import {Repository } from 'typeorm';
 import { CreateStudentDto, StudentDto, SearchStudentDto, UpdateStudentDto } from './student.dto';
 import { Student, VwStudentDropdown, VwStudentItem, VwStudentList } from './student.entity';
 import { VwGendarDropdown } from 'src/api/gendar/gendar.entity';
@@ -30,17 +30,39 @@ import { SearchClassroomDto } from 'src/api/classroom/classroom.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
 import { ImportExcelDto } from 'src/core/excel/excel.dto';
 import { VwParentStatusDropdown } from '../parent-status/parent-status.entity';
+import { savefileWithName } from 'src/core/shared/services/files.service';
+import { filename } from 'src/core/shared/utils/image.util';
+import { ImagesService } from 'src/core/images/images.service';
+import { Operators } from 'src/core/shared/constans/constanst';
+import { ColumnType } from 'src/core/shared/constans/enum-system';
+import { AuthenticationsService } from 'src/core/authentications/authentications.service';
+import { RegisterDto } from 'src/core/authentications/authentications.dto';
+import { UserType } from 'src/core/shared/constans/enum-constans';
 
 @Injectable()
 export class StudentService extends BaseService {
     async import(data: any[]): Promise<any> {        
-        const dataBulkInsert:Student[] = []
-        data.forEach(el=>{
-            dataBulkInsert.push({...el})
-        })
-        return await this.studentRepository.save(
-            this.studentRepository.create(dataBulkInsert)
-        )
+        for (const el of data) {
+          console.log('thisEl',el);
+          
+          const model:Student = {...el,birthDate:null}
+          const info = await this.studentRepository.save(
+            this.studentRepository.create(model)
+          )
+          console.log('info',info);
+          
+          const regisModel:RegisterDto = {
+            email:`${el.studentCode}`,
+            password:`${el.studentCode}`,
+            firstname:'',
+            lastname:'',
+            inforId:info.id,
+            type:UserType.STUDENT
+          }
+          const user = await this.authService.register(regisModel)
+        }
+        return {}
+
     }
 
     constructor(
@@ -72,7 +94,9 @@ export class StudentService extends BaseService {
         private readonly vwDropdownClassroomRepository:Repository<VwClassroomDropdown>,
         @InjectRepository(VwParentStatusDropdown)
         private readonly vwDropdownParentStatusRepository:Repository<VwParentStatusDropdown>,
-        private readonly dropdownService: DropdownService
+        private readonly dropdownService: DropdownService,
+        private readonly imagesService:ImagesService,
+        private readonly authService: AuthenticationsService
         ){
         super()
     }
@@ -89,16 +113,62 @@ export class StudentService extends BaseService {
         return await this.dropdownService.religionDropdown(dto,this.vwDropdownReligionRepository);
       }
     async countryDropdown(dto: SearchCountryDto):Promise<SelectItems[]> {
+
         return await this.dropdownService.countryDropdown(dto,this.vwDropdownCountryRepository);
       }
-    async subDistrictDropdown(dto: SearchSubDistrictDto):Promise<SelectItems[]> {
-        return await this.dropdownService.subDistrictDropdown(dto,this.vwDropdownSubDistrictRepository);
+    async subDistrictDropdown(dto: SearchSubDistrictDto,id:number):Promise<SelectItems[]> {
+      if(id==0){
+        return []
       }
-    async districtDropdown(dto: SearchDistrictDto):Promise<SelectItems[]> {
-        return await this.dropdownService.districtDropdown(dto,this.vwDropdownDistrictRepository);
+      const searchDto = new SearchCountryDto()
+      searchDto.refTable = 'sub_district'
+      searchDto.tableKey = 'sub_district'
+      searchDto.searchCondition = [{
+          columnName:'refId',
+          tableName:'sub_district',
+          feildName:'refId',
+          value:`${id}`,
+          inputType:ColumnType.INT,
+          equalityOperator: Operators.EQUAL,
+          operator:Operators.EQUAL
+      }]
+        return await this.dropdownService.subDistrictDropdown(searchDto,this.vwDropdownSubDistrictRepository);
       }
-    async provinceDropdown(dto: SearchProvinceDto):Promise<SelectItems[]> {
-        return await this.dropdownService.provinceDropdown(dto,this.vwDropdownProvinceRepository);
+    async districtDropdown(dto: SearchDistrictDto,id:number):Promise<SelectItems[]> {
+      if(id==0){
+        return []
+      }
+      const searchDto = new SearchCountryDto()
+      searchDto.refTable = 'district'
+      searchDto.tableKey = 'district'
+      searchDto.searchCondition = [{
+          columnName:'refId',
+          tableName:'district',
+          feildName:'refId',
+          value:`${id}`,
+          inputType:ColumnType.INT,
+          equalityOperator: Operators.EQUAL,
+          operator:Operators.EQUAL
+      }]
+        return await this.dropdownService.districtDropdown(searchDto,this.vwDropdownDistrictRepository);
+      }
+    async provinceDropdown(dto: SearchProvinceDto,id:number):Promise<SelectItems[]> {
+      if(id==0){
+        return []
+      }
+      const searchDto = new SearchCountryDto()
+      searchDto.refTable = 'province'
+      searchDto.tableKey = 'province'
+      searchDto.searchCondition = [{
+          columnName:'refId',
+          tableName:'province',
+          feildName:'refId',
+          value:`${id}`,
+          inputType:ColumnType.INT,
+          equalityOperator: Operators.EQUAL,
+          operator:Operators.EQUAL
+      }]
+        return await this.dropdownService.provinceDropdown(searchDto,this.vwDropdownProvinceRepository);
       }
     async aliveWithDropdown(dto: SearchAliveWithDto):Promise<SelectItems[]> {
         return await this.dropdownService.aliveWithDropdown(dto,this.vwDropdownAliveWithRepository);
@@ -117,17 +187,35 @@ export class StudentService extends BaseService {
         return this.toSearchResult<VwStudentList>(dto.paginator,count,data);
     }
     async create(dto:CreateStudentDto,req:CustomRequest):Promise<Student>{   
-        const imageUrl =      
+      const moduleName = 'images'
+      const fileName = filename()
+      if(dto.imageProfile){
+        await savefileWithName(dto.imageProfile[0],fileName,moduleName)
+      }
         const en = this.toCreateModel(dto,req) as Student  
-        return await this.studentRepository.save(
+        const result = await this.studentRepository.save(
             this.studentRepository.create(en)
         );
+        if(dto.imageProfile){
+          await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:0,imageType:0},req)
+        }
+        return result
     }
     async update(id:number,dto:UpdateStudentDto,req:CustomRequest):Promise<StudentDto>{
-        const m = await this.studentRepository.findOne({where:{id:id}})
-        return await this.studentRepository.save(
-            this.toUpdateModel(m,dto,req)
-        );
+      const moduleName = 'images'
+      const fileName = filename()
+
+      if(dto.imageProfile){
+        await savefileWithName(dto.imageProfile[0],fileName,moduleName)
+      }
+      const m = await this.studentRepository.findOne({where:{id:id}})
+      const result = await this.studentRepository.save(
+          this.toUpdateModel(m,dto,req)
+      );
+      if(dto.imageProfile){
+        await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:0,imageType:0},req)
+      }
+        return result
     }
     async delete(id:number,req:CustomRequest):Promise<StudentDto>{
         let m = await this.studentRepository.findOne({where:{id:id}})
