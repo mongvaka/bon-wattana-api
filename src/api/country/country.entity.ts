@@ -1,9 +1,9 @@
 import { BasicData } from "src/core/shared/entities/basic-data";
-import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
+import { Column, Connection, Entity, PrimaryColumn, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
 
 @Entity('country')
 export class Country extends BasicData {
-  @PrimaryGeneratedColumn({type: 'bigint'})
+  @PrimaryColumn({type: 'bigint'})
   id?: number;
 
   @Column({nullable: true})

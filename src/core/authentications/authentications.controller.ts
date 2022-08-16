@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Post, Req } from "@nestjs/common";
 import {
   ApiBadGatewayResponse,
   ApiBody,
@@ -7,8 +7,9 @@ import {
   ApiTags,
 } from "@nestjs/swagger";
 import { AuthenticationsService } from "./authentications.service";
-import { AuthenticationsDto, RegisterDto } from "./authentications.dto";
+import { AuthenticationsDto, ChangePasswordDto, RegisterDto } from "./authentications.dto";
 import { BaseController } from "src/core/shared/controller/base-controller";
+import { CustomRequest } from "../shared/models/request-model";
 
 @ApiTags("Authentications")
 @Controller("authentications")
@@ -43,4 +44,6 @@ export class AuthenticationsController  extends BaseController{
       return this.error(e)
     }
   }
+
+
 }

@@ -4,6 +4,9 @@ import {Users} from "./users.entity";
 import {InjectRepository} from "@nestjs/typeorm";
 import {IBasicService} from "../shared/interfaces/basic-service.interface";
 import {CreatedUsersDto, DeletedUsersDto, SearchUsersDto, UpdatedUsersDto} from "./users.dto";
+import { ChangePasswordDto } from '../authentications/authentications.dto';
+import { CustomRequest } from '../shared/models/request-model';
+import * as bcrypt from "bcrypt"
 
 @Injectable()
 export class UsersService {
@@ -69,5 +72,12 @@ export class UsersService {
       where: {id: id},
     });
   }
-
+  async changePassword(dto: ChangePasswordDto, req: CustomRequest): Promise<any> {
+    const user = req.user
+    const hasepassword = await bcrypt.hash(dto.newPassword,12);
+    const model = await this.usersRepository.findOne({where:{id:user.id}})
+    model.password = hasepassword
+    await this.usersRepository.save(model)
+    return true    
+  }
 }

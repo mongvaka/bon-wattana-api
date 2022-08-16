@@ -1,10 +1,10 @@
 import { BasicData } from "src/core/shared/entities/basic-data";
-import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
+import { Column, Connection, Entity, PrimaryColumn, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
 import { District } from "src/api/district/district.entity";
 
 @Entity('sub_district')
 export class SubDistrict extends BasicData {
-  @PrimaryGeneratedColumn({type: 'bigint'})
+  @PrimaryColumn({type: 'bigint'})
   id?: number;
 
   @Column({nullable: true})

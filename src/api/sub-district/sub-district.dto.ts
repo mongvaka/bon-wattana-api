@@ -8,6 +8,7 @@ export class SearchSubDistrictDto extends SearchParameter {
     postCode?:string
 }
 export class SubDistrictDto {
+    id:number
     districtId:number
     code:string
     name:string

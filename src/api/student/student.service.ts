@@ -43,13 +43,11 @@ import { UserType } from 'src/core/shared/constans/enum-constans';
 export class StudentService extends BaseService {
     async import(data: any[]): Promise<any> {        
         for (const el of data) {
-          console.log('thisEl',el);
           
           const model:Student = {...el,birthDate:null}
           const info = await this.studentRepository.save(
             this.studentRepository.create(model)
           )
-          console.log('info',info);
           
           const regisModel:RegisterDto = {
             email:`${el.studentCode}`,

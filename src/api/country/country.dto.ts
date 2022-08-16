@@ -6,6 +6,7 @@ export class SearchCountryDto extends SearchParameter {
     name?:string
 }
 export class CountryDto {
+    id:number
     code:string
     name:string
 } 

@@ -17,7 +17,11 @@ export class ProvinceService extends BaseService {
     async import(data: any[]): Promise<any> {        
         const dataBulkInsert:Province[] = []
         data.forEach(el=>{
-            dataBulkInsert.push({...el})
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+           
         })
         return await this.provinceRepository.save(
             this.provinceRepository.create(dataBulkInsert)
@@ -50,7 +54,8 @@ export class ProvinceService extends BaseService {
         .getManyAndCount();
         return this.toSearchResult<VwProvinceList>(dto.paginator,count,data);
     }
-    async create(dto:CreateProvinceDto,req:CustomRequest):Promise<Province>{        
+    async create(dto:CreateProvinceDto,req:CustomRequest):Promise<Province>{  
+        dto.id = +dto.code  
         const en = this.toCreateModel(dto,req) as Province  
         return await this.provinceRepository.save(
             this.provinceRepository.create(en)

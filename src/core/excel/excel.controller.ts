@@ -28,7 +28,7 @@ export class ExcelController extends BaseController{
   @Post('import')
   async import(@Body() dto: ImportExcelDto) {
     
-    try{      
+    try{            
       return this.success(await this.service.import(dto))
     }catch(e){
       return this.error(e)

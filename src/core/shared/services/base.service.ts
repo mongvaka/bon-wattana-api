@@ -22,6 +22,55 @@ export class BaseService{
         result.results = data        
         return result;
     }
+    createQueryBuiderDropdown<T>(dto:SearchParameter,repository: Repository<T>):SelectQueryBuilder<T>{
+        const buider = repository.createQueryBuilder(dto.tableKey);
+        const take = dto.paginator?.rows || 10
+        const skip = (dto.paginator?.page || 0)*take
+        dto.searchCondition.forEach(el => {
+            if(el.value){                
+                let value = el.value
+                let oporator = el.operator
+                if(el.operator === Operators.LIKE){
+                    value = `%${el.value}%`
+                }
+                if(el.inputType == ColumnType.DATE){
+                    const currentDate:string[] = value.split('T');
+                    const currentDateArr:string[] = currentDate[0].split('-')
+                    const year:string = currentDateArr[0]
+                    const month:string = currentDateArr[1]
+                    const day:string = currentDateArr[2]
+                    const startDate:Date  = new Date(`${year}-${month}-${day}`)
+                    startDate.setDate(startDate.getDate()-1)
+                    const endDate:Date = new Date(`${year}-${month}-${day}`)
+                    endDate.setDate(endDate.getDate()+1)
+                    if(el.operator == Operators.EQUAL){
+                        buider.andWhere(`(${dto.tableKey}.${el.feildName} > :startDate AND ${dto.tableKey}.${el.feildName} < :endDate)`,{startDate:startDate,endDate:endDate})
+                    }
+                    if(el.operator == Operators.LESSTHAN_OR_EQUAL){
+                        buider.andWhere(`${dto.tableKey}.${el.feildName} < :endDate`,{endDate:endDate})
+                    }
+                    if(el.operator == Operators.MORTHAN_OR_EQUAL){
+                        buider.andWhere(`${dto.tableKey}.${el.feildName} > :startDate`,{startDate:startDate})
+                    }
+                    
+                }else{
+                    buider.andWhere(`${dto.tableKey}.${el.feildName} ${oporator} :v`,{v:value})
+
+                }
+            }
+        });
+        dto.sortColumns.forEach((el,index)=>{
+            const sortString = `${dto.sortTable[index]}.${el}`
+            let sortType:'DESC'|'ASC' = 'DESC'
+            if(dto.isAscs[index]){
+                sortType = 'ASC'
+            }
+            buider.addOrderBy(sortString,sortType)
+        })
+        // buider.skip(skip).take(take)
+        
+        return buider
+    }
     createQueryBuider<T>(dto:SearchParameter,repository: Repository<T>):SelectQueryBuilder<T>{
         const buider = repository.createQueryBuilder(dto.tableKey);
         const take = dto.paginator?.rows || 10

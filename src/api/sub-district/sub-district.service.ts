@@ -17,7 +17,10 @@ export class SubDistrictService extends BaseService {
     async import(data: any[]): Promise<any> {        
         const dataBulkInsert:SubDistrict[] = []
         data.forEach(el=>{
-            dataBulkInsert.push({...el})
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
         })
         return await this.subdistrictRepository.save(
             this.subdistrictRepository.create(dataBulkInsert)
@@ -46,11 +49,14 @@ export class SubDistrictService extends BaseService {
       }
     async list(dto:SearchSubDistrictDto):Promise<SearchResult<VwSubDistrictList>>{
         const builder = this.createQueryBuider<VwSubDistrictList>(dto,this.vwSubDistrictRepository)
+        
+        
         const [data, count] = await builder
         .getManyAndCount();
         return this.toSearchResult<VwSubDistrictList>(dto.paginator,count,data);
     }
-    async create(dto:CreateSubDistrictDto,req:CustomRequest):Promise<SubDistrict>{        
+    async create(dto:CreateSubDistrictDto,req:CustomRequest):Promise<SubDistrict>{    
+        dto.id = +dto.code    
         const en = this.toCreateModel(dto,req) as SubDistrict  
         return await this.subdistrictRepository.save(
             this.subdistrictRepository.create(en)

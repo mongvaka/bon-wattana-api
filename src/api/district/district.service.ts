@@ -17,7 +17,10 @@ export class DistrictService extends BaseService {
     async import(data: any[]): Promise<any> {        
         const dataBulkInsert:District[] = []
         data.forEach(el=>{
-            dataBulkInsert.push({...el})
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
         })
         return await this.districtRepository.save(
             this.districtRepository.create(dataBulkInsert)
@@ -48,10 +51,13 @@ export class DistrictService extends BaseService {
         const builder = this.createQueryBuider<VwDistrictList>(dto,this.vwDistrictRepository)
         const [data, count] = await builder
         .getManyAndCount();
+
         return this.toSearchResult<VwDistrictList>(dto.paginator,count,data);
     }
-    async create(dto:CreateDistrictDto,req:CustomRequest):Promise<District>{        
+    async create(dto:CreateDistrictDto,req:CustomRequest):Promise<District>{     
+        dto.id = +dto.code     
         const en = this.toCreateModel(dto,req) as District  
+        
         return await this.districtRepository.save(
             this.districtRepository.create(en)
         );

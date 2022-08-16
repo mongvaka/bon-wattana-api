@@ -27,6 +27,7 @@ import { ClassroomService } from 'src/api/classroom/classroom.service';
 import { ClassroomTypeService } from 'src/api/classroom-type/classroom-type.service';
 import * as Excel from 'exceljs';
 import * as XLSX from "xlsx";
+import { IsNumber, IsNumberString } from 'class-validator';
 
 @Injectable()
 export class ExcelService extends BaseService {
@@ -118,31 +119,74 @@ export class ExcelService extends BaseService {
         let row:any[] =[]
         let masterKey:string[] = [] 
         let masterModel:{} = {}
+        // console.log(workbook);
+        
         const cell = Object.keys(workbook.Sheets.sheet1)
         const modelList:{}[] =[]
+        // console.log('wordking');
+        console.log('cell',cell);
+        
         cell.forEach((el,index)=>{
             col = []
             if(index == 1){                
-                masterKey =cell.filter(fl=>fl.indexOf(`${index}`)==1)
+                masterKey =cell.filter(fl=>this.checkFirstRow(fl,index))
+                console.log('masterKey',masterKey);
             }else if(index>1){                
                 masterModel = {}
-                const keyList = cell.filter(fl=>fl.indexOf(`${index}`)==1)
+                const keyList = cell.filter(fl=> this.checkKeyRow(fl,index))
                 let hasValue:boolean = false
                 masterKey.forEach(ev=>{
                     let value = undefined
                     keyList.forEach(key=>{
                         if(key.charAt(0)==ev.charAt(0)){
+                            // console.log(key.charAt(0),ev.charAt(0));
+                            
                             value = workbook.Sheets.sheet1[key].v
+                            // console.log(value);
+                            
                             hasValue = true
                         }
                     })                    
                     masterModel[workbook.Sheets.sheet1[ev].v] = value
                 })
+                // console.log(masterModel);
+                
                 if(hasValue){
+                    // if(masterModel['id']==15){
+                    //     console.log(masterModel);
+                    // }
+                    
+                    
                     modelList.push(masterModel)
                 }
             }
         })
+        // console.log(modelList[0]);
+        
         return modelList
+    }
+    checkKeyRow(fl: string, index: number): boolean {
+        const str = fl.split('')
+        let numstr:string = ''
+        str.forEach(el=>{
+            if(Number(el)||Number(el)===0){
+                numstr = numstr+`${el}`
+            }
+        })
+  
+        return index===Number(numstr)
+    }
+    checkFirstRow(fl: string, index: number): boolean {
+        const str = fl.split('')
+        let numstr:string = ''
+        str.forEach(el=>{
+            if(Number(el)||Number(el)===0){
+                numstr = numstr+`${el}`
+            }
+        })
+        if(index===Number(numstr)){
+
+        }
+        return index===Number(numstr)
     }
 }

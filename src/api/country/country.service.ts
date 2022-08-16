@@ -15,7 +15,10 @@ export class CountryService extends BaseService {
     async import(data: any[]): Promise<any> {        
         const dataBulkInsert:Country[] = []
         data.forEach(el=>{
-            dataBulkInsert.push({...el})
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
         })
         return await this.countryRepository.save(
             this.countryRepository.create(dataBulkInsert)
@@ -43,7 +46,8 @@ export class CountryService extends BaseService {
         .getManyAndCount();
         return this.toSearchResult<VwCountryList>(dto.paginator,count,data);
     }
-    async create(dto:CreateCountryDto,req:CustomRequest):Promise<Country>{        
+    async create(dto:CreateCountryDto,req:CustomRequest):Promise<Country>{ 
+        dto.id = +dto.code         
         const en = this.toCreateModel(dto,req) as Country  
         return await this.countryRepository.save(
             this.countryRepository.create(en)

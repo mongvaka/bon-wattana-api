@@ -1,5 +1,7 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
+import { json } from "body-parser";
+
 import {join} from "path";
 import {NestExpressApplication} from "@nestjs/platform-express";
 import {init as SentryInit} from '@sentry/node';
@@ -11,6 +13,8 @@ async function bootstrap() {
   SentryInit({
     dsn: ""
   });
+  app.use(json({ limit: "10mb" }));
+
   const version = 'v1';
   const globalPrefix = `/api`;
   app.setGlobalPrefix(globalPrefix);
@@ -24,8 +28,8 @@ async function bootstrap() {
   );
   app.useStaticAssets(join(__dirname, '..', 'public'), {prefix: '/public'});
   const options = new DocumentBuilder()
-    .setTitle('BRT CONTRACT API')
-    .setDescription('BRT Contract API Description')
+    .setTitle('BOONWATTANA API')
+    .setDescription('boonwattana')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

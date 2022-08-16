@@ -12,6 +12,9 @@ export class AuthenticationsDto {
   @IsNotEmpty()
   password: string;
 }
+export class ChangePasswordDto{
+  newPassword:string;
+}
 export class RegisterDto {
   @ApiProperty()
   @IsString()

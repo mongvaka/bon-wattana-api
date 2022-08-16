@@ -3,16 +3,18 @@ import {UsersService} from "../users/users.service";
 import {JwtService} from "@nestjs/jwt";
 import {Users} from "../users/users.entity";
 import {IToken} from "./authentications.interface";
-import {AuthenticationsDto, RegisterDto} from "./authentications.dto";
+import {AuthenticationsDto, ChangePasswordDto, RegisterDto} from "./authentications.dto";
 import * as bcrypt from "bcrypt"
 import { UserType } from "../shared/constans/enum-constans";
 import { StudentService } from "src/api/student/student.service";
 import { Student } from "src/api/student/student.entity";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
+import { CustomRequest } from "../shared/models/request-model";
 
 @Injectable()
 export class AuthenticationsService {
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
@@ -21,7 +23,7 @@ export class AuthenticationsService {
   ) {
   }
 
-  async jwtGenerated(user: Users) {
+  async jwtGenerated(user: Users,matchPassword:boolean) {
     const payload = {
       id: user.id,
       username: user.username,
@@ -47,8 +49,9 @@ export class AuthenticationsService {
     
     
     return {
-        user: userModel,
+        user: {...userModel},
         token: token,
+        matchPassword:matchPassword
       }
   }
 
@@ -111,10 +114,11 @@ export class AuthenticationsService {
 
   async signIn(dto: AuthenticationsDto) {
     const user = await this.usersService.findByUsernameAndActive(dto.username);
+    const matchPassword = dto.password == dto.username
     if (user) {
       const iscorrect = await bcrypt.compareSync(dto.password,user.password);
       if(iscorrect){
-        const result =  this.jwtGenerated(user);        
+        const result =  this.jwtGenerated(user,matchPassword);        
         return result;
       }
       throw new BadRequestException('รหัสผ่านไม่ถูกต้อง');
