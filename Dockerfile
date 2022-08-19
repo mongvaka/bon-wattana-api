@@ -20,8 +20,8 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-
-RUN npm install --only=production
+RUN npm cache clean --force && rm -rf node_modules && npm install
+# RUN npm install --only=production
 
 COPY . .
 

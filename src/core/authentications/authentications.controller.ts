@@ -10,6 +10,7 @@ import { AuthenticationsService } from "./authentications.service";
 import { AuthenticationsDto, ChangePasswordDto, RegisterDto } from "./authentications.dto";
 import { BaseController } from "src/core/shared/controller/base-controller";
 import { CustomRequest } from "../shared/models/request-model";
+import { UserType } from "../shared/constans/enum-constans";
 
 @ApiTags("Authentications")
 @Controller("authentications")
@@ -39,6 +40,7 @@ export class AuthenticationsController  extends BaseController{
   @ApiInternalServerErrorResponse({ description: "INTERNAL SERVER ERROR" })
   async register(@Body() dto: RegisterDto) {
     try{
+      dto.type = UserType.ADMIN
       return this.success(await this.authenticationsService.register(dto))
     }catch(e){
       return this.error(e)

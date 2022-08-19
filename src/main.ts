@@ -14,7 +14,6 @@ async function bootstrap() {
     dsn: ""
   });
   app.use(json({ limit: "10mb" }));
-
   const version = 'v1';
   const globalPrefix = `/api`;
   app.setGlobalPrefix(globalPrefix);
