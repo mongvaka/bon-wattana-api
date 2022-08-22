@@ -12,6 +12,9 @@ export class Classroom extends BasicData {
   classroomTypeId?: number;
 
   @Column({nullable: true})
+  classroomName?: string;
+
+  @Column({nullable: true})
   mentorFirst?: string;
 
   @Column({nullable: true})
@@ -25,6 +28,7 @@ export class Classroom extends BasicData {
         .addSelect("CONCAT(classroom_type_id.typeName , '[' , classroom_type_id.typeDescription, ']')", "classroomTypeValue")
         .addSelect("classroom.mentorFirst", "mentorFirst")
         .addSelect("classroom.mentoeSecond", "mentoeSecond")
+        .addSelect("classroom.classroomName", "classroomName")
         .from(Classroom, "classroom")
         .leftJoin(ClassroomType, "classroom_type_id","classroom_type_id.Id = classroom.classroomTypeId")
 })
@@ -43,14 +47,17 @@ export class VwClassroomList {
 
     @ViewColumn()
     mentoeSecond: string;
+    @ViewColumn()
+    classroomName?: string;
 }
 
 @ViewEntity({
   name:'classroom_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("classroom.id", "value")
-  .addSelect("CONCAT(classroom.classroomTypeId , '[' , classroom.mentorFirst, ']')", "label")
-      .from(Classroom, "classroom")
+  .addSelect("CONCAT(classroom_type.typeName , '/' , classroom.classroomName  , '[' , classroom.mentorFirst, ']')", "label")
+  .from(Classroom, "classroom")
+  .innerJoin(ClassroomType,'classroom_type','classroom_type.id = classroom.classroomTypeId')
 })
 export class VwClassroomDropdown {
 
@@ -68,6 +75,7 @@ export class VwClassroomDropdown {
         .addSelect("CONCAT(classroom_type_id.typeName , '[' , classroom_type_id.typeDescription, ']')", "classroomTypeValue")
         .addSelect("classroom.mentorFirst", "mentorFirst")
         .addSelect("classroom.mentoeSecond", "mentoeSecond")
+        .addSelect("classroom.classroomName", "classroomName")
       .from(Classroom, "classroom")
         .leftJoin(ClassroomType, "classroom_type_id","classroom_type_id.Id = classroom.classroomTypeId")
 })
@@ -87,4 +95,6 @@ export class VwClassroomItem {
 
     @ViewColumn()
     mentoeSecond: string;
+    @ViewColumn()
+    classroomName?: string;
 }

@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomRequest } from 'src/core/shared/models/request-model';
 import { SearchResult, SelectItems } from 'src/core/shared/models/search-param-model';
 import { BaseService } from 'src/core/shared/services/base.service';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
-import {Repository } from 'typeorm';
+import {Not, Repository } from 'typeorm';
 import { CreateStudentDto, StudentDto, SearchStudentDto, UpdateStudentDto } from './student.dto';
 import { Student, VwStudentDropdown, VwStudentItem, VwStudentList } from './student.entity';
 import { VwGendarDropdown } from 'src/api/gendar/gendar.entity';
@@ -38,6 +37,7 @@ import { ColumnType } from 'src/core/shared/constans/enum-system';
 import { AuthenticationsService } from 'src/core/authentications/authentications.service';
 import { RegisterDto } from 'src/core/authentications/authentications.dto';
 import { UserType } from 'src/core/shared/constans/enum-constans';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class StudentService extends BaseService {
@@ -45,19 +45,23 @@ export class StudentService extends BaseService {
         for (const el of data) {
           
           const model:Student = {...el,birthDate:null}
-          const info = await this.studentRepository.save(
-            this.studentRepository.create(model)
-          )
-          
-          const regisModel:RegisterDto = {
-            email:`${el.studentCode}`,
-            password:`${el.studentCode}`,
-            firstname:'',
-            lastname:'',
-            inforId:info.id,
-            type:UserType.STUDENT
+          const studentIsexist = await this.studentRepository.findOne({where:{studentCode:el.studentCode,deleted:false}})
+          if(!studentIsexist){
+            const info = await this.studentRepository.save(
+              this.studentRepository.create(model)
+            )
+            
+            const regisModel:RegisterDto = {
+              email:`${el.studentCode}`,
+              password:`${el.studentCode}`,
+              firstname:'',
+              lastname:'',
+              inforId:info.id,
+              type:UserType.STUDENT
+            }
+            const user = await this.authService.register(regisModel)
           }
-          const user = await this.authService.register(regisModel)
+          
         }
         return {}
 
@@ -185,6 +189,10 @@ export class StudentService extends BaseService {
         return this.toSearchResult<VwStudentList>(dto.paginator,count,data);
     }
     async create(dto:CreateStudentDto,req:CustomRequest):Promise<Student>{   
+      const duplicat = await this.studentRepository.find({where:{deleted:false,studentCode:dto.studentCode}})
+      if(duplicat){
+        throw new BadRequestException('รหัสนักเรียนมีอยู่แล้ว')
+      }
       const moduleName = 'images'
       const fileName = filename()
       if(dto.imageProfile){
@@ -200,6 +208,10 @@ export class StudentService extends BaseService {
         return result
     }
     async update(id:number,dto:UpdateStudentDto,req:CustomRequest):Promise<StudentDto>{
+      const duplicat = await this.studentRepository.find({where:{deleted:false,studentCode:dto.studentCode,id:Not(id)}})
+      if(duplicat){
+        throw new BadRequestException('รหัสนักเรียนมีอยู่แล้ว')
+      }
       const moduleName = 'images'
       const fileName = filename()
 

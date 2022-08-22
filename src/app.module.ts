@@ -1,7 +1,5 @@
-import {Module} from '@nestjs/common';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
-import {ConfigModule, ConfigService} from "@nestjs/config";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {UsersModule} from './core/users/users.module';
 import { DemoModule } from './core/demo/demo.module';
@@ -21,6 +19,13 @@ import { ParentStatusModule } from './api/parent-status/parent-status.module';
 import { ReligionModule } from './api/religion/religion.module';
 import { StudentModule } from './api/student/student.module';
 import { ExcelModule } from './core/excel/excel.module';
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ActiveTimeModule } from './api/active-time/active-time.module';
+import { EditField } from './api/edit-field/edit-field.entity';
+import { EditFieldModule } from './api/edit-field/edit-field.module';
+import { EditRequest } from './api/edit-request/edit-request.entity';
+import { EditRequestModule } from './api/edit-request/edit-request.module';
 
 @Module({
   imports: [
@@ -48,7 +53,7 @@ ConfigModule.forRoot({
       useFactory: async (configService: ConfigService) => {
         return {
           type: "postgres",
-          host: configService.get('DATABASE_URL', 'localhost'),
+          host: configService.get('DATABASE_URL', '203.159.93.121'),
           port: Number(configService.get<number>('DATABASE_PORT', 5432)),
           username: configService.get('DATABASE_USERNAME', 'postgres'),
           password: configService.get('DATABASE_PASSWORD', 'password'),
@@ -78,7 +83,10 @@ ConfigModule.forRoot({
     ParentStatusModule,
     ReligionModule,
     StudentModule,
-    ExcelModule
+    ExcelModule,
+    ActiveTimeModule,
+    EditFieldModule,
+    EditRequestModule
   ],
   controllers: [AppController],
   providers: [AppService],

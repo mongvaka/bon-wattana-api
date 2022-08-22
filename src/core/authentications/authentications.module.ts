@@ -9,6 +9,7 @@ import { JwtStrategy } from "./jwt.strategy";
 import { StudentModule } from "src/api/student/student.module";
 import { Student } from "src/api/student/student.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { ActiveTime } from "src/api/active-time/active-time.entity";
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
         signOptions: { expiresIn: "7d" },
       }),
     }),
-    TypeOrmModule.forFeature([Student
+    TypeOrmModule.forFeature([Student,ActiveTime
       ]),
   ],
   providers: [AuthenticationsService, JwtStrategy],

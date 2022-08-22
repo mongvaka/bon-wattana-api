@@ -17,3 +17,8 @@ export enum ModuleName{
     RELIGION = 'religion',
     SUB_DISTRICT = 'sub_district',
 }
+export enum EditRequestStatus{
+    REQUEST = 1,
+    APPROVE =2,
+    REJECT = 3
+  }

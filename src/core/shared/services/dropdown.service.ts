@@ -1,10 +1,13 @@
 
 import { Injectable } from "@nestjs/common";
+import { VwActiveTimeDropdown } from "src/api/active-time/active-time.entity";
 import { VwAliveWithDropdown } from "src/api/alive-with/alive-with.entity";
 import { VwClassroomTypeDropdown } from "src/api/classroom-type/classroom-type.entity";
 import { VwClassroomDropdown } from "src/api/classroom/classroom.entity";
 import { VwCountryDropdown } from "src/api/country/country.entity";
 import { VwDistrictDropdown } from "src/api/district/district.entity";
+import { VwEditFieldDropdown } from "src/api/edit-field/edit-field.entity";
+import { VwEditRequestDropdown } from "src/api/edit-request/edit-request.entity";
 import { VwEthnicityDropdown } from "src/api/ethnicity/ethnicity.entity";
 import { VwGendarDropdown } from "src/api/gendar/gendar.entity";
 import { VwNationalityDropdown } from "src/api/nationality/nationality.entity";
@@ -24,6 +27,53 @@ export class DropdownService extends BaseService{
     ){
         super()
     }
+    async editRequestDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwEditRequestDropdown = el as unknown as VwEditRequestDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async editFieldDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwEditFieldDropdown = el as unknown as VwEditFieldDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async activeTimeDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwActiveTimeDropdown = el as unknown as VwActiveTimeDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
     async demoDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();

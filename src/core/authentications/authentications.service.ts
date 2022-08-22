@@ -11,6 +11,7 @@ import { Student } from "src/api/student/student.entity";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CustomRequest } from "../shared/models/request-model";
+import { ActiveTime } from "src/api/active-time/active-time.entity";
 
 @Injectable()
 export class AuthenticationsService {
@@ -19,7 +20,9 @@ export class AuthenticationsService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     @InjectRepository(Student)
-    private readonly studentRepository:Repository<Student>
+    private readonly studentRepository:Repository<Student>,
+    @InjectRepository(ActiveTime)
+    private readonly activeTimeRepository:Repository<ActiveTime>
   ) {
   }
 
@@ -46,13 +49,25 @@ export class AuthenticationsService {
         ...user
       }
     }
-    
+    const canEdit = await this.getCanEdit()
     
     return {
         user: {...userModel},
         token: token,
-        matchPassword:matchPassword
+        matchPassword:matchPassword,
+        canEdit:canEdit
       }
+  }
+  async getCanEdit() {
+    const rangDateList = await this.activeTimeRepository.find({where:{deleted:false}})
+    let canEdit:boolean = false
+    const currentDate:Date = new Date()
+    rangDateList.forEach(el=>{
+      if(currentDate>=el.activeStart&&currentDate<=el.activeEnd){
+        canEdit = true
+      }
+    })
+    return canEdit
   }
 
 

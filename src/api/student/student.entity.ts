@@ -10,6 +10,7 @@ import { District } from "src/api/district/district.entity";
 import { Province } from "src/api/province/province.entity";
 import { AliveWith } from "src/api/alive-with/alive-with.entity";
 import { Classroom } from "src/api/classroom/classroom.entity";
+import { ClassroomType } from "../classroom-type/classroom-type.entity";
 
 @Entity('student')
 export class Student extends BasicData {
@@ -33,6 +34,8 @@ export class Student extends BasicData {
 
   @Column({nullable: true})
   lastname?: string;
+  @Column({nullable: true})
+  personalCode?: string;
 
   @Column({nullable: true})
   firstnameEn?: string;
@@ -265,9 +268,15 @@ export class Student extends BasicData {
         .addSelect("student.firstname", "firstname")
         .addSelect("student.lastname", "lastname")
         .addSelect("student.gendarId", "gendarId")
+        .addSelect("student.personalCode", "personalCode")
+        .addSelect("student.classroomId", "classroomId")
+        .addSelect("CONCAT(classroom_type.typeName ,'/', classroom.classroomName , '[' , classroom.mentorFirst, ']')", "classroomValue")
         .addSelect("CONCAT(gendar_id.gendarName , '[' , gendar_id.gendarDescription, ']')", "gendarValue")
         .from(Student, "student")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
+        .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
+        .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = classroom.classroomTypeId")
+
 })
 export class VwStudentList {
     @ViewColumn()
@@ -290,6 +299,15 @@ export class VwStudentList {
 
     @ViewColumn()
     gendarValue: string;
+
+    @ViewColumn()
+    classroomId: number;
+
+    @ViewColumn()
+    classroomValue: string;
+    @ViewColumn()
+    personalCode: string;
+    
 }
 
 @ViewEntity({
@@ -405,6 +423,7 @@ export class VwStudentDropdown {
         .addSelect("student.parentIncome", "parentIncome")
         .addSelect("student.parentOccupation", "parentOccupation")
         .addSelect("student.parentPhone", "parentPhone")
+        .addSelect("student.personalCode", "personalCode")
       .from(Student, "student")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
         .leftJoin(Nationality, "nationality_id","nationality_id.Id = student.nationalityId")
@@ -430,7 +449,8 @@ export class VwStudentItem {
     @ViewColumn()
     studentCode: string;
 
-   
+    @ViewColumn()
+    personalCode: string;
 
     @ViewColumn()
     status: number;
