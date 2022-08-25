@@ -275,7 +275,7 @@ export class Student extends BasicData {
         .addSelect(" CONCAT(student.houseNumber,' ',student.road,'  ',student.village, ' ' ,sub_district.name, ' ' ,district.name, ' ' ,province.name)", "addressValue")
         .addSelect("student.classroomId", "classroomId")
         .addSelect("student.classroomTypeId", "classroomTypeId")
-        .addSelect("classroom.name", "classroomValue")
+        .addSelect(" CONCAT(classroom_type.typeName,' ',classroom.name)", "classroomValue")
         .addSelect("gendar_id.gendarName", "gendarValue")
         .from(Student, "student")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
