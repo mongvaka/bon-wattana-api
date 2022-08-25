@@ -35,7 +35,7 @@ export class VwEditFieldList {
   name:'edit_field_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("edit_field.id", "value")
-  .addSelect("CONCAT(edit_field.editFieldName , '[' , edit_field.editFieldDescription, ']')", "label")
+  .addSelect("edit_field.editFieldName", "label")
       .from(EditField, "edit_field")
 })
 export class VwEditFieldDropdown {

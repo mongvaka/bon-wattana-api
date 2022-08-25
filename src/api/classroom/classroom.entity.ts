@@ -44,7 +44,7 @@ export class VwClassroomList {
   name:'classroom_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("classroom.id", "value")
-  .addSelect("CONCAT(classroom.name , '[' , classroom.mentorFirst,'-',  classroom.mentoeSecond ,']')", "label")
+  .addSelect("classroom.name", "label")
   .from(Classroom, "classroom")
 })
 export class VwClassroomDropdown {

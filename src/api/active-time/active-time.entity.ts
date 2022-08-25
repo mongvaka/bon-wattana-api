@@ -49,7 +49,7 @@ export class VwActiveTimeList {
   name:'active_time_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("active_time.id", "value")
-  .addSelect("CONCAT(active_time.activeStart , '[' , active_time.activeEnd, ']')", "label")
+  .addSelect("CONCAT(active_time.activeStart , '-' , active_time.activeEnd)", "label")
       .from(ActiveTime, "active_time")
 })
 export class VwActiveTimeDropdown {

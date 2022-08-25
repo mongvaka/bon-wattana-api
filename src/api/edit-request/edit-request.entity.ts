@@ -32,7 +32,7 @@ export class EditRequest extends BasicData {
     expression: (connection: Connection) => connection.createQueryBuilder()
         .select("edit_request.id", "id")
         .addSelect("edit_request.editFieldId", "editFieldId")
-        .addSelect("CONCAT(edit_field_id.editFieldName , '[' , edit_field_id.editFieldDescription, ']')", "editFieldValue")
+        .addSelect("edit_field_id.editFieldName", "editFieldValue")
         .addSelect("edit_request.changeTo", "changeTo")
         .addSelect("edit_request.editRequestStatus", "editRequestStatus")
         .addSelect("edit_request.requestId", "requestId")
@@ -65,7 +65,7 @@ export class VwEditRequestList {
   name:'edit_request_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("edit_request.id", "value")
-  .addSelect("CONCAT(edit_request.editFieldId , '[' , edit_request.changeTo, ']')", "label")
+  .addSelect("edit_request.editFieldId", "label")
       .from(EditRequest, "edit_request")
 })
 export class VwEditRequestDropdown {
@@ -81,8 +81,8 @@ export class VwEditRequestDropdown {
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("edit_request.id", "id")
         .addSelect("edit_request.editFieldId", "editFieldId")
-        .addSelect("CONCAT(edit_field_id.editFieldName , '[' , edit_field_id.editFieldDescription, ']')", "editFieldValue")
-        .addSelect("CONCAT(student.firstname , '[' , student.lastname, ']')", "requestValue")
+        .addSelect("edit_field_id.editFieldName", "editFieldValue")
+        .addSelect("student.firstname , ' ' , student.lastname", "requestValue")
 
         .addSelect("edit_request.changeTo", "changeTo")
         .addSelect("edit_request.documentUrl", "documentUrl")

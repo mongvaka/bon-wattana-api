@@ -35,7 +35,7 @@ export class VwParentStatusList {
   name:'parent_status_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("parent_status.id", "value")
-  .addSelect("CONCAT(parent_status.parentStatusName , '[' , parent_status.parentStatusDescription, ']')", "label")
+  .addSelect("parent_status.parentStatusName", "label")
       .from(ParentStatus, "parent_status")
 })
 export class VwParentStatusDropdown {

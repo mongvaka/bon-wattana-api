@@ -36,7 +36,7 @@ export class VwAliveWithList {
   name:'alive_with_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("alive_with.id", "value")
-  .addSelect("CONCAT(alive_with.aliveWithName , '[' , alive_with.aliveWithDescription, ']')", "label")
+  .addSelect("alive_with.aliveWithName )", "label")
       .from(AliveWith, "alive_with")
 })
 export class VwAliveWithDropdown {

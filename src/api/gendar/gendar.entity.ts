@@ -35,7 +35,7 @@ export class VwGendarList {
   name:'gendar_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("gendar.id", "value")
-  .addSelect("CONCAT(gendar.gendarName , '[' , gendar.gendarDescription, ']')", "label")
+  .addSelect("gendar.gendarName", "label")
       .from(Gendar, "gendar")
 })
 export class VwGendarDropdown {

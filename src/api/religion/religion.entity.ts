@@ -42,7 +42,7 @@ export class VwReligionList {
   name:'religion_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("religion.id", "value")
-  .addSelect("CONCAT(religion.religionName , '[' , religion.religionDescription, ']')", "label")
+  .addSelect("religion.religionName", "label")
       .from(Religion, "religion")
 })
 export class VwReligionDropdown {

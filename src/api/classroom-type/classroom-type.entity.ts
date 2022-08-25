@@ -43,7 +43,7 @@ export class VwClassroomTypeList {
   name:'classroom_type_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("classroom_type.id", "value")
-  .addSelect("CONCAT(classroom_type.typeName , '[' , classroom_type.typeDescription, ']')", "label")
+  .addSelect("classroom_type.typeName", "label")
       .from(ClassroomType, "classroom_type")
 })
 export class VwClassroomTypeDropdown {

@@ -42,7 +42,7 @@ export class VwEthnicityList {
   name:'ethnicity_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("ethnicity.id", "value")
-  .addSelect("CONCAT(ethnicity.ethnicityName , '[' , ethnicity.ethnicityDescription, ']')", "label")
+  .addSelect("ethnicity.ethnicityName", "label")
       .from(Ethnicity, "ethnicity")
 })
 export class VwEthnicityDropdown {
