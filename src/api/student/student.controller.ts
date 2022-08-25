@@ -169,6 +169,14 @@ export class StudentController extends BaseController{
       return this.error(e)
     }
   }
+  @Get('classroom-type-dropdown')
+  async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.studentService.classroomTypeDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
   @Get('parent-status-dropdown')
   async parentStatusDropdown(@Body() dto: SearchClassroomDto) {
     try{      

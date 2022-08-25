@@ -186,7 +186,8 @@ export class Student extends BasicData {
 
   @Column({nullable: true})
   classroomId?: number;
-
+  @Column({nullable: true})
+  classroomTypeId?: number;
   @Column({nullable: true})
   fatherTitle?: number;
 
@@ -267,24 +268,39 @@ export class Student extends BasicData {
         .addSelect("student.status", "status")
         .addSelect("student.firstname", "firstname")
         .addSelect("student.lastname", "lastname")
+        .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
         .addSelect("student.gendarId", "gendarId")
+        .addSelect("TO_CHAR(student.birthDate, 'DD/MM/YYYY') ", "birthDate")
         .addSelect("student.personalCode", "personalCode")
+        .addSelect(" CONCAT(student.houseNumber,' ',student.road,'  ',student.village, ' ' ,sub_district.name, ' ' ,district.name, ' ' ,province.name)", "addressValue")
         .addSelect("student.classroomId", "classroomId")
-        .addSelect("CONCAT(classroom_type.typeName ,'/', classroom.classroomName , '[' , classroom.mentorFirst, ']')", "classroomValue")
+        .addSelect("student.classroomTypeId", "classroomTypeId")
+        .addSelect("CONCAT(classroom_type.typeName ,'/', classroom.name , '[' , classroom.mentorFirst, ']')", "classroomValue")
         .addSelect("CONCAT(gendar_id.gendarName , '[' , gendar_id.gendarDescription, ']')", "gendarValue")
         .from(Student, "student")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
         .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
-        .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = classroom.classroomTypeId")
+        .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
+        .leftJoin(Province,'province','student.provinceId = province.id')
+        .leftJoin(District,'district','district.id = student.districtId')
+        .leftJoin(SubDistrict,'sub_district','sub_district.id = student.subDistrictId')
 
 })
 export class VwStudentList {
     @ViewColumn()
     id: number;
-
+    @ViewColumn()
+    classroomTypeId: number;
+    
     @ViewColumn()
     studentCode: string;
-
+    @ViewColumn()
+    nameValue: string;
+    @ViewColumn()
+    birthDate: string;
+    @ViewColumn()
+    addressValue: string;
+    
     @ViewColumn()
     status: number;
 
@@ -398,7 +414,8 @@ export class VwStudentDropdown {
         .addSelect("CONCAT(alive_with_id.aliveWithName , '[' , alive_with_id.aliveWithDescription, ']')", "aliveWithValue")
         .addSelect("student.parentStatus", "parentStatus")
         .addSelect("student.classroomId", "classroomId")
-        .addSelect("CONCAT(classroom_id.classroomTypeId , '[' , classroom_id.mentorFirst, ']')", "classroomValue")
+        .addSelect("CONCAT(classroom_type.typeName,' / ',classroom.name , '[' , classroom.mentorFirst, ']')", "classroomValue")
+        .addSelect("CONCAT(classroom_type.typeName , '[' , classroom_type.typeDescription, ']')", "classroomTypeValue")
         .addSelect("student.fatherTitle", "fatherTitle")
         .addSelect("student.fatherFirstname", "fatherFirstname")
         .addSelect("student.fatherLastname", "fatherLastname")
@@ -424,6 +441,7 @@ export class VwStudentDropdown {
         .addSelect("student.parentOccupation", "parentOccupation")
         .addSelect("student.parentPhone", "parentPhone")
         .addSelect("student.personalCode", "personalCode")
+        .addSelect("student.classroomTypeId", "classroomTypeId")
       .from(Student, "student")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
         .leftJoin(Nationality, "nationality_id","nationality_id.Id = student.nationalityId")
@@ -439,16 +457,20 @@ export class VwStudentDropdown {
         .leftJoin(District, "contract_district_id","contract_district_id.Id = student.contractDistrictId")
         .leftJoin(Province, "contract_sub_district_id","contract_sub_district_id.Id = student.contractSubDistrictId")
         .leftJoin(AliveWith, "alive_with_id","alive_with_id.Id = student.aliveWithId")
-        .leftJoin(Classroom, "classroom_id","classroom_id.Id = student.classroomId")
+        .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
+        .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
 })
 export class VwStudentItem {
 
   @ViewColumn()
     id: number;
-
+    @ViewColumn()
+    classroomTypeId: number;
     @ViewColumn()
     studentCode: string;
-
+    @ViewColumn()
+    classroomTypeValue: string;
+    
     @ViewColumn()
     personalCode: string;
 

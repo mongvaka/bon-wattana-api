@@ -36,9 +36,9 @@ export class EditRequestService extends BaseService {
         .getManyAndCount();
         return this.toSearchResult<VwEditRequestList>(dto.paginator,count,data);
     }
-    async create(dto:CreateEditRequestDto,req:CustomRequest):Promise<EditRequest>{        
-        const en = this.toCreateModel(dto,req) as EditRequest  
+    async create(dto:CreateEditRequestDto,req:CustomRequest):Promise<EditRequest>{    
         dto.requestId = req.user.id
+        const en = this.toCreateModel(dto,req) as EditRequest          
         return await this.editrequestRepository.save(
             this.editrequestRepository.create(en)
         );

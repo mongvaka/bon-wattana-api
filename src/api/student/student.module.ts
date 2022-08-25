@@ -17,6 +17,7 @@ import { StudentService } from './student.service';
 import { VwParentStatusDropdown } from '../parent-status/parent-status.entity';
 import { ImagesModule } from 'src/core/images/images.module';
 import { AuthenticationsModule } from 'src/core/authentications/authentications.module';
+import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AuthenticationsModule } from 'src/core/authentications/authentications.
     VwAliveWithDropdown,
     VwClassroomDropdown,
     VwParentStatusDropdown,
+    VwClassroomTypeDropdown
     ]),
     ImagesModule,
     AuthenticationsModule

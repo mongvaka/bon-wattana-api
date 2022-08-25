@@ -38,6 +38,7 @@ import { AuthenticationsService } from 'src/core/authentications/authentications
 import { RegisterDto } from 'src/core/authentications/authentications.dto';
 import { UserType } from 'src/core/shared/constans/enum-constans';
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 
 @Injectable()
 export class StudentService extends BaseService {
@@ -94,6 +95,9 @@ export class StudentService extends BaseService {
         private readonly vwDropdownAliveWithRepository:Repository<VwAliveWithDropdown>,
         @InjectRepository(VwClassroomDropdown)
         private readonly vwDropdownClassroomRepository:Repository<VwClassroomDropdown>,
+        @InjectRepository(VwClassroomTypeDropdown)
+        private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
+        
         @InjectRepository(VwParentStatusDropdown)
         private readonly vwDropdownParentStatusRepository:Repository<VwParentStatusDropdown>,
         private readonly dropdownService: DropdownService,
@@ -178,6 +182,9 @@ export class StudentService extends BaseService {
     async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
         return await this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
       }
+      async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return await this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
+      }
       async parentStatusDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
         return await this.dropdownService.parentStatusDropdown(dto,this.vwDropdownParentStatusRepository);
       }
@@ -189,7 +196,7 @@ export class StudentService extends BaseService {
         return this.toSearchResult<VwStudentList>(dto.paginator,count,data);
     }
     async create(dto:CreateStudentDto,req:CustomRequest):Promise<Student>{   
-      const duplicat = await this.studentRepository.find({where:{deleted:false,studentCode:dto.studentCode}})
+      const duplicat = await this.studentRepository.findOne({where:{deleted:false,studentCode:dto.studentCode}})
       if(duplicat){
         throw new BadRequestException('รหัสนักเรียนมีอยู่แล้ว')
       }
@@ -208,7 +215,9 @@ export class StudentService extends BaseService {
         return result
     }
     async update(id:number,dto:UpdateStudentDto,req:CustomRequest):Promise<StudentDto>{
-      const duplicat = await this.studentRepository.find({where:{deleted:false,studentCode:dto.studentCode,id:Not(id)}})
+      const duplicat = await this.studentRepository.findOne({where:{deleted:false,studentCode:dto.studentCode,id:Not(id)}})
+      console.log(duplicat);
+      
       if(duplicat){
         throw new BadRequestException('รหัสนักเรียนมีอยู่แล้ว')
       }
