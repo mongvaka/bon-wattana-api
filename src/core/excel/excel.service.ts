@@ -130,17 +130,32 @@ export class ExcelService extends BaseService {
             col = []
             if(index == 1){                
                 masterKey =cell.filter(fl=>this.checkFirstRow(fl,index))
-                console.log('masterKey',masterKey);
+                // console.log('masterKey',masterKey);
             }else if(index>1){                
                 masterModel = {}
                 const keyList = cell.filter(fl=> this.checkKeyRow(fl,index))
+                // console.log('keyList',keyList);
+                
                 let hasValue:boolean = false
                 masterKey.forEach(ev=>{
                     let value = undefined
                     keyList.forEach(key=>{
-                        if(key.charAt(0)==ev.charAt(0)){
-                            // console.log(key.charAt(0),ev.charAt(0));
-                            
+                        //console.log();
+                        const keyArr = key.split('')
+                        const evArr = ev.split('')
+                        let firstKey:string =''
+                        let secondKey:string =''
+                        keyArr.forEach(gg=>{
+                            if(!Number(gg)){
+                                firstKey = firstKey+gg
+                            }
+                        })
+                        evArr.forEach(ff=>{
+                            if(!Number(ff)){
+                                secondKey = secondKey+ff
+                            }
+                        })
+                        if(firstKey==secondKey){                            
                             value = workbook.Sheets.sheet1[key].v
                             // console.log(value);
                             
@@ -173,7 +188,7 @@ export class ExcelService extends BaseService {
                 numstr = numstr+`${el}`
             }
         })
-  
+        
         return index===Number(numstr)
     }
     checkFirstRow(fl: string, index: number): boolean {

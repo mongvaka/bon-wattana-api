@@ -156,7 +156,6 @@ export class AuthenticationsService {
     user.type = dto.type
     user.inforId = dto.inforId
     const result = await this.usersService.create(user)
-    console.log('result',result);
     return result
     
   }

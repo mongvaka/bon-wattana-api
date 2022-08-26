@@ -17,15 +17,10 @@ export class UsersService {
   }
 
   async create(model:Users){
-    const en = this.usersRepository.create(model)
-    console.log('en',en);
-    
-
+    const en = this.usersRepository.create(model)    
     const result = await this.usersRepository.save(
       en
     )
-
-    console.log('result2:',result);
     return result
     
   }

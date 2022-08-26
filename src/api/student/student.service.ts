@@ -44,6 +44,7 @@ import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity
 export class StudentService extends BaseService {
     async import(data: any[]): Promise<any> {        
         for (const el of data) {
+          // console.log('el',el);
           
           const model:Student = {...el,birthDate:null}
           const studentIsexist = await this.studentRepository.findOne({where:{studentCode:el.studentCode,deleted:false}})

@@ -465,12 +465,17 @@ export class VwStudentItem {
   @ViewColumn()
     id: number;
     @ViewColumn()
-    classroomTypeId: number;
-    @ViewColumn()
     studentCode: string;
     @ViewColumn()
+    classroomTypeId: number;
+
+    @ViewColumn()
     classroomTypeValue: string;
-    
+    @ViewColumn()
+    classroomId: number;
+
+    @ViewColumn()
+    classroomValue: string;
     @ViewColumn()
     personalCode: string;
 
@@ -675,11 +680,7 @@ export class VwStudentItem {
     @ViewColumn()
     parentStatus: number;
 
-    @ViewColumn()
-    classroomId: number;
 
-    @ViewColumn()
-    classroomValue: string;
 
     @ViewColumn()
     fatherTitle: number;
