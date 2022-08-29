@@ -23,8 +23,6 @@ export class BaseService{
         return result;
     }
     createQueryBuiderDropdown<T>(dto:SearchParameter,repository: Repository<T>):SelectQueryBuilder<T>{
-        dto.sortColumns = ['label']
-        dto.isAscs = [true]
         const buider = repository.createQueryBuilder(dto.tableKey);
         const take = dto.paginator?.rows || 10
         const skip = (dto.paginator?.page || 0)*take
