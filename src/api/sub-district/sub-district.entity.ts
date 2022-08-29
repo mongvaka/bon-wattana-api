@@ -56,7 +56,7 @@ export class VwSubDistrictList {
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("sub_district.id", "value")
   .addSelect("sub_district.districtId", "refId")
-  .addSelect("sub_district.postCode", "label")
+  .addSelect("sub_district.name", "label")
       .from(SubDistrict, "sub_district")
 })
 export class VwSubDistrictDropdown {

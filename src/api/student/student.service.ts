@@ -213,7 +213,17 @@ export class StudentService extends BaseService {
         if(dto.imageProfile){
           await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:0,imageType:0},req)
         }
+        const regisModel:RegisterDto = {
+          email:`${result.studentCode}`,
+          password:`${result.studentCode}`,
+          firstname:'',
+          lastname:'',
+          inforId:result.id,
+          type:UserType.STUDENT
+        }
+        const user = await this.authService.register(regisModel)
         return result
+
     }
     async update(id:number,dto:UpdateStudentDto,req:CustomRequest):Promise<StudentDto>{
       const duplicat = await this.studentRepository.findOne({where:{deleted:false,studentCode:dto.studentCode,id:Not(id)}})

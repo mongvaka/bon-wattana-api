@@ -37,8 +37,11 @@ export class EditRequest extends BasicData {
         .addSelect("edit_request.editRequestStatus", "editRequestStatus")
         .addSelect("edit_request.requestId", "requestId")
         .addSelect("edit_request.approveId", "approveId")
+        .addSelect("CONCAT(student.firstname , ' ' , student.lastname)", "requestValue")
         .from(EditRequest, "edit_request")
         .leftJoin(EditField, "edit_field_id","edit_field_id.Id = edit_request.editFieldId")
+        .leftJoin(Users,'user','user.id = edit_request.requestId')
+        .leftJoin(Student,'student','student.id = user.inforId')
 })
 export class VwEditRequestList {
     @ViewColumn()
@@ -59,6 +62,8 @@ export class VwEditRequestList {
     requestId: number;
     @ViewColumn()
     approveId: number;
+    @ViewColumn()
+    requestValue: string;
 }
 
 @ViewEntity({

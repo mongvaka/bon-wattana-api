@@ -183,7 +183,9 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
     async classroomTypeDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+
         const buider = this.createQueryBuiderDropdown(dto,repository)
+
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
