@@ -1,0 +1,396 @@
+import { BasicData } from "src/core/shared/entities/basic-data";
+import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
+import { Gendar } from "src/api/gendar/gendar.entity";
+import { Nationality } from "src/api/nationality/nationality.entity";
+import { Ethnicity } from "src/api/ethnicity/ethnicity.entity";
+import { Religion } from "src/api/religion/religion.entity";
+import { PractitionerLevel } from "src/api/practitioner-level/practitioner-level.entity";
+import { EducationBackground } from "src/api/education-background/education-background.entity";
+import { Country } from "src/api/country/country.entity";
+import { Province } from "src/api/province/province.entity";
+import { District } from "src/api/district/district.entity";
+import { SubDistrict } from "src/api/sub-district/sub-district.entity";
+
+@Entity('teacher')
+export class Teacher extends BasicData {
+  @PrimaryGeneratedColumn({type: 'bigint'})
+  id?: number;
+
+   @Column({nullable: true})
+  teacherPhoto?: string;
+
+   @Column({nullable: true})
+  posonalCode?: string;
+
+   @Column({nullable: true})
+  teacherCode?: string;
+
+   @Column({nullable: true})
+  status?: number;
+
+   @Column({nullable: true})
+  title?: number;
+
+   @Column({nullable: true})
+  firstname?: string;
+
+   @Column({nullable: true})
+  lastname?: string;
+
+   @Column({nullable: true})
+  firstnameEn?: string;
+
+   @Column({nullable: true})
+  lastnameEn?: string;
+
+   @Column({nullable: true})
+  gendarId?: number;
+
+   @Column({nullable: true})
+  birthDate?: Date;
+
+   @Column({nullable: true})
+  nationalityId?: number;
+
+   @Column({nullable: true})
+  ethnicityId?: number;
+
+   @Column({nullable: true})
+  religionId?: number;
+
+   @Column({nullable: true})
+  positionName?: string;
+
+   @Column({nullable: true})
+  practitionerLevelId?: number;
+
+   @Column({nullable: true})
+  practitionerNo?: string;
+
+   @Column({nullable: true})
+  educationBackgroundId?: number;
+
+   @Column({nullable: true})
+  educationMajor?: string;
+
+   @Column({nullable: true})
+  setInDate?: Date;
+
+   @Column({nullable: true})
+  teacherClass1?: number;
+
+   @Column({nullable: true})
+  teacherClass2?: number;
+
+   @Column({nullable: true})
+  teacherClass3?: number;
+
+   @Column({nullable: true})
+  teacherClass4?: number;
+
+   @Column({nullable: true})
+  teacherClass5?: number;
+
+   @Column({nullable: true})
+  teacherClass6?: number;
+
+   @Column({nullable: true})
+  subjectGroupId?: string;
+
+   @Column({nullable: true})
+  teacherEmail?: string;
+
+   @Column({nullable: true})
+  phoneNumber?: string;
+
+   @Column({nullable: true})
+  facebookUrl?: string;
+
+   @Column({nullable: true})
+  lineId?: string;
+
+   @Column({nullable: true})
+  houseNumber?: string;
+
+   @Column({nullable: true})
+  village?: string;
+
+   @Column({nullable: true})
+  road?: string;
+
+   @Column({nullable: true})
+  countryId?: number;
+
+   @Column({nullable: true})
+  provinceId?: number;
+
+   @Column({nullable: true})
+  districtId?: number;
+
+   @Column({nullable: true})
+  subDistrictId?: number;
+}
+@ViewEntity({
+    name:'teacher_list',
+    expression: (connection: Connection) => connection.createQueryBuilder()
+        .select("teacher.id", "id")
+        .addSelect("teacher.firstname", "firstname")
+        .addSelect("teacher.lastname", "lastname")
+        .addSelect("teacher.positionName", "positionName")
+        .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
+        .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
+        .addSelect("teacher.subjectGroupId", "subjectGroupId")
+        .from(Teacher, "teacher")
+        .leftJoin(PractitionerLevel, "practitioner_level_id","practitioner_level_id.Id = teacher.practitionerLevelId")
+})
+export class VwTeacherList {
+    @ViewColumn()
+    id: number;
+
+    @ViewColumn()
+    firstname: string;
+
+    @ViewColumn()
+    lastname: string;
+
+    @ViewColumn()
+    positionName: string;
+
+    @ViewColumn()
+    practitionerLevelId: number;
+
+    @ViewColumn()
+    practitionerLevelValue: string;
+
+    @ViewColumn()
+    subjectGroupId: string;
+}
+
+@ViewEntity({
+  name:'teacher_dropdown',
+  expression: (connection: Connection) => connection.createQueryBuilder()
+  .select("teacher.id", "value")
+  .addSelect("CONCAT(teacher.firstname , ' ' , teacher.lastname)", "label")
+      .from(Teacher, "teacher")
+})
+export class VwTeacherDropdown {
+
+  @ViewColumn()
+    value: number;
+
+    @ViewColumn()
+    label: string;
+}
+@ViewEntity({
+  name:'teacher_item',
+  expression: (connection: Connection) => connection.createQueryBuilder()
+  .select("teacher.id", "id")
+        .addSelect("teacher.teacherPhoto", "teacherPhoto")
+        .addSelect("teacher.posonalCode", "posonalCode")
+        .addSelect("teacher.teacherCode", "teacherCode")
+        .addSelect("teacher.status", "status")
+        .addSelect("teacher.title", "title")
+        .addSelect("teacher.firstname", "firstname")
+        .addSelect("teacher.lastname", "lastname")
+        .addSelect("teacher.firstnameEn", "firstnameEn")
+        .addSelect("teacher.lastnameEn", "lastnameEn")
+        .addSelect("teacher.gendarId", "gendarId")
+        .addSelect("gendar_id.gendarName", "gendarValue")
+        .addSelect("teacher.birthDate", "birthDate")
+        .addSelect("teacher.nationalityId", "nationalityId")
+        .addSelect("nationality_id.nationalityName", "nationalityValue")
+        .addSelect("teacher.ethnicityId", "ethnicityId")
+        .addSelect("ethnicity_id.ethnicityName", "ethnicityValue")
+        .addSelect("teacher.religionId", "religionId")
+        .addSelect("religion_id.religionName", "religionValue")
+        .addSelect("teacher.positionName", "positionName")
+        .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
+        .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
+        .addSelect("teacher.practitionerNo", "practitionerNo")
+        .addSelect("teacher.educationBackgroundId", "educationBackgroundId")
+        .addSelect("CONCAT(education_background_id.educationShotNameTh , ' ' , education_background_id.educationShotNameEn)", "educationBackgroundValue")
+        .addSelect("teacher.educationMajor", "educationMajor")
+        .addSelect("teacher.setInDate", "setInDate")
+        .addSelect("teacher.teacherClass1", "teacherClass1")
+        .addSelect("teacher.teacherClass2", "teacherClass2")
+        .addSelect("teacher.teacherClass3", "teacherClass3")
+        .addSelect("teacher.teacherClass4", "teacherClass4")
+        .addSelect("teacher.teacherClass5", "teacherClass5")
+        .addSelect("teacher.teacherClass6", "teacherClass6")
+        .addSelect("teacher.subjectGroupId", "subjectGroupId")
+        .addSelect("teacher.teacherEmail", "teacherEmail")
+        .addSelect("teacher.phoneNumber", "phoneNumber")
+        .addSelect("teacher.facebookUrl", "facebookUrl")
+        .addSelect("teacher.lineId", "lineId")
+        .addSelect("teacher.houseNumber", "houseNumber")
+        .addSelect("teacher.village", "village")
+        .addSelect("teacher.road", "road")
+        .addSelect("teacher.countryId", "countryId")
+        .addSelect("country_id.name", "countryValue")
+        .addSelect("teacher.provinceId", "provinceId")
+        .addSelect("province_id.name ", "provinceValue")
+        .addSelect("teacher.districtId", "districtId")
+        .addSelect("district_id.name", "districtValue")
+        .addSelect("teacher.subDistrictId", "subDistrictId")
+        .addSelect("sub_district_id.name", "subDistrictValue")
+      .from(Teacher, "teacher")
+        .leftJoin(Gendar, "gendar_id","gendar_id.Id = teacher.gendarId")
+        .leftJoin(Nationality, "nationality_id","nationality_id.Id = teacher.nationalityId")
+        .leftJoin(Ethnicity, "ethnicity_id","ethnicity_id.Id = teacher.ethnicityId")
+        .leftJoin(Religion, "religion_id","religion_id.Id = teacher.religionId")
+        .leftJoin(PractitionerLevel, "practitioner_level_id","practitioner_level_id.Id = teacher.practitionerLevelId")
+        .leftJoin(EducationBackground, "education_background_id","education_background_id.Id = teacher.educationBackgroundId")
+        .leftJoin(Country, "country_id","country_id.Id = teacher.countryId")
+        .leftJoin(Province, "province_id","province_id.Id = teacher.provinceId")
+        .leftJoin(District, "district_id","district_id.Id = teacher.districtId")
+        .leftJoin(SubDistrict, "sub_district_id","sub_district_id.Id = teacher.subDistrictId")
+})
+export class VwTeacherItem {
+
+  @ViewColumn()
+    id: number;
+
+    @ViewColumn()
+    teacherPhoto: string;
+
+    @ViewColumn()
+    posonalCode: string;
+
+    @ViewColumn()
+    teacherCode: string;
+
+    @ViewColumn()
+    status: number;
+
+    @ViewColumn()
+    title: number;
+
+    @ViewColumn()
+    firstname: string;
+
+    @ViewColumn()
+    lastname: string;
+
+    @ViewColumn()
+    firstnameEn: string;
+
+    @ViewColumn()
+    lastnameEn: string;
+
+    @ViewColumn()
+    gendarId: number;
+
+    @ViewColumn()
+    gendarValue: string;
+
+    @ViewColumn()
+    birthDate: Date;
+
+    @ViewColumn()
+    nationalityId: number;
+
+    @ViewColumn()
+    nationalityValue: string;
+
+    @ViewColumn()
+    ethnicityId: number;
+
+    @ViewColumn()
+    ethnicityValue: string;
+
+    @ViewColumn()
+    religionId: number;
+
+    @ViewColumn()
+    religionValue: string;
+
+    @ViewColumn()
+    positionName: string;
+
+    @ViewColumn()
+    practitionerLevelId: number;
+
+    @ViewColumn()
+    practitionerLevelValue: string;
+
+    @ViewColumn()
+    practitionerNo: string;
+
+    @ViewColumn()
+    educationBackgroundId: number;
+
+    @ViewColumn()
+    educationBackgroundValue: string;
+
+    @ViewColumn()
+    educationMajor: string;
+
+    @ViewColumn()
+    setInDate: Date;
+
+    @ViewColumn()
+    teacherClass1: number;
+
+    @ViewColumn()
+    teacherClass2: number;
+
+    @ViewColumn()
+    teacherClass3: number;
+
+    @ViewColumn()
+    teacherClass4: number;
+
+    @ViewColumn()
+    teacherClass5: number;
+
+    @ViewColumn()
+    teacherClass6: number;
+
+    @ViewColumn()
+    subjectGroupId: string;
+
+    @ViewColumn()
+    teacherEmail: string;
+
+    @ViewColumn()
+    phoneNumber: string;
+
+    @ViewColumn()
+    facebookUrl: string;
+
+    @ViewColumn()
+    lineId: string;
+
+    @ViewColumn()
+    houseNumber: string;
+
+    @ViewColumn()
+    village: string;
+
+    @ViewColumn()
+    road: string;
+
+    @ViewColumn()
+    countryId: number;
+
+    @ViewColumn()
+    countryValue: string;
+
+    @ViewColumn()
+    provinceId: number;
+
+    @ViewColumn()
+    provinceValue: string;
+
+    @ViewColumn()
+    districtId: number;
+
+    @ViewColumn()
+    districtValue: string;
+
+    @ViewColumn()
+    subDistrictId: number;
+
+    @ViewColumn()
+    subDistrictValue: string;
+}

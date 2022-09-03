@@ -26,6 +26,13 @@ import { EditField } from './api/edit-field/edit-field.entity';
 import { EditFieldModule } from './api/edit-field/edit-field.module';
 import { EditRequest } from './api/edit-request/edit-request.entity';
 import { EditRequestModule } from './api/edit-request/edit-request.module';
+import { ActivityStudentModule } from './api/activity-student/activity-student.module';
+import { CurriculumModule } from './api/curriculum/curriculum.module';
+import { EducationBackgroundModule } from './api/education-background/education-background.module';
+import { PractitionerLevelModule } from './api/practitioner-level/practitioner-level.module';
+import { TeacherModule } from './api/teacher/teacher.module';
+import { TeacherWorkModule } from './api/teacher-work/teacher-work.module';
+import { TeachersDevelopModule } from './api/teachers-develop/teachers-develop.module';
 
 @Module({
   imports: [
@@ -86,7 +93,14 @@ ConfigModule.forRoot({
     ExcelModule,
     ActiveTimeModule,
     EditFieldModule,
-    EditRequestModule
+    EditRequestModule,
+    ActivityStudentModule,
+    CurriculumModule,
+    EducationBackgroundModule,
+    PractitionerLevelModule,
+    TeacherModule,
+    TeacherWorkModule,
+    TeachersDevelopModule
   ],
   controllers: [AppController],
   providers: [AppService],

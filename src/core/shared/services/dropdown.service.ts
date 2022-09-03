@@ -1,21 +1,28 @@
 
 import { Injectable } from "@nestjs/common";
 import { VwActiveTimeDropdown } from "src/api/active-time/active-time.entity";
+import { VwActivityStudentDropdown } from "src/api/activity-student/activity-student.entity";
 import { VwAliveWithDropdown } from "src/api/alive-with/alive-with.entity";
 import { VwClassroomTypeDropdown } from "src/api/classroom-type/classroom-type.entity";
 import { VwClassroomDropdown } from "src/api/classroom/classroom.entity";
 import { VwCountryDropdown } from "src/api/country/country.entity";
+import { VwCurriculumDropdown } from "src/api/curriculum/curriculum.entity";
 import { VwDistrictDropdown } from "src/api/district/district.entity";
 import { VwEditFieldDropdown } from "src/api/edit-field/edit-field.entity";
 import { VwEditRequestDropdown } from "src/api/edit-request/edit-request.entity";
+import { VwEducationBackgroundDropdown } from "src/api/education-background/education-background.entity";
 import { VwEthnicityDropdown } from "src/api/ethnicity/ethnicity.entity";
 import { VwGendarDropdown } from "src/api/gendar/gendar.entity";
 import { VwNationalityDropdown } from "src/api/nationality/nationality.entity";
 import { VwParentStatusDropdown } from "src/api/parent-status/parent-status.entity";
+import { VwPractitionerLevelDropdown } from "src/api/practitioner-level/practitioner-level.entity";
 import { VwProvinceDropdown } from "src/api/province/province.entity";
 import { VwReligionDropdown } from "src/api/religion/religion.entity";
 import { VwStudentDropdown } from "src/api/student/student.entity";
 import { VwSubDistrictDropdown } from "src/api/sub-district/sub-district.entity";
+import { VwTeacherWorkDropdown } from "src/api/teacher-work/teacher-work.entity";
+import { VwTeacherDropdown } from "src/api/teacher/teacher.entity";
+import { VwTeachersDevelopDropdown } from "src/api/teachers-develop/teachers-develop.entity";
 import { VwDemoDropdown } from "src/core/demo/demo.entity";
 import { Repository } from "typeorm";
 import { SearchParameter, SelectItems } from "../models/search-param-model";
@@ -26,6 +33,117 @@ export class DropdownService extends BaseService{
     constructor(
     ){
         super()
+    }
+    async teachersdevelopDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwTeachersDevelopDropdown = el as unknown as VwTeachersDevelopDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async teacherworkDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwTeacherWorkDropdown = el as unknown as VwTeacherWorkDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async teacherDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwTeacherDropdown = el as unknown as VwTeacherDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async practitionerlevelDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwPractitionerLevelDropdown = el as unknown as VwPractitionerLevelDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async educationbackgroundDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwEducationBackgroundDropdown = el as unknown as VwEducationBackgroundDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async curriculumDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwCurriculumDropdown = el as unknown as VwCurriculumDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async activitystudentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwActivityStudentDropdown = el as unknown as VwActivityStudentDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
     }
     async editRequestDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
         const buider = this.createQueryBuider(dto,repository)
