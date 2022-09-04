@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ImportExcelDto } from 'src/core/excel/excel.dto';
+import { ImportExcelDto, SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { CustomRequest } from 'src/core/shared/models/request-model';
 import { SearchResult, SelectItems } from 'src/core/shared/models/search-param-model';
 import { BaseService } from 'src/core/shared/services/base.service';
@@ -21,8 +21,10 @@ export class ParentStatusService extends BaseService {
             this.parentstatusRepository.create(dataBulkInsert)
         )
     }
-    async export():Promise<any>{
-      const data = await this.itemRepository.find()
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwParentStatusItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
       return exportExcel(data)
     }
 

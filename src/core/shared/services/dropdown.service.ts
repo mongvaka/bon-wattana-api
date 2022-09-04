@@ -1,6 +1,7 @@
 
 import { Injectable } from "@nestjs/common";
 import { VwActiveTimeDropdown } from "src/api/active-time/active-time.entity";
+import { VwPracticleDropdown } from "src/api/practicle/practicle.entity";
 import { VwActivityStudentDropdown } from "src/api/activity-student/activity-student.entity";
 import { VwAliveWithDropdown } from "src/api/alive-with/alive-with.entity";
 import { VwClassroomTypeDropdown } from "src/api/classroom-type/classroom-type.entity";
@@ -33,6 +34,21 @@ export class DropdownService extends BaseService{
     constructor(
     ){
         super()
+    }
+    async practicleDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwPracticleDropdown = el as unknown as VwPracticleDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
     }
     async teachersdevelopDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
         const buider = this.createQueryBuider(dto,repository)

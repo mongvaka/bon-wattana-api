@@ -1,8 +1,17 @@
 export enum UserType{
+    TEACHER = 'Teacher',
     STUDENT = 'Student',
     ADMIN = 'Admin'
 }
 export enum ModuleName{
+    PRACTICLE = 'practicle',
+    ACTIVITY_STUDENT = 'activity_student',
+    CURRICULUM = 'currculum',
+    EDUCATION_BACKGROUND = 'education_background',
+    PRACTITIONER_LEVEL = 'practitioner_level',
+    TEACHER_WORK = 'teacher_work',
+    TEACHER_DEVELOP = 'teacher_develop',
+    TEACHER = 'teacher',
     STUDENT = 'student',
     ALIVE_WITH = 'alive_with',
     CLASSROOM = 'classroom',

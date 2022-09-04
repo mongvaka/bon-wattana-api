@@ -10,7 +10,7 @@ import { Classroom, VwClassroomDropdown, VwClassroomItem, VwClassroomList } from
 import { VwClassroomTypeDropdown } from 'src/api/classroom-type/classroom-type.entity';
 import { SearchClassroomTypeDto } from 'src/api/classroom-type/classroom-type.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
-import { ImportExcelDto } from 'src/core/excel/excel.dto';
+import { ImportExcelDto, SearchExportExcelDto } from 'src/core/excel/excel.dto';
 
 @Injectable()
 export class ClassroomService extends BaseService {
@@ -23,8 +23,10 @@ export class ClassroomService extends BaseService {
             this.classroomRepository.create(dataBulkInsert)
         )
     }
-    async export():Promise<any>{
-      const data = await this.itemRepository.find()
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwClassroomItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
       return exportExcel(data)
     }
 

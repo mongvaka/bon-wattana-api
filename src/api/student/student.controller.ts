@@ -33,14 +33,14 @@ export class StudentController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('export')
-  async export() {
-    try{
-      return this.success(await this.studentService.export())
-    }catch(e){
-      return this.error(e)
-    }
-  }
+  // @Get('export')
+  // async export() {
+  //   try{
+  //     return this.success(await this.studentService.export())
+  //   }catch(e){
+  //     return this.error(e)
+  //   }
+  // }
   @Post('list')
   async findAll(@Body() dto: SearchStudentDto) {
     try{      

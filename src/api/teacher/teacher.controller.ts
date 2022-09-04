@@ -121,6 +121,15 @@ export class TeacherController extends BaseController{
       return this.error(e)
     }
   }
+  
+  @Get('subject-group-dropdown')
+  async subjectGroupDropdown(@Body() dto: SearchSubDistrictDto) {
+    try{      
+      return this.success(await this.teacherService.subjectGroupDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
   @Post('create')
   async create(@Body() dto: CreateTeacherDto, @Req() req:CustomRequest,){ 
     try{      

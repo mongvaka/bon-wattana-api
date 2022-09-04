@@ -10,14 +10,14 @@ import { Country } from "src/api/country/country.entity";
 import { Province } from "src/api/province/province.entity";
 import { District } from "src/api/district/district.entity";
 import { SubDistrict } from "src/api/sub-district/sub-district.entity";
+import { Practicle } from "../practicle/practicle.entity";
 
 @Entity('teacher')
 export class Teacher extends BasicData {
   @PrimaryGeneratedColumn({type: 'bigint'})
   id?: number;
 
-   @Column({nullable: true})
-  teacherPhoto?: string;
+
 
    @Column({nullable: true})
   posonalCode?: string;
@@ -77,26 +77,29 @@ export class Teacher extends BasicData {
   setInDate?: Date;
 
    @Column({nullable: true})
-  teacherClass1?: number;
+  teacherClass1?: boolean;
 
    @Column({nullable: true})
-  teacherClass2?: number;
+  teacherClass2?: boolean;
 
    @Column({nullable: true})
-  teacherClass3?: number;
+  teacherClass3?: boolean;
 
    @Column({nullable: true})
-  teacherClass4?: number;
+  teacherClass4?: boolean;
 
    @Column({nullable: true})
-  teacherClass5?: number;
+  teacherClass5?: boolean;
 
    @Column({nullable: true})
-  teacherClass6?: number;
+  teacherClass6?: boolean;
 
    @Column({nullable: true})
-  subjectGroupId?: string;
-
+  subjectGroupId?: number;
+  @Column({nullable: true})
+  isOtherSubjectGroup: boolean;
+  @Column({nullable: true})
+  subjectGroupText: string;
    @Column({nullable: true})
   teacherEmail?: string;
 
@@ -146,9 +149,9 @@ export class Teacher extends BasicData {
 export class VwTeacherList {
     @ViewColumn()
     id: number;
-
     @ViewColumn()
     firstname: string;
+
 
     @ViewColumn()
     lastname: string;
@@ -163,7 +166,7 @@ export class VwTeacherList {
     practitionerLevelValue: string;
 
     @ViewColumn()
-    subjectGroupId: string;
+    subjectGroupId: number;
 }
 
 @ViewEntity({
@@ -185,7 +188,6 @@ export class VwTeacherDropdown {
   name:'teacher_item',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("teacher.id", "id")
-        .addSelect("teacher.teacherPhoto", "teacherPhoto")
         .addSelect("teacher.posonalCode", "posonalCode")
         .addSelect("teacher.teacherCode", "teacherCode")
         .addSelect("teacher.status", "status")
@@ -218,6 +220,8 @@ export class VwTeacherDropdown {
         .addSelect("teacher.teacherClass5", "teacherClass5")
         .addSelect("teacher.teacherClass6", "teacherClass6")
         .addSelect("teacher.subjectGroupId", "subjectGroupId")
+        .addSelect("teacher.isOtherSubjectGroup", "isOtherSubjectGroup")
+        .addSelect("teacher.subjectGroupText", "subjectGroupText")
         .addSelect("teacher.teacherEmail", "teacherEmail")
         .addSelect("teacher.phoneNumber", "phoneNumber")
         .addSelect("teacher.facebookUrl", "facebookUrl")
@@ -233,6 +237,7 @@ export class VwTeacherDropdown {
         .addSelect("district_id.name", "districtValue")
         .addSelect("teacher.subDistrictId", "subDistrictId")
         .addSelect("sub_district_id.name", "subDistrictValue")
+        .addSelect("practicle.name", "subjectGroupValue")
       .from(Teacher, "teacher")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = teacher.gendarId")
         .leftJoin(Nationality, "nationality_id","nationality_id.Id = teacher.nationalityId")
@@ -244,14 +249,14 @@ export class VwTeacherDropdown {
         .leftJoin(Province, "province_id","province_id.Id = teacher.provinceId")
         .leftJoin(District, "district_id","district_id.Id = teacher.districtId")
         .leftJoin(SubDistrict, "sub_district_id","sub_district_id.Id = teacher.subDistrictId")
+        .leftJoin(Practicle, "practicle","practicle.Id = teacher.subjectGroupId")
 })
 export class VwTeacherItem {
 
   @ViewColumn()
     id: number;
 
-    @ViewColumn()
-    teacherPhoto: string;
+
 
     @ViewColumn()
     posonalCode: string;
@@ -329,26 +334,33 @@ export class VwTeacherItem {
     setInDate: Date;
 
     @ViewColumn()
-    teacherClass1: number;
+    teacherClass1: boolean;
 
     @ViewColumn()
-    teacherClass2: number;
+    teacherClass2: boolean;
 
     @ViewColumn()
-    teacherClass3: number;
+    teacherClass3: boolean;
 
     @ViewColumn()
-    teacherClass4: number;
+    teacherClass4: boolean;
 
     @ViewColumn()
-    teacherClass5: number;
+    teacherClass5: boolean;
 
     @ViewColumn()
-    teacherClass6: number;
+    teacherClass6: boolean;
 
     @ViewColumn()
     subjectGroupId: string;
-
+    
+    @ViewColumn()
+    subjectGroupValue: string;
+    
+    @ViewColumn()
+    isOtherSubjectGroup: boolean;
+    @ViewColumn()
+    subjectGroupText: string;
     @ViewColumn()
     teacherEmail: string;
 

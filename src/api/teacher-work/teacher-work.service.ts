@@ -9,10 +9,29 @@ import { CreateTeacherWorkDto, TeacherWorkDto, SearchTeacherWorkDto, UpdateTeach
 import { TeacherWork, VwTeacherWorkDropdown, VwTeacherWorkItem, VwTeacherWorkList } from './teacher-work.entity';
 import { VwTeacherDropdown } from 'src/api/teacher/teacher.entity';
 import { SearchTeacherDto } from 'src/api/teacher/teacher.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 
 @Injectable()
 export class TeacherWorkService extends BaseService {
-
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwTeacherWorkItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
+        return exportExcel(data)
+      }
+      async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:TeacherWork[] = []
+        data.forEach(el=>{
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+        })
+        return await this.teacherworkRepository.save(
+            this.teacherworkRepository.create(dataBulkInsert)
+        )
+    }
     constructor(
         @InjectRepository(TeacherWork)
         private readonly teacherworkRepository: Repository<TeacherWork>,

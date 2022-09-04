@@ -1,16 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { CustomRequest } from 'src/core/shared/models/request-model';
 import { SearchResult, SelectItems } from 'src/core/shared/models/search-param-model';
 import { BaseService } from 'src/core/shared/services/base.service';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
 import { Repository } from 'typeorm';
 import { CreateActivityStudentDto, ActivityStudentDto, SearchActivityStudentDto, UpdateActivityStudentDto } from './activity-student.dto';
 import { ActivityStudent, VwActivityStudentDropdown, VwActivityStudentItem, VwActivityStudentList } from './activity-student.entity';
 
 @Injectable()
 export class ActivityStudentService extends BaseService {
-
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwActivityStudentItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
+        return exportExcel(data)
+      }
+      async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:ActivityStudent[] = []
+        data.forEach(el=>{
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+        })
+        return await this.activitystudentRepository.save(
+            this.activitystudentRepository.create(dataBulkInsert)
+        )
+    }
     constructor(
         @InjectRepository(ActivityStudent)
         private readonly activitystudentRepository: Repository<ActivityStudent>,

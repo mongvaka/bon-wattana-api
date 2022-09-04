@@ -33,6 +33,7 @@ import { PractitionerLevelModule } from './api/practitioner-level/practitioner-l
 import { TeacherModule } from './api/teacher/teacher.module';
 import { TeacherWorkModule } from './api/teacher-work/teacher-work.module';
 import { TeachersDevelopModule } from './api/teachers-develop/teachers-develop.module';
+import { PracticleModule } from './api/practicle/practicle.module';
 
 @Module({
   imports: [
@@ -100,7 +101,8 @@ ConfigModule.forRoot({
     PractitionerLevelModule,
     TeacherModule,
     TeacherWorkModule,
-    TeachersDevelopModule
+    TeachersDevelopModule,
+    PracticleModule
   ],
   controllers: [AppController],
   providers: [AppService],

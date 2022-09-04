@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomRequest } from 'src/core/shared/models/request-model';
 import { SearchResult, SelectItems } from 'src/core/shared/models/search-param-model';
 import { BaseService } from 'src/core/shared/services/base.service';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { CreateTeacherDto, TeacherDto, SearchTeacherDto, UpdateTeacherDto } from './teacher.dto';
 import { Teacher, VwTeacherDropdown, VwTeacherItem, VwTeacherList } from './teacher.entity';
 import { VwGendarDropdown } from 'src/api/gendar/gendar.entity';
@@ -27,9 +27,51 @@ import { VwDistrictDropdown } from 'src/api/district/district.entity';
 import { SearchDistrictDto } from 'src/api/district/district.dto';
 import { VwSubDistrictDropdown } from 'src/api/sub-district/sub-district.entity';
 import { SearchSubDistrictDto } from 'src/api/sub-district/sub-district.dto';
+import { VwPracticleDropdown } from '../practicle/practicle.entity';
+import { filename } from 'src/core/shared/utils/image.util';
+import { savefileWithName } from 'src/core/shared/services/files.service';
+import { ImagesService } from 'src/core/images/images.service';
+import { RegisterDto } from 'src/core/authentications/authentications.dto';
+import { UserType } from 'src/core/shared/constans/enum-constans';
+import { AuthenticationsService } from 'src/core/authentications/authentications.service';
+import { Student } from '../student/student.entity';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 
 @Injectable()
 export class TeacherService extends BaseService {
+  async import(data: any[]): Promise<any> {        
+    for (const el of data) {
+      // console.log('el',el);
+      
+      const model:Teacher = {...el,birthDate:null}
+      const studentIsexist = await this.teacherRepository.findOne({where:{teacherCode:el.teacherCode,deleted:false}})
+      if(!studentIsexist){
+        const info = await this.teacherRepository.save(
+          this.teacherRepository.create(model)
+        )
+        
+        const regisModel:RegisterDto = {
+          email:`${el.studentCode}`,
+          password:`${el.studentCode}`,
+          firstname:'',
+          lastname:'',
+          inforId:info.id,
+          type:UserType.STUDENT
+        }
+        await this.authService.register(regisModel)
+      }
+      
+    }
+    return {}
+
+}
+async export(dto:SearchExportExcelDto):Promise<any>{
+  const builder = this.createQueryBuider<VwTeacherItem>(dto,this.itemRepository)
+  const data = await builder
+  .getMany();
+  return exportExcel(data)
+}
 
     constructor(
         @InjectRepository(Teacher)
@@ -58,7 +100,11 @@ export class TeacherService extends BaseService {
         private readonly vwDropdownDistrictRepository:Repository<VwDistrictDropdown>,
         @InjectRepository(VwSubDistrictDropdown)
         private readonly vwDropdownSubDistrictRepository:Repository<VwSubDistrictDropdown>,
-        private readonly dropdownService: DropdownService
+        @InjectRepository(VwPracticleDropdown)
+        private readonly vwPracticleDropdownRepository:Repository<VwPracticleDropdown>,
+        private readonly dropdownService: DropdownService,
+        private readonly imagesService:ImagesService,
+        private readonly authService: AuthenticationsService
         ){
         super()
     }
@@ -92,23 +138,65 @@ export class TeacherService extends BaseService {
     async subDistrictDropdown(dto: SearchSubDistrictDto):Promise<SelectItems[]> {
         return await this.dropdownService.subDistrictDropdown(dto,this.vwDropdownSubDistrictRepository);
       }
+      
+      async subjectGroupDropdown(dto: SearchSubDistrictDto):Promise<SelectItems[]> {
+        return await this.dropdownService.practicleDropdown(dto,this.vwPracticleDropdownRepository);
+      }
     async list(dto:SearchTeacherDto):Promise<SearchResult<VwTeacherList>>{
         const builder = this.createQueryBuider<VwTeacherList>(dto,this.vwTeacherRepository)
         const [data, count] = await builder
         .getManyAndCount();
         return this.toSearchResult<VwTeacherList>(dto.paginator,count,data);
     }
-    async create(dto:CreateTeacherDto,req:CustomRequest):Promise<Teacher>{        
+    async create(dto:CreateTeacherDto,req:CustomRequest):Promise<Teacher>{       
+      const duplicat = await this.teacherRepository.findOne({where:{deleted:false,teacherCode:dto.teacherCode}})
+      if(duplicat){
+        throw new BadRequestException('รหัสครูมีอยู่แล้ว')
+      } 
         const en = this.toCreateModel(dto,req) as Teacher  
-        return await this.teacherRepository.save(
-            this.teacherRepository.create(en)
-        );
+        const moduleName = 'images'
+        const fileName = filename()
+        if(dto.teacherPhoto){
+          await savefileWithName(dto.teacherPhoto[0],fileName,moduleName)
+        }
+        const result = await this.teacherRepository.save(
+          this.teacherRepository.create(en)
+      );
+        if(dto.teacherPhoto){
+          await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:0,imageType:0},req)
+        }
+        const regisModel:RegisterDto = {
+          email:`${result.teacherCode}`,
+          password:`${result.teacherCode}`,
+          firstname:'',
+          lastname:'',
+          inforId:result.id,
+          type:UserType.TEACHER
+        }
+         await this.authService.register(regisModel)
+        return result
     }
     async update(id:number,dto:UpdateTeacherDto,req:CustomRequest):Promise<TeacherDto>{
+      const duplicat = await this.teacherRepository.findOne({where:{deleted:false,teacherCode:dto.teacherCode,id:Not(id)}})
+      console.log(duplicat);
+      
+      if(duplicat){
+        throw new BadRequestException('รหัสครูมีอยู่แล้ว')
+      }
+      const moduleName = 'images'
+      const fileName = filename()
+
+      if(dto.teacherPhoto){
+        await savefileWithName(dto.teacherPhoto[0],fileName,moduleName)
+      }
         const m = await this.teacherRepository.findOne({where:{id:id}})
-        return await this.teacherRepository.save(
+        const result =  await this.teacherRepository.save(
             this.toUpdateModel(m,dto,req)
         );
+        if(dto.teacherPhoto){
+          await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:0,imageType:0},req)
+        }
+        return result
     }
     async delete(id:number,req:CustomRequest):Promise<TeacherDto>{
         let m = await this.teacherRepository.findOne({where:{id:id}})

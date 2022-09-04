@@ -80,7 +80,7 @@ export class BaseService{
                 let value = el.value
                 let oporator = el.operator
                 if(el.operator === Operators.LIKE){
-                    value = `%${el.value}%`
+                    value = `'%${el.value}%'`
                 }
                 if(el.inputType == ColumnType.DATE){
                     const currentDate:string[] = value.split('T');
@@ -103,7 +103,7 @@ export class BaseService{
                     }
                     
                 }else{
-                    buider.andWhere(`${dto.tableKey}.${el.feildName} ${oporator} :v`,{v:value})
+                    buider.andWhere(`${dto.tableKey}.${el.feildName} ${oporator} ${value}`)
 
                 }
             }

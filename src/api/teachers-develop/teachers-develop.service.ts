@@ -13,10 +13,30 @@ import { VwCurriculumDropdown } from 'src/api/curriculum/curriculum.entity';
 import { SearchCurriculumDto } from 'src/api/curriculum/curriculum.dto';
 import { VwPractitionerLevelDropdown } from 'src/api/practitioner-level/practitioner-level.entity';
 import { SearchPractitionerLevelDto } from 'src/api/practitioner-level/practitioner-level.dto';
+import { VwPracticleDropdown } from '../practicle/practicle.entity';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 
 @Injectable()
 export class TeachersDevelopService extends BaseService {
-
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwTeachersDevelopItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
+        return exportExcel(data)
+      }
+      async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:TeachersDevelop[] = []
+        data.forEach(el=>{
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+        })
+        return await this.teachersdevelopRepository.save(
+            this.teachersdevelopRepository.create(dataBulkInsert)
+        )
+    }
     constructor(
         @InjectRepository(TeachersDevelop)
         private readonly teachersdevelopRepository: Repository<TeachersDevelop>,
@@ -28,8 +48,8 @@ export class TeachersDevelopService extends BaseService {
         private readonly vwDropdownTeacherRepository:Repository<VwTeacherDropdown>,
         @InjectRepository(VwCurriculumDropdown)
         private readonly vwDropdownCurriculumRepository:Repository<VwCurriculumDropdown>,
-        @InjectRepository(VwPractitionerLevelDropdown)
-        private readonly vwDropdownPractitionerLevelRepository:Repository<VwPractitionerLevelDropdown>,
+        @InjectRepository(VwPracticleDropdown)
+        private readonly vwPracticleDropdownRepository:Repository<VwPracticleDropdown>,
         private readonly dropdownService: DropdownService
         ){
         super()
@@ -40,8 +60,8 @@ export class TeachersDevelopService extends BaseService {
     async curriculumDropdown(dto: SearchCurriculumDto):Promise<SelectItems[]> {
         return await this.dropdownService.curriculumDropdown(dto,this.vwDropdownCurriculumRepository);
       }
-    async practitionerLevelDropdown(dto: SearchPractitionerLevelDto):Promise<SelectItems[]> {
-        return await this.dropdownService.practitionerlevelDropdown(dto,this.vwDropdownPractitionerLevelRepository);
+    async practicleDropdown(dto: SearchPractitionerLevelDto):Promise<SelectItems[]> {
+        return await this.dropdownService.practicleDropdown(dto,this.vwPracticleDropdownRepository);
       }
     async list(dto:SearchTeachersDevelopDto):Promise<SearchResult<VwTeachersDevelopList>>{
         const builder = this.createQueryBuider<VwTeachersDevelopList>(dto,this.vwTeachersDevelopRepository)

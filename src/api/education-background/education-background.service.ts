@@ -9,10 +9,29 @@ import { CreateEducationBackgroundDto, EducationBackgroundDto, SearchEducationBa
 import { EducationBackground, VwEducationBackgroundDropdown, VwEducationBackgroundItem, VwEducationBackgroundList } from './education-background.entity';
 import { VwTeacherDropdown } from 'src/api/teacher/teacher.entity';
 import { SearchTeacherDto } from 'src/api/teacher/teacher.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 
 @Injectable()
 export class EducationBackgroundService extends BaseService {
-
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwEducationBackgroundItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
+        return exportExcel(data)
+      }
+      async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:EducationBackground[] = []
+        data.forEach(el=>{
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+        })
+        return await this.educationbackgroundRepository.save(
+            this.educationbackgroundRepository.create(dataBulkInsert)
+        )
+    }
     constructor(
         @InjectRepository(EducationBackground)
         private readonly educationbackgroundRepository: Repository<EducationBackground>,

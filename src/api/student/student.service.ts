@@ -27,7 +27,7 @@ import { SearchAliveWithDto } from 'src/api/alive-with/alive-with.dto';
 import { VwClassroomDropdown } from 'src/api/classroom/classroom.entity';
 import { SearchClassroomDto } from 'src/api/classroom/classroom.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
-import { ImportExcelDto } from 'src/core/excel/excel.dto';
+import { ImportExcelDto, SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { VwParentStatusDropdown } from '../parent-status/parent-status.entity';
 import { savefileWithName } from 'src/core/shared/services/files.service';
 import { filename } from 'src/core/shared/utils/image.util';
@@ -192,6 +192,7 @@ export class StudentService extends BaseService {
       
     async list(dto:SearchStudentDto):Promise<SearchResult<VwStudentList>>{
         const builder = this.createQueryBuider<VwStudentList>(dto,this.vwStudentRepository)
+
         const [data, count] = await builder
         .getManyAndCount();
         return this.toSearchResult<VwStudentList>(dto.paginator,count,data);
@@ -258,8 +259,10 @@ export class StudentService extends BaseService {
     async item(id:number):Promise<any>{
         return await this.itemRepository.findOne({where:{id:id}})
     }
-    async export():Promise<any>{
-      const data = await this.itemRepository.find()
+    async export(dto:SearchExportExcelDto):Promise<any>{
+      const builder = this.createQueryBuider<VwStudentItem>(dto,this.itemRepository)
+      const data = await builder
+      .getMany();
       return exportExcel(data)
     }
 }

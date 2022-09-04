@@ -5,7 +5,7 @@ import { BaseController } from "src/core/shared/controller/base-controller";
 import { CustomRequest } from "src/core/shared/models/request-model";
 import { DropdownService } from "src/core/shared/services/dropdown.service";
 import { SearchDistrictDto } from "src/api/district/district.dto";
-import { ImportExcelDto } from "./excel.dto";
+import { ImportExcelDto, SearchExportExcelDto } from "./excel.dto";
 import { ModuleName } from "../shared/constans/enum-constans";
 import { ExcelService } from "./excel.service";
 @ApiTags("excel")
@@ -17,10 +17,10 @@ export class ExcelController extends BaseController{
       ){
       super()
     }
-  @Get('export/:module')
-  async export(@Param('module') module: string) {
+  @Post('export/:module')
+  async export(@Param('module') module: string,@Body() dto: SearchExportExcelDto) {
     try{
-      return this.success(await this.service.export(module))
+      return this.success(await this.service.export(module,dto))
     }catch(e){
       return this.error(e)
     }

@@ -10,6 +10,7 @@ import { StudentModule } from "src/api/student/student.module";
 import { Student } from "src/api/student/student.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ActiveTime } from "src/api/active-time/active-time.entity";
+import { Teacher } from "src/api/teacher/teacher.entity";
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { ActiveTime } from "src/api/active-time/active-time.entity";
         signOptions: { expiresIn: "7d" },
       }),
     }),
-    TypeOrmModule.forFeature([Student,ActiveTime
+    TypeOrmModule.forFeature([Student,ActiveTime,Teacher
       ]),
   ],
   providers: [AuthenticationsService, JwtStrategy],

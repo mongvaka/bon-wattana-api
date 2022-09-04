@@ -272,11 +272,14 @@ export class Student extends BasicData {
         .addSelect("student.gendarId", "gendarId")
         .addSelect("TO_CHAR(student.birthDate, 'DD/MM/YYYY') ", "birthDate")
         .addSelect("student.personalCode", "personalCode")
-        .addSelect(" CONCAT(student.houseNumber,' ',student.road,'  ',student.village, ' ' ,sub_district.name, ' ' ,district.name, ' ' ,province.name)", "addressValue")
+        .addSelect("CONCAT(student.houseNumber,' ',student.road,'  ',student.village, ' ' ,sub_district.name, ' ' ,district.name, ' ' ,province.name)", "addressValue")
         .addSelect("student.classroomId", "classroomId")
+        .addSelect("student.houseNumber", "houseNumber")
         .addSelect("student.classroomTypeId", "classroomTypeId")
-        .addSelect(" CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
+        .addSelect("classroom.name", "classroomValue")
         .addSelect("gendar_id.gendarName", "gendarValue")
+        .addSelect("classroom_type.typeName", "classroomTypeValue")
+    
         .from(Student, "student")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
         .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
@@ -291,9 +294,11 @@ export class VwStudentList {
     id: number;
     @ViewColumn()
     classroomTypeId: number;
-    
     @ViewColumn()
     studentCode: string;
+    @ViewColumn()
+    classroomTypeValue: string;
+
     @ViewColumn()
     nameValue: string;
     @ViewColumn()

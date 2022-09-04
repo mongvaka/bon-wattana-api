@@ -14,6 +14,9 @@ import { VwSubDistrictDropdown } from 'src/api/sub-district/sub-district.entity'
 import { TeacherController } from './teacher.controller';
 import { Teacher, VwTeacherDropdown, VwTeacherItem, VwTeacherList } from './teacher.entity';
 import { TeacherService } from './teacher.service';
+import { VwPracticleDropdown } from '../practicle/practicle.entity';
+import { ImagesModule } from 'src/core/images/images.module';
+import { AuthenticationsModule } from 'src/core/authentications/authentications.module';
 
 @Module({
   imports: [
@@ -28,7 +31,10 @@ import { TeacherService } from './teacher.service';
     VwProvinceDropdown,
     VwDistrictDropdown,
     VwSubDistrictDropdown,
-    ])
+    VwPracticleDropdown
+    ]),
+    ImagesModule,
+    AuthenticationsModule
   ],
   controllers: [TeacherController],
   providers: [TeacherService,DropdownService],

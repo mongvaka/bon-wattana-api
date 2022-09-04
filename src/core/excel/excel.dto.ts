@@ -5,4 +5,6 @@ export class ImportExcelDto {
     moduleName:string
     base64:string
 } 
-
+export class SearchExportExcelDto  extends SearchParameter{
+    
+}

@@ -7,13 +7,14 @@ import { VwPractitionerLevelDropdown } from 'src/api/practitioner-level/practiti
 import { TeachersDevelopController } from './teachers-develop.controller';
 import { TeachersDevelop, VwTeachersDevelopDropdown, VwTeachersDevelopItem, VwTeachersDevelopList } from './teachers-develop.entity';
 import { TeachersDevelopService } from './teachers-develop.service';
+import { VwPracticleDropdown } from '../practicle/practicle.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([TeachersDevelop,VwTeachersDevelopList,VwTeachersDevelopItem,VwTeachersDevelopDropdown,
     VwTeacherDropdown,
     VwCurriculumDropdown,
-    VwPractitionerLevelDropdown,
+    VwPracticleDropdown,
     ])
   ],
   controllers: [TeachersDevelopController],

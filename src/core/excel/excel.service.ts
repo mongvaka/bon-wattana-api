@@ -9,7 +9,7 @@ import { VwDistrictDropdown } from 'src/api/district/district.entity';
 import { SearchDistrictDto } from 'src/api/district/district.dto';
 import { ModuleName } from '../shared/constans/enum-constans';
 import { StudentService } from 'src/api/student/student.service';
-import { ImportExcelDto } from './excel.dto';
+import { ImportExcelDto, SearchExportExcelDto } from './excel.dto';
 import { AliveWith } from 'src/api/alive-with/alive-with.entity';
 import { Classroom } from 'src/api/classroom/classroom.entity';
 import { ClassroomType } from 'src/api/classroom-type/classroom-type.entity';
@@ -28,6 +28,15 @@ import { ClassroomTypeService } from 'src/api/classroom-type/classroom-type.serv
 import * as Excel from 'exceljs';
 import * as XLSX from "xlsx";
 import { IsNumber, IsNumberString } from 'class-validator';
+import { ActivityStudentService } from 'src/api/activity-student/activity-student.service';
+import { CurriculumService } from 'src/api/curriculum/curriculum.service';
+import { EducationBackgroundService } from 'src/api/education-background/education-background.service';
+import { PractitionerLevelService } from 'src/api/practitioner-level/practitioner-level.service';
+import { Practicle } from 'src/api/practicle/practicle.entity';
+import { PracticleService } from 'src/api/practicle/practicle.service';
+import { TeacherService } from 'src/api/teacher/teacher.service';
+import { TeacherWorkService } from 'src/api/teacher-work/teacher-work.service';
+import { TeachersDevelopService } from 'src/api/teachers-develop/teachers-develop.service';
 
 @Injectable()
 export class ExcelService extends BaseService {
@@ -44,38 +53,66 @@ export class ExcelService extends BaseService {
         private readonly parentStatusService: ParentStatusService,
         private readonly provinceService: ProvinceService,
         private readonly religionService: ReligionService,
-        private readonly subDistrictService: SubDistrictService
+        private readonly subDistrictService: SubDistrictService,
+
+        private readonly activityStudentService: ActivityStudentService,
+        private readonly curriculumService: CurriculumService,
+        private readonly educationBackgroundService: EducationBackgroundService,
+        private readonly practitionerLevelService: PractitionerLevelService,
+        private readonly practicleService: PracticleService,
+        private readonly teacherService: TeacherService,
+        private readonly teacherWorkService: TeacherWorkService,
+        private readonly teachersDevelopService: TeachersDevelopService
         ){
         super()
     }
-    async export(module:string):Promise<any> {
+    async export(module:string,dto:SearchExportExcelDto):Promise<any> {
         switch(module){
             case ModuleName.STUDENT:
-            return this.studentService.export()
+            return this.studentService.export(dto)
             case ModuleName.ALIVE_WITH:
-            return this.aliveWithService.export()
+            return this.aliveWithService.export(dto)
             case ModuleName.CLASSROOM:
-            return this.classroomService.export()
+            return this.classroomService.export(dto)
             case ModuleName.CLASSROOM_TYPE:
-            return this.classroomTypeService.export()
+            return this.classroomTypeService.export(dto)
             case ModuleName.COUNTRY:
-            return this.countryService.export()
+            return this.countryService.export(dto)
             case ModuleName.DISTRICT:
-            return this.districtService.export()
+            return this.districtService.export(dto)
             case ModuleName.ETHNICITY:
-            return this.ethnicityService.export()
+            return this.ethnicityService.export(dto)
             case ModuleName.GENDAR:
-            return this.gendarService.export()
+            return this.gendarService.export(dto)
             case ModuleName.NATIONALITY:
-            return this.nationalityService.export()
+            return this.nationalityService.export(dto)
             case ModuleName.PARENT_STATUS:
-            return this.parentStatusService.export()
+            return this.parentStatusService.export(dto)
             case ModuleName.PROVINCE:
-            return this.provinceService.export()
+            return this.provinceService.export(dto)
             case ModuleName.RELIGION:
-            return this.religionService.export()
+            return this.religionService.export(dto)
             case ModuleName.SUB_DISTRICT:
-            return this.subDistrictService.export()
+            return this.subDistrictService.export(dto)
+
+
+            case ModuleName.ACTIVITY_STUDENT:
+            return this.activityStudentService.export(dto)
+            case ModuleName.CURRICULUM:
+            return this.curriculumService.export(dto)
+            case ModuleName.EDUCATION_BACKGROUND:
+            return this.educationBackgroundService.export(dto)
+            case ModuleName.PRACTITIONER_LEVEL:
+            return this.practitionerLevelService.export(dto)
+            case ModuleName.PRACTICLE:
+            return this.practicleService.export(dto)
+            case ModuleName.TEACHER:
+            return this.teacherService.export(dto)
+            case ModuleName.TEACHER_WORK:
+            return this.teacherWorkService.export(dto)
+            case ModuleName.TEACHER_DEVELOP:
+            return this.teachersDevelopService.export(dto)
+
             default :
             throw new BadRequestException('Module incorrect')
         }
@@ -109,6 +146,23 @@ export class ExcelService extends BaseService {
                 return this.religionService.import(data)
             case ModuleName.SUB_DISTRICT:
                 return this.subDistrictService.import(data)
+
+            case ModuleName.ACTIVITY_STUDENT:
+                return this.activityStudentService.import(data)
+            case ModuleName.CURRICULUM:
+                return this.curriculumService.import(data)
+            case ModuleName.EDUCATION_BACKGROUND:
+                return this.educationBackgroundService.import(data)
+            case ModuleName.PRACTITIONER_LEVEL:
+                return this.practitionerLevelService.import(data)
+            case ModuleName.PRACTICLE:
+                return this.practicleService.import(data)
+            case ModuleName.TEACHER:
+                return this.teacherService.import(data)
+            case ModuleName.TEACHER_WORK:
+                return this.teacherWorkService.import(data)
+            case ModuleName.TEACHER_DEVELOP:
+                return this.teachersDevelopService.import(data)
             default :
                 throw new BadRequestException('Module incorrect')
         }

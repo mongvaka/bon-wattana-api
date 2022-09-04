@@ -10,7 +10,7 @@ import { SubDistrict, VwSubDistrictDropdown, VwSubDistrictItem, VwSubDistrictLis
 import { VwDistrictDropdown } from 'src/api/district/district.entity';
 import { SearchDistrictDto } from 'src/api/district/district.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
-import { ImportExcelDto } from 'src/core/excel/excel.dto';
+import { ImportExcelDto, SearchExportExcelDto } from 'src/core/excel/excel.dto';
 
 @Injectable()
 export class SubDistrictService extends BaseService {
@@ -26,8 +26,10 @@ export class SubDistrictService extends BaseService {
             this.subdistrictRepository.create(dataBulkInsert)
         )
     }
-    async export():Promise<any>{
-      const data = await this.itemRepository.find()
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwSubDistrictItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
       return exportExcel(data)
     }
 

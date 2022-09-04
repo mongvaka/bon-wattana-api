@@ -3,6 +3,7 @@ import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEnt
 import { Teacher } from "src/api/teacher/teacher.entity";
 import { Curriculum } from "src/api/curriculum/curriculum.entity";
 import { PractitionerLevel } from "src/api/practitioner-level/practitioner-level.entity";
+import { Practicle } from "../practicle/practicle.entity";
 
 @Entity('teachers_develop')
 export class TeachersDevelop extends BasicData {
@@ -22,7 +23,7 @@ export class TeachersDevelop extends BasicData {
   curriculumId?: number;
 
    @Column({nullable: true})
-  practitionerLevelId?: number;
+  practicleId?: number;
 
    @Column({nullable: true})
   totalHour?: number;
@@ -40,14 +41,14 @@ export class TeachersDevelop extends BasicData {
         .addSelect("teachers_develop.subjectName", "subjectName")
         .addSelect("teachers_develop.curriculumId", "curriculumId")
         .addSelect("curriculum_id.curriculumName ", "curriculumValue")
-        .addSelect("teachers_develop.practitionerLevelId", "practitionerLevelId")
-        .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
+        .addSelect("teachers_develop.practicleId", "practicleId")
+        .addSelect("practitioner_level_id.name", "practicleValue")
         .addSelect("teachers_develop.totalHour", "totalHour")
         .addSelect("teachers_develop.institutionName", "institutionName")
         .from(TeachersDevelop, "teachers_develop")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = teachers_develop.teacherId")
         .leftJoin(Curriculum, "curriculum_id","curriculum_id.Id = teachers_develop.curriculumId")
-        .leftJoin(PractitionerLevel, "practitioner_level_id","practitioner_level_id.Id = teachers_develop.practitionerLevelId")
+        .leftJoin(Practicle, "practitioner_level_id","practitioner_level_id.Id = teachers_develop.practicleId")
 })
 export class VwTeachersDevelopList {
     @ViewColumn()
@@ -72,10 +73,10 @@ export class VwTeachersDevelopList {
     curriculumValue: string;
 
     @ViewColumn()
-    practitionerLevelId: number;
+    practicleId: number;
 
     @ViewColumn()
-    practitionerLevelValue: string;
+    practicleValue: string;
 
     @ViewColumn()
     totalHour: number;
@@ -109,14 +110,14 @@ export class VwTeachersDevelopDropdown {
         .addSelect("teachers_develop.subjectName", "subjectName")
         .addSelect("teachers_develop.curriculumId", "curriculumId")
         .addSelect("curriculum_id.curriculumName", "curriculumValue")
-        .addSelect("teachers_develop.practitionerLevelId", "practitionerLevelId")
-        .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
+        .addSelect("teachers_develop.practicleId", "practicleId")
+        .addSelect("practitioner_level_id.name", "practicleValue")
         .addSelect("teachers_develop.totalHour", "totalHour")
         .addSelect("teachers_develop.institutionName", "institutionName")
       .from(TeachersDevelop, "teachers_develop")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = teachers_develop.teacherId")
         .leftJoin(Curriculum, "curriculum_id","curriculum_id.Id = teachers_develop.curriculumId")
-        .leftJoin(PractitionerLevel, "practitioner_level_id","practitioner_level_id.Id = teachers_develop.practitionerLevelId")
+        .leftJoin(Practicle, "practitioner_level_id","practitioner_level_id.Id = teachers_develop.practicleId")
 })
 export class VwTeachersDevelopItem {
 
@@ -142,10 +143,10 @@ export class VwTeachersDevelopItem {
     curriculumValue: string;
 
     @ViewColumn()
-    practitionerLevelId: number;
+    practicleId: number;
 
     @ViewColumn()
-    practitionerLevelValue: string;
+    practicleValue: string;
 
     @ViewColumn()
     totalHour: number;

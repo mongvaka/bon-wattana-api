@@ -12,6 +12,7 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CustomRequest } from "../shared/models/request-model";
 import { ActiveTime } from "src/api/active-time/active-time.entity";
+import { Teacher } from "src/api/teacher/teacher.entity";
 
 @Injectable()
 export class AuthenticationsService {
@@ -21,6 +22,8 @@ export class AuthenticationsService {
     private readonly jwtService: JwtService,
     @InjectRepository(Student)
     private readonly studentRepository:Repository<Student>,
+    @InjectRepository(Teacher)
+    private readonly teacherRepository:Repository<Teacher>,
     @InjectRepository(ActiveTime)
     private readonly activeTimeRepository:Repository<ActiveTime>
   ) {
@@ -40,14 +43,17 @@ export class AuthenticationsService {
       expiresIn: "7d",
     };
     await this.usersService.tokenUpdated(user, token.accessToken);
-    const info = await this.studentRepository.findOne({where:{id:user.inforId}}) as Student
-    let userModel:Users;
+    
+    let userModel:Users ={
+      ...user
+    }
     if(user.type==UserType.STUDENT){
-      userModel = {...user,firstname:info.firstname,lastname:info.lastname}
-    }else{
-      userModel={
-        ...user
-      }
+      const infoStudent= await this.studentRepository.findOne({where:{id:user.inforId}}) as Student
+      userModel = {...user,firstname:infoStudent.firstname,lastname:infoStudent.lastname}
+    }
+    if(user.type==UserType.TEACHER){
+      const infoTeacher = await this.teacherRepository.findOne({where:{id:user.inforId}}) as Student
+      userModel = {...user,firstname:infoTeacher.firstname,lastname:infoTeacher.lastname}
     }
     const canEdit = await this.getCanEdit()
     

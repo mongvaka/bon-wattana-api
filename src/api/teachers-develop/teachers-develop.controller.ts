@@ -9,6 +9,7 @@ import { SearchCurriculumDto } from "src/api/curriculum/curriculum.dto";
 import { SearchPractitionerLevelDto } from "src/api/practitioner-level/practitioner-level.dto";
 import { CreateTeachersDevelopDto, SearchTeachersDevelopDto, UpdateTeachersDevelopDto } from "./teachers-develop.dto";
 import { TeachersDevelopService } from "./teachers-develop.service";
+import { SearchPracticleDto } from "../practicle/practicle.dto";
 @ApiTags("teachers-develop")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -50,10 +51,10 @@ export class TeachersDevelopController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('practitioner-level-dropdown')
-  async practitionerLevelDropdown(@Body() dto: SearchPractitionerLevelDto) {
+  @Get('practicle-dropdown')
+  async practicleDropdown(@Body() dto: SearchPracticleDto) {
     try{      
-      return this.success(await this.teachersdevelopService.practitionerLevelDropdown(dto))
+      return this.success(await this.teachersdevelopService.practicleDropdown(dto))
     }catch(e){
       return this.error(e)
     }
