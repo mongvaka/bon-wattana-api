@@ -28,7 +28,7 @@ export class EditRequestService extends BaseService {
         super()
     }
     async editFieldDropdown(dto: SearchEditFieldDto):Promise<SelectItems[]> {
-        return await this.dropdownService.editFieldDropdown(dto,this.vwDropdownEditFieldRepository);
+        return this.dropdownService.editFieldDropdown(dto,this.vwDropdownEditFieldRepository);
       }
     async list(dto:SearchEditRequestDto):Promise<SearchResult<VwEditRequestList>>{
         const builder = this.createQueryBuider<VwEditRequestList>(dto,this.vwEditRequestRepository)
@@ -39,13 +39,13 @@ export class EditRequestService extends BaseService {
     async create(dto:CreateEditRequestDto,req:CustomRequest):Promise<EditRequest>{    
         dto.requestId = req.user.id
         const en = this.toCreateModel(dto,req) as EditRequest          
-        return await this.editrequestRepository.save(
+        return this.editrequestRepository.save(
             this.editrequestRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateEditRequestDto,req:CustomRequest):Promise<EditRequestDto>{
         const m = await this.editrequestRepository.findOne({where:{id:id}})
-        return await this.editrequestRepository.save(
+        return this.editrequestRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
@@ -55,7 +55,7 @@ export class EditRequestService extends BaseService {
         const m = await this.editrequestRepository.findOne({where:{id:id}})
         dto.editRequestStatus =  EditRequestStatus.APPROVE
         dto.approveId = req.user.id
-        return await this.editrequestRepository.save(
+        return this.editrequestRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
@@ -63,19 +63,19 @@ export class EditRequestService extends BaseService {
         const m = await this.editrequestRepository.findOne({where:{id:id}})
         dto.editRequestStatus =  EditRequestStatus.REJECT
         dto.approveId = req.user.id
-        return await this.editrequestRepository.save(
+        return this.editrequestRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<EditRequestDto>{
         let m = await this.editrequestRepository.findOne({where:{id:id}})
-        return await this.editrequestRepository.softRemove(
+        return this.editrequestRepository.softRemove(
             await this.editrequestRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

@@ -16,6 +16,7 @@ import { SearchDistrictDto } from "src/api/district/district.dto";
 import { SearchSubDistrictDto } from "src/api/sub-district/sub-district.dto";
 import { CreateTeacherDto, SearchTeacherDto, UpdateTeacherDto } from "./teacher.dto";
 import { TeacherService } from "./teacher.service";
+import { SearchClassroomDto } from "../classroom/classroom.dto";
 @ApiTags("teacher")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -97,35 +98,75 @@ export class TeacherController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('province-dropdown')
-  async provinceDropdown(@Body() dto: SearchProvinceDto) {
-    try{      
-      return this.success(await this.teacherService.provinceDropdown(dto))
-    }catch(e){
-      return this.error(e)
-    }
-  }
-  @Get('district-dropdown')
-  async districtDropdown(@Body() dto: SearchDistrictDto) {
-    try{      
-      return this.success(await this.teacherService.districtDropdown(dto))
-    }catch(e){
-      return this.error(e)
-    }
-  }
-  @Get('sub-district-dropdown')
-  async subDistrictDropdown(@Body() dto: SearchSubDistrictDto) {
-    try{      
-      return this.success(await this.teacherService.subDistrictDropdown(dto))
-    }catch(e){
-      return this.error(e)
-    }
-  }
+  // @Get('province-dropdown')
+  // async provinceDropdown(@Body() dto: SearchProvinceDto) {
+  //   try{      
+  //     return this.success(await this.teacherService.provinceDropdown(dto))
+  //   }catch(e){
+  //     return this.error(e)
+  //   }
+  // }
+  // @Get('district-dropdown')
+  // async districtDropdown(@Body() dto: SearchDistrictDto) {
+  //   try{      
+  //     return this.success(await this.teacherService.districtDropdown(dto))
+  //   }catch(e){
+  //     return this.error(e)
+  //   }
+  // }
+  // @Get('sub-district-dropdown')
+  // async subDistrictDropdown(@Body() dto: SearchSubDistrictDto) {
+  //   try{      
+  //     return this.success(await this.teacherService.subDistrictDropdown(dto))
+  //   }catch(e){
+  //     return this.error(e)
+  //   }
+  // }
   
   @Get('subject-group-dropdown')
   async subjectGroupDropdown(@Body() dto: SearchSubDistrictDto) {
     try{      
       return this.success(await this.teacherService.subjectGroupDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('province-dropdown/:id')
+  async provinceDropdown(@Body() dto: SearchProvinceDto,@Param('id') id:number) {
+    try{      
+      return this.success(await this.teacherService.provinceDropdown(dto,id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('district-dropdown/:id')
+  async districtDropdown(@Body() dto: SearchDistrictDto,@Param('id') id:number) {
+    try{      
+      return this.success(await this.teacherService.districtDropdown(dto,id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('sub-district-dropdown/:id')
+  async subDistrictDropdown(@Body() dto: SearchSubDistrictDto,@Param('id') id:number) {
+    try{      
+      return this.success(await this.teacherService.subDistrictDropdown(dto,id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-dropdown')
+  async classroomDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.teacherService.classroomDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-type-dropdown')
+  async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.teacherService.classroomTypeDropdown(dto))
     }catch(e){
       return this.error(e)
     }

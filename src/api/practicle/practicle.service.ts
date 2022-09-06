@@ -26,7 +26,7 @@ export class PracticleService extends BaseService {
                 dataBulkInsert.push({...el})
             }
         })
-        return await this.practicleRepository.save(
+        return this.practicleRepository.save(
             this.practicleRepository.create(dataBulkInsert)
         )
     }
@@ -49,25 +49,25 @@ export class PracticleService extends BaseService {
     }
     async create(dto:CreatePracticleDto,req:CustomRequest):Promise<Practicle>{        
         const en = this.toCreateModel(dto,req) as Practicle  
-        return await this.practicleRepository.save(
+        return this.practicleRepository.save(
             this.practicleRepository.create(en)
         );
     }
     async update(id:number,dto:UpdatePracticleDto,req:CustomRequest):Promise<PracticleDto>{
         const m = await this.practicleRepository.findOne({where:{id:id}})
-        return await this.practicleRepository.save(
+        return this.practicleRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<PracticleDto>{
         let m = await this.practicleRepository.findOne({where:{id:id}})
-        return await this.practicleRepository.softRemove(
+        return this.practicleRepository.softRemove(
             await this.practicleRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

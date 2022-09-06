@@ -26,7 +26,7 @@ export class PractitionerLevelService extends BaseService {
                 dataBulkInsert.push({...el})
             }
         })
-        return await this.practitionerlevelRepository.save(
+        return this.practitionerlevelRepository.save(
             this.practitionerlevelRepository.create(dataBulkInsert)
         )
     }
@@ -49,25 +49,25 @@ export class PractitionerLevelService extends BaseService {
     }
     async create(dto:CreatePractitionerLevelDto,req:CustomRequest):Promise<PractitionerLevel>{        
         const en = this.toCreateModel(dto,req) as PractitionerLevel  
-        return await this.practitionerlevelRepository.save(
+        return this.practitionerlevelRepository.save(
             this.practitionerlevelRepository.create(en)
         );
     }
     async update(id:number,dto:UpdatePractitionerLevelDto,req:CustomRequest):Promise<PractitionerLevelDto>{
         const m = await this.practitionerlevelRepository.findOne({where:{id:id}})
-        return await this.practitionerlevelRepository.save(
+        return this.practitionerlevelRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<PractitionerLevelDto>{
         let m = await this.practitionerlevelRepository.findOne({where:{id:id}})
-        return await this.practitionerlevelRepository.softRemove(
+        return this.practitionerlevelRepository.softRemove(
             await this.practitionerlevelRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

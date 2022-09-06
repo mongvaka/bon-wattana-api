@@ -23,7 +23,7 @@ export class ProvinceService extends BaseService {
             }
            
         })
-        return await this.provinceRepository.save(
+        return this.provinceRepository.save(
             this.provinceRepository.create(dataBulkInsert)
         )
     }
@@ -48,7 +48,7 @@ export class ProvinceService extends BaseService {
         super()
     }
     async countryDropdown(dto: SearchCountryDto):Promise<SelectItems[]> {
-        return await this.dropdownService.countryDropdown(dto,this.vwDropdownCountryRepository);
+        return this.dropdownService.countryDropdown(dto,this.vwDropdownCountryRepository);
       }
     async list(dto:SearchProvinceDto):Promise<SearchResult<VwProvinceList>>{
         const builder = this.createQueryBuider<VwProvinceList>(dto,this.vwProvinceRepository)
@@ -59,25 +59,25 @@ export class ProvinceService extends BaseService {
     async create(dto:CreateProvinceDto,req:CustomRequest):Promise<Province>{  
         dto.id = +dto.code  
         const en = this.toCreateModel(dto,req) as Province  
-        return await this.provinceRepository.save(
+        return this.provinceRepository.save(
             this.provinceRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateProvinceDto,req:CustomRequest):Promise<ProvinceDto>{
         const m = await this.provinceRepository.findOne({where:{id:id}})
-        return await this.provinceRepository.save(
+        return this.provinceRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<ProvinceDto>{
         let m = await this.provinceRepository.findOne({where:{id:id}})
-        return await this.provinceRepository.softRemove(
+        return this.provinceRepository.softRemove(
             await this.provinceRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

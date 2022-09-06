@@ -17,7 +17,7 @@ export class GendarService extends BaseService {
         data.forEach(el=>{
             dataBulkInsert.push({...el})
         })
-        return await this.gendarRepository.save(
+        return this.gendarRepository.save(
             this.gendarRepository.create(dataBulkInsert)
         )
     }
@@ -47,25 +47,25 @@ export class GendarService extends BaseService {
     }
     async create(dto:CreateGendarDto,req:CustomRequest):Promise<Gendar>{        
         const en = this.toCreateModel(dto,req) as Gendar  
-        return await this.gendarRepository.save(
+        return this.gendarRepository.save(
             this.gendarRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateGendarDto,req:CustomRequest):Promise<GendarDto>{
         const m = await this.gendarRepository.findOne({where:{id:id}})
-        return await this.gendarRepository.save(
+        return this.gendarRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<GendarDto>{
         let m = await this.gendarRepository.findOne({where:{id:id}})
-        return await this.gendarRepository.softRemove(
+        return this.gendarRepository.softRemove(
             await this.gendarRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

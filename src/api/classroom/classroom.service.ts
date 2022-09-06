@@ -19,7 +19,7 @@ export class ClassroomService extends BaseService {
         data.forEach(el=>{
             dataBulkInsert.push({...el})
         })
-        return await this.classroomRepository.save(
+        return this.classroomRepository.save(
             this.classroomRepository.create(dataBulkInsert)
         )
     }
@@ -44,7 +44,7 @@ export class ClassroomService extends BaseService {
         super()
     }
     async classroomTypeDropdown(dto: SearchClassroomTypeDto):Promise<SelectItems[]> {
-        return await this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
+        return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
       }
     async list(dto:SearchClassroomDto):Promise<SearchResult<VwClassroomList>>{
         const builder = this.createQueryBuider<VwClassroomList>(dto,this.vwClassroomRepository)
@@ -54,25 +54,25 @@ export class ClassroomService extends BaseService {
     }
     async create(dto:CreateClassroomDto,req:CustomRequest):Promise<Classroom>{        
         const en = this.toCreateModel(dto,req) as Classroom  
-        return await this.classroomRepository.save(
+        return this.classroomRepository.save(
             this.classroomRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateClassroomDto,req:CustomRequest):Promise<ClassroomDto>{
         const m = await this.classroomRepository.findOne({where:{id:id}})
-        return await this.classroomRepository.save(
+        return this.classroomRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<ClassroomDto>{
         let m = await this.classroomRepository.findOne({where:{id:id}})
-        return await this.classroomRepository.softRemove(
+        return this.classroomRepository.softRemove(
             await this.classroomRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

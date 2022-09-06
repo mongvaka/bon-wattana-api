@@ -17,7 +17,7 @@ export class ReligionService extends BaseService {
         data.forEach(el=>{
             dataBulkInsert.push({...el})
         })
-        return await this.religionRepository.save(
+        return this.religionRepository.save(
             this.religionRepository.create(dataBulkInsert)
         )
     }
@@ -47,25 +47,25 @@ export class ReligionService extends BaseService {
     }
     async create(dto:CreateReligionDto,req:CustomRequest):Promise<Religion>{        
         const en = this.toCreateModel(dto,req) as Religion  
-        return await this.religionRepository.save(
+        return this.religionRepository.save(
             this.religionRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateReligionDto,req:CustomRequest):Promise<ReligionDto>{
         const m = await this.religionRepository.findOne({where:{id:id}})
-        return await this.religionRepository.save(
+        return this.religionRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<ReligionDto>{
         let m = await this.religionRepository.findOne({where:{id:id}})
-        return await this.religionRepository.softRemove(
+        return this.religionRepository.softRemove(
             await this.religionRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

@@ -26,7 +26,7 @@ export class ActivityStudentService extends BaseService {
                 dataBulkInsert.push({...el})
             }
         })
-        return await this.activitystudentRepository.save(
+        return this.activitystudentRepository.save(
             this.activitystudentRepository.create(dataBulkInsert)
         )
     }
@@ -49,25 +49,25 @@ export class ActivityStudentService extends BaseService {
     }
     async create(dto:CreateActivityStudentDto,req:CustomRequest):Promise<ActivityStudent>{        
         const en = this.toCreateModel(dto,req) as ActivityStudent  
-        return await this.activitystudentRepository.save(
+        return this.activitystudentRepository.save(
             this.activitystudentRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateActivityStudentDto,req:CustomRequest):Promise<ActivityStudentDto>{
         const m = await this.activitystudentRepository.findOne({where:{id:id}})
-        return await this.activitystudentRepository.save(
+        return this.activitystudentRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<ActivityStudentDto>{
         let m = await this.activitystudentRepository.findOne({where:{id:id}})
-        return await this.activitystudentRepository.softRemove(
+        return this.activitystudentRepository.softRemove(
             await this.activitystudentRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

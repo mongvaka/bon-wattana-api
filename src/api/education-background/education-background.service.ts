@@ -28,7 +28,7 @@ export class EducationBackgroundService extends BaseService {
                 dataBulkInsert.push({...el})
             }
         })
-        return await this.educationbackgroundRepository.save(
+        return this.educationbackgroundRepository.save(
             this.educationbackgroundRepository.create(dataBulkInsert)
         )
     }
@@ -46,7 +46,7 @@ export class EducationBackgroundService extends BaseService {
         super()
     }
     async teacherDropdown(dto: SearchTeacherDto):Promise<SelectItems[]> {
-        return await this.dropdownService.teacherDropdown(dto,this.vwDropdownTeacherRepository);
+        return this.dropdownService.teacherDropdown(dto,this.vwDropdownTeacherRepository);
       }
     async list(dto:SearchEducationBackgroundDto):Promise<SearchResult<VwEducationBackgroundList>>{
         const builder = this.createQueryBuider<VwEducationBackgroundList>(dto,this.vwEducationBackgroundRepository)
@@ -56,25 +56,25 @@ export class EducationBackgroundService extends BaseService {
     }
     async create(dto:CreateEducationBackgroundDto,req:CustomRequest):Promise<EducationBackground>{        
         const en = this.toCreateModel(dto,req) as EducationBackground  
-        return await this.educationbackgroundRepository.save(
+        return this.educationbackgroundRepository.save(
             this.educationbackgroundRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateEducationBackgroundDto,req:CustomRequest):Promise<EducationBackgroundDto>{
         const m = await this.educationbackgroundRepository.findOne({where:{id:id}})
-        return await this.educationbackgroundRepository.save(
+        return this.educationbackgroundRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<EducationBackgroundDto>{
         let m = await this.educationbackgroundRepository.findOne({where:{id:id}})
-        return await this.educationbackgroundRepository.softRemove(
+        return this.educationbackgroundRepository.softRemove(
             await this.educationbackgroundRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

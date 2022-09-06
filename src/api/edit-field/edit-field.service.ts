@@ -30,25 +30,25 @@ export class EditFieldService extends BaseService {
     }
     async create(dto:CreateEditFieldDto,req:CustomRequest):Promise<EditField>{        
         const en = this.toCreateModel(dto,req) as EditField  
-        return await this.editfieldRepository.save(
+        return this.editfieldRepository.save(
             this.editfieldRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateEditFieldDto,req:CustomRequest):Promise<EditFieldDto>{
         const m = await this.editfieldRepository.findOne({where:{id:id}})
-        return await this.editfieldRepository.save(
+        return this.editfieldRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<EditFieldDto>{
         let m = await this.editfieldRepository.findOne({where:{id:id}})
-        return await this.editfieldRepository.softRemove(
+        return this.editfieldRepository.softRemove(
             await this.editfieldRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

@@ -17,7 +17,7 @@ export class AliveWithService extends BaseService {
         data.forEach(el=>{
             dataBulkInsert.push({...el})
         })
-        return await this.alivewithRepository.save(
+        return this.alivewithRepository.save(
             this.alivewithRepository.create(dataBulkInsert)
         )
     }
@@ -47,25 +47,25 @@ export class AliveWithService extends BaseService {
     }
     async create(dto:CreateAliveWithDto,req:CustomRequest):Promise<AliveWith>{        
         const en = this.toCreateModel(dto,req) as AliveWith  
-        return await this.alivewithRepository.save(
+        return this.alivewithRepository.save(
             this.alivewithRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateAliveWithDto,req:CustomRequest):Promise<AliveWithDto>{
         const m = await this.alivewithRepository.findOne({where:{id:id}})
-        return await this.alivewithRepository.save(
+        return this.alivewithRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<AliveWithDto>{
         let m = await this.alivewithRepository.findOne({where:{id:id}})
-        return await this.alivewithRepository.softRemove(
+        return this.alivewithRepository.softRemove(
             await this.alivewithRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

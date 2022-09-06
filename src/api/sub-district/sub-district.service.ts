@@ -22,7 +22,7 @@ export class SubDistrictService extends BaseService {
                 dataBulkInsert.push({...el})
             }
         })
-        return await this.subdistrictRepository.save(
+        return this.subdistrictRepository.save(
             this.subdistrictRepository.create(dataBulkInsert)
         )
     }
@@ -47,7 +47,7 @@ export class SubDistrictService extends BaseService {
         super()
     }
     async districtDropdown(dto: SearchDistrictDto):Promise<SelectItems[]> {
-        return await this.dropdownService.districtDropdown(dto,this.vwDropdownDistrictRepository);
+        return this.dropdownService.districtDropdown(dto,this.vwDropdownDistrictRepository);
       }
     async list(dto:SearchSubDistrictDto):Promise<SearchResult<VwSubDistrictList>>{
         const builder = this.createQueryBuider<VwSubDistrictList>(dto,this.vwSubDistrictRepository)
@@ -60,25 +60,25 @@ export class SubDistrictService extends BaseService {
     async create(dto:CreateSubDistrictDto,req:CustomRequest):Promise<SubDistrict>{    
         dto.id = +dto.code    
         const en = this.toCreateModel(dto,req) as SubDistrict  
-        return await this.subdistrictRepository.save(
+        return this.subdistrictRepository.save(
             this.subdistrictRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateSubDistrictDto,req:CustomRequest):Promise<SubDistrictDto>{
         const m = await this.subdistrictRepository.findOne({where:{id:id}})
-        return await this.subdistrictRepository.save(
+        return this.subdistrictRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<SubDistrictDto>{
         let m = await this.subdistrictRepository.findOne({where:{id:id}})
-        return await this.subdistrictRepository.softRemove(
+        return this.subdistrictRepository.softRemove(
             await this.subdistrictRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

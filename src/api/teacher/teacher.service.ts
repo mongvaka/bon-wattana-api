@@ -37,12 +37,19 @@ import { AuthenticationsService } from 'src/core/authentications/authentications
 import { Student } from '../student/student.entity';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
+import { Operators } from 'src/core/shared/constans/constanst';
+import { ColumnType } from 'src/core/shared/constans/enum-system';
+import { SearchClassroomDto } from '../classroom/classroom.dto';
+import { VwClassroomDropdown } from '../classroom/classroom.entity';
+import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 
 @Injectable()
 export class TeacherService extends BaseService {
-  async import(data: any[]): Promise<any> {        
+  async import(data: any[]): Promise<any> {    
+    console.log('import');
+        
     for (const el of data) {
-      // console.log('el',el);
+      console.log('el',el);
       
       const model:Teacher = {...el,birthDate:null}
       const studentIsexist = await this.teacherRepository.findOne({where:{teacherCode:el.teacherCode,deleted:false}})
@@ -52,12 +59,12 @@ export class TeacherService extends BaseService {
         )
         
         const regisModel:RegisterDto = {
-          email:`${el.studentCode}`,
-          password:`${el.studentCode}`,
+          email:`${info.teacherCode}`,
+          password:`${info.teacherCode}`,
           firstname:'',
           lastname:'',
           inforId:info.id,
-          type:UserType.STUDENT
+          type:UserType.TEACHER
         }
         await this.authService.register(regisModel)
       }
@@ -102,6 +109,10 @@ async export(dto:SearchExportExcelDto):Promise<any>{
         private readonly vwDropdownSubDistrictRepository:Repository<VwSubDistrictDropdown>,
         @InjectRepository(VwPracticleDropdown)
         private readonly vwPracticleDropdownRepository:Repository<VwPracticleDropdown>,
+        @InjectRepository(VwClassroomDropdown)
+        private readonly vwDropdownClassroomRepository:Repository<VwClassroomDropdown>,
+        @InjectRepository(VwClassroomTypeDropdown)
+        private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
         private readonly dropdownService: DropdownService,
         private readonly imagesService:ImagesService,
         private readonly authService: AuthenticationsService
@@ -109,38 +120,38 @@ async export(dto:SearchExportExcelDto):Promise<any>{
         super()
     }
     async gendarDropdown(dto: SearchGendarDto):Promise<SelectItems[]> {
-        return await this.dropdownService.gendarDropdown(dto,this.vwDropdownGendarRepository);
+        return this.dropdownService.gendarDropdown(dto,this.vwDropdownGendarRepository);
       }
     async nationalityDropdown(dto: SearchNationalityDto):Promise<SelectItems[]> {
-        return await this.dropdownService.nationalityDropdown(dto,this.vwDropdownNationalityRepository);
+        return this.dropdownService.nationalityDropdown(dto,this.vwDropdownNationalityRepository);
       }
     async ethnicityDropdown(dto: SearchEthnicityDto):Promise<SelectItems[]> {
-        return await this.dropdownService.ethnicityDropdown(dto,this.vwDropdownEthnicityRepository);
+        return this.dropdownService.ethnicityDropdown(dto,this.vwDropdownEthnicityRepository);
       }
     async religionDropdown(dto: SearchReligionDto):Promise<SelectItems[]> {
-        return await this.dropdownService.religionDropdown(dto,this.vwDropdownReligionRepository);
+        return this.dropdownService.religionDropdown(dto,this.vwDropdownReligionRepository);
       }
     async practitionerLevelDropdown(dto: SearchPractitionerLevelDto):Promise<SelectItems[]> {
-        return await this.dropdownService.practitionerlevelDropdown(dto,this.vwDropdownPractitionerLevelRepository);
+        return this.dropdownService.practitionerlevelDropdown(dto,this.vwDropdownPractitionerLevelRepository);
       }
     async educationBackgroundDropdown(dto: SearchEducationBackgroundDto):Promise<SelectItems[]> {
-        return await this.dropdownService.educationbackgroundDropdown(dto,this.vwDropdownEducationBackgroundRepository);
+        return this.dropdownService.educationbackgroundDropdown(dto,this.vwDropdownEducationBackgroundRepository);
       }
     async countryDropdown(dto: SearchCountryDto):Promise<SelectItems[]> {
-        return await this.dropdownService.countryDropdown(dto,this.vwDropdownCountryRepository);
+        return this.dropdownService.countryDropdown(dto,this.vwDropdownCountryRepository);
       }
-    async provinceDropdown(dto: SearchProvinceDto):Promise<SelectItems[]> {
-        return await this.dropdownService.provinceDropdown(dto,this.vwDropdownProvinceRepository);
-      }
-    async districtDropdown(dto: SearchDistrictDto):Promise<SelectItems[]> {
-        return await this.dropdownService.districtDropdown(dto,this.vwDropdownDistrictRepository);
-      }
-    async subDistrictDropdown(dto: SearchSubDistrictDto):Promise<SelectItems[]> {
-        return await this.dropdownService.subDistrictDropdown(dto,this.vwDropdownSubDistrictRepository);
-      }
+    // async provinceDropdown(dto: SearchProvinceDto):Promise<SelectItems[]> {
+    //     return this.dropdownService.provinceDropdown(dto,this.vwDropdownProvinceRepository);
+    //   }
+    // async districtDropdown(dto: SearchDistrictDto):Promise<SelectItems[]> {
+    //     return this.dropdownService.districtDropdown(dto,this.vwDropdownDistrictRepository);
+    //   }
+    // async subDistrictDropdown(dto: SearchSubDistrictDto):Promise<SelectItems[]> {
+    //     return this.dropdownService.subDistrictDropdown(dto,this.vwDropdownSubDistrictRepository);
+    //   }
       
       async subjectGroupDropdown(dto: SearchSubDistrictDto):Promise<SelectItems[]> {
-        return await this.dropdownService.practicleDropdown(dto,this.vwPracticleDropdownRepository);
+        return this.dropdownService.practicleDropdown(dto,this.vwPracticleDropdownRepository);
       }
     async list(dto:SearchTeacherDto):Promise<SearchResult<VwTeacherList>>{
         const builder = this.createQueryBuider<VwTeacherList>(dto,this.vwTeacherRepository)
@@ -187,6 +198,7 @@ async export(dto:SearchExportExcelDto):Promise<any>{
       const fileName = filename()
 
       if(dto.teacherPhoto){
+        await this.imagesService.removeWithRefId(id)
         await savefileWithName(dto.teacherPhoto[0],fileName,moduleName)
       }
         const m = await this.teacherRepository.findOne({where:{id:id}})
@@ -200,13 +212,77 @@ async export(dto:SearchExportExcelDto):Promise<any>{
     }
     async delete(id:number,req:CustomRequest):Promise<TeacherDto>{
         let m = await this.teacherRepository.findOne({where:{id:id}})
-        return await this.teacherRepository.softRemove(
+        return this.teacherRepository.softRemove(
             await this.teacherRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        const model = await this.itemRepository.findOne({where:{id:id}})
+        // model.birthDate?.setDate(model.birthDate.getDate() + 1)
+        // model.setInDate?.setDate(model.setInDate.getDate() + 1)
+        // model.setInDate?.setDate(model.setInDate.getDate() + 1)
+        return model
     }
+    async subDistrictDropdown(dto: SearchSubDistrictDto,id:number):Promise<SelectItems[]> {
+      if(id==0){
+        return []
+      }
+      const searchDto = new SearchCountryDto()
+      searchDto.refTable = 'sub_district'
+      searchDto.tableKey = 'sub_district'
+      searchDto.searchCondition = [{
+          columnName:'refId',
+          tableName:'sub_district',
+          feildName:'refId',
+          value:`${id}`,
+          inputType:ColumnType.INT,
+          equalityOperator: Operators.EQUAL,
+          operator:Operators.EQUAL
+      }]
+        return this.dropdownService.subDistrictDropdown(searchDto,this.vwDropdownSubDistrictRepository);
+      }
+    async districtDropdown(dto: SearchDistrictDto,id:number):Promise<SelectItems[]> {
+      if(id==0){
+        return []
+      }
+      const searchDto = new SearchCountryDto()
+      searchDto.refTable = 'district'
+      searchDto.tableKey = 'district'
+      searchDto.searchCondition = [{
+          columnName:'refId',
+          tableName:'district',
+          feildName:'refId',
+          value:`${id}`,
+          inputType:ColumnType.INT,
+          equalityOperator: Operators.EQUAL,
+          operator:Operators.EQUAL
+      }]
+        return this.dropdownService.districtDropdown(searchDto,this.vwDropdownDistrictRepository);
+      }
+    async provinceDropdown(dto: SearchProvinceDto,id:number):Promise<SelectItems[]> {
+      if(id==0){
+        return []
+      }
+      const searchDto = new SearchCountryDto()
+      searchDto.refTable = 'province'
+      searchDto.tableKey = 'province'
+      searchDto.searchCondition = [{
+          columnName:'refId',
+          tableName:'province',
+          feildName:'refId',
+          value:`${id}`,
+          inputType:ColumnType.INT,
+          equalityOperator: Operators.EQUAL,
+          operator:Operators.EQUAL
+      }]
+        return this.dropdownService.provinceDropdown(searchDto,this.vwDropdownProvinceRepository);
+      }
+      async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
+      }
+      async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
+      }
 }

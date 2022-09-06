@@ -28,7 +28,7 @@ export class TeacherWorkService extends BaseService {
                 dataBulkInsert.push({...el})
             }
         })
-        return await this.teacherworkRepository.save(
+        return this.teacherworkRepository.save(
             this.teacherworkRepository.create(dataBulkInsert)
         )
     }
@@ -46,7 +46,7 @@ export class TeacherWorkService extends BaseService {
         super()
     }
     async teacherDropdown(dto: SearchTeacherDto):Promise<SelectItems[]> {
-        return await this.dropdownService.teacherDropdown(dto,this.vwDropdownTeacherRepository);
+        return this.dropdownService.teacherDropdown(dto,this.vwDropdownTeacherRepository);
       }
     async list(dto:SearchTeacherWorkDto):Promise<SearchResult<VwTeacherWorkList>>{
         const builder = this.createQueryBuider<VwTeacherWorkList>(dto,this.vwTeacherWorkRepository)
@@ -56,25 +56,25 @@ export class TeacherWorkService extends BaseService {
     }
     async create(dto:CreateTeacherWorkDto,req:CustomRequest):Promise<TeacherWork>{        
         const en = this.toCreateModel(dto,req) as TeacherWork  
-        return await this.teacherworkRepository.save(
+        return this.teacherworkRepository.save(
             this.teacherworkRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateTeacherWorkDto,req:CustomRequest):Promise<TeacherWorkDto>{
         const m = await this.teacherworkRepository.findOne({where:{id:id}})
-        return await this.teacherworkRepository.save(
+        return this.teacherworkRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<TeacherWorkDto>{
         let m = await this.teacherworkRepository.findOne({where:{id:id}})
-        return await this.teacherworkRepository.softRemove(
+        return this.teacherworkRepository.softRemove(
             await this.teacherworkRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

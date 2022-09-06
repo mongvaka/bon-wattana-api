@@ -11,6 +11,8 @@ import { Province } from "src/api/province/province.entity";
 import { District } from "src/api/district/district.entity";
 import { SubDistrict } from "src/api/sub-district/sub-district.entity";
 import { Practicle } from "../practicle/practicle.entity";
+import { Classroom } from "../classroom/classroom.entity";
+import { ClassroomType } from "../classroom-type/classroom-type.entity";
 
 @Entity('teacher')
 export class Teacher extends BasicData {
@@ -132,6 +134,14 @@ export class Teacher extends BasicData {
 
    @Column({nullable: true})
   subDistrictId?: number;
+  @Column({nullable: true})
+  classroomId?: number;
+  @Column({nullable: true})
+  classroomTypeId?: number;
+  @Column({nullable: true})
+  educationMinor?: string;
+  @Column({nullable: true})
+  setInDateSchool:Date
 }
 @ViewEntity({
     name:'teacher_list',
@@ -213,6 +223,12 @@ export class VwTeacherDropdown {
         .addSelect("CONCAT(education_background_id.educationShotNameTh , ' ' , education_background_id.educationShotNameEn)", "educationBackgroundValue")
         .addSelect("teacher.educationMajor", "educationMajor")
         .addSelect("teacher.setInDate", "setInDate")
+        .addSelect("teacher.setInDateSchool", "setInDateSchool")
+        .addSelect("teacher.educationMinor", "educationMinor")
+        .addSelect("teacher.classroomTypeId", "classroomTypeId")
+        .addSelect("classroom_type.typeName", "classroomTypeValue")
+        .addSelect("teacher.classroomId", "classroomId")
+        .addSelect("classroom.name", "classroomValue")
         .addSelect("teacher.teacherClass1", "teacherClass1")
         .addSelect("teacher.teacherClass2", "teacherClass2")
         .addSelect("teacher.teacherClass3", "teacherClass3")
@@ -250,13 +266,25 @@ export class VwTeacherDropdown {
         .leftJoin(District, "district_id","district_id.Id = teacher.districtId")
         .leftJoin(SubDistrict, "sub_district_id","sub_district_id.Id = teacher.subDistrictId")
         .leftJoin(Practicle, "practicle","practicle.Id = teacher.subjectGroupId")
+        .leftJoin(Classroom,'classroom','classroom.id = teacher.classroomId')
+        .leftJoin(ClassroomType,'classroom_type','classroom_type.id = teacher.classroomTypeId')
 })
 export class VwTeacherItem {
 
   @ViewColumn()
     id: number;
-
-
+    @ViewColumn()
+    setInDateSchool:Date
+    @ViewColumn()
+    educationMinor: string;
+    @ViewColumn()
+    classroomId: number;
+    @ViewColumn()
+    classroomTypeId: number;
+    @ViewColumn()
+    classroomValue: string;
+    @ViewColumn()
+    classroomTypeValue: string;
 
     @ViewColumn()
     posonalCode: string;

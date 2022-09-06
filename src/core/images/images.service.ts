@@ -10,6 +10,9 @@ import { CreateImagesDto, SearchImagesDto, UpdateImagesDto } from './images.dto'
 import { Images } from './images.entity';
 @Injectable()
 export class ImagesService extends BaseService {
+    async removeWithRefId(id: number) {
+        return this.repository.remove(await this.repository.find({refId:id})) 
+    }
     constructor(
         @InjectRepository(Images)
         private readonly repository: Repository<Images>,

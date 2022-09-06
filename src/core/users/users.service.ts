@@ -10,6 +10,9 @@ import * as bcrypt from "bcrypt"
 
 @Injectable()
 export class UsersService {
+  async remove(duplicateEmail: Users) {
+    return this.usersRepository.remove(duplicateEmail)
+  }
   constructor(
     @InjectRepository(Users)
     private readonly usersRepository: Repository<Users>,
@@ -32,12 +35,12 @@ export class UsersService {
 
 
 
-    return await this.usersRepository.softRemove(await this.usersRepository.save(users));
+    return this.usersRepository.softRemove(await this.usersRepository.save(users));
   }
 
   async tokenUpdated(user: Users, token: string): Promise<Users> {
     user.token = token;
-    return await this.usersRepository.save(user);
+    return this.usersRepository.save(user);
   }
 
   async findByIdAndActive(id: number): Promise<Users> {
@@ -59,11 +62,11 @@ export class UsersService {
     email: string,
   ): Promise<Users> {
     return this.usersRepository.findOne({
-      where: {username: email, active: true}
+      where: {username: email, active: true,deleted:false}
     });
   }
   async findById(id: number): Promise<Users> {
-    return await this.usersRepository.findOne({
+    return this.usersRepository.findOne({
       where: {id: id},
     });
   }

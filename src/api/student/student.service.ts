@@ -108,20 +108,20 @@ export class StudentService extends BaseService {
         super()
     }
     async gendarDropdown(dto: SearchGendarDto):Promise<SelectItems[]> {
-        return await this.dropdownService.gendarDropdown(dto,this.vwDropdownGendarRepository);
+        return this.dropdownService.gendarDropdown(dto,this.vwDropdownGendarRepository);
       }
     async nationalityDropdown(dto: SearchNationalityDto):Promise<SelectItems[]> {
-        return await this.dropdownService.nationalityDropdown(dto,this.vwDropdownNationalityRepository);
+        return this.dropdownService.nationalityDropdown(dto,this.vwDropdownNationalityRepository);
       }
     async ethnicityDropdown(dto: SearchEthnicityDto):Promise<SelectItems[]> {
-        return await this.dropdownService.ethnicityDropdown(dto,this.vwDropdownEthnicityRepository);
+        return this.dropdownService.ethnicityDropdown(dto,this.vwDropdownEthnicityRepository);
       }
     async religionDropdown(dto: SearchReligionDto):Promise<SelectItems[]> {
-        return await this.dropdownService.religionDropdown(dto,this.vwDropdownReligionRepository);
+        return this.dropdownService.religionDropdown(dto,this.vwDropdownReligionRepository);
       }
     async countryDropdown(dto: SearchCountryDto):Promise<SelectItems[]> {
 
-        return await this.dropdownService.countryDropdown(dto,this.vwDropdownCountryRepository);
+        return this.dropdownService.countryDropdown(dto,this.vwDropdownCountryRepository);
       }
     async subDistrictDropdown(dto: SearchSubDistrictDto,id:number):Promise<SelectItems[]> {
       if(id==0){
@@ -139,7 +139,7 @@ export class StudentService extends BaseService {
           equalityOperator: Operators.EQUAL,
           operator:Operators.EQUAL
       }]
-        return await this.dropdownService.subDistrictDropdown(searchDto,this.vwDropdownSubDistrictRepository);
+        return this.dropdownService.subDistrictDropdown(searchDto,this.vwDropdownSubDistrictRepository);
       }
     async districtDropdown(dto: SearchDistrictDto,id:number):Promise<SelectItems[]> {
       if(id==0){
@@ -157,7 +157,7 @@ export class StudentService extends BaseService {
           equalityOperator: Operators.EQUAL,
           operator:Operators.EQUAL
       }]
-        return await this.dropdownService.districtDropdown(searchDto,this.vwDropdownDistrictRepository);
+        return this.dropdownService.districtDropdown(searchDto,this.vwDropdownDistrictRepository);
       }
     async provinceDropdown(dto: SearchProvinceDto,id:number):Promise<SelectItems[]> {
       if(id==0){
@@ -175,19 +175,19 @@ export class StudentService extends BaseService {
           equalityOperator: Operators.EQUAL,
           operator:Operators.EQUAL
       }]
-        return await this.dropdownService.provinceDropdown(searchDto,this.vwDropdownProvinceRepository);
+        return this.dropdownService.provinceDropdown(searchDto,this.vwDropdownProvinceRepository);
       }
     async aliveWithDropdown(dto: SearchAliveWithDto):Promise<SelectItems[]> {
-        return await this.dropdownService.aliveWithDropdown(dto,this.vwDropdownAliveWithRepository);
+        return this.dropdownService.aliveWithDropdown(dto,this.vwDropdownAliveWithRepository);
       }
     async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
-        return await this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
+        return this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
       }
       async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
-        return await this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
+        return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
       }
       async parentStatusDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
-        return await this.dropdownService.parentStatusDropdown(dto,this.vwDropdownParentStatusRepository);
+        return this.dropdownService.parentStatusDropdown(dto,this.vwDropdownParentStatusRepository);
       }
       
     async list(dto:SearchStudentDto):Promise<SearchResult<VwStudentList>>{
@@ -250,14 +250,14 @@ export class StudentService extends BaseService {
     }
     async delete(id:number,req:CustomRequest):Promise<StudentDto>{
         let m = await this.studentRepository.findOne({where:{id:id}})
-        return await this.studentRepository.softRemove(
+        return this.studentRepository.softRemove(
             await this.studentRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
       const builder = this.createQueryBuider<VwStudentItem>(dto,this.itemRepository)

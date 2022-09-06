@@ -17,7 +17,7 @@ export class ParentStatusService extends BaseService {
         data.forEach(el=>{
             dataBulkInsert.push({...el})
         })
-        return await this.parentstatusRepository.save(
+        return this.parentstatusRepository.save(
             this.parentstatusRepository.create(dataBulkInsert)
         )
     }
@@ -47,25 +47,25 @@ export class ParentStatusService extends BaseService {
     }
     async create(dto:CreateParentStatusDto,req:CustomRequest):Promise<ParentStatus>{        
         const en = this.toCreateModel(dto,req) as ParentStatus  
-        return await this.parentstatusRepository.save(
+        return this.parentstatusRepository.save(
             this.parentstatusRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateParentStatusDto,req:CustomRequest):Promise<ParentStatusDto>{
         const m = await this.parentstatusRepository.findOne({where:{id:id}})
-        return await this.parentstatusRepository.save(
+        return this.parentstatusRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<ParentStatusDto>{
         let m = await this.parentstatusRepository.findOne({where:{id:id}})
-        return await this.parentstatusRepository.softRemove(
+        return this.parentstatusRepository.softRemove(
             await this.parentstatusRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

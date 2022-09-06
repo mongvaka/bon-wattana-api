@@ -17,7 +17,7 @@ export class NationalityService extends BaseService {
         data.forEach(el=>{
             dataBulkInsert.push({...el})
         })
-        return await this.nationalityRepository.save(
+        return this.nationalityRepository.save(
             this.nationalityRepository.create(dataBulkInsert)
         )
     }
@@ -47,25 +47,25 @@ export class NationalityService extends BaseService {
     }
     async create(dto:CreateNationalityDto,req:CustomRequest):Promise<Nationality>{        
         const en = this.toCreateModel(dto,req) as Nationality  
-        return await this.nationalityRepository.save(
+        return this.nationalityRepository.save(
             this.nationalityRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateNationalityDto,req:CustomRequest):Promise<NationalityDto>{
         const m = await this.nationalityRepository.findOne({where:{id:id}})
-        return await this.nationalityRepository.save(
+        return this.nationalityRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<NationalityDto>{
         let m = await this.nationalityRepository.findOne({where:{id:id}})
-        return await this.nationalityRepository.softRemove(
+        return this.nationalityRepository.softRemove(
             await this.nationalityRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

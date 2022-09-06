@@ -26,7 +26,7 @@ export class CurriculumService extends BaseService {
                 dataBulkInsert.push({...el})
             }
         })
-        return await this.curriculumRepository.save(
+        return this.curriculumRepository.save(
             this.curriculumRepository.create(dataBulkInsert)
         )
     }
@@ -49,25 +49,25 @@ export class CurriculumService extends BaseService {
     }
     async create(dto:CreateCurriculumDto,req:CustomRequest):Promise<Curriculum>{        
         const en = this.toCreateModel(dto,req) as Curriculum  
-        return await this.curriculumRepository.save(
+        return this.curriculumRepository.save(
             this.curriculumRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateCurriculumDto,req:CustomRequest):Promise<CurriculumDto>{
         const m = await this.curriculumRepository.findOne({where:{id:id}})
-        return await this.curriculumRepository.save(
+        return this.curriculumRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<CurriculumDto>{
         let m = await this.curriculumRepository.findOne({where:{id:id}})
-        return await this.curriculumRepository.softRemove(
+        return this.curriculumRepository.softRemove(
             await this.curriculumRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

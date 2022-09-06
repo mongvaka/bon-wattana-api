@@ -22,7 +22,7 @@ export class DistrictService extends BaseService {
                 dataBulkInsert.push({...el})
             }
         })
-        return await this.districtRepository.save(
+        return this.districtRepository.save(
             this.districtRepository.create(dataBulkInsert)
         )
     }
@@ -47,7 +47,7 @@ export class DistrictService extends BaseService {
         super()
     }
     async provinceDropdown(dto: SearchProvinceDto):Promise<SelectItems[]> {
-        return await this.dropdownService.provinceDropdown(dto,this.vwDropdownProvinceRepository);
+        return this.dropdownService.provinceDropdown(dto,this.vwDropdownProvinceRepository);
       }
     async list(dto:SearchDistrictDto):Promise<SearchResult<VwDistrictList>>{
         const builder = this.createQueryBuider<VwDistrictList>(dto,this.vwDistrictRepository)
@@ -60,25 +60,25 @@ export class DistrictService extends BaseService {
         dto.id = +dto.code     
         const en = this.toCreateModel(dto,req) as District  
         
-        return await this.districtRepository.save(
+        return this.districtRepository.save(
             this.districtRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateDistrictDto,req:CustomRequest):Promise<DistrictDto>{
         const m = await this.districtRepository.findOne({where:{id:id}})
-        return await this.districtRepository.save(
+        return this.districtRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<DistrictDto>{
         let m = await this.districtRepository.findOne({where:{id:id}})
-        return await this.districtRepository.softRemove(
+        return this.districtRepository.softRemove(
             await this.districtRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

@@ -178,9 +178,11 @@ export class ExcelService extends BaseService {
         const cell = Object.keys(workbook.Sheets.sheet1)
         const modelList:{}[] =[]
         // console.log('wordking');
-        console.log('cell',cell);
+        // console.log('cell',cell);
         
         cell.forEach((el,index)=>{
+            // console.log(el,':',index);
+            
             col = []
             if(index == 1){                
                 masterKey =cell.filter(fl=>this.checkFirstRow(fl,index))
@@ -194,30 +196,50 @@ export class ExcelService extends BaseService {
                 masterKey.forEach(ev=>{
                     let value = undefined
                     keyList.forEach(key=>{
-                        //console.log();
+                        // console.log(key,ev);
                         const keyArr = key.split('')
                         const evArr = ev.split('')
                         let firstKey:string =''
                         let secondKey:string =''
                         keyArr.forEach(gg=>{
                             if(!Number(gg)){
-                                firstKey = firstKey+gg
+                                if(gg!='0'){
+                                    firstKey = firstKey+gg
+                                }
+                                
                             }
                         })
                         evArr.forEach(ff=>{
                             if(!Number(ff)){
-                                secondKey = secondKey+ff
+                                if(ff!='0'){
+                                    secondKey = secondKey+ff
+                                }
+                                
                             }
                         })
-                        if(firstKey==secondKey){                            
+                        // if(firstKey.indexOf('0')){
+                        //     console.log(firstKey);
+                            
+                        // }
+                        // if(secondKey.indexOf('0')){
+                        //     console.log(secondKey);
+                            
+                        // }
+                        // console.log(firstKey,secondKey);
+                        if(firstKey==secondKey){   
+                                                     
                             value = workbook.Sheets.sheet1[key].v
                             // console.log(value);
-                            
+                            // console.log(firstKey,secondKey,key,value);
+
                             hasValue = true
                         }
-                    })                    
+                    })   
+                    //  console.log(ev);                 
                     masterModel[workbook.Sheets.sheet1[ev].v] = value
                 })
+                
+                // console.log(index); 
                 // console.log(masterModel);
                 
                 if(hasValue){
@@ -230,7 +252,7 @@ export class ExcelService extends BaseService {
                 }
             }
         })
-        // console.log(modelList[0]);
+        // console.log('modelList.length',modelList.length);
         
         return modelList
     }

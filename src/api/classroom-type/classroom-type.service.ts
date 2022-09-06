@@ -17,7 +17,7 @@ export class ClassroomTypeService extends BaseService {
         data.forEach(el=>{
             dataBulkInsert.push({...el})
         })
-        return await this.classroomtypeRepository.save(
+        return this.classroomtypeRepository.save(
             this.classroomtypeRepository.create(dataBulkInsert)
         )
     }
@@ -47,25 +47,25 @@ export class ClassroomTypeService extends BaseService {
     }
     async create(dto:CreateClassroomTypeDto,req:CustomRequest):Promise<ClassroomType>{        
         const en = this.toCreateModel(dto,req) as ClassroomType  
-        return await this.classroomtypeRepository.save(
+        return this.classroomtypeRepository.save(
             this.classroomtypeRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateClassroomTypeDto,req:CustomRequest):Promise<ClassroomTypeDto>{
         const m = await this.classroomtypeRepository.findOne({where:{id:id}})
-        return await this.classroomtypeRepository.save(
+        return this.classroomtypeRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<ClassroomTypeDto>{
         let m = await this.classroomtypeRepository.findOne({where:{id:id}})
-        return await this.classroomtypeRepository.softRemove(
+        return this.classroomtypeRepository.softRemove(
             await this.classroomtypeRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

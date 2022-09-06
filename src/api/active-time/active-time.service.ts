@@ -30,25 +30,25 @@ export class ActiveTimeService extends BaseService {
     }
     async create(dto:CreateActiveTimeDto,req:CustomRequest):Promise<ActiveTime>{        
         const en = this.toCreateModel(dto,req) as ActiveTime  
-        return await this.activetimeRepository.save(
+        return this.activetimeRepository.save(
             this.activetimeRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateActiveTimeDto,req:CustomRequest):Promise<ActiveTimeDto>{
         const m = await this.activetimeRepository.findOne({where:{id:id}})
-        return await this.activetimeRepository.save(
+        return this.activetimeRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<ActiveTimeDto>{
         let m = await this.activetimeRepository.findOne({where:{id:id}})
-        return await this.activetimeRepository.softRemove(
+        return this.activetimeRepository.softRemove(
             await this.activetimeRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

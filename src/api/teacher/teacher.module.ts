@@ -17,6 +17,8 @@ import { TeacherService } from './teacher.service';
 import { VwPracticleDropdown } from '../practicle/practicle.entity';
 import { ImagesModule } from 'src/core/images/images.module';
 import { AuthenticationsModule } from 'src/core/authentications/authentications.module';
+import { VwClassroomDropdown } from '../classroom/classroom.entity';
+import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 
 @Module({
   imports: [
@@ -31,7 +33,9 @@ import { AuthenticationsModule } from 'src/core/authentications/authentications.
     VwProvinceDropdown,
     VwDistrictDropdown,
     VwSubDistrictDropdown,
-    VwPracticleDropdown
+    VwPracticleDropdown,
+    VwClassroomDropdown,
+    VwClassroomTypeDropdown
     ]),
     ImagesModule,
     AuthenticationsModule

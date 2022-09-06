@@ -92,6 +92,18 @@ export class TeacherDto {
     isOtherSubjectGroup: boolean;
     @ApiPropertyOptional({ type: String})
     subjectGroupText: string;
+    @ApiPropertyOptional({ type: Date})
+    setInDateSchool:Date
+    @ApiPropertyOptional({ type: String})
+    educationMinor: string;
+    @ApiPropertyOptional({ type: Number})
+    classroomId: number;
+    @ApiPropertyOptional({ type: Number})
+    classroomTypeId: number;
+    @ApiPropertyOptional({ type: String})
+    classroomValue: string;
+    @ApiPropertyOptional({ type: String})
+    classroomTypeValue: string;
 } 
 export class CreateTeacherDto extends TeacherDto{
 

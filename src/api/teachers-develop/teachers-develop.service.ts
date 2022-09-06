@@ -33,7 +33,7 @@ export class TeachersDevelopService extends BaseService {
                 dataBulkInsert.push({...el})
             }
         })
-        return await this.teachersdevelopRepository.save(
+        return this.teachersdevelopRepository.save(
             this.teachersdevelopRepository.create(dataBulkInsert)
         )
     }
@@ -55,13 +55,13 @@ export class TeachersDevelopService extends BaseService {
         super()
     }
     async teacherDropdown(dto: SearchTeacherDto):Promise<SelectItems[]> {
-        return await this.dropdownService.teacherDropdown(dto,this.vwDropdownTeacherRepository);
+        return this.dropdownService.teacherDropdown(dto,this.vwDropdownTeacherRepository);
       }
     async curriculumDropdown(dto: SearchCurriculumDto):Promise<SelectItems[]> {
-        return await this.dropdownService.curriculumDropdown(dto,this.vwDropdownCurriculumRepository);
+        return this.dropdownService.curriculumDropdown(dto,this.vwDropdownCurriculumRepository);
       }
     async practicleDropdown(dto: SearchPractitionerLevelDto):Promise<SelectItems[]> {
-        return await this.dropdownService.practicleDropdown(dto,this.vwPracticleDropdownRepository);
+        return this.dropdownService.practicleDropdown(dto,this.vwPracticleDropdownRepository);
       }
     async list(dto:SearchTeachersDevelopDto):Promise<SearchResult<VwTeachersDevelopList>>{
         const builder = this.createQueryBuider<VwTeachersDevelopList>(dto,this.vwTeachersDevelopRepository)
@@ -71,25 +71,25 @@ export class TeachersDevelopService extends BaseService {
     }
     async create(dto:CreateTeachersDevelopDto,req:CustomRequest):Promise<TeachersDevelop>{        
         const en = this.toCreateModel(dto,req) as TeachersDevelop  
-        return await this.teachersdevelopRepository.save(
+        return this.teachersdevelopRepository.save(
             this.teachersdevelopRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateTeachersDevelopDto,req:CustomRequest):Promise<TeachersDevelopDto>{
         const m = await this.teachersdevelopRepository.findOne({where:{id:id}})
-        return await this.teachersdevelopRepository.save(
+        return this.teachersdevelopRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<TeachersDevelopDto>{
         let m = await this.teachersdevelopRepository.findOne({where:{id:id}})
-        return await this.teachersdevelopRepository.softRemove(
+        return this.teachersdevelopRepository.softRemove(
             await this.teachersdevelopRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }

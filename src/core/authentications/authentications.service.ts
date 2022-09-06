@@ -149,7 +149,9 @@ export class AuthenticationsService {
   }
   async register(dto: RegisterDto) {
     const duplicateEmail = await this.usersService.findByEmail(dto.email)
-    if(duplicateEmail){
+    console.log(duplicateEmail);
+    
+    if(duplicateEmail!= undefined){
       throw new BadRequestException('ชื่อผู้ถูกสร้างไปแล้ว...')
     }
     const hasepassword = await bcrypt.hash(dto.password,12);

@@ -29,7 +29,7 @@ export class DemoService extends BaseService {
         super()
     }
     async demoDropdown(dto: SearchDemoDto):Promise<SelectItems[]> {
-        return await this.dropdownService.demoDropdown(dto,this.vwDropdownDemoRepository);
+        return this.dropdownService.demoDropdown(dto,this.vwDropdownDemoRepository);
       }
     async list(dto:SearchDemoDto):Promise<SearchResult<VwDemoList>>{
         const builder = this.createQueryBuider<VwDemoList>(dto,this.vwDemoRepository)
@@ -57,19 +57,19 @@ export class DemoService extends BaseService {
     }
     async update(id:number,dto:UpdateDemoDto,req:CustomRequest):Promise<DemoDto>{
         const m = await this.demoRepository.find({where:{id:id}})
-        return await this.demoRepository.save(
+        return this.demoRepository.save(
             this.toUpdateModel(m,dto,req)
         );
     }
     async delete(id:number,req:CustomRequest):Promise<DemoDto>{
         let m = await this.demoRepository.findOne({where:{id:id}})
-        return await this.demoRepository.softRemove(
+        return this.demoRepository.softRemove(
             await this.demoRepository.save(
                 this.toDeleteModel(m,req)
             )
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        return this.itemRepository.findOne({where:{id:id}})
     }
 }
