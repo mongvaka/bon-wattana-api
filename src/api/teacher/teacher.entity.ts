@@ -153,8 +153,10 @@ export class Teacher extends BasicData {
         .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
         .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
         .addSelect("teacher.subjectGroupId", "subjectGroupId")
+        .addSelect("practicle.name", "subjectGroupValue")
         .from(Teacher, "teacher")
         .leftJoin(PractitionerLevel, "practitioner_level_id","practitioner_level_id.Id = teacher.practitionerLevelId")
+        .leftJoin(Practicle,'practicle','practicle.id = teacher.subjectGroupId')
 })
 export class VwTeacherList {
     @ViewColumn()
@@ -177,6 +179,8 @@ export class VwTeacherList {
 
     @ViewColumn()
     subjectGroupId: number;
+    @ViewColumn()
+    subjectGroupValue: number;
 }
 
 @ViewEntity({
