@@ -24,6 +24,7 @@ import { VwSubDistrictDropdown } from "src/api/sub-district/sub-district.entity"
 import { VwTeacherWorkDropdown } from "src/api/teacher-work/teacher-work.entity";
 import { VwTeacherDropdown } from "src/api/teacher/teacher.entity";
 import { VwTeachersDevelopDropdown } from "src/api/teachers-develop/teachers-develop.entity";
+import { VwStudentHomeVisitDropdown } from "src/api/student-home-visit/student-home-visit.entity";
 import { VwDemoDropdown } from "src/core/demo/demo.entity";
 import { Repository } from "typeorm";
 import { SearchParameter, SelectItems } from "../models/search-param-model";
@@ -414,6 +415,22 @@ export class DropdownService extends BaseService{
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
             const model:VwReligionDropdown = el as unknown as VwReligionDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async studenthomevisitDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwStudentHomeVisitDropdown = el as unknown as VwStudentHomeVisitDropdown
             const dropdownModel:SelectItems ={
                 label:model.label,
                 value:model.value,
