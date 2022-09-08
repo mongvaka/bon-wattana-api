@@ -13,6 +13,7 @@ import { SubDistrict } from "src/api/sub-district/sub-district.entity";
 import { Practicle } from "../practicle/practicle.entity";
 import { Classroom } from "../classroom/classroom.entity";
 import { ClassroomType } from "../classroom-type/classroom-type.entity";
+import { ActivityStudent } from "../activity-student/activity-student.entity";
 
 @Entity('teacher')
 export class Teacher extends BasicData {
@@ -142,6 +143,12 @@ export class Teacher extends BasicData {
   educationMinor?: string;
   @Column({nullable: true})
   setInDateSchool:Date
+  @Column({nullable: true})
+  actionWork: string;
+  @Column({nullable: true})
+  actionWorkSpecial: string;
+  @Column({nullable: true})
+  activityStudentId: number;
 }
 @ViewEntity({
     name:'teacher_list',
@@ -158,6 +165,7 @@ export class Teacher extends BasicData {
         .leftJoin(PractitionerLevel, "practitioner_level_id","practitioner_level_id.Id = teacher.practitionerLevelId")
         .leftJoin(Practicle,'practicle','practicle.id = teacher.subjectGroupId')
 })
+
 export class VwTeacherList {
     @ViewColumn()
     id: number;
@@ -181,6 +189,7 @@ export class VwTeacherList {
     subjectGroupId: number;
     @ViewColumn()
     subjectGroupValue: number;
+    
 }
 
 @ViewEntity({
@@ -258,6 +267,10 @@ export class VwTeacherDropdown {
         .addSelect("teacher.subDistrictId", "subDistrictId")
         .addSelect("sub_district_id.name", "subDistrictValue")
         .addSelect("practicle.name", "subjectGroupValue")
+        .addSelect("teacher.actionWork", "actionWork")
+        .addSelect("teacher.actionWorkSpecial", "actionWorkSpecial")
+        .addSelect("teacher.activityStudentId", "activityStudentId")
+        .addSelect("activity_student.activityMainName", "activityStudentValue")
       .from(Teacher, "teacher")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = teacher.gendarId")
         .leftJoin(Nationality, "nationality_id","nationality_id.Id = teacher.nationalityId")
@@ -272,9 +285,17 @@ export class VwTeacherDropdown {
         .leftJoin(Practicle, "practicle","practicle.Id = teacher.subjectGroupId")
         .leftJoin(Classroom,'classroom','classroom.id = teacher.classroomId')
         .leftJoin(ClassroomType,'classroom_type','classroom_type.id = teacher.classroomTypeId')
+        .leftJoin(ActivityStudent,'activity_student','activity_student.id = teacher.activityStudentId')
 })
 export class VwTeacherItem {
-
+  @ViewColumn()
+  actionWork: string;
+  @ViewColumn()
+  actionWorkSpecial: string;
+  @ViewColumn()
+  activityStudentId: number;
+  @ViewColumn()
+  activityStudentValue: number;
   @ViewColumn()
     id: number;
     @ViewColumn()

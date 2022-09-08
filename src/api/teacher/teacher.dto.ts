@@ -104,6 +104,14 @@ export class TeacherDto {
     classroomValue: string;
     @ApiPropertyOptional({ type: String})
     classroomTypeValue: string;
+    @ApiPropertyOptional({ type: String})
+    actionWork: string;
+    @ApiPropertyOptional({ type: String})
+  actionWorkSpecial: string;
+  @ApiPropertyOptional({ type: Number})
+  activityStudentId: number;
+  @ApiPropertyOptional({ type: String})
+  activityStudentValue: string;
 } 
 export class CreateTeacherDto extends TeacherDto{
 

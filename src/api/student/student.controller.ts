@@ -43,7 +43,8 @@ export class StudentController extends BaseController{
   // }
   @Post('list')
   async findAll(@Body() dto: SearchStudentDto) {
-    try{      
+    try{ 
+           
       return this.success(await this.studentService.list(dto))
     }catch(e){
       return this.error(e)

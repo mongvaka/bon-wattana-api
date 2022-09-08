@@ -17,6 +17,7 @@ import { SearchSubDistrictDto } from "src/api/sub-district/sub-district.dto";
 import { CreateTeacherDto, SearchTeacherDto, UpdateTeacherDto } from "./teacher.dto";
 import { TeacherService } from "./teacher.service";
 import { SearchClassroomDto } from "../classroom/classroom.dto";
+import { SearchActivityStudentDto } from "../activity-student/activity-student.dto";
 @ApiTags("teacher")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -122,7 +123,15 @@ export class TeacherController extends BaseController{
   //     return this.error(e)
   //   }
   // }
-  
+ 
+  @Get('activity-student-dropdown')
+  async activityStudentDropdown(@Body() dto: SearchActivityStudentDto) {
+    try{      
+      return this.success(await this.teacherService.activityStudentDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
   @Get('subject-group-dropdown')
   async subjectGroupDropdown(@Body() dto: SearchSubDistrictDto) {
     try{      

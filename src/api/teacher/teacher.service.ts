@@ -42,6 +42,8 @@ import { ColumnType } from 'src/core/shared/constans/enum-system';
 import { SearchClassroomDto } from '../classroom/classroom.dto';
 import { VwClassroomDropdown } from '../classroom/classroom.entity';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { SearchActivityStudentDto } from '../activity-student/activity-student.dto';
+import { VwActivityStudentDropdown } from '../activity-student/activity-student.entity';
 
 @Injectable()
 export class TeacherService extends BaseService {
@@ -113,6 +115,9 @@ async export(dto:SearchExportExcelDto):Promise<any>{
         private readonly vwDropdownClassroomRepository:Repository<VwClassroomDropdown>,
         @InjectRepository(VwClassroomTypeDropdown)
         private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
+        @InjectRepository(VwActivityStudentDropdown)
+        private readonly vwActivityStudentDropdownRepository:Repository<VwActivityStudentDropdown>,
+        
         private readonly dropdownService: DropdownService,
         private readonly imagesService:ImagesService,
         private readonly authService: AuthenticationsService
@@ -149,7 +154,10 @@ async export(dto:SearchExportExcelDto):Promise<any>{
     // async subDistrictDropdown(dto: SearchSubDistrictDto):Promise<SelectItems[]> {
     //     return this.dropdownService.subDistrictDropdown(dto,this.vwDropdownSubDistrictRepository);
     //   }
-      
+    
+    async activityStudentDropdown(dto: SearchActivityStudentDto):Promise<SelectItems[]> {
+      return this.dropdownService.activitystudentDropdown(dto,this.vwActivityStudentDropdownRepository);
+    }
       async subjectGroupDropdown(dto: SearchSubDistrictDto):Promise<SelectItems[]> {
         return this.dropdownService.practicleDropdown(dto,this.vwPracticleDropdownRepository);
       }
