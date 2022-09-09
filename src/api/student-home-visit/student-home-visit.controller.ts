@@ -4,6 +4,7 @@ import { JwtAuthGuard } from "src/core/authentications/jwt-auth.guard";
 import { BaseController } from "src/core/shared/controller/base-controller";
 import { CustomRequest } from "src/core/shared/models/request-model";
 import { DropdownService } from "src/core/shared/services/dropdown.service";
+import { SearchClassroomDto } from "src/api/classroom/classroom.dto";
 //import { SearchnullDto } from "src/api/null/null.dto";
 import { CreateStudentHomeVisitDto, SearchStudentHomeVisitDto, UpdateStudentHomeVisitDto } from "./student-home-visit.dto";
 import { StudentHomeVisitService } from "./student-home-visit.service";
@@ -106,4 +107,33 @@ export class StudentHomeVisitController extends BaseController{
       return this.error(e)
     }    
   }
+
+  @Get('classroom-dropdown')
+  async classroomDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.studenthomevisitService.classroomDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-type-dropdown')
+  async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.studenthomevisitService.classroomTypeDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+
+  @Get('student-home-visit-initialData/:id')
+  async getStudentHomeVisitInitialData(@Param('id') id: number) {
+    try{
+      return this.success(await this.studenthomevisitService.getStudentHomeVisitInitialData(id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+
+  
+  
 }

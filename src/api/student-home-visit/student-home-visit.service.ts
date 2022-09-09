@@ -5,6 +5,10 @@ import { SearchResult, SelectItems } from 'src/core/shared/models/search-param-m
 import { BaseService } from 'src/core/shared/services/base.service';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
 import { Repository } from 'typeorm';
+import { SearchClassroomDto } from 'src/api/classroom/classroom.dto';
+import { VwClassroomDropdown } from 'src/api/classroom/classroom.entity';
+import { VwStudentItem } from 'src/api/student/student.entity';
+import { VwClassroomTypeDropdown } from 'src/api/classroom-type/classroom-type.entity';
 import { CreateStudentHomeVisitDto, StudentHomeVisitDto, SearchStudentHomeVisitDto, UpdateStudentHomeVisitDto } from './student-home-visit.dto';
 import { StudentHomeVisit, VwStudentHomeVisitDropdown, VwStudentHomeVisitItem, VwStudentHomeVisitList } from './student-home-visit.entity';
 //import { VwnullDropdown } from 'src/api/null/null.entity';
@@ -22,7 +26,13 @@ export class StudentHomeVisitService extends BaseService {
         private readonly itemRepository:Repository<VwStudentHomeVisitItem>,
       //  @InjectRepository(VwnullDropdown)
       //  private readonly vwDropdownnullRepository:Repository<VwnullDropdown>,
-        private readonly dropdownService: DropdownService
+        @InjectRepository(VwClassroomDropdown)
+        private readonly vwDropdownClassroomRepository:Repository<VwClassroomDropdown>,
+        @InjectRepository(VwClassroomTypeDropdown)
+        private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
+        private readonly dropdownService: DropdownService,
+        @InjectRepository(VwStudentItem)
+        private readonly itemStudentRepository:Repository<VwStudentItem>,
         ){
         super()
     }
@@ -57,5 +67,15 @@ export class StudentHomeVisitService extends BaseService {
     }
     async item(id:number):Promise<any>{
         return await this.itemRepository.findOne({where:{id:id}})
+    }
+    async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
+      }
+      async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
+      }
+
+      async getStudentHomeVisitInitialData(id:number):Promise<any>{
+        return await this.itemStudentRepository.findOne({where:{id:id}})
     }
 }

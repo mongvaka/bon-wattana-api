@@ -218,7 +218,7 @@ export class StudentHomeVisit extends BasicData {
 @ViewEntity({
     name:'student_home_visit_list',
     expression: (connection: Connection) => connection.createQueryBuilder()
-    /*
+    
     .select("student.id", "id")
     .addSelect("student.studentCode", "studentCode")
     .addSelect("student.status", "status")
@@ -242,7 +242,7 @@ export class StudentHomeVisit extends BasicData {
     .leftJoin(Province,'province','student.provinceId = province.id')
     .leftJoin(District,'district','district.id = student.districtId')
     .leftJoin(SubDistrict,'sub_district','sub_district.id = student.subDistrictId')
-    */
+    /*
         .select("student_home_visit.id", "id")
         .addSelect("student_home_visit.homeVisitday", "homeVisitday")
         .addSelect("student_home_visit.atSemester", "atSemester")
@@ -252,10 +252,10 @@ export class StudentHomeVisit extends BasicData {
         .from(StudentHomeVisit, "student_home_visit")
       //  .leftJoin(null, "student_id","student_id.Id = student_home_visit.studentId")
 
-
+*/
 })
 export class VwStudentHomeVisitList {
- /* @ViewColumn()
+  @ViewColumn()
   id: number;
   @ViewColumn()
   classroomTypeId: number;
@@ -293,7 +293,7 @@ export class VwStudentHomeVisitList {
   classroomValue: string;
   @ViewColumn()
   personalCode: string;
-*/
+/*
   
     @ViewColumn()
     id: number;
@@ -312,7 +312,7 @@ export class VwStudentHomeVisitList {
 
    // @ViewColumn()
    // studentValue: string;
-   
+   */
 }
 
 @ViewEntity({
