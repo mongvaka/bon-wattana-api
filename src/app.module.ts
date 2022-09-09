@@ -34,6 +34,7 @@ import { TeacherModule } from './api/teacher/teacher.module';
 import { TeacherWorkModule } from './api/teacher-work/teacher-work.module';
 import { TeachersDevelopModule } from './api/teachers-develop/teachers-develop.module';
 import { PracticleModule } from './api/practicle/practicle.module';
+import { StudentHomeVisitModule } from './api/student-home-visit/student-home-visit.module';
 
 @Module({
   imports: [
@@ -61,7 +62,8 @@ ConfigModule.forRoot({
       useFactory: async (configService: ConfigService) => {
         return {
           type: "postgres",
-          host: configService.get('DATABASE_URL', '203.159.93.121'),
+          //host: configService.get('DATABASE_URL', 'localhost'),
+         host: configService.get('DATABASE_URL', '203.159.93.121'),
           port: Number(configService.get<number>('DATABASE_PORT', 5432)),
           username: configService.get('DATABASE_USERNAME', 'postgres'),
           password: configService.get('DATABASE_PASSWORD', 'password'),
@@ -102,7 +104,8 @@ ConfigModule.forRoot({
     TeacherModule,
     TeacherWorkModule,
     TeachersDevelopModule,
-    PracticleModule
+    PracticleModule,
+    StudentHomeVisitModule
   ],
   controllers: [AppController],
   providers: [AppService],
