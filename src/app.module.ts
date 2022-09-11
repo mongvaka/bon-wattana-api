@@ -35,6 +35,8 @@ import { TeacherWorkModule } from './api/teacher-work/teacher-work.module';
 import { TeachersDevelopModule } from './api/teachers-develop/teachers-develop.module';
 import { PracticleModule } from './api/practicle/practicle.module';
 import { StudentHomeVisitModule } from './api/student-home-visit/student-home-visit.module';
+import { YearTermModule } from './api/year-term/year-term.module';
+import { CheckStudentModule } from './api/check-student/check-student.module';
 
 @Module({
   imports: [
@@ -105,7 +107,9 @@ ConfigModule.forRoot({
     TeacherWorkModule,
     TeachersDevelopModule,
     PracticleModule,
-    StudentHomeVisitModule
+    StudentHomeVisitModule,
+    YearTermModule,
+    CheckStudentModule
   ],
   controllers: [AppController],
   providers: [AppService],

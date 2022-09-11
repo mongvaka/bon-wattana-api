@@ -149,13 +149,13 @@ export class BaseService{
                     const endDate:Date = new Date(`${year}-${month}-${day}`)
                     endDate.setDate(endDate.getDate()+1)
                     if(el.operator == Operators.EQUAL){
-                        buider.andWhere(`(${dto.tableKey}.${el.feildName} > :startDate AND ${dto.tableKey}.${el.feildName} < :endDate)`,{startDate:startDate,endDate:endDate})
+                        buider.andWhere(`("${dto.tableKey}"."${el.feildName}" > :startDate AND "${dto.tableKey}"."${el.feildName}" < :endDate)`,{startDate:startDate,endDate:endDate})
                     }
                     if(el.operator == Operators.LESSTHAN_OR_EQUAL){
-                        buider.andWhere(`${dto.tableKey}.${el.feildName} < :endDate`,{endDate:endDate})
+                        buider.andWhere(`"${dto.tableKey}"."${el.feildName}" < :endDate`,{endDate:endDate})
                     }
                     if(el.operator == Operators.MORTHAN_OR_EQUAL){
-                        buider.andWhere(`${dto.tableKey}.${el.feildName} > :startDate`,{startDate:startDate})
+                        buider.andWhere(`"${dto.tableKey}"."${el.feildName}" > :startDate`,{startDate:startDate})
                     }
                     
                 }else{
@@ -167,10 +167,10 @@ export class BaseService{
         console.log('${dto.tableKey}.id',dto.tableKey);
         
         if(dto.sortColumns.length==0){
-            buider.addOrderBy(`${dto.tableKey}.id`,'DESC')
+            buider.addOrderBy(`"${dto.tableKey}"."id"`,'DESC')
         }else{
             dto.sortColumns.forEach((el,index)=>{
-                const sortString = `${dto.sortTable[index]}.${el}`
+                const sortString = `"${dto.sortTable[index]}"."${el}"`
                 let sortType:'DESC'|'ASC' = 'DESC'
                 if(dto.isAscs[index]){
                     sortType = 'ASC'
@@ -178,6 +178,7 @@ export class BaseService{
                 buider.addOrderBy(sortString,sortType)
             })
         }
+       console.log(buider.getSql());
        
         buider.skip(skip).take(take)
         

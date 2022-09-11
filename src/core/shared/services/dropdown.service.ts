@@ -29,6 +29,8 @@ import { VwDemoDropdown } from "src/core/demo/demo.entity";
 import { Repository } from "typeorm";
 import { SearchParameter, SelectItems } from "../models/search-param-model";
 import { BaseService } from "./base.service";
+import { VwYearTermDropdown } from "src/api/year-term/year-term.entity";
+import { VwCheckStudentDropdown } from "src/api/check-student/check-student.entity";
 
 @Injectable()
 export class DropdownService extends BaseService{
@@ -36,6 +38,39 @@ export class DropdownService extends BaseService{
     ){
         super()
     }
+    async checkstudentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{   
+        dto.tableKey = 'check_student'     
+        const buider = this.createQueryBuiderDropdown(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwCheckStudentDropdown = el as unknown as VwCheckStudentDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async yeartermDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{ 
+        dto.tableKey = 'practicle'       
+        const buider = this.createQueryBuiderDropdown(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwYearTermDropdown = el as unknown as VwYearTermDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
     async practicleDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{    
         dto.tableKey = 'practicle'    
         const buider = this.createQueryBuiderDropdown(dto,repository)
@@ -371,6 +406,8 @@ export class DropdownService extends BaseService{
     async studentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{      
         dto.tableKey = 'student'        
         const buider = this.createQueryBuiderDropdown(dto,repository)
+        console.log(buider.getSql());
+        
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
