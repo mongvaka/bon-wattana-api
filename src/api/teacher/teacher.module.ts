@@ -19,6 +19,7 @@ import { ImagesModule } from 'src/core/images/images.module';
 import { AuthenticationsModule } from 'src/core/authentications/authentications.module';
 import { VwClassroomDropdown } from '../classroom/classroom.entity';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { VwActivityStudentDropdown } from '../activity-student/activity-student.entity';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity
     VwSubDistrictDropdown,
     VwPracticleDropdown,
     VwClassroomDropdown,
-    VwClassroomTypeDropdown
+    VwClassroomTypeDropdown,
+    VwActivityStudentDropdown
     ]),
     ImagesModule,
     AuthenticationsModule

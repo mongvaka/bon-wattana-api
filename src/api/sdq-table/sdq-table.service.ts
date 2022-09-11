@@ -86,7 +86,7 @@ export class SdqTableService extends BaseService {
                     dto.friendBehaviorScore04_value ='มีปัญหา';
                 }
             }
-            if(dto.socialBehaviorScore05<3){
+            if(dto.socialBehaviorScore05<5){
                 dto.socialBehaviorScore05_value ='ไม่มีจุดแข็ง';
             }else{
                 dto.socialBehaviorScore05_value ='เป็นจุดแข็ง';
@@ -132,7 +132,7 @@ export class SdqTableService extends BaseService {
                     dto.friendBehaviorScore04_value ='มีปัญหา';
                 }
             }
-            if(dto.socialBehaviorScore05<3){
+            if(dto.socialBehaviorScore05<5){
                 dto.socialBehaviorScore05_value ='ไม่มีจุดแข็ง';
             }else{
                 dto.socialBehaviorScore05_value ='เป็นจุดแข็ง';
@@ -178,7 +178,7 @@ export class SdqTableService extends BaseService {
                     dto.friendBehaviorScore04_value ='มีปัญหา';
                 }
             }
-            if(dto.socialBehaviorScore05<3){
+            if(dto.socialBehaviorScore05<5){
                 dto.socialBehaviorScore05_value ='ไม่มีจุดแข็ง';
             }else{
                 dto.socialBehaviorScore05_value ='เป็นจุดแข็ง';

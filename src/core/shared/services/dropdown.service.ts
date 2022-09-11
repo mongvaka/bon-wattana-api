@@ -30,6 +30,8 @@ import { Repository } from "typeorm";
 import { SearchParameter, SelectItems } from "../models/search-param-model";
 import { BaseService } from "./base.service";
 import { VwSdqTableDropdown } from "src/api/sdq-table/sdq-table.entity";
+import { VwYearTermDropdown } from "src/api/year-term/year-term.entity";
+import { VwCheckStudentDropdown } from "src/api/check-student/check-student.entity";
 
 @Injectable()
 export class DropdownService extends BaseService{
@@ -37,8 +39,42 @@ export class DropdownService extends BaseService{
     ){
         super()
     }
-    async practicleDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-        const buider = this.createQueryBuider(dto,repository)
+    async checkstudentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{   
+        dto.tableKey = 'check_student'     
+        const buider = this.createQueryBuiderDropdown(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwCheckStudentDropdown = el as unknown as VwCheckStudentDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async yeartermDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{ 
+        dto.tableKey = 'practicle'       
+        const buider = this.createQueryBuiderDropdown(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwYearTermDropdown = el as unknown as VwYearTermDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async practicleDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{    
+        dto.tableKey = 'practicle'    
+        const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -52,8 +88,9 @@ export class DropdownService extends BaseService{
         });        
         return dropdownList;
     }
-    async teachersdevelopDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-        const buider = this.createQueryBuider(dto,repository)
+    async teachersdevelopDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{  
+        dto.tableKey = 'teachers_develop'        
+        const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -68,8 +105,9 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
 
-    async teacherworkDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-        const buider = this.createQueryBuider(dto,repository)
+    async teacherworkDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{   
+        dto.tableKey = 'teacher_work'           
+        const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -84,8 +122,9 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
 
-    async teacherDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-        const buider = this.createQueryBuider(dto,repository)
+    async teacherDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{  
+        dto.tableKey = 'teacher'            
+        const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -100,8 +139,9 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
 
-    async practitionerlevelDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-        const buider = this.createQueryBuider(dto,repository)
+    async practitionerlevelDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{ 
+        dto.tableKey = 'practitioner_level'             
+        const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -116,8 +156,9 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
 
-    async educationbackgroundDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-        const buider = this.createQueryBuider(dto,repository)
+    async educationbackgroundDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{ 
+        dto.tableKey = 'education_background'             
+        const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -132,8 +173,9 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
 
-    async curriculumDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-        const buider = this.createQueryBuider(dto,repository)
+    async curriculumDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{     
+        dto.tableKey = 'curriculum'         
+        const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -148,8 +190,9 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
 
-    async activitystudentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-        const buider = this.createQueryBuider(dto,repository)
+    async activitystudentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{    
+        dto.tableKey = 'activity_student'          
+        const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -163,8 +206,9 @@ export class DropdownService extends BaseService{
         });        
         return dropdownList;
     }
-    async editRequestDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-        const buider = this.createQueryBuider(dto,repository)
+    async editRequestDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{   
+        dto.tableKey = 'edit_request'           
+        const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -179,8 +223,9 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
 
-    async editFieldDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-        const buider = this.createQueryBuider(dto,repository)
+    async editFieldDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{    
+        dto.tableKey = 'edit_field'          
+        const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -195,7 +240,8 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
     async activeTimeDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-        const buider = this.createQueryBuider(dto,repository)
+        dto.tableKey = 'active_time'      
+        const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -210,7 +256,8 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
 
-    async demoDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+    async demoDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{     
+        dto.tableKey = 'demo'         
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
@@ -226,7 +273,8 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
   
-    async countryDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+    async countryDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{  
+        dto.tableKey = 'country'            
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
@@ -242,7 +290,8 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
   
-    async districtDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+    async districtDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{       
+        dto.tableKey = 'district'       
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
@@ -258,7 +307,8 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
   
-    async provinceDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+    async provinceDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{    
+        dto.tableKey = 'province'          
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
@@ -273,7 +323,8 @@ export class DropdownService extends BaseService{
         });        
         return dropdownList;
     }
-      async subDistrictDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+      async subDistrictDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{    
+        dto.tableKey = 'sub_district'          
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
@@ -289,6 +340,7 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
     async aliveWithDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        dto.tableKey = 'alive_with'      
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
@@ -303,7 +355,8 @@ export class DropdownService extends BaseService{
         });        
         return dropdownList;
     }
-    async classroomDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+    async classroomDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{   
+        dto.tableKey = 'classroom'           
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
@@ -319,7 +372,7 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
     async classroomTypeDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
-
+        dto.tableKey = 'classroom_type'      
         const buider = this.createQueryBuiderDropdown(dto,repository)
 
         const data =await buider.getMany();
@@ -335,7 +388,8 @@ export class DropdownService extends BaseService{
         });        
         return dropdownList;
     }
-    async gendarDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+    async gendarDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{       
+        dto.tableKey = 'gendar'       
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
@@ -350,8 +404,11 @@ export class DropdownService extends BaseService{
         });        
         return dropdownList;
     }
-    async studentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+    async studentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{      
+        dto.tableKey = 'student'        
         const buider = this.createQueryBuiderDropdown(dto,repository)
+        console.log(buider.getSql());
+        
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
@@ -365,7 +422,8 @@ export class DropdownService extends BaseService{
         });        
         return dropdownList;
     }
-    async parentStatusDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+    async parentStatusDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{     
+        dto.tableKey = 'parent_status'         
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
@@ -381,6 +439,7 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
     async ethnicityDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        dto.tableKey = 'ethnicity'      
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
@@ -395,7 +454,8 @@ export class DropdownService extends BaseService{
         });        
         return dropdownList;
     }
-    async nationalityDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+    async nationalityDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{       
+        dto.tableKey = 'nationality'       
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]
@@ -411,6 +471,7 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
     async religionDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        dto.tableKey = 'religion'      
         const buider = this.createQueryBuiderDropdown(dto,repository)
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]

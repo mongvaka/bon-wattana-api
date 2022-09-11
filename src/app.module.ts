@@ -38,6 +38,9 @@ import { StudentHomeVisitModule } from './api/student-home-visit/student-home-vi
 import { SdqTableModule } from './api/sdq-table/sdq-table.module';
 import { SdqTeacherModule } from './api/sdq-table/sdq-teacher.module';
 import { SdqParentModule } from './api/sdq-table/sdq-parent.module';
+import { YearTermModule } from './api/year-term/year-term.module';
+import { CheckStudentModule } from './api/check-student/check-student.module';
+
 @Module({
   imports: [
     // ConfigModule.forRoot(
@@ -112,6 +115,8 @@ ConfigModule.forRoot({
     SdqTeacherModule,
     SdqParentModule,
 
+    YearTermModule,
+    CheckStudentModule
   ],
   controllers: [AppController],
   providers: [AppService],
