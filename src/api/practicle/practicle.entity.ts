@@ -9,7 +9,7 @@ export class Practicle extends BasicData {
   @Column({nullable: true})
   name?: string;
 
-  @Column({nullable: false})
+  @Column({nullable: true})
   descrition?: string;
 }
 @ViewEntity({

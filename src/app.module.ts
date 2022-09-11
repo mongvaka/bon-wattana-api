@@ -34,6 +34,12 @@ import { TeacherModule } from './api/teacher/teacher.module';
 import { TeacherWorkModule } from './api/teacher-work/teacher-work.module';
 import { TeachersDevelopModule } from './api/teachers-develop/teachers-develop.module';
 import { PracticleModule } from './api/practicle/practicle.module';
+import { StudentHomeVisitModule } from './api/student-home-visit/student-home-visit.module';
+import { SdqTableModule } from './api/sdq-table/sdq-table.module';
+import { SdqTeacherModule } from './api/sdq-table/sdq-teacher.module';
+import { SdqParentModule } from './api/sdq-table/sdq-parent.module';
+import { YearTermModule } from './api/year-term/year-term.module';
+import { CheckStudentModule } from './api/check-student/check-student.module';
 
 @Module({
   imports: [
@@ -61,13 +67,14 @@ ConfigModule.forRoot({
       useFactory: async (configService: ConfigService) => {
         return {
           type: "postgres",
+          // host: configService.get('DATABASE_URL', 'localhost'),
           host: configService.get('DATABASE_URL', '203.159.93.121'),
           port: Number(configService.get<number>('DATABASE_PORT', 5432)),
           username: configService.get('DATABASE_USERNAME', 'postgres'),
           password: configService.get('DATABASE_PASSWORD', 'password'),
           database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
           useUTC:true,
-        
+          logging:false,
           synchronize: configService.get<string>('SYNC_DATABASE', 'true')!='false',
           entities: ["dist/**/**/*.entity{.ts,.js}"],
           
@@ -102,7 +109,14 @@ ConfigModule.forRoot({
     TeacherModule,
     TeacherWorkModule,
     TeachersDevelopModule,
-    PracticleModule
+    PracticleModule,
+    StudentHomeVisitModule,
+    SdqTableModule,
+    SdqTeacherModule,
+    SdqParentModule,
+
+    YearTermModule,
+    CheckStudentModule
   ],
   controllers: [AppController],
   providers: [AppService],

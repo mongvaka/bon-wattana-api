@@ -33,12 +33,13 @@ import { savefileWithName } from 'src/core/shared/services/files.service';
 import { filename } from 'src/core/shared/utils/image.util';
 import { ImagesService } from 'src/core/images/images.service';
 import { Operators } from 'src/core/shared/constans/constanst';
-import { ColumnType } from 'src/core/shared/constans/enum-system';
+import { ColumnType, ImageType } from 'src/core/shared/constans/enum-system';
 import { AuthenticationsService } from 'src/core/authentications/authentications.service';
 import { RegisterDto } from 'src/core/authentications/authentications.dto';
 import { UserType } from 'src/core/shared/constans/enum-constans';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { Teacher } from '../teacher/teacher.entity';
 
 @Injectable()
 export class StudentService extends BaseService {
@@ -101,6 +102,8 @@ export class StudentService extends BaseService {
         
         @InjectRepository(VwParentStatusDropdown)
         private readonly vwDropdownParentStatusRepository:Repository<VwParentStatusDropdown>,
+        @InjectRepository(Teacher)
+        private readonly teacherRepository:Repository<Teacher>,
         private readonly dropdownService: DropdownService,
         private readonly imagesService:ImagesService,
         private readonly authService: AuthenticationsService
@@ -212,7 +215,7 @@ export class StudentService extends BaseService {
             this.studentRepository.create(en)
         );
         if(dto.imageProfile){
-          await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:0,imageType:0},req)
+          await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:ImageType.STUDENT,imageType:0},req)
         }
         const regisModel:RegisterDto = {
           email:`${result.studentCode}`,
@@ -244,7 +247,7 @@ export class StudentService extends BaseService {
           this.toUpdateModel(m,dto,req)
       );
       if(dto.imageProfile){
-        await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:0,imageType:0},req)
+        await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:ImageType.STUDENT,imageType:0},req)
       }
         return result
     }
@@ -257,7 +260,17 @@ export class StudentService extends BaseService {
         )
     }
     async item(id:number):Promise<any>{
-        return this.itemRepository.findOne({where:{id:id}})
+      let mentorName:string = ''
+      const result = await this.itemRepository.findOne({where:{id:id}})
+      if(result.classroomId!=null&& result.classroomTypeId!=null){
+    
+        const mentorList = await this.teacherRepository.find({where:{classroomId:result.classroomId,classroomTypeId:result.classroomTypeId,deleted:false}})
+        mentorList.forEach(el=>{
+          mentorName = mentorName+=` ${el.firstname} - ${el.lastname}   `
+        })
+      }
+      return {...result, mentorTeacher:mentorName}
+      
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
       const builder = this.createQueryBuider<VwStudentItem>(dto,this.itemRepository)

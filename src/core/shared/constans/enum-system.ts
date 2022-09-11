@@ -4,6 +4,11 @@ export enum SortType {
   DESC = 0,
   NONE = null,
 }
+export enum ImageType {
+  STUDENT = 1,
+  TEACHER = 2,
+  HOME_VISIT = 3,
+}
 export enum BracketType {
   None = 0,
   SingleStart = 1,
