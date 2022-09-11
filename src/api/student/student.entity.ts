@@ -11,6 +11,8 @@ import { Province } from "src/api/province/province.entity";
 import { AliveWith } from "src/api/alive-with/alive-with.entity";
 import { Classroom } from "src/api/classroom/classroom.entity";
 import { ClassroomType } from "../classroom-type/classroom-type.entity";
+import { SdqTable } from "src/api/sdq-table/sdq-table.entity";
+import { YearTerm } from "src/api/year-term/year-term.entity";
 
 @Entity('student')
 export class Student extends BasicData {
@@ -761,4 +763,168 @@ export class VwStudentItem {
     parentPhone: string;
 
     
+}
+@ViewEntity({
+  name:'sdq_table_list_for_teacher',
+  expression: (connection: Connection) => connection.createQueryBuilder()
+  .select("student.id", "id")
+  .addSelect("sdq_table.studentId", "studentId")
+  .addSelect("student.studentCode", "studentCode")
+  .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
+  .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
+  .addSelect("student.classroomId", "classroomId")
+  .addSelect("student.classroomTypeId", "classroomTypeId")
+  .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
+  .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
+  .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
+  .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
+  .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
+  .addSelect("sdq_table.sumScore_value", "sumScore_value")
+  .from(Student, "student")
+  .leftJoin(SdqTable, "sdq_table","sdq_table.studentId = student.id AND sdq_table.estimateType = 2")
+  .leftJoin(YearTerm, "year_term","year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
+  .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
+  .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
+})
+export class VwSdqTableListForTeacher {
+
+   @ViewColumn()
+   sumScore_value: string;
+  @ViewColumn()
+  id: number;
+@ViewColumn()
+nameValue: number;
+@ViewColumn()
+classroomId: number;
+@ViewColumn()
+classroomTypeId: number;
+@ViewColumn()
+studentCode: string;
+@ViewColumn()
+classroomValue: string;
+
+@ViewColumn()
+emotionalBehaviorScore01_value: string;
+
+@ViewColumn()
+nomalBehaviorScore02_value: string;
+
+@ViewColumn()
+ADHDBehaviorScore03_value: string;
+
+@ViewColumn()
+friendBehaviorScore04_value: string;
+
+@ViewColumn()
+socialBehaviorScore05_value: string;
+
+}
+@ViewEntity({
+  name:'sdq_table_list_for_parent',
+
+  expression: (connection: Connection) => connection.createQueryBuilder()
+  .select("student.id", "id")
+  .addSelect("sdq_table.studentId", "studentId")
+  .addSelect("student.studentCode", "studentCode")
+  .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
+  .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
+  .addSelect("student.classroomId", "classroomId")
+  .addSelect("student.classroomTypeId", "classroomTypeId")
+  .addSelect("sdq_table.sumScore_value", "sumScore_value")
+  .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
+  .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
+  .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
+  .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
+  .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
+  .from(Student, "student")
+  .leftJoin(SdqTable, "sdq_table","sdq_table.studentId = student.id AND sdq_table.estimateType = 3")
+  .leftJoin(YearTerm, "year_term","year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
+  .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
+  .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
+})
+export class VwSdqTableListForParent {
+  @ViewColumn()
+  id: number;
+@ViewColumn()
+nameValue: number;
+@ViewColumn()
+classroomId: number;
+@ViewColumn()
+classroomTypeId: number;
+@ViewColumn()
+studentCode: string;
+@ViewColumn()
+classroomValue: string;
+@ViewColumn()
+sumScore_value: string;
+@ViewColumn()
+emotionalBehaviorScore01_value: string;
+
+@ViewColumn()
+nomalBehaviorScore02_value: string;
+
+@ViewColumn()
+ADHDBehaviorScore03_value: string;
+
+@ViewColumn()
+friendBehaviorScore04_value: string;
+
+@ViewColumn()
+socialBehaviorScore05_value: string;
+
+}
+
+@ViewEntity({
+  name:'sdq_table_list_for_student',
+
+  expression: (connection: Connection) => connection.createQueryBuilder()
+  .select("student.id", "id")
+  .addSelect("sdq_table.studentId", "studentId")
+  .addSelect("student.studentCode", "studentCode")
+  .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
+  .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
+  .addSelect("student.classroomId", "classroomId")
+  .addSelect("student.classroomTypeId", "classroomTypeId")
+  .addSelect("sdq_table.sumScore_value", "sumScore_value")
+  .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
+  .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
+  .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
+  .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
+  .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
+  .from(Student, "student")
+  .leftJoin(SdqTable, "sdq_table","sdq_table.studentId = student.id AND sdq_table.estimateType = 1")
+  .leftJoin(YearTerm, "year_term","year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
+  .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
+  .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
+})
+export class VwSdqTableListForStudent {
+  @ViewColumn()
+  id: number;
+@ViewColumn()
+nameValue: number;
+@ViewColumn()
+classroomId: number;
+@ViewColumn()
+classroomTypeId: number;
+@ViewColumn()
+studentCode: string;
+@ViewColumn()
+classroomValue: string;
+@ViewColumn()
+sumScore_value: string;
+@ViewColumn()
+emotionalBehaviorScore01_value: string;
+
+@ViewColumn()
+nomalBehaviorScore02_value: string;
+
+@ViewColumn()
+ADHDBehaviorScore03_value: string;
+
+@ViewColumn()
+friendBehaviorScore04_value: string;
+
+@ViewColumn()
+socialBehaviorScore05_value: string;
+
 }

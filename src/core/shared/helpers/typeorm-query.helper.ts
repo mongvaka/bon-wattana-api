@@ -18,7 +18,7 @@ export const getCommonQueryForBuilder = (
   }
   let commonQueries = _queries.join(' AND ');
   commonQueries = `(${commonQueries})`;
-  console.log(commonQueries);
+ // console.log(commonQueries);
   return { commonQueries, commonParams };
 };
 
@@ -41,7 +41,7 @@ export const getCommonQueryForBuilderTable = (
   }
   let commonQueries = _queries.join(' AND ');
   commonQueries = `(${commonQueries})`;
-  console.log(commonQueries);
+//  console.log(commonQueries);
   return { commonQueries, commonParams };
 };
 
