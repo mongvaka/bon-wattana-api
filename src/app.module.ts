@@ -35,7 +35,9 @@ import { TeacherWorkModule } from './api/teacher-work/teacher-work.module';
 import { TeachersDevelopModule } from './api/teachers-develop/teachers-develop.module';
 import { PracticleModule } from './api/practicle/practicle.module';
 import { StudentHomeVisitModule } from './api/student-home-visit/student-home-visit.module';
-
+import { SdqTableModule } from './api/sdq-table/sdq-table.module';
+import { SdqTeacherModule } from './api/sdq-table/sdq-teacher.module';
+import { SdqParentModule } from './api/sdq-table/sdq-parent.module';
 @Module({
   imports: [
     // ConfigModule.forRoot(
@@ -105,7 +107,11 @@ ConfigModule.forRoot({
     TeacherWorkModule,
     TeachersDevelopModule,
     PracticleModule,
-    StudentHomeVisitModule
+    StudentHomeVisitModule,
+    SdqTableModule,
+    SdqTeacherModule,
+    SdqParentModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
