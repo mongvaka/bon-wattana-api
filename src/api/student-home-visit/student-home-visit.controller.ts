@@ -100,31 +100,31 @@ export class StudentHomeVisitController extends BaseController{
     }    
   }
 
-  @Get('classroom-dropdown')
-  async classroomDropdown(@Body() dto: SearchClassroomDto) {
-    try{      
-      return this.success(await this.studenthomevisitService.classroomDropdown(dto))
-    }catch(e){
-      return this.error(e)
-    }
-  }
-  @Get('classroom-type-dropdown')
-  async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
-    try{      
-      return this.success(await this.studenthomevisitService.classroomTypeDropdown(dto))
-    }catch(e){
-      return this.error(e)
-    }
-  }
+  // @Get('classroom-dropdown')
+  // async classroomDropdown(@Body() dto: SearchClassroomDto) {
+  //   try{      
+  //     return this.success(await this.studenthomevisitService.classroomDropdown(dto))
+  //   }catch(e){
+  //     return this.error(e)
+  //   }
+  // }
+  // @Get('classroom-type-dropdown')
+  // async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
+  //   try{      
+  //     return this.success(await this.studenthomevisitService.classroomTypeDropdown(dto))
+  //   }catch(e){
+  //     return this.error(e)
+  //   }
+  // }
 
-  @Get('student-home-visit-initialData/:id')
-  async getStudentHomeVisitInitialData(@Param('id') id: number) {
-    try{
-      return this.success(await this.studenthomevisitService.getStudentHomeVisitInitialData(id))
-    }catch(e){
-      return this.error(e)
-    }
-  }
+  // @Get('student-home-visit-initialData/:id')
+  // async getStudentHomeVisitInitialData(@Param('id') id: number) {
+  //   try{
+  //     return this.success(await this.studenthomevisitService.getStudentHomeVisitInitialData(id))
+  //   }catch(e){
+  //     return this.error(e)
+  //   }
+  // }
 
   
   

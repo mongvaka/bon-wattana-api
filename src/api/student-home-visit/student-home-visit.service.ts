@@ -60,7 +60,7 @@ export class StudentHomeVisitService extends BaseService {
         );
         const moduleName = 'images'
 
-        if(dto.images.length>0){
+        if(dto.images?.length>0){
             for (const iterator of dto.images) {
                 const fileName = filename()
                 await savefileWithName(iterator,fileName,moduleName)
@@ -80,7 +80,7 @@ export class StudentHomeVisitService extends BaseService {
         );
         const moduleName = 'images'
 
-        if(dto.images.length>0){
+        if(dto.images?.length>0){
             for (const iterator of dto.images) {
                 const fileName = filename()
                 await savefileWithName(iterator,fileName,moduleName)

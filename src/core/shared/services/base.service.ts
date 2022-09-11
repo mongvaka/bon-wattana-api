@@ -221,6 +221,7 @@ export class BaseService{
                 buider.addOrderBy(sortString,sortType)
             })
         }
+       console.log(buider.getSql());
        
         buider.skip(skip).take(take)
         
