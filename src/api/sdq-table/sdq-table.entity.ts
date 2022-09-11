@@ -3,6 +3,7 @@ import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEnt
 import { ClassroomType } from "../classroom-type/classroom-type.entity";
 import { Classroom } from "../classroom/classroom.entity";
 import { Student } from "../student/student.entity";
+import { YearTerm } from "../year-term/year-term.entity";
 
 @Entity('sdq_table')
 export class SdqTable extends BasicData {
@@ -131,23 +132,93 @@ export class SdqTable extends BasicData {
 
     @Column({nullable: true})
   socialBehaviorScore05_value: string;
+
+  @Column({nullable: true})
+   sumScore:number;
+
+    @Column({nullable: true})
+    sumScore_value: string;
 }
 @ViewEntity({
     name:'sdq_table_list',
+/*
+    expression:`select
+    CONCAT(s.firstname ,' ',s.lastname) as nameValue,
+    s."studentCode" ,
+      sdq.id as sdq_id,
+      "studentId",
+      "atSemester",
+      "atYear",
+      "evaluateId",
+      "evaluateDate",
+      "estimateType",
+      choice01,
+      choice02,
+      choice03,
+      choice04,
+      choice05,
+      choice06,
+      choice07,
+      choice08,
+      choice09,
+      choice10,
+      choice11,
+      choice12,
+      choice13,
+      choice14,
+      choice15,
+      choice16,
+      choice17,
+      choice18,
+      choice19,
+      choice20,
+      choice21,
+      choice22,
+      choice23,
+      choice24,
+      choice25,
+      "emotionalBehaviorScore01",
+      "nomalBehaviorScore02",
+      "ADHDBehaviorScore03",
+      "friendBehaviorScore04",
+      "socialBehaviorScore05",
+      "emotionalBehaviorScore01_value",
+      "nomalBehaviorScore02_value",
+      "ADHDBehaviorScore03_value",
+      "friendBehaviorScore04_value",
+      "socialBehaviorScore05_value"
+    from
+      sdq_table sdq
+    left join year_term yt on yt."year"  =sdq."atYear"  and yt."isParent" =true and yt.active = true
+    left join student s on s.id =sdq."studentId" 
+    where sdq."estimateType"= 1 
+    ;`*/
     expression: (connection: Connection) => connection.createQueryBuilder()
-    .select("student.id", "id")
+    .select("sdq_table.id", "id")
+    .addSelect("sdq_table.studentId", "studentId")
     .addSelect("student.studentCode", "studentCode")
     .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
     .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
     .addSelect("student.classroomId", "classroomId")
     .addSelect("student.classroomTypeId", "classroomTypeId")
-    .from(Student, "student")
+    .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
+    .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
+    .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
+    .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
+    .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
+    .addSelect("sdq_table.sumScore_value", "sumScore_value")
+    .from(SdqTable, "sdq_table")
+    .leftJoin(YearTerm, "year_term","year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
+    .leftJoin(Student, "student","student.id = sdq_table.studentId")
     .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
     .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
+    .where("sdq_table.estimateType = 1 ")
 })
 export class VwSdqTableList {
   @ViewColumn()
   id: number;
+  @ViewColumn()
+  studentId: number;
   @ViewColumn()
   nameValue: number;
   @ViewColumn()
@@ -158,25 +229,7 @@ export class VwSdqTableList {
   studentCode: string;
   @ViewColumn()
   classroomValue: string;
-
-  //SELECT id, "studentId", "atSemester", "atYear", "evaluateId", "evaluateDate", "estimateType", choice01, choice02, choice03, choice04, choice05, choice06, choice07, choice08, choice09, choice10, choice11, choice12, choice13, choice14, choice15, choice16, choice17, choice18, choice19, choice20, choice21, choice22, choice23, choice24, choice25, "emotionalBehaviorScore01", "nomalBehaviorScore02", "ADHDBehaviorScore03", "friendBehaviorScore04", "socialBehaviorScore05", "emotionalBehaviorScore01_value", "nomalBehaviorScore02_value", "ADHDBehaviorScore03_value", "friendBehaviorScore04_value", "socialBehaviorScore05_value"
- //FROM sdq_table;
- /*
-  @ViewColumn()
-  emotionalBehaviorScore01: number;
- 
-  @ViewColumn()
-  nomalBehaviorScore02: number;
-
-  @ViewColumn()
-  ADHDBehaviorScore03: number;
-
-  @ViewColumn()
-  friendBehaviorScore04: number;
-
-  @ViewColumn()
-  socialBehaviorScore05: number;
-
+  
   @ViewColumn()
   emotionalBehaviorScore01_value: string;
  
@@ -191,83 +244,8 @@ export class VwSdqTableList {
 
   @ViewColumn()
   socialBehaviorScore05_value: string;
- 
   @ViewColumn()
-  choice01: number;
-
-  @ViewColumn()
-  choice02: number;
-
-  @ViewColumn()
-  choice03: number;
-
-  @ViewColumn()
-  choice04: number;
-
-  @ViewColumn()
-  choice05: number;
-
-  @ViewColumn()
-  choice06: number;
-
-  @ViewColumn()
-  choice07: number;
-
-  @ViewColumn()
-  choice08: number;
-
-  @ViewColumn()
-  choice09: number;
-
-  @ViewColumn()
-  choice10: number;
-
-  @ViewColumn()
-  choice11: number;
-
-  @ViewColumn()
-  choice12: number;
-
-  @ViewColumn()
-  choice13: number;
-
-  @ViewColumn()
-  choice14: number;
-
-  @ViewColumn()
-  choice15: number;
-
-  @ViewColumn()
-  choice16: number;
-
-  @ViewColumn()
-  choice17: number;
-
-  @ViewColumn()
-  choice18: number;
-
-  @ViewColumn()
-  choice19: number;
-
-  @ViewColumn()
-  choice20: number;
-
-  @ViewColumn()
-  choice21: number;
-
-  @ViewColumn()
-  choice22: number;
-
-  @ViewColumn()
-  choice23: number;
-
-  @ViewColumn()
-  choice24: number;
-
-  @ViewColumn()
-  choice25: number;
-  */
-
+  sumScore_value: string;
 }
 
 @ViewEntity({

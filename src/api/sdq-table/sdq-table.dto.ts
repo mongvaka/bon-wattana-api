@@ -90,6 +90,10 @@ export class SdqTableDto {
     nomalBehaviorScore02_value:string
     @ApiPropertyOptional({ type: String})
     emotionalBehaviorScore01_value:string
+    @ApiPropertyOptional({ type: Number})
+    sumScore:number
+    @ApiPropertyOptional({ type: String})
+    sumScore_value:string
 } 
 export class CreateSdqTableDto extends SdqTableDto{
 @ApiPropertyOptional({ type: Number})
@@ -174,6 +178,10 @@ export class CreateSdqTableDto extends SdqTableDto{
     nomalBehaviorScore02_value:string
     @ApiPropertyOptional({ type: String})
     emotionalBehaviorScore01_value:string
+    @ApiPropertyOptional({ type: Number})
+    sumScore:number
+    @ApiPropertyOptional({ type: String})
+    sumScore_value:string
 }
 export class UpdateSdqTableDto extends SdqTableDto{
 @ApiPropertyOptional({ type: Number})
@@ -258,4 +266,8 @@ export class UpdateSdqTableDto extends SdqTableDto{
     nomalBehaviorScore02_value:string
     @ApiPropertyOptional({ type: String})
     emotionalBehaviorScore01_value:string
+    @ApiPropertyOptional({ type: Number})
+    sumScore:number
+    @ApiPropertyOptional({ type: String})
+    sumScore_value:string
 }

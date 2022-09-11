@@ -108,7 +108,7 @@ export class BaseService{
                 }
             }
         });
-        console.log('${dto.tableKey}.id',dto.tableKey);
+       // console.log('${dto.tableKey}.id',dto.tableKey);
         
         if(dto.sortColumns.length==0){
             buider.addOrderBy(`${dto.tableKey}.value`,'DESC')
@@ -129,6 +129,7 @@ export class BaseService{
     }
     createQueryBuider<T>(dto:SearchParameter,repository: Repository<T>):SelectQueryBuilder<T>{
         const buider = repository.createQueryBuilder(dto.tableKey);
+        console.log('dto.tableKey',dto.tableKey)
         const take = dto.paginator?.rows || 10
         const skip = (dto.paginator?.page || 0)*take
         dto.searchCondition.forEach(el => {
@@ -164,7 +165,7 @@ export class BaseService{
                 }
             }
         });
-        console.log('${dto.tableKey}.id',dto.tableKey);
+        //console.log('${dto.tableKey}.id',dto.tableKey);
         
         if(dto.sortColumns.length==0){
             buider.addOrderBy(`"${dto.tableKey}"."id"`,'DESC')
@@ -178,12 +179,13 @@ export class BaseService{
                 buider.addOrderBy(sortString,sortType)
             })
         }
-       console.log(buider.getSql());
+      // console.log(buider.getSql());
        
         buider.skip(skip).take(take)
         
         return buider
     }
+    
     toCreateModel(dto:any,req:CustomRequest):any{
         const model ={
             ...dto,

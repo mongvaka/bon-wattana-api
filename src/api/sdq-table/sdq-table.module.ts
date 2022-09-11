@@ -6,11 +6,12 @@ import { SdqTable, VwSdqTableDropdown, VwSdqTableItem, VwSdqTableList } from './
 import { SdqTableService } from './sdq-table.service';
 import { VwClassroomDropdown } from 'src/api/classroom/classroom.entity';
 import { VwClassroomTypeDropdown } from 'src/api/classroom-type/classroom-type.entity';
-import { VwStudentItem } from 'src/api/student/student.entity';
+import { VwStudentItem ,VwSdqTableListForTeacher,VwSdqTableListForParent,VwSdqTableListForStudent} from 'src/api/student/student.entity';
+import { VwYearTermItem } from 'src/api/year-term/year-term.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([SdqTable,VwSdqTableList,VwSdqTableItem,VwSdqTableDropdown,VwClassroomDropdown,VwClassroomTypeDropdown
-    ,VwStudentItem])
+    ,VwStudentItem,VwYearTermItem,VwSdqTableListForTeacher,VwSdqTableListForParent,VwSdqTableListForStudent])
   ],
   controllers: [SdqTableController],
   providers: [SdqTableService,DropdownService],

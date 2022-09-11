@@ -26,7 +26,7 @@ export class AuthenticationsController  extends BaseController{
   @ApiBadGatewayResponse({ description: "Bad Gateway." })
   @ApiInternalServerErrorResponse({ description: "INTERNAL SERVER ERROR" })
   async signIn(@Body() dto: AuthenticationsDto) {
-    console.log('body',dto);
+   // console.log('body',dto);
     try{
       return this.success(await this.authenticationsService.signIn(dto))
     }catch(e){

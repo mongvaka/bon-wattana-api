@@ -7,6 +7,7 @@ import { DropdownService } from "src/core/shared/services/dropdown.service";
 import { CreateSdqTableDto, SearchSdqTableDto, UpdateSdqTableDto } from "./sdq-table.dto";
 import { SdqTableService } from "./sdq-table.service";
 import { SearchClassroomDto } from "src/api/classroom/classroom.dto";
+import { SearchStudentDto } from "src/api/student/student.dto";
 @ApiTags("sdq-table")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -26,7 +27,7 @@ export class SdqTableController extends BaseController{
     }
   }
   @Post('list')
-  async findAll(@Body() dto: SearchSdqTableDto) {
+  async findAll(@Body() dto: SearchStudentDto) {
     try{   
       return this.success(await this.sdqtableService.list(dto))
     }catch(e){

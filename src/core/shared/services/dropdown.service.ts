@@ -407,7 +407,7 @@ export class DropdownService extends BaseService{
     async studentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{      
         dto.tableKey = 'student'        
         const buider = this.createQueryBuiderDropdown(dto,repository)
-        console.log(buider.getSql());
+       // console.log(buider.getSql());
         
         const data =await buider.getMany();
         const dropdownList:SelectItems[]=[]

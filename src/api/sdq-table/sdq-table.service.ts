@@ -6,11 +6,13 @@ import { BaseService } from 'src/core/shared/services/base.service';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
 import { Repository } from 'typeorm';
 import { CreateSdqTableDto, SdqTableDto, SearchSdqTableDto, UpdateSdqTableDto } from './sdq-table.dto';
-import { SdqTable, VwSdqTableDropdown, VwSdqTableItem, VwSdqTableList } from './sdq-table.entity';
+import { SdqTable, VwSdqTableDropdown, VwSdqTableItem, VwSdqTableList} from './sdq-table.entity';
 import { SearchClassroomDto } from 'src/api/classroom/classroom.dto';
 import { VwClassroomDropdown } from 'src/api/classroom/classroom.entity';
 import { VwClassroomTypeDropdown } from 'src/api/classroom-type/classroom-type.entity';
-import { VwStudentItem } from 'src/api/student/student.entity';
+import { VwYearTermItem } from 'src/api/year-term/year-term.entity';
+import { VwStudentItem,VwSdqTableListForTeacher,VwSdqTableListForParent,VwSdqTableListForStudent  } from 'src/api/student/student.entity';
+import { SearchStudentDto, StudentDto } from 'src/api/student/student.dto';
 @Injectable()
 export class SdqTableService extends BaseService {
 
@@ -19,6 +21,12 @@ export class SdqTableService extends BaseService {
         private readonly sdqtableRepository: Repository<SdqTable>,
         @InjectRepository(VwSdqTableList)
         private readonly vwSdqTableRepository: Repository<VwSdqTableList>,
+        @InjectRepository(VwSdqTableListForTeacher)
+        private readonly vwSdqTableListForTeacherRepository: Repository<VwSdqTableListForTeacher>,
+        @InjectRepository(VwSdqTableListForParent)
+        private readonly vwSdqTableListForParentRepository: Repository<VwSdqTableListForParent>,
+        @InjectRepository(VwSdqTableListForStudent)
+        private readonly vwSdqTableListForStudentRepository: Repository<VwSdqTableListForStudent>,
         @InjectRepository(VwSdqTableItem)
         private readonly itemRepository:Repository<VwSdqTableItem>,
 
@@ -28,15 +36,19 @@ export class SdqTableService extends BaseService {
         private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
         @InjectRepository(VwStudentItem)
         private readonly itemStudentRepository:Repository<VwStudentItem>,
+
+        @InjectRepository(VwYearTermItem)
+        private readonly itemYearTermRepository:Repository<VwYearTermItem>,
+
         private readonly dropdownService: DropdownService
         ){
         super()
     }
-    async list(dto:SearchSdqTableDto):Promise<SearchResult<VwSdqTableList>>{
-        
-       const builder = this.createQueryBuider<VwSdqTableList>(dto,this.vwSdqTableRepository)
-        const [data, count] = await builder.getManyAndCount();
-        return this.toSearchResult<VwSdqTableList>(dto.paginator,count,data);
+    async list(dto:SearchStudentDto):Promise<SearchResult<VwSdqTableListForStudent>>{
+       const builder = this.createQueryBuider<VwSdqTableListForStudent>(dto,this.vwSdqTableListForStudentRepository)
+      console.log(builder.getSql())
+       const [data, count] = await builder.getManyAndCount();
+        return this.toSearchResult<VwSdqTableListForStudent>(dto.paginator,count,data);
     }
     async create(dto:CreateSdqTableDto,req:CustomRequest):Promise<SdqTable>{   
        
@@ -45,8 +57,16 @@ export class SdqTableService extends BaseService {
         dto.ADHDBehaviorScore03 = (dto.choice02+dto.choice10+dto.choice15+dto.choice21+dto.choice25);
         dto.friendBehaviorScore04 =(dto.choice06+dto.choice11+dto.choice14+dto.choice19+dto.choice23);
         dto.socialBehaviorScore05 =(dto.choice01+dto.choice04+dto.choice09+dto.choice17+dto.choice20);
-
+        dto.sumScore =(dto.emotionalBehaviorScore01+ dto.nomalBehaviorScore02 + dto.ADHDBehaviorScore03+ dto.friendBehaviorScore04+ dto.socialBehaviorScore05)
         if(dto.estimateType === 1){  //1 นักเรียนประเมินตนเอง
+            if((dto.sumScore>=0)&&(dto.sumScore<=15)){
+                dto.sumScore_value ='ปกติ';
+            }else if((dto.sumScore>=16)&&(dto.sumScore<=18)){
+                dto.sumScore_value ='เสี่ยง';
+            }else{
+                dto.sumScore_value  = 'มีปัญหา';
+            }
+
             if((dto.emotionalBehaviorScore01>=0)&&(dto.emotionalBehaviorScore01<=4)){
                 dto.emotionalBehaviorScore01_value ='ปกติ';
             }else{
@@ -93,6 +113,13 @@ export class SdqTableService extends BaseService {
             }
         }
         if(dto.estimateType === 2){  //2. ครูประเมินนักเรียน 
+            if((dto.sumScore>=0)&&(dto.sumScore<=13)){
+                dto.sumScore_value ='ปกติ';
+            }else if((dto.sumScore>=14)&&(dto.sumScore<=16)){
+                dto.sumScore_value ='เสี่ยง';
+            }else{
+                dto.sumScore_value  = 'มีปัญหา';
+            }
             if((dto.emotionalBehaviorScore01>=0)&&(dto.emotionalBehaviorScore01<=3)){
                 dto.emotionalBehaviorScore01_value ='ปกติ';
             }else{
@@ -139,6 +166,13 @@ export class SdqTableService extends BaseService {
             }
         }
         if(dto.estimateType === 3){//3.ผู้ปกครองประเมินนักเรียน
+            if((dto.sumScore>=0)&&(dto.sumScore<=15)){
+                dto.sumScore_value ='ปกติ';
+            }else if((dto.sumScore>=16)&&(dto.sumScore<=18)){
+                dto.sumScore_value ='เสี่ยง';
+            }else{
+                dto.sumScore_value  = 'มีปัญหา';
+            }
             if((dto.emotionalBehaviorScore01>=0)&&(dto.emotionalBehaviorScore01<=4)){
                 dto.emotionalBehaviorScore01_value ='ปกติ';
             }else{
@@ -211,7 +245,24 @@ export class SdqTableService extends BaseService {
         return await this.itemRepository.findOne({where:{id:id}})
     }
     async initial(id:number):Promise<any>{
-        return await this.itemStudentRepository.findOne({where:{id:id}})
+        let yearInit =await this.itemYearTermRepository.findOne({where:{isParent:true}})
+       // console.log("yearInit",yearInit)
+        let std = await this.itemStudentRepository.findOne({where:{id:id}})
+        var atSemester =null;
+        var atYear=null;
+if(yearInit!=undefined){
+    atYear=yearInit.year;
+    atSemester =yearInit.term;
+}
+        return {
+            atYear: atYear, 
+            atSemester: atSemester,
+            title:std.title,
+            firstname : std.firstname,
+            lastname: std.lastname,
+            classroomTypeValue:std.classroomTypeValue,
+            birthDate:std.birthDate
+        }
     }
     async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
         return this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
@@ -219,4 +270,18 @@ export class SdqTableService extends BaseService {
       async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
         return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
       }
+      async listForTeacher(dto:SearchStudentDto):Promise<SearchResult<VwSdqTableListForTeacher>>{
+
+        const builder = this.createQueryBuider<VwSdqTableListForTeacher>(dto,this.vwSdqTableListForTeacherRepository)
+       console.log(builder.getSql())
+        const [data, count] = await builder.getManyAndCount();
+         return this.toSearchResult<VwSdqTableListForTeacher>(dto.paginator,count,data);
+     }
+     async listForParent(dto:SearchStudentDto):Promise<SearchResult<VwSdqTableListForParent>>{
+      
+        const builder = this.createQueryBuider<VwSdqTableListForParent>(dto,this.vwSdqTableListForParentRepository)
+       console.log(builder.getSql())
+        const [data, count] = await builder.getManyAndCount();
+         return this.toSearchResult<VwSdqTableListForParent>(dto.paginator,count,data);
+     }
 }
