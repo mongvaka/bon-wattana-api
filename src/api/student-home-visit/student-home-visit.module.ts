@@ -1,6 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ImagesModule } from 'src/core/images/images.module';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
+import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { VwClassroomDropdown } from '../classroom/classroom.entity';
+import { StudentModule } from '../student/student.module';
+import { VwYearTermDropdown } from '../year-term/year-term.entity';
+import { YearTermModule } from '../year-term/year-term.module';
 //import { VwnullDropdown } from 'src/api/null/null.entity';
 import { StudentHomeVisitController } from './student-home-visit.controller';
 import { StudentHomeVisit, VwStudentHomeVisitDropdown, VwStudentHomeVisitItem, VwStudentHomeVisitList } from './student-home-visit.entity';
@@ -9,8 +15,13 @@ import { StudentHomeVisitService } from './student-home-visit.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([StudentHomeVisit,VwStudentHomeVisitList,VwStudentHomeVisitItem,VwStudentHomeVisitDropdown,
-    
-    ])
+      VwClassroomDropdown,
+      VwClassroomTypeDropdown,
+      VwYearTermDropdown
+    ]),
+    YearTermModule,
+    StudentModule,
+    ImagesModule
   ],
   controllers: [StudentHomeVisitController],
   providers: [StudentHomeVisitService,DropdownService],

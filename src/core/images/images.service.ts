@@ -21,18 +21,18 @@ export class ImagesService extends BaseService {
     }
     async list(id:number):Promise<SearchResult<Images>>{
         const searchDto = new SearchImagesDto()
-        searchDto.refTable = 'images'
-        searchDto.tableKey = 'images'
+        searchDto.refTable = 'IMAGES'
+        searchDto.tableKey = 'IMAGES'
         searchDto.searchCondition = [{
             columnName:'refId',
-            tableName:'images',
+            tableName:'IMAGES',
             feildName:'refId',
             value:`${id}`,
             inputType:ColumnType.INT,
             equalityOperator: Operators.EQUAL,
             operator:Operators.EQUAL
         }]
-        const builder = this.createQueryBuider<Images>(searchDto,this.repository)
+        const builder = this.createQueryBuiderCustom<Images>(searchDto,this.repository)
         const [data, count] = await builder
         .getManyAndCount();
         return this.toSearchResult<Images>(searchDto.paginator,count,data);

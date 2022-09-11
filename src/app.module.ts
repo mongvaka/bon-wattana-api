@@ -71,7 +71,7 @@ ConfigModule.forRoot({
           password: configService.get('DATABASE_PASSWORD', 'password'),
           database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
           useUTC:true,
-        
+          logging:false,
           synchronize: configService.get<string>('SYNC_DATABASE', 'true')!='false',
           entities: ["dist/**/**/*.entity{.ts,.js}"],
           

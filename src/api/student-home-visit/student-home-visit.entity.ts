@@ -20,11 +20,6 @@ export class StudentHomeVisit extends BasicData {
   @Column({nullable: true})
   homeVisitday?: Date;
 
-  @Column({nullable: true})
-  atSemester?: string;
-
-  @Column({nullable: true})
-  atYear?: string;
 
   @Column({nullable: true})
   studentId?: number;
@@ -196,122 +191,58 @@ export class StudentHomeVisit extends BasicData {
 
   @Column({nullable: true})
   speacialNeed?: boolean;
-
   @Column({nullable: true})
-  img1Id?: number;
-
+  yearTermId:number
   @Column({nullable: true})
-  img2Id?: number;
-
+  lat?: string;
   @Column({nullable: true})
-  img3Id?: number;
-
-  @Column({nullable: true})
-  img4Id?: number;
-
-  @Column({nullable: true})
-  img5Id?: number;
-
-  @Column({nullable: true})
-  locationMap?: string;
+  lon?: string;
 }
 @ViewEntity({
     name:'student_home_visit_list',
     expression: (connection: Connection) => connection.createQueryBuilder()
-    /*
+
     .select("student.id", "id")
-    .addSelect("student.studentCode", "studentCode")
-    .addSelect("student.status", "status")
-    .addSelect("student.firstname", "firstname")
-    .addSelect("student.lastname", "lastname")
-    .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
-    .addSelect("student.gendarId", "gendarId")
-    .addSelect("TO_CHAR(student.birthDate, 'DD/MM/YYYY') ", "birthDate")
-    .addSelect("student.personalCode", "personalCode")
-    .addSelect("CONCAT(student.houseNumber,' ',student.road,'  ',student.village, ' ' ,sub_district.name, ' ' ,district.name, ' ' ,province.name)", "addressValue")
     .addSelect("student.classroomId", "classroomId")
-    .addSelect("student.houseNumber", "houseNumber")
     .addSelect("student.classroomTypeId", "classroomTypeId")
     .addSelect("classroom.name", "classroomValue")
-    .addSelect("gendar_id.gendarName", "gendarValue")
     .addSelect("classroom_type.typeName", "classroomTypeValue")
+    .addSelect("student_home_visit.id", "studentHomeVisitId")
+    .addSelect("student_home_visit.homeVisitday", "homeVisitday")
+    .addSelect("student_home_visit.studentId", "studentId")
+    .addSelect("student_home_visit.yearTermId", "yearTermId")
+    .addSelect("CONCAT(student.firstname , ' ' , student.lastname)", "studentValue")
     .from(Student, "student")
-    .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
+    .leftJoin(StudentHomeVisit,"student_home_visit" ,"student_home_visit.studentId = student.id")
     .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
     .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
-    .leftJoin(Province,'province','student.provinceId = province.id')
-    .leftJoin(District,'district','district.id = student.districtId')
-    .leftJoin(SubDistrict,'sub_district','sub_district.id = student.subDistrictId')
-    */
-        .select("student_home_visit.id", "id")
-        .addSelect("student_home_visit.homeVisitday", "homeVisitday")
-        .addSelect("student_home_visit.atSemester", "atSemester")
-        .addSelect("student_home_visit.atYear", "atYear")
-        .addSelect("student_home_visit.studentId", "studentId")
-      //  .addSelect("CONCAT(student_id.null , ' ' , student_id.null)", "studentValue")
-        .from(StudentHomeVisit, "student_home_visit")
-      //  .leftJoin(null, "student_id","student_id.Id = student_home_visit.studentId")
-
 
 })
 export class VwStudentHomeVisitList {
- /* @ViewColumn()
-  id: number;
-  @ViewColumn()
-  classroomTypeId: number;
-  @ViewColumn()
-  studentCode: string;
-  @ViewColumn()
-  classroomTypeValue: string;
-
-  @ViewColumn()
-  nameValue: string;
-  @ViewColumn()
-  birthDate: string;
-  @ViewColumn()
-  addressValue: string;
-  
-  @ViewColumn()
-  status: number;
-
-  @ViewColumn()
-  firstname: string;
-
-  @ViewColumn()
-  lastname: string;
-
-  @ViewColumn()
-  gendarId: number;
-
-  @ViewColumn()
-  gendarValue: string;
-
-  @ViewColumn()
-  classroomId: number;
-
-  @ViewColumn()
-  classroomValue: string;
-  @ViewColumn()
-  personalCode: string;
-*/
-  
     @ViewColumn()
     id: number;
+    @ViewColumn()
+    classroomId: number;
+    @ViewColumn()
+    yearTermId: number;
+    
+    @ViewColumn()
+    classroomTypeId: number;
 
+    @ViewColumn()
+    classroomValue: string;
+    @ViewColumn()
+    classroomTypeValue: string;
     @ViewColumn()
     homeVisitday: Date;
 
-    @ViewColumn()
-    atSemester: number;
 
-    @ViewColumn()
-    atYear: number;
 
     @ViewColumn()
     studentId: number;
 
-   // @ViewColumn()
-   // studentValue: string;
+   @ViewColumn()
+   studentValue: string;
    
 }
 
@@ -319,7 +250,7 @@ export class VwStudentHomeVisitList {
   name:'student_home_visit_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("student_home_visit.id", "value")
-  .addSelect("CONCAT(student_home_visit.img4Id , ' ' , student_home_visit.img5Id)", "label")
+  .addSelect("student_home_visit.homeVisitday", "label")
       .from(StudentHomeVisit, "student_home_visit")
 })
 export class VwStudentHomeVisitDropdown {
@@ -335,10 +266,8 @@ export class VwStudentHomeVisitDropdown {
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("student_home_visit.id", "id")
         .addSelect("student_home_visit.homeVisitday", "homeVisitday")
-        .addSelect("student_home_visit.atSemester", "atSemester")
-        .addSelect("student_home_visit.atYear", "atYear")
         .addSelect("student_home_visit.studentId", "studentId")
-       // .addSelect("CONCAT(student_id.null , ' ' , student_id.null)", "studentValue")
+        .addSelect("CONCAT(student.firstname , ' ' , student.lastname)", "studentValue")
         .addSelect("student_home_visit.getMoneyForSchool", "getMoneyForSchool")
         .addSelect("student_home_visit.liveWith", "liveWith")
         .addSelect("student_home_visit.liveWithOther", "liveWithOther")
@@ -395,24 +324,12 @@ export class VwStudentHomeVisitDropdown {
         .addSelect("student_home_visit.healthNeed", "healthNeed")
         .addSelect("student_home_visit.moneyNeed", "moneyNeed")
         .addSelect("student_home_visit.speacialNeed", "speacialNeed")
-        .addSelect("student_home_visit.img1Id", "img1Id")
-     //   .addSelect("CONCAT(img1_id.null , ' ' , img1_id.null)", "img1Value")
-        .addSelect("student_home_visit.img2Id", "img2Id")
-     //   .addSelect("CONCAT(img2_id.null , ' ' , img2_id.null)", "img2Value")
-        .addSelect("student_home_visit.img3Id", "img3Id")
-      //  .addSelect("CONCAT(img3_id.null , ' ' , img3_id.null)", "img3Value")
-        .addSelect("student_home_visit.img4Id", "img4Id")
-     //   .addSelect("CONCAT(img4_id.null , ' ' , img4_id.null)", "img4Value")
-        .addSelect("student_home_visit.img5Id", "img5Id")
-      //  .addSelect("CONCAT(img5_id.null , ' ' , img5_id.null)", "img5Value")
-        .addSelect("student_home_visit.locationMap", "locationMap")
+        .addSelect("student_home_visit.lat", "lat")
+        .addSelect("student_home_visit.lon", "lon")
+        .addSelect("student_home_visit.yearTermId", "yearTermId")
       .from(StudentHomeVisit, "student_home_visit")
-    ///    .leftJoin(null, "student_id","student_id.Id = student_home_visit.studentId")
-     ///   .leftJoin(null, "img1_id","img1_id.Id = student_home_visit.img1Id")
-    //    .leftJoin(null, "img2_id","img2_id.Id = student_home_visit.img2Id")
-    //    .leftJoin(null, "img3_id","img3_id.Id = student_home_visit.img3Id")
-     //   .leftJoin(null, "img4_id","img4_id.Id = student_home_visit.img4Id")
-     //   .leftJoin(null, "img5_id","img5_id.Id = student_home_visit.img5Id")
+      .leftJoin(Student , 'student','student.id = student_home_visit.studentId')
+
 })
 export class VwStudentHomeVisitItem {
 
@@ -422,17 +339,12 @@ export class VwStudentHomeVisitItem {
     @ViewColumn()
     homeVisitday: Date;
 
-    @ViewColumn()
-    atSemester: number;
-
-    @ViewColumn()
-    atYear: number;
 
     @ViewColumn()
     studentId: number;
 
-   // @ViewColumn()
-   // studentValue: string;
+   @ViewColumn()
+   studentValue: string;
 
     @ViewColumn()
     getMoneyForSchool: string;
@@ -603,35 +515,10 @@ export class VwStudentHomeVisitItem {
     speacialNeed: boolean;
 
     @ViewColumn()
-    img1Id: number;
-/*
+    yearTermId: number;
+    
     @ViewColumn()
-    img1Value: string;
-
+    lat: string;
     @ViewColumn()
-    img2Id: number;
-
-    @ViewColumn()
-    img2Value: string;
-
-    @ViewColumn()
-    img3Id: number;
-
-    @ViewColumn()
-    img3Value: string;
-
-    @ViewColumn()
-    img4Id: number;
-
-    @ViewColumn()
-    img4Value: string;
-
-    @ViewColumn()
-    img5Id: number;
-
-    @ViewColumn()
-    img5Value: string;
-*/
-    @ViewColumn()
-    locationMap: string;
+    lon: string;
 }

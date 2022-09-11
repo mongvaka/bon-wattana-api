@@ -18,9 +18,7 @@ import { VwClassroomDropdown } from '../classroom/classroom.entity';
 
 @Injectable()
 export class CheckStudentService extends BaseService {
-    async currentTerm() {
-       return this.yearTermService.findCurrrentTerm()
-    }
+
 
     constructor(
         @InjectRepository(CheckStudent)
@@ -41,9 +39,7 @@ export class CheckStudentService extends BaseService {
         ){
         super()
     }
-    async yearTermDropdown(dto: SearchStudentDto):Promise<SelectItems[]> {
-        return await this.dropdownService.yeartermDropdown(dto,this.vwYearTermDropdownRepository);
-      }
+    
     async list(dto:SearchCheckStudentDto):Promise<SearchResult<VwCheckStudentList>>{
         const builder = this.createQueryBuider<VwCheckStudentList>(dto,this.vwCheckStudentRepository)
         const [data, count] = await builder
@@ -84,4 +80,10 @@ export class CheckStudentService extends BaseService {
       async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
         return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
       }
+      async yearTermDropdown(dto: SearchStudentDto):Promise<SelectItems[]> {
+        return await this.dropdownService.yeartermDropdown(dto,this.vwYearTermDropdownRepository);
+      }
+      async currentTerm() {
+        return this.yearTermService.findCurrrentTerm()
+     }
 }

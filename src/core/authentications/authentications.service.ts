@@ -30,6 +30,8 @@ export class AuthenticationsService {
   }
 
   async jwtGenerated(user: Users,matchPassword:boolean) {
+    let classroomTypeId = 0
+    let classroomId = 0
     const payload = {
       id: user.id,
       username: user.username,
@@ -52,7 +54,9 @@ export class AuthenticationsService {
       userModel = {...user,firstname:infoStudent.firstname,lastname:infoStudent.lastname}
     }
     if(user.type==UserType.TEACHER){
-      const infoTeacher = await this.teacherRepository.findOne({where:{id:user.inforId}}) as Student
+      const infoTeacher = await this.teacherRepository.findOne({where:{id:user.inforId}}) as Teacher
+      classroomId = infoTeacher.classroomId
+      classroomTypeId = infoTeacher.classroomTypeId
       userModel = {...user,firstname:infoTeacher.firstname,lastname:infoTeacher.lastname}
     }
     const canEdit = await this.getCanEdit()
@@ -61,7 +65,9 @@ export class AuthenticationsService {
         user: {...userModel},
         token: token,
         matchPassword:matchPassword,
-        canEdit:canEdit
+        canEdit:canEdit,
+        classroomId,
+        classroomTypeId
       }
   }
   async getCanEdit() {

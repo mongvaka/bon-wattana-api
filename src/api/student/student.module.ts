@@ -18,6 +18,7 @@ import { VwParentStatusDropdown } from '../parent-status/parent-status.entity';
 import { ImagesModule } from 'src/core/images/images.module';
 import { AuthenticationsModule } from 'src/core/authentications/authentications.module';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { Teacher } from '../teacher/teacher.entity';
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity
     VwAliveWithDropdown,
     VwClassroomDropdown,
     VwParentStatusDropdown,
-    VwClassroomTypeDropdown
+    VwClassroomTypeDropdown,
+    Teacher
     ]),
     ImagesModule,
     AuthenticationsModule

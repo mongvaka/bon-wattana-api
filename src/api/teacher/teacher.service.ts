@@ -38,7 +38,7 @@ import { Student } from '../student/student.entity';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { Operators } from 'src/core/shared/constans/constanst';
-import { ColumnType } from 'src/core/shared/constans/enum-system';
+import { ColumnType, ImageType } from 'src/core/shared/constans/enum-system';
 import { SearchClassroomDto } from '../classroom/classroom.dto';
 import { VwClassroomDropdown } from '../classroom/classroom.entity';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
@@ -182,7 +182,7 @@ async export(dto:SearchExportExcelDto):Promise<any>{
           this.teacherRepository.create(en)
       );
         if(dto.teacherPhoto){
-          await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:0,imageType:0},req)
+          await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:ImageType.TEACHER,imageType:0},req)
         }
         const regisModel:RegisterDto = {
           email:`${result.teacherCode}`,
@@ -214,7 +214,7 @@ async export(dto:SearchExportExcelDto):Promise<any>{
             this.toUpdateModel(m,dto,req)
         );
         if(dto.teacherPhoto){
-          await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:0,imageType:0},req)
+          await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:ImageType.TEACHER,imageType:0},req)
         }
         return result
     }

@@ -7,8 +7,7 @@ export class SearchStudentHomeVisitDto extends SearchParameter {
 export class StudentHomeVisitDto {
     id:number
     homeVisitday: Date;
-    atSemester: number;
-    atYear: number;
+    yearTermId: number;
     studentId: number;
     studentValue: string;
     getMoneyForSchool: string;
@@ -67,14 +66,9 @@ export class StudentHomeVisitDto {
     healthNeed: boolean;
     moneyNeed: boolean;
     speacialNeed: boolean;
-    img1Id: string[];
-    img2Id: string[];
-    img3Id:string[];
-    img4Id:string[];
-    img5Id:string[];
-    img5Value: string[];
-    locationMap: string;
 
+    lat: string;
+    lon: string;
     studentFirstName:string;
     studentLastName:string;
     studentClass:string;
@@ -91,6 +85,7 @@ export class StudentHomeVisitDto {
     studentTel:string;
     parentTel:string;
     adviserName:string;
+    images: string[];
 } 
 export class CreateStudentHomeVisitDto extends StudentHomeVisitDto{
  

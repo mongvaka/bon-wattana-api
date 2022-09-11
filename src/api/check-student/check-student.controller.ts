@@ -50,22 +50,6 @@ export class CheckStudentController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('item-student/:id')
-  async itemStudent(@Param('id') id: number) {
-    try{
-      return this.success(await this.checkstudentService.itemStudent(id))
-    }catch(e){
-      return this.error(e)
-    }
-  }
-  @Post('list')
-  async findAll(@Body() dto: SearchCheckStudentDto) {
-    try{      
-      return this.success(await this.checkstudentService.list(dto))
-    }catch(e){
-      return this.error(e)
-    }
-  }
   @Get('year-term-dropdown')
   async yearTermDropdown(@Body() dto: SearchYearTermDto) {
     try{      
@@ -74,6 +58,24 @@ export class CheckStudentController extends BaseController{
       return this.error(e)
     }
   }
+  @Get('item-student/:id')
+  async itemStudent(@Param('id') id: number) {
+    try{
+      return this.success(await this.checkstudentService.itemStudent(id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  
+  @Post('list')
+  async findAll(@Body() dto: SearchCheckStudentDto) {
+    try{      
+      return this.success(await this.checkstudentService.list(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+
   @Post('create')
   async create(@Body() dto: CreateCheckStudentDto, @Req() req:CustomRequest,){ 
     try{      

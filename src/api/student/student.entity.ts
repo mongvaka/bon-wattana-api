@@ -464,6 +464,7 @@ export class VwStudentDropdown {
         .leftJoin(AliveWith, "alive_with_id","alive_with_id.Id = student.aliveWithId")
         .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
         .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
+      
 })
 export class VwStudentItem {
 
@@ -758,4 +759,6 @@ export class VwStudentItem {
 
     @ViewColumn()
     parentPhone: string;
+
+    
 }

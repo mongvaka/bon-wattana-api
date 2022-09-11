@@ -4,6 +4,8 @@ import { JwtAuthGuard } from "src/core/authentications/jwt-auth.guard";
 import { BaseController } from "src/core/shared/controller/base-controller";
 import { CustomRequest } from "src/core/shared/models/request-model";
 import { DropdownService } from "src/core/shared/services/dropdown.service";
+import { SearchClassroomDto } from "../classroom/classroom.dto";
+import { SearchYearTermDto } from "../year-term/year-term.dto";
 //import { SearchnullDto } from "src/api/null/null.dto";
 import { CreateStudentHomeVisitDto, SearchStudentHomeVisitDto, UpdateStudentHomeVisitDto } from "./student-home-visit.dto";
 import { StudentHomeVisitService } from "./student-home-visit.service";
@@ -24,6 +26,14 @@ export class StudentHomeVisitController extends BaseController{
       return this.error(e)
     }
   }
+  @Get('item-student/:id')
+  async itemStudent(@Param('id') id: number) {
+    try{
+      return this.success(await this.studenthomevisitService.itemStudent(id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
   @Post('list')
   async findAll(@Body() dto: SearchStudentHomeVisitDto) {
     try{      
@@ -33,55 +43,38 @@ export class StudentHomeVisitController extends BaseController{
     }
   }
 
-  /*
-  @Get('student-dropdown')
-  async studentDropdown(@Body() dto: SearchnullDto) {
-    try{      
-      return this.success(await this.studenthomevisitService.nullDropdown(dto))
+  @Get('current-term')
+  async currentTerm() {
+    try{
+      return this.success(await this.studenthomevisitService.currentTerm())
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('img1-dropdown')
-  async img1Dropdown(@Body() dto: SearchnullDto) {
+  @Get('classroom-dropdown')
+  async classroomDropdown(@Body() dto: SearchClassroomDto) {
     try{      
-      return this.success(await this.studenthomevisitService.nullDropdown(dto))
+      return this.success(await this.studenthomevisitService.classroomDropdown(dto))
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('img2-dropdown')
-  async img2Dropdown(@Body() dto: SearchnullDto) {
+  @Get('classroom-type-dropdown')
+  async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
     try{      
-      return this.success(await this.studenthomevisitService.nullDropdown(dto))
+      return this.success(await this.studenthomevisitService.classroomTypeDropdown(dto))
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('img3-dropdown')
-  async img3Dropdown(@Body() dto: SearchnullDto) {
+  @Get('year-term-dropdown')
+  async yearTermDropdown(@Body() dto: SearchYearTermDto) {
     try{      
-      return this.success(await this.studenthomevisitService.nullDropdown(dto))
+      return this.success(await this.studenthomevisitService.yearTermDropdown(dto))
     }catch(e){
       return this.error(e)
     }
   }
-  @Get('img4-dropdown')
-  async img4Dropdown(@Body() dto: SearchnullDto) {
-    try{      
-      return this.success(await this.studenthomevisitService.nullDropdown(dto))
-    }catch(e){
-      return this.error(e)
-    }
-  }
-  @Get('img5-dropdown')
-  async img5Dropdown(@Body() dto: SearchnullDto) {
-    try{      
-      return this.success(await this.studenthomevisitService.nullDropdown(dto))
-    }catch(e){
-      return this.error(e)
-    }
-  }*/
   @Post('create')
   async create(@Body() dto: CreateStudentHomeVisitDto, @Req() req:CustomRequest,){ 
     try{

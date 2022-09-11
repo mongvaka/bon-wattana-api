@@ -1,6 +1,8 @@
 import { BasicData } from "src/core/shared/entities/basic-data";
 import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
 import { Student } from "src/api/student/student.entity";
+import { ClassroomType } from "../classroom-type/classroom-type.entity";
+import { Classroom } from "../classroom/classroom.entity";
 
 @Entity('check_student')
 export class CheckStudent extends BasicData {
@@ -125,12 +127,20 @@ export class CheckStudent extends BasicData {
         .addSelect("check_student.yearTermId", "yearTermId")
         .addSelect("student.classroomTypeId", "classroomTypeId")
         .addSelect("student.classroomId", "classroomId")
+
+        .addSelect("classroom_type.typeName", "classroomTypeValue")
+        .addSelect("classroom.name", "classroomValue")
         .addSelect("CONCAT(student.firstname , ' ' , student.lastname)", "studentValue")
         .from(Student, "student")
         .leftJoin(CheckStudent, "check_student","check_student.studentId = student.id" )
-
+        .leftJoin(ClassroomType,'classroom_type','classroom_type.id = student.classroomTypeId')
+        .leftJoin(Classroom,'classroom','classroom.id = student.classroomId')
 })
 export class VwCheckStudentList {
+  @ViewColumn()
+  classroomTypeValue:string
+  @ViewColumn()
+  classroomValue:string
     @ViewColumn()
     id: number;
     @ViewColumn()
