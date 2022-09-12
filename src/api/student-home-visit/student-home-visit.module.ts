@@ -8,11 +8,12 @@ import { StudentHomeVisitController } from './student-home-visit.controller';
 import { StudentHomeVisit, VwStudentHomeVisitDropdown, VwStudentHomeVisitItem, VwStudentHomeVisitList } from './student-home-visit.entity';
 import { StudentHomeVisitService } from './student-home-visit.service';
 import { VwStudentItem } from 'src/api/student/student.entity';
+import { VwYearTermItem } from 'src/api/year-term/year-term.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([StudentHomeVisit,VwStudentHomeVisitList,VwStudentHomeVisitItem,VwStudentHomeVisitDropdown,
-      VwClassroomDropdown,VwClassroomTypeDropdown,VwStudentItem
+      VwClassroomDropdown,VwClassroomTypeDropdown,VwStudentItem,VwYearTermItem
     ])
   ],
   controllers: [StudentHomeVisitController],

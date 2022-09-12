@@ -11,6 +11,8 @@ import { VwStudentItem } from 'src/api/student/student.entity';
 import { VwClassroomTypeDropdown } from 'src/api/classroom-type/classroom-type.entity';
 import { CreateStudentHomeVisitDto, StudentHomeVisitDto, SearchStudentHomeVisitDto, UpdateStudentHomeVisitDto } from './student-home-visit.dto';
 import { StudentHomeVisit, VwStudentHomeVisitDropdown, VwStudentHomeVisitItem, VwStudentHomeVisitList } from './student-home-visit.entity';
+import { VwYearTermItem } from 'src/api/year-term/year-term.entity';
+
 //import { VwnullDropdown } from 'src/api/null/null.entity';
 //import { SearchnullDto } from 'src/api/null/null.dto';
 
@@ -33,6 +35,8 @@ export class StudentHomeVisitService extends BaseService {
         private readonly dropdownService: DropdownService,
         @InjectRepository(VwStudentItem)
         private readonly itemStudentRepository:Repository<VwStudentItem>,
+        @InjectRepository(VwYearTermItem)
+        private readonly itemYearTermRepository:Repository<VwYearTermItem>,
         ){
         super()
     }
@@ -76,6 +80,45 @@ export class StudentHomeVisitService extends BaseService {
       }
 
       async getStudentHomeVisitInitialData(id:number):Promise<any>{
-        return await this.itemStudentRepository.findOne({where:{id:id}})
+        let yearInit =await this.itemYearTermRepository.findOne({where:{isParent:true}})
+        // console.log("yearInit",yearInit)
+         let std = await this.itemStudentRepository.findOne({where:{id:id}})
+         var atSemester =null;
+         var atYear=null;
+         if(yearInit!=undefined){
+            atYear=yearInit.year;
+            atSemester =yearInit.term;
+        }
+        console.log(std)
+         return {
+             atYear: atYear, 
+             atSemester: atSemester,
+             title:std.title,
+             firstname : std.firstname,
+             lastname: std.lastname,
+             classroomTypeValue:std.classroomTypeValue,
+             birthDate:std.birthDate,
+             parentFirstName:std.parentFirstname,
+             parentLastName:std.parentLastname,
+             houseNumber:std.houseNumber,
+             village:std.village,
+             road:std.road,
+             subDistrictValue:std.subDistrictValue,
+             districtValue:std.districtValue,
+             provinceValue:std.provinceValue,
+             subDistrictId:std.subDistrictId,
+             districtId:std.districtId,
+             provinceId:std.provinceId,
+             phoneNumber:std.phoneNumber,
+             parentPhone:std.parentPhone
+         }
+
+   
+ 
+
+
+
+      
+
     }
 }

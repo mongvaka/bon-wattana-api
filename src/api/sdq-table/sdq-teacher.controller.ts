@@ -13,7 +13,7 @@ import { SearchStudentDto } from "src/api/student/student.dto";
 @ApiBearerAuth()
 @Controller('sdq-teacher')
 export class SdqTeacherController extends BaseController{
-  constructor(private readonly sdqtableService:SdqTableService,
+  constructor(private readonly sdqtableService:SdqTableService
     ){
     super()
   }
@@ -84,4 +84,15 @@ async initial(@Param('id') id: number) {
     return this.error(e)
   }
 }
+
+
+@Get('get-teacher-class/:id')
+async getClassOfTeacher(@Param('id') id: number) {
+  try{
+    return this.success(await this.sdqtableService.getClassOfTeacher(id))
+  }catch(e){
+    return this.error(e)
+  }
+}
+
 }
