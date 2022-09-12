@@ -84,4 +84,20 @@ async initial(@Param('id') id: number) {
     return this.error(e)
   }
 }
+@Get('get-sdq-current-term-data-teacher/:id')
+async getSDQCurrentTermDataTeacher(@Param('id') id: number) {
+  try{
+    return this.success(await this.sdqtableService.getSDQCurrentTermDataTeacher(id))
+  }catch(e){
+    return this.error(e)
+  }
+}
+@Get('itemTeacherSdq/:id')
+async itemTeacherSdq(@Param('id') id: number) {
+  try{
+    return this.success(await this.sdqtableService.itemTeacherSdq(id))
+  }catch(e){
+    return this.error(e)
+  }
+}
 }
