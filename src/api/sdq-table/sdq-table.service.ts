@@ -59,7 +59,7 @@ export class SdqTableService extends BaseService {
         dto.ADHDBehaviorScore03 = (dto.choice02+dto.choice10+dto.choice15+dto.choice21+dto.choice25);
         dto.friendBehaviorScore04 =(dto.choice06+dto.choice11+dto.choice14+dto.choice19+dto.choice23);
         dto.socialBehaviorScore05 =(dto.choice01+dto.choice04+dto.choice09+dto.choice17+dto.choice20);
-        dto.sumScore =(dto.emotionalBehaviorScore01+ dto.nomalBehaviorScore02 + dto.ADHDBehaviorScore03+ dto.friendBehaviorScore04+ dto.socialBehaviorScore05)
+        dto.sumScore =(dto.emotionalBehaviorScore01+ dto.nomalBehaviorScore02 + dto.ADHDBehaviorScore03+ dto.friendBehaviorScore04)
         if(dto.estimateType === 1){  //1 นักเรียนประเมินตนเอง
             if((dto.sumScore>=0)&&(dto.sumScore<=15)){
                 dto.sumScore_value ='ปกติ';
@@ -236,7 +236,7 @@ export class SdqTableService extends BaseService {
         dto.ADHDBehaviorScore03 = (dto.choice02+dto.choice10+dto.choice15+dto.choice21+dto.choice25);
         dto.friendBehaviorScore04 =(dto.choice06+dto.choice11+dto.choice14+dto.choice19+dto.choice23);
         dto.socialBehaviorScore05 =(dto.choice01+dto.choice04+dto.choice09+dto.choice17+dto.choice20);
-        dto.sumScore =(dto.emotionalBehaviorScore01+ dto.nomalBehaviorScore02 + dto.ADHDBehaviorScore03+ dto.friendBehaviorScore04+ dto.socialBehaviorScore05)
+        dto.sumScore =(dto.emotionalBehaviorScore01+ dto.nomalBehaviorScore02 + dto.ADHDBehaviorScore03+ dto.friendBehaviorScore04)
         if(dto.estimateType === 1){  //1 นักเรียนประเมินตนเอง
             if((dto.sumScore>=0)&&(dto.sumScore<=15)){
                 dto.sumScore_value ='ปกติ';
