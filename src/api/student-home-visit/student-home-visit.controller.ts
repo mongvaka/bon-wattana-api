@@ -126,6 +126,20 @@ export class StudentHomeVisitController extends BaseController{
     }
   }
 
-  
-  
+  @Get('get-current-term-data/:id')
+async getSDQCurrentTermDataPRT(@Param('id') id: number) {
+  try{
+    return this.success(await this.studenthomevisitService.getCurrentTermData(id))
+  }catch(e){
+    return this.error(e)
+  }
+}
+@Get('student-home-item/:id')
+async stditem(@Param('id') id: number) {
+  try{
+    return this.success(await this.studenthomevisitService.stditem(id))
+  }catch(e){
+    return this.error(e)
+  }
+}
 }

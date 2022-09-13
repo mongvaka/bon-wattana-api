@@ -20,6 +20,7 @@ import { CreateStudentHomeVisitDto, StudentHomeVisitDto, SearchStudentHomeVisitD
 import { StudentHomeVisit, VwStudentHomeVisitDropdown, VwStudentHomeVisitItem, VwStudentHomeVisitList } from './student-home-visit.entity';
 import { VwYearTermItem } from 'src/api/year-term/year-term.entity';
 import { VwStudentItem } from '../student/student.entity';
+import { VwTeacherItem } from 'src/api/teacher/teacher.entity';
 
 //import { VwnullDropdown } from 'src/api/null/null.entity';
 //import { SearchnullDto } from 'src/api/null/null.dto';
@@ -47,7 +48,9 @@ export class StudentHomeVisitService extends BaseService {
         private readonly itemYearTermRepository:Repository<VwYearTermItem>,
         private readonly imageService:ImagesService,
         private readonly yearTermService:YearTermService,
-        private readonly studentService:StudentService
+        private readonly studentService:StudentService,
+        @InjectRepository(VwTeacherItem)
+        private readonly itemTeacherRepository:Repository<VwTeacherItem>,
         ){
         super()
     }
@@ -121,13 +124,13 @@ export class StudentHomeVisitService extends BaseService {
         let yearInit =await this.itemYearTermRepository.findOne({where:{isParent:true}})
         // console.log("yearInit",yearInit)
          let std = await this.itemStudentRepository.findOne({where:{id:id}})
+         let stdTeacher = await this.itemTeacherRepository.findOne({where:{classroomTypeId:std.classroomTypeId , classroomId:std.classroomId}})
          var atSemester =null;
          var atYear=null;
          if(yearInit!=undefined){
             atYear=yearInit.year;
             atSemester =yearInit.term;
         }
-        console.log(std)
          return {
              atYear: atYear, 
              atSemester: atSemester,
@@ -148,7 +151,8 @@ export class StudentHomeVisitService extends BaseService {
              districtId:std.districtId,
              provinceId:std.provinceId,
              phoneNumber:std.phoneNumber,
-             parentPhone:std.parentPhone
+             parentPhone:std.parentPhone,
+             adviserNameValue:stdTeacher.firstname+" "+stdTeacher.lastname
          }
 
    
@@ -167,5 +171,44 @@ export class StudentHomeVisitService extends BaseService {
      }
      async itemStudent(id:number):Promise<any>{
         return await this.studentService.item(id)
+    }
+    async getCurrentTermData(id:number):Promise<any>{
+        let yearInit =await this.itemYearTermRepository.findOne({where:{isParent:true}})
+        let CurrentTermData = await this.itemRepository.findOne({where:{studentId:id,yearTermId:yearInit.id}})
+      
+     if(CurrentTermData!=undefined){
+        return true;
+     }else{
+        return false;
+     }
+    }
+    async stditem(id:number):Promise<any>{
+        const yearTerm = await this.yearTermService.findCurrrentTerm()
+        let result= await this.itemRepository.findOne({where:{studentId:id,yearTermId:yearTerm.id}})
+        let std = await this.itemStudentRepository.findOne({where:{id:id}})
+        let stdTeacher = await this.itemTeacherRepository.findOne({where:{classroomTypeId:std.classroomTypeId , classroomId:std.classroomId}})
+     
+         return {
+            result:result,
+            title:std.title,
+            firstname : std.firstname,
+            lastname: std.lastname,
+            classroomTypeValue:std.classroomTypeValue,
+            birthDate:std.birthDate,
+            parentFirstName:std.parentFirstname,
+            parentLastName:std.parentLastname,
+            houseNumber:std.houseNumber,
+            village:std.village,
+            road:std.road,
+            subDistrictValue:std.subDistrictValue,
+            districtValue:std.districtValue,
+            provinceValue:std.provinceValue,
+            subDistrictId:std.subDistrictId,
+            districtId:std.districtId,
+            provinceId:std.provinceId,
+            phoneNumber:std.phoneNumber,
+            parentPhone:std.parentPhone,
+            adviserNameValue:stdTeacher.firstname+" "+stdTeacher.lastname
+        };
     }
 }
