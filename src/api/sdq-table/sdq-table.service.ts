@@ -11,6 +11,7 @@ import { SearchClassroomDto } from 'src/api/classroom/classroom.dto';
 import { VwClassroomDropdown } from 'src/api/classroom/classroom.entity';
 import { VwClassroomTypeDropdown } from 'src/api/classroom-type/classroom-type.entity';
 import { VwYearTermItem } from 'src/api/year-term/year-term.entity';
+import { VwTeacherItem } from 'src/api/teacher/teacher.entity';
 import { VwStudentItem,VwSdqTableListForTeacher,VwSdqTableListForParent,VwSdqTableListForStudent  } from 'src/api/student/student.entity';
 import { SearchStudentDto, StudentDto } from 'src/api/student/student.dto';
 @Injectable()
@@ -39,7 +40,8 @@ export class SdqTableService extends BaseService {
 
         @InjectRepository(VwYearTermItem)
         private readonly itemYearTermRepository:Repository<VwYearTermItem>,
-
+        @InjectRepository(VwTeacherItem)
+        private readonly itemTeacherRepository:Repository<VwTeacherItem>,
         private readonly dropdownService: DropdownService
         ){
         super()
@@ -284,4 +286,13 @@ if(yearInit!=undefined){
         const [data, count] = await builder.getManyAndCount();
          return this.toSearchResult<VwSdqTableListForParent>(dto.paginator,count,data);
      }
+
+     async getClassOfTeacher(id:number):Promise<any>{
+        return await this.itemTeacherRepository.findOne({where:{id:id}})
+      
+    }
+    async getSdqParentCurrenyStorage(id:number):Promise<any>{
+        return await this.itemRepository.findOne({where:{studentId:id , estimateType:3}})
+      
+    }
 }

@@ -84,4 +84,12 @@ async initial(@Param('id') id: number) {
     return this.error(e)
   }
 }
+@Get('getSdqParentCurrenyStorage/:id')
+async getSdqParentCurrenyStorage(@Param('id') id: number) {
+  try{
+    return this.success(await this.sdqtableService.getSdqParentCurrenyStorage(id))
+  }catch(e){
+    return this.error(e)
+  }
+}
 }

@@ -117,14 +117,14 @@ export class StudentHomeVisitController extends BaseController{
   //   }
   // }
 
-  // @Get('student-home-visit-initialData/:id')
-  // async getStudentHomeVisitInitialData(@Param('id') id: number) {
-  //   try{
-  //     return this.success(await this.studenthomevisitService.getStudentHomeVisitInitialData(id))
-  //   }catch(e){
-  //     return this.error(e)
-  //   }
-  // }
+  @Get('student-home-visit-initialData/:id')
+  async getStudentHomeVisitInitialData(@Param('id') id: number) {
+    try{
+      return this.success(await this.studenthomevisitService.getStudentHomeVisitInitialData(id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
 
   
   

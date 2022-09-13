@@ -18,6 +18,9 @@ import { VwYearTermDropdown } from '../year-term/year-term.entity';
 import { YearTermService } from '../year-term/year-term.service';
 import { CreateStudentHomeVisitDto, StudentHomeVisitDto, SearchStudentHomeVisitDto, UpdateStudentHomeVisitDto } from './student-home-visit.dto';
 import { StudentHomeVisit, VwStudentHomeVisitDropdown, VwStudentHomeVisitItem, VwStudentHomeVisitList } from './student-home-visit.entity';
+import { VwYearTermItem } from 'src/api/year-term/year-term.entity';
+import { VwStudentItem } from '../student/student.entity';
+
 //import { VwnullDropdown } from 'src/api/null/null.entity';
 //import { SearchnullDto } from 'src/api/null/null.dto';
 
@@ -38,9 +41,13 @@ export class StudentHomeVisitService extends BaseService {
         @InjectRepository(VwClassroomTypeDropdown)
         private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
         private readonly dropdownService: DropdownService,
+        @InjectRepository(VwStudentItem)
+        private readonly itemStudentRepository:Repository<VwStudentItem>,
+        @InjectRepository(VwYearTermItem)
+        private readonly itemYearTermRepository:Repository<VwYearTermItem>,
+        private readonly imageService:ImagesService,
         private readonly yearTermService:YearTermService,
-        private readonly studentService:StudentService,
-        private readonly imagesService:ImagesService,
+        private readonly studentService:StudentService
         ){
         super()
     }
@@ -64,7 +71,7 @@ export class StudentHomeVisitService extends BaseService {
             for (const iterator of dto.images) {
                 const fileName = filename()
                 await savefileWithName(iterator,fileName,moduleName)
-                await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:ImageType.HOME_VISIT,imageType:0},req)
+                await this.imageService.create({imageUrl:fileName,refId:result.id,refType:ImageType.HOME_VISIT,imageType:0},req)
 
             }
 
@@ -84,7 +91,7 @@ export class StudentHomeVisitService extends BaseService {
             for (const iterator of dto.images) {
                 const fileName = filename()
                 await savefileWithName(iterator,fileName,moduleName)
-                await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:ImageType.HOME_VISIT,imageType:0},req)
+                await this.imageService.create({imageUrl:fileName,refId:result.id,refType:ImageType.HOME_VISIT,imageType:0},req)
 
             }
 
@@ -109,7 +116,50 @@ export class StudentHomeVisitService extends BaseService {
       async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
         return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
       }
-      async yearTermDropdown(dto: SearchStudentDto):Promise<SelectItems[]> {
+
+      async getStudentHomeVisitInitialData(id:number):Promise<any>{
+        let yearInit =await this.itemYearTermRepository.findOne({where:{isParent:true}})
+        // console.log("yearInit",yearInit)
+         let std = await this.itemStudentRepository.findOne({where:{id:id}})
+         var atSemester =null;
+         var atYear=null;
+         if(yearInit!=undefined){
+            atYear=yearInit.year;
+            atSemester =yearInit.term;
+        }
+        console.log(std)
+         return {
+             atYear: atYear, 
+             atSemester: atSemester,
+             title:std.title,
+             firstname : std.firstname,
+             lastname: std.lastname,
+             classroomTypeValue:std.classroomTypeValue,
+             birthDate:std.birthDate,
+             parentFirstName:std.parentFirstname,
+             parentLastName:std.parentLastname,
+             houseNumber:std.houseNumber,
+             village:std.village,
+             road:std.road,
+             subDistrictValue:std.subDistrictValue,
+             districtValue:std.districtValue,
+             provinceValue:std.provinceValue,
+             subDistrictId:std.subDistrictId,
+             districtId:std.districtId,
+             provinceId:std.provinceId,
+             phoneNumber:std.phoneNumber,
+             parentPhone:std.parentPhone
+         }
+
+   
+ 
+
+
+
+      
+
+    }
+    async yearTermDropdown(dto: SearchStudentDto):Promise<SelectItems[]> {
         return await this.dropdownService.yeartermDropdown(dto,this.vwYearTermDropdownRepository);
       }
       async currentTerm() {
