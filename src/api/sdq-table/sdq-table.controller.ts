@@ -83,4 +83,13 @@ export class SdqTableController extends BaseController{
       return this.error(e)
     }
   }
+
+  @Get('get-sdq-current-term-data-std/:id')
+  async getSDQCurrentTermDataSTD(@Param('id') id: number) {
+    try{
+      return this.success(await this.sdqtableService.getSDQCurrentTermDataSTD(id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
 }
