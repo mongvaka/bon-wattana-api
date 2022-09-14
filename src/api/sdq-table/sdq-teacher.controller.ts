@@ -13,7 +13,7 @@ import { SearchStudentDto } from "src/api/student/student.dto";
 @ApiBearerAuth()
 @Controller('sdq-teacher')
 export class SdqTeacherController extends BaseController{
-  constructor(private readonly sdqtableService:SdqTableService,
+  constructor(private readonly sdqtableService:SdqTableService
     ){
     super()
   }
@@ -80,6 +80,22 @@ async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
 async initial(@Param('id') id: number) {
   try{
     return this.success(await this.sdqtableService.initial(id))
+  }catch(e){
+    return this.error(e)
+  }
+}
+@Get('get-sdq-current-term-data-teacher/:id')
+async getSDQCurrentTermDataTeacher(@Param('id') id: number) {
+  try{
+    return this.success(await this.sdqtableService.getSDQCurrentTermDataTeacher(id))
+  }catch(e){
+    return this.error(e)
+  }
+}
+@Get('itemTeacherSdq/:id')
+async itemTeacherSdq(@Param('id') id: number) {
+  try{
+    return this.success(await this.sdqtableService.itemTeacherSdq(id))
   }catch(e){
     return this.error(e)
   }

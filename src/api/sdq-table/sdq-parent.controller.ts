@@ -84,4 +84,20 @@ async initial(@Param('id') id: number) {
     return this.error(e)
   }
 }
+@Get('itemparentsdq/:id')
+async itemparentsdq(@Param('id') id: number) {
+  try{
+    return this.success(await this.sdqtableService.itemparentsdq(id))
+  }catch(e){
+    return this.error(e)
+  }
+}
+@Get('get-sdq-current-term-data-prt/:id')
+async getSDQCurrentTermDataPRT(@Param('id') id: number) {
+  try{
+    return this.success(await this.sdqtableService.getSDQCurrentTermDataPRT(id))
+  }catch(e){
+    return this.error(e)
+  }
+}
 }

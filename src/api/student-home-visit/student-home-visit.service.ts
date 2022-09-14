@@ -18,6 +18,10 @@ import { VwYearTermDropdown } from '../year-term/year-term.entity';
 import { YearTermService } from '../year-term/year-term.service';
 import { CreateStudentHomeVisitDto, StudentHomeVisitDto, SearchStudentHomeVisitDto, UpdateStudentHomeVisitDto } from './student-home-visit.dto';
 import { StudentHomeVisit, VwStudentHomeVisitDropdown, VwStudentHomeVisitItem, VwStudentHomeVisitList } from './student-home-visit.entity';
+import { VwYearTermItem } from 'src/api/year-term/year-term.entity';
+import { VwStudentItem } from '../student/student.entity';
+import { VwTeacherItem } from 'src/api/teacher/teacher.entity';
+
 //import { VwnullDropdown } from 'src/api/null/null.entity';
 //import { SearchnullDto } from 'src/api/null/null.dto';
 
@@ -38,9 +42,15 @@ export class StudentHomeVisitService extends BaseService {
         @InjectRepository(VwClassroomTypeDropdown)
         private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
         private readonly dropdownService: DropdownService,
+        @InjectRepository(VwStudentItem)
+        private readonly itemStudentRepository:Repository<VwStudentItem>,
+        @InjectRepository(VwYearTermItem)
+        private readonly itemYearTermRepository:Repository<VwYearTermItem>,
+        private readonly imageService:ImagesService,
         private readonly yearTermService:YearTermService,
         private readonly studentService:StudentService,
-        private readonly imagesService:ImagesService,
+        @InjectRepository(VwTeacherItem)
+        private readonly itemTeacherRepository:Repository<VwTeacherItem>,
         ){
         super()
     }
@@ -64,7 +74,7 @@ export class StudentHomeVisitService extends BaseService {
             for (const iterator of dto.images) {
                 const fileName = filename()
                 await savefileWithName(iterator,fileName,moduleName)
-                await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:ImageType.HOME_VISIT,imageType:0},req)
+                await this.imageService.create({imageUrl:fileName,refId:result.id,refType:ImageType.HOME_VISIT,imageType:0},req)
 
             }
 
@@ -84,7 +94,7 @@ export class StudentHomeVisitService extends BaseService {
             for (const iterator of dto.images) {
                 const fileName = filename()
                 await savefileWithName(iterator,fileName,moduleName)
-                await this.imagesService.create({imageUrl:fileName,refId:result.id,refType:ImageType.HOME_VISIT,imageType:0},req)
+                await this.imageService.create({imageUrl:fileName,refId:result.id,refType:ImageType.HOME_VISIT,imageType:0},req)
 
             }
 
@@ -109,7 +119,51 @@ export class StudentHomeVisitService extends BaseService {
       async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
         return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
       }
-      async yearTermDropdown(dto: SearchStudentDto):Promise<SelectItems[]> {
+
+      async getStudentHomeVisitInitialData(id:number):Promise<any>{
+        let yearInit =await this.itemYearTermRepository.findOne({where:{isParent:true}})
+        // console.log("yearInit",yearInit)
+         let std = await this.itemStudentRepository.findOne({where:{id:id}})
+         let stdTeacher = await this.itemTeacherRepository.findOne({where:{classroomTypeId:std.classroomTypeId , classroomId:std.classroomId}})
+         var atSemester =null;
+         var atYear=null;
+         if(yearInit!=undefined){
+            atYear=yearInit.year;
+            atSemester =yearInit.term;
+        }
+         return {
+             atYear: atYear, 
+             atSemester: atSemester,
+             title:std.title,
+             firstname : std.firstname,
+             lastname: std.lastname,
+             classroomTypeValue:std.classroomTypeValue,
+             birthDate:std.birthDate,
+             parentFirstName:std.parentFirstname,
+             parentLastName:std.parentLastname,
+             houseNumber:std.houseNumber,
+             village:std.village,
+             road:std.road,
+             subDistrictValue:std.subDistrictValue,
+             districtValue:std.districtValue,
+             provinceValue:std.provinceValue,
+             subDistrictId:std.subDistrictId,
+             districtId:std.districtId,
+             provinceId:std.provinceId,
+             phoneNumber:std.phoneNumber,
+             parentPhone:std.parentPhone,
+             adviserNameValue:stdTeacher.firstname+" "+stdTeacher.lastname
+         }
+
+   
+ 
+
+
+
+      
+
+    }
+    async yearTermDropdown(dto: SearchStudentDto):Promise<SelectItems[]> {
         return await this.dropdownService.yeartermDropdown(dto,this.vwYearTermDropdownRepository);
       }
       async currentTerm() {
@@ -117,5 +171,44 @@ export class StudentHomeVisitService extends BaseService {
      }
      async itemStudent(id:number):Promise<any>{
         return await this.studentService.item(id)
+    }
+    async getCurrentTermData(id:number):Promise<any>{
+        let yearInit =await this.itemYearTermRepository.findOne({where:{isParent:true}})
+        let CurrentTermData = await this.itemRepository.findOne({where:{studentId:id,yearTermId:yearInit.id}})
+      
+     if(CurrentTermData!=undefined){
+        return true;
+     }else{
+        return false;
+     }
+    }
+    async stditem(id:number):Promise<any>{
+        const yearTerm = await this.yearTermService.findCurrrentTerm()
+        let result= await this.itemRepository.findOne({where:{studentId:id,yearTermId:yearTerm.id}})
+        let std = await this.itemStudentRepository.findOne({where:{id:id}})
+        let stdTeacher = await this.itemTeacherRepository.findOne({where:{classroomTypeId:std.classroomTypeId , classroomId:std.classroomId}})
+     
+         return {
+            result:result,
+            title:std.title,
+            firstname : std.firstname,
+            lastname: std.lastname,
+            classroomTypeValue:std.classroomTypeValue,
+            birthDate:std.birthDate,
+            parentFirstName:std.parentFirstname,
+            parentLastName:std.parentLastname,
+            houseNumber:std.houseNumber,
+            village:std.village,
+            road:std.road,
+            subDistrictValue:std.subDistrictValue,
+            districtValue:std.districtValue,
+            provinceValue:std.provinceValue,
+            subDistrictId:std.subDistrictId,
+            districtId:std.districtId,
+            provinceId:std.provinceId,
+            phoneNumber:std.phoneNumber,
+            parentPhone:std.parentPhone,
+            adviserNameValue:stdTeacher.firstname+" "+stdTeacher.lastname
+        };
     }
 }
