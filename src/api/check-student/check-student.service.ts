@@ -44,6 +44,7 @@ export class CheckStudentService extends BaseService {
         const builder = this.createQueryBuider<VwCheckStudentList>(dto,this.vwCheckStudentRepository)
         const [data, count] = await builder
         .getManyAndCount();
+
         return this.toSearchResult<VwCheckStudentList>(dto.paginator,count,data);
     }
     async create(dto:CreateCheckStudentDto,req:CustomRequest):Promise<CheckStudent>{        

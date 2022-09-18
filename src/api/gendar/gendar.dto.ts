@@ -9,10 +9,8 @@ export class GendarDto {
     gendarDescription:string
 } 
 export class CreateGendarDto extends GendarDto{
-    gendarName:string
-    gendarDescription:string
+
 }
 export class UpdateGendarDto extends GendarDto{
-    gendarName:string
-    gendarDescription:string
+
 }

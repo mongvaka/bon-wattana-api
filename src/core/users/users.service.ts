@@ -1,22 +1,32 @@
 import {BadRequestException, Injectable} from '@nestjs/common';
-import {Brackets, In, Repository} from "typeorm";
-import {Users} from "./users.entity";
+import {Brackets, In, Not, Repository} from "typeorm";
+import {Users, VwUsersItem, VwUsersList} from "./users.entity";
 import {InjectRepository} from "@nestjs/typeorm";
 import {IBasicService} from "../shared/interfaces/basic-service.interface";
-import {CreatedUsersDto, DeletedUsersDto, SearchUsersDto, UpdatedUsersDto} from "./users.dto";
+import { CreateUsersDto, SearchUsersDto, UpdateUsersDto, UsersDto} from "./users.dto";
 import { ChangePasswordDto } from '../authentications/authentications.dto';
 import { CustomRequest } from '../shared/models/request-model';
 import * as bcrypt from "bcrypt"
+import { DropdownService } from '../shared/services/dropdown.service';
+import { SearchResult } from '../shared/models/search-param-model';
+import { BaseService } from '../shared/services/base.service';
+import { UserType } from '../shared/constans/enum-constans';
 
 @Injectable()
-export class UsersService {
+export class UsersService extends BaseService {
   async remove(duplicateEmail: Users) {
     return this.usersRepository.remove(duplicateEmail)
   }
   constructor(
     @InjectRepository(Users)
     private readonly usersRepository: Repository<Users>,
+    @InjectRepository(VwUsersList)
+    private readonly vwUsersRepository: Repository<VwUsersList>,
+    @InjectRepository(VwUsersItem)
+    private readonly itemRepository:Repository<VwUsersItem>,
+    private readonly dropdownService: DropdownService
   ) {
+    super()
   }
 
   async create(model:Users){
@@ -27,16 +37,7 @@ export class UsersService {
     return result
     
   }
-  async deleted(dto: DeletedUsersDto) {
-    let users = await this.findById(dto.id);
-    users.deleted = true
-    users.deletedAt = new Date()
-    users.deletedBy = dto.deletedBy
 
-
-
-    return this.usersRepository.softRemove(await this.usersRepository.save(users));
-  }
 
   async tokenUpdated(user: Users, token: string): Promise<Users> {
     user.token = token;
@@ -78,4 +79,42 @@ export class UsersService {
     await this.usersRepository.save(model)
     return true    
   }
+  async list(dto:SearchUsersDto):Promise<SearchResult<VwUsersList>>{
+    const builder = this.createQueryBuider<VwUsersList>(dto,this.vwUsersRepository)
+    const [data, count] = await builder
+    .getManyAndCount();
+    return this.toSearchResult<VwUsersList>(dto.paginator,count,data);
+}
+async createFrom(dto:CreateUsersDto,req:CustomRequest):Promise<Users>{  
+  const duplicateEmail = await this.findByEmail(dto.username)  
+  if(duplicateEmail!= undefined){
+    throw new BadRequestException('ชื่อผู้ถูกสร้างไปแล้ว...')
+  }    
+
+    const en = this.toCreateModel(dto,req) as Users  
+    return await this.usersRepository.save(
+        this.usersRepository.create(en)
+    );
+}
+async update(id:number,dto:UpdateUsersDto,req:CustomRequest):Promise<UsersDto>{
+    const m = await this.usersRepository.findOne({where:{id:id}})
+    const duplicateEmail = await this.usersRepository.findOne({where:{username:dto.username,id:Not(id)}})
+    if(duplicateEmail!= undefined){
+      throw new BadRequestException('ชื่อผู้ถูกสร้างไปแล้ว...')
+    }  
+    return await this.usersRepository.save(
+        this.toUpdateModel(m,dto,req)
+    );
+}
+async delete(id:number,req:CustomRequest):Promise<UsersDto>{
+    let m = await this.usersRepository.findOne({where:{id:id}})
+    return await this.usersRepository.softRemove(
+        await this.usersRepository.save(
+            this.toDeleteModel(m,req)
+        )
+    )
+}
+async item(id:number):Promise<any>{
+    return await this.itemRepository.findOne({where:{id:id}})
+}
 }
