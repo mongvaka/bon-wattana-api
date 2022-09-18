@@ -488,7 +488,7 @@ if(yearInit!=undefined){
       async listForTeacher(dto:SearchStudentDto):Promise<SearchResult<VwSdqTableListForTeacher>>{
 
         const builder = this.createQueryBuider<VwSdqTableListForTeacher>(dto,this.vwSdqTableListForTeacherRepository)
-     //  console.log(builder.getSql())
+ 
         const [data, count] = await builder.getManyAndCount();
          return this.toSearchResult<VwSdqTableListForTeacher>(dto.paginator,count,data);
      }

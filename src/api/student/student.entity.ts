@@ -775,11 +775,58 @@ export class VwStudentItem {
   .addSelect("student.classroomId", "classroomId")
   .addSelect("student.classroomTypeId", "classroomTypeId")
   .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
+  .addSelect(`CASE
+                        WHEN "sdq_table"."socialBehaviorScore05_value" = 'เป็นจุดแข็ง' THEN 'มีจุดแข็ง'
+                        WHEN "sdq_table"."socialBehaviorScore05_value" = 'ไม่มีจุดแข็ง' THEN 'ไม่มีจุดแข็ง'
+                        ELSE '-'
+                    END`, "socialBehaviorScore05_value_display")
   .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
+  .addSelect(`CASE
+  WHEN "sdq_table"."friendBehaviorScore04_value" = 'ปกติ' THEN 'ป'
+  WHEN "sdq_table"."friendBehaviorScore04_value" = 'เสี่ยง' THEN 'ส'
+  WHEN "sdq_table"."friendBehaviorScore04_value" = 'มีปัญหา' THEN 'ห'
+  ELSE '-'
+END`, "friendBehaviorScore04_value_display")
   .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
+  .addSelect(`CASE
+  WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'ปกติ' THEN 'ป'
+  WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'เสี่ยง' THEN 'ส'
+  WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'มีปัญหา' THEN 'ห'
+  ELSE '-'
+END`, "ADHDBehaviorScore03_value_display")
   .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
+  .addSelect(`CASE
+  WHEN "sdq_table"."nomalBehaviorScore02_value" = 'ปกติ' THEN 'ป'
+  WHEN "sdq_table"."nomalBehaviorScore02_value" = 'เสี่ยง' THEN 'ส'
+  WHEN "sdq_table"."nomalBehaviorScore02_value" = 'มีปัญหา' THEN 'ห'
+  ELSE '-'
+END`, "nomalBehaviorScore02_value_display")
   .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
+  .addSelect(`CASE
+  WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'ปกติ' THEN 'ป'
+  WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'เสี่ยง' THEN 'ส'
+  WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'มีปัญหา' THEN 'ห'
+  ELSE '-'
+END`, "emotionalBehaviorScore01_value_display")
   .addSelect("sdq_table.sumScore_value", "sumScore_value")
+  .addSelect(`CASE
+  WHEN "sdq_table"."sumScore_value" = 'ปกติ' THEN 'ป'
+  WHEN "sdq_table"."sumScore_value" = 'เสี่ยง' THEN 'ส'
+  WHEN "sdq_table"."sumScore_value" = 'มีปัญหา' THEN 'ห'
+  ELSE '-'
+END`, "sumScore_value_display")
+.addSelect(`CASE
+                        WHEN "sdq_table"."socialBehaviorScore05_value" = 'เป็นจุดแข็ง' THEN 'เสร็จสิ้น'
+                        WHEN "sdq_table"."socialBehaviorScore05_value" = 'ไม่มีจุดแข็ง' THEN 'เสร็จสิ้น'
+                        ELSE 'ไม่เสร็จสิ้น'
+                    END`, "status_display")
+/*
+(select count(*) from sdq_table
+ left join year_term on year_term."isParent"  = true and year_term."year" = sdq_table."atYear" 
+  and year_term.term =sdq_table."atSemester"  where sdq_table."studentId"  = student.id and "estimateType"=2) as count
+*/
+
+
   .from(Student, "student")
   .leftJoin(SdqTable, "sdq_table","sdq_table.studentId = student.id AND sdq_table.estimateType = 2")
   .leftJoin(YearTerm, "year_term","year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
@@ -818,6 +865,24 @@ friendBehaviorScore04_value: string;
 @ViewColumn()
 socialBehaviorScore05_value: string;
 
+@ViewColumn()
+emotionalBehaviorScore01_value_display: string;
+
+@ViewColumn()
+nomalBehaviorScore02_value_display: string;
+
+@ViewColumn()
+ADHDBehaviorScore03_value_display: string;
+
+@ViewColumn()
+friendBehaviorScore04_value_display: string;
+
+@ViewColumn()
+socialBehaviorScore05_value_display: string;  
+@ViewColumn()
+sumScore_value_display: string;
+@ViewColumn()
+status_display: string;
 }
 @ViewEntity({
   name:'sdq_table_list_for_parent',
