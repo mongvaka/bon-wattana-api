@@ -15,10 +15,10 @@ export class CheckStudent extends BasicData {
   @Column({nullable: true})
   llinesses?: string;
 
-  @Column({nullable: true})
+  @Column({nullable: true,type:'double precision'})
   weight?: number;
 
-  @Column({nullable: true})
+  @Column({nullable: true,type:'double precision'})
   height?: number;
 
   @Column({nullable: true})
@@ -116,27 +116,32 @@ export class CheckStudent extends BasicData {
 }
 @ViewEntity({
     name:'check_student_list',
-    expression: (connection: Connection) => connection.createQueryBuilder()
-        .select("student.id", "id")
-        .addSelect("check_student.weight", "weight")
-        .addSelect("check_student.height", "height")
-        .addSelect("check_student.bloodPressure", "bloodPressure")
-        .addSelect("check_student.gum", "gum")
-        .addSelect("check_student.dentalCavities", "dentalCavities")
-        .addSelect("check_student.id", "checkStudentId")
-        .addSelect("check_student.yearTermId", "yearTermId")
-        .addSelect("student.classroomTypeId", "classroomTypeId")
-        .addSelect("student.classroomId", "classroomId")
-
-        .addSelect("classroom_type.typeName", "classroomTypeValue")
-        .addSelect("classroom.name", "classroomValue")
-        .addSelect("CONCAT(student.firstname , ' ' , student.lastname)", "studentValue")
-        .from(Student, "student")
-        .leftJoin(CheckStudent, "check_student","check_student.studentId = student.id" )
-        .leftJoin(ClassroomType,'classroom_type','classroom_type.id = student.classroomTypeId')
-        .leftJoin(Classroom,'classroom','classroom.id = student.classroomId')
+    expression: ` SELECT student.id,
+    student."studentCode",
+    student."classroomId",
+    student."classroomTypeId",
+    check_student.id AS "checkStudentId",
+    check_student.weight,
+    check_student.height,
+    check_student."bloodPressure",
+    check_student.gum,
+    check_student."dentalCavities",
+    check_student."yearTermId",
+    classroom_type."typeName" AS "classroomTypeValue",
+    classroom.name AS "classroomValue",
+    check_student.weight / ((check_student.height / 100::double precision) * (check_student.height / 100::double precision)) AS bmi,
+    concat(student.firstname, ' ', student.lastname) AS "studentValue"
+   FROM student student
+     LEFT JOIN check_student check_student ON check_student."studentId" = student.id AND check_student."deletedAt" IS NULL
+     LEFT JOIN classroom_type classroom_type ON classroom_type.id = student."classroomTypeId" AND classroom_type."deletedAt" IS NULL
+     LEFT JOIN classroom classroom ON classroom.id = student."classroomId" AND classroom."deletedAt" IS NULL
+  WHERE student."deletedAt" IS null`
 })
 export class VwCheckStudentList {
+  @ViewColumn()
+  bmi:number
+  @ViewColumn()
+  studentCode:string
   @ViewColumn()
   classroomTypeValue:string
   @ViewColumn()

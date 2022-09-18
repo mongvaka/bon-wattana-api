@@ -149,6 +149,7 @@ export class Teacher extends BasicData {
   actionWorkSpecial: string;
   @Column({nullable: true})
   activityStudentId: number;
+
 }
 @ViewEntity({
     name:'teacher_list',
@@ -288,6 +289,7 @@ export class VwTeacherDropdown {
         .leftJoin(ActivityStudent,'activity_student','activity_student.id = teacher.activityStudentId')
 })
 export class VwTeacherItem {
+
   @ViewColumn()
   actionWork: string;
   @ViewColumn()
