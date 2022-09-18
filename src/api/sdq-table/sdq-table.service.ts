@@ -48,7 +48,7 @@ export class SdqTableService extends BaseService {
     }
     async list(dto:SearchStudentDto):Promise<SearchResult<VwSdqTableListForStudent>>{
        const builder = this.createQueryBuider<VwSdqTableListForStudent>(dto,this.vwSdqTableListForStudentRepository)
-      console.log(builder.getSql())
+      
        const [data, count] = await builder.getManyAndCount();
         return this.toSearchResult<VwSdqTableListForStudent>(dto.paginator,count,data);
     }
@@ -495,7 +495,7 @@ if(yearInit!=undefined){
      async listForParent(dto:SearchStudentDto):Promise<SearchResult<VwSdqTableListForParent>>{
       
         const builder = this.createQueryBuider<VwSdqTableListForParent>(dto,this.vwSdqTableListForParentRepository)
-       //console.log(builder.getSql())
+       //
         const [data, count] = await builder.getManyAndCount();
          return this.toSearchResult<VwSdqTableListForParent>(dto.paginator,count,data);
      }
@@ -619,4 +619,47 @@ atSemester =yearInit.term;
        sdq_id:sdq.id
    }
 }
+async getSumSDQTeacher():Promise<any>{
+    let sum01_normal =await this.vwSdqTableListForTeacherRepository.count({where:{emotionalBehaviorScore01_value : 'ปกติ'}})
+    let sum01_risk =await this.vwSdqTableListForTeacherRepository.count({where:{emotionalBehaviorScore01_value : 'เสี่ยง'}})
+    let sum01_bad =await this.vwSdqTableListForTeacherRepository.count({where:{emotionalBehaviorScore01_value : 'มีปัญหา'}})
+    let sum02_normal =await this.vwSdqTableListForTeacherRepository.count({where:{nomalBehaviorScore02_value : 'ปกติ'}})
+    let sum02_risk =await this.vwSdqTableListForTeacherRepository.count({where:{nomalBehaviorScore02_value : 'เสี่ยง'}})
+    let sum02_bad =await this.vwSdqTableListForTeacherRepository.count({where:{nomalBehaviorScore02_value : 'มีปัญหา'}})
+    let sum03_normal =await this.vwSdqTableListForTeacherRepository.count({where:{ADHDBehaviorScore03_value : 'ปกติ'}})
+    let sum03_risk =await this.vwSdqTableListForTeacherRepository.count({where:{ADHDBehaviorScore03_value : 'เสี่ยง'}})
+    let sum03_bad =await this.vwSdqTableListForTeacherRepository.count({where:{ADHDBehaviorScore03_value : 'มีปัญหา'}})
+    let sum04_normal =await this.vwSdqTableListForTeacherRepository.count({where:{friendBehaviorScore04_value : 'ปกติ'}})
+    let sum04_risk =await this.vwSdqTableListForTeacherRepository.count({where:{friendBehaviorScore04_value : 'เสี่ยง'}})
+    let sum04_bad =await this.vwSdqTableListForTeacherRepository.count({where:{friendBehaviorScore04_value : 'มีปัญหา'}})
+    let sum_normal = await this.vwSdqTableListForTeacherRepository.count({where:{sumScore_value : 'ปกติ'}})
+    let sum_risk = await this.vwSdqTableListForTeacherRepository.count({where:{sumScore_value : 'เสี่ยง'}})
+    let sum_bad = await this.vwSdqTableListForTeacherRepository.count({where:{sumScore_value : 'มีปัญหา'}})
+    let sum05_strong = await this.vwSdqTableListForTeacherRepository.count({where:{socialBehaviorScore05_value : 'เป็นจุดแข็ง'}})
+    let sum05_weak = await this.vwSdqTableListForTeacherRepository.count({where:{socialBehaviorScore05_value : 'ไม่มีจุดแข็ง'}})
+    let sum05 =sum05_strong+sum05_weak;
+    return {
+        sum01_normal:sum01_normal,
+        sum01_risk:sum01_risk,
+        sum01_bad:sum01_bad,
+        sum02_normal:sum02_normal,
+        sum02_risk:sum02_risk,
+        sum02_bad:sum02_bad,
+        sum03_normal:sum03_normal,
+        sum03_risk:sum03_risk,
+        sum03_bad:sum03_bad,
+        sum04_normal:sum04_normal,
+        sum04_risk:sum04_risk,
+        sum04_bad:sum04_bad,
+        sum_normal:sum_normal,
+        sum_risk:sum_risk,
+        sum_bad:sum_bad,
+        sum05_strong:sum05_strong,
+        sum05_weak:sum05_weak,
+        sum05:sum05
+
+    };
+   
+}
+
 }
