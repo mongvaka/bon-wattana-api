@@ -90,6 +90,8 @@ async createFrom(dto:CreateUsersDto,req:CustomRequest):Promise<Users>{
   if(duplicateEmail!= undefined){
     throw new BadRequestException('ชื่อผู้ถูกสร้างไปแล้ว...')
   }    
+  const hasepassword = await bcrypt.hash(dto.password,12);
+  dto.password = hasepassword
 
     const en = this.toCreateModel(dto,req) as Users  
     return await this.usersRepository.save(
@@ -99,9 +101,14 @@ async createFrom(dto:CreateUsersDto,req:CustomRequest):Promise<Users>{
 async update(id:number,dto:UpdateUsersDto,req:CustomRequest):Promise<UsersDto>{
     const m = await this.usersRepository.findOne({where:{id:id}})
     const duplicateEmail = await this.usersRepository.findOne({where:{username:dto.username,id:Not(id)}})
+    if(dto.password){
+      dto.password =  await bcrypt.hash(dto.password,12);
+    }
     if(duplicateEmail!= undefined){
       throw new BadRequestException('ชื่อผู้ถูกสร้างไปแล้ว...')
     }  
+    console.log(m);
+    
     return await this.usersRepository.save(
         this.toUpdateModel(m,dto,req)
     );
