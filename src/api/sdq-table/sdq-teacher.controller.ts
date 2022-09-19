@@ -101,10 +101,10 @@ async itemTeacherSdq(@Param('id') id: number) {
   }
 }
 
-@Get('get-sum-sdq-teacher')
-async getSumSDQTeacher() {
+@Get('get-sum-sdq-teacher/:teacherId')
+async getSumSDQTeacher(@Param('teacherId') teacherId: any) {
   try{
-    return this.success(await this.sdqtableService.getSumSDQTeacher())
+    return this.success(await this.sdqtableService.getSumSDQTeacher(teacherId))
   }catch(e){
     return this.error(e)
   }
