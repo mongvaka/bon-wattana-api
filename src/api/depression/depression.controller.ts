@@ -8,6 +8,7 @@ import { SearchStudentDto } from "src/api/student/student.dto";
 import { SearchYearTermDto } from "src/api/year-term/year-term.dto";
 import { CreateDepressionDto, SearchDepressionDto, UpdateDepressionDto } from "./depression.dto";
 import { DepressionService } from "./depression.service";
+import { SearchClassroomDto } from "../classroom/classroom.dto";
 @ApiTags("depression")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -21,6 +22,39 @@ export class DepressionController extends BaseController{
   async item(@Param('id') id: number) {
     try{
       return this.success(await this.depressionService.item(id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('current-term')
+  async currentTerm() {
+    try{
+      return this.success(await this.depressionService.currentTerm())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-dropdown')
+  async classroomDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.depressionService.classroomDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-type-dropdown')
+  async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.depressionService.classroomTypeDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+
+  @Get('item-student/:id')
+  async itemStudent(@Param('id') id: number) {
+    try{
+      return this.success(await this.depressionService.itemStudent(id))
     }catch(e){
       return this.error(e)
     }

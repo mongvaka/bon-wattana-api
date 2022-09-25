@@ -6,6 +6,8 @@ export class SearchDepressionDto extends SearchParameter {
     studentId?:number
 }
 export class DepressionDto {
+    @ApiPropertyOptional({ type: Number})
+    id:number
 @ApiPropertyOptional({ type: Number})
     studentId:number
 @ApiPropertyOptional({ type: Number})

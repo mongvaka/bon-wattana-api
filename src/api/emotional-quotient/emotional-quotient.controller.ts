@@ -8,6 +8,7 @@ import { SearchStudentDto } from "src/api/student/student.dto";
 import { SearchYearTermDto } from "src/api/year-term/year-term.dto";
 import { CreateEmotionalQuotientDto, SearchEmotionalQuotientDto, UpdateEmotionalQuotientDto } from "./emotional-quotient.dto";
 import { EmotionalQuotientService } from "./emotional-quotient.service";
+import { SearchClassroomDto } from "../classroom/classroom.dto";
 @ApiTags("emotional-quotient")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -21,6 +22,39 @@ export class EmotionalQuotientController extends BaseController{
   async item(@Param('id') id: number) {
     try{
       return this.success(await this.emotionalquotientService.item(id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('current-term')
+  async currentTerm() {
+    try{
+      return this.success(await this.emotionalquotientService.currentTerm())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-dropdown')
+  async classroomDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.emotionalquotientService.classroomDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-type-dropdown')
+  async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.emotionalquotientService.classroomTypeDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+
+  @Get('item-student/:id')
+  async itemStudent(@Param('id') id: number) {
+    try{
+      return this.success(await this.emotionalquotientService.itemStudent(id))
     }catch(e){
       return this.error(e)
     }

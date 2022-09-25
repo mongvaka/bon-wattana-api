@@ -6,6 +6,8 @@ export class SearchEmotionalQuotientDto extends SearchParameter {
     studentId?:number
 }
 export class EmotionalQuotientDto {
+    @ApiPropertyOptional({ type: Number})
+    id:number
 @ApiPropertyOptional({ type: Number})
     studentId:number
 @ApiPropertyOptional({ type: Number})

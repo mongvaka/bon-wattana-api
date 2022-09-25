@@ -199,58 +199,255 @@ export class EmotionalQuotient extends BasicData {
 }
 @ViewEntity({
     name:'emotional_quotient_list',
-    expression: (connection: Connection) => connection.createQueryBuilder()
-        .select("emotional_quotient.id", "id")
-        .addSelect("emotional_quotient.studentId", "studentId")
-        .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
-        .addSelect("emotional_quotient.handleSalf", "handleSalf")
-        .addSelect("emotional_quotient.consider", "consider")
-        .addSelect("emotional_quotient.responsible", "responsible")
-        .addSelect("emotional_quotient.motivated", "motivated")
-        .addSelect("emotional_quotient.decide", "decide")
-        .addSelect("emotional_quotient.relationship", "relationship")
-        .addSelect("emotional_quotient.selfEsteem", "selfEsteem")
-        .addSelect("emotional_quotient.lifeGood", "lifeGood")
-        .addSelect("emotional_quotient.happy", "happy")
-        .from(EmotionalQuotient, "emotional_quotient")
-        .leftJoin(Student, "student_id","student_id.Id = emotional_quotient.studentId")
+    expression: `select
+    s.id ,
+    s."studentCode" ,
+    CONCAT(s.firstname, ' ', s.lastname)  as "studentValue",
+    ct."typeName" ,
+    c."name" as room,
+    ct."id" as "classroomTypeId" ,
+    c."id" as "classroomId" ,
+    eq."updatedAt",
+    SUM(coalesce(eq."eqCh1" , -1) 
+    + coalesce(eq."eqCh2" , -1) 
+    + coalesce(eq."eqCh3" , -1) 
+    + coalesce(eq."eqCh4" , -1) 
+    + coalesce(eq."eqCh5" , -1) 
+    + coalesce(eq."eqCh6" , -1) 
+    ) as option1,
+    SUM(coalesce(eq."eqCh7" , -1) 
+    + coalesce(eq."eqCh8" , -1) 
+    + coalesce(eq."eqCh9" , -1) 
+    + coalesce(eq."eqCh10" , -1) 
+    + coalesce(eq."eqCh11" , -1) 
+    + coalesce(eq."eqCh12" , -1) 
+    ) as option2,
+    SUM(coalesce(eq."eqCh13" , -1) 
+    + coalesce(eq."eqCh14" , -1) 
+    + coalesce(eq."eqCh15" , -1) 
+    + coalesce(eq."eqCh16" , -1) 
+    + coalesce(eq."eqCh17" , -1) 
+    + coalesce(eq."eqCh18" , -1) 
+    ) as option3,
+    SUM(coalesce(eq."eqCh19" , -1) 
+    + coalesce(eq."eqCh20" , -1) 
+    + coalesce(eq."eqCh21" , -1) 
+    + coalesce(eq."eqCh22" , -1) 
+    + coalesce(eq."eqCh23" , -1) 
+    + coalesce(eq."eqCh24" , -1) 
+    ) as option4,
+    SUM(coalesce(eq."eqCh25" , -1) 
+    + coalesce(eq."eqCh26" , -1) 
+    + coalesce(eq."eqCh27" , -1) 
+    + coalesce(eq."eqCh28" , -1) 
+    + coalesce(eq."eqCh29" , -1) 
+    + coalesce(eq."eqCh30" , -1) 
+    ) as option5,
+    SUM(coalesce(eq."eqCh31" , -1) 
+    + coalesce(eq."eqCh32" , -1) 
+    + coalesce(eq."eqCh33" , -1) 
+    + coalesce(eq."eqCh34" , -1) 
+    + coalesce(eq."eqCh35" , -1) 
+    + coalesce(eq."eqCh36" , -1) 
+    ) as option6,
+    SUM(coalesce(eq."eqCh37" , -1) 
+    + coalesce(eq."eqCh38" , -1) 
+    + coalesce(eq."eqCh39" , -1) 
+    + coalesce(eq."eqCh40" , -1) 
+    ) as option7,
+    SUM(coalesce(eq."eqCh41" , -1) 
+    + coalesce(eq."eqCh42" , -1) 
+    + coalesce(eq."eqCh43" , -1) 
+    + coalesce(eq."eqCh44" , -1) 
+    + coalesce(eq."eqCh45" , -1) 
+    + coalesce(eq."eqCh46" , -1) 
+    ) as option8,
+    SUM(coalesce(eq."eqCh47" , -1) 
+    + coalesce(eq."eqCh48" , -1) 
+    + coalesce(eq."eqCh49" , -1) 
+    + coalesce(eq."eqCh50" , -1) 
+    + coalesce(eq."eqCh51" , -1)
+    + coalesce(eq."eqCh52" , -1)
+    ) as option9,
+    SUM(coalesce(eq."eqCh1" , -1) 
+    + coalesce(eq."eqCh2" , -1) 
+    + coalesce(eq."eqCh3" , -1) 
+    + coalesce(eq."eqCh4" , -1) 
+    + coalesce(eq."eqCh5" , -1) 
+    + coalesce(eq."eqCh6" , -1) 
+    + coalesce(eq."eqCh7" , -1) 
+    + coalesce(eq."eqCh8" , -1) 
+    + coalesce(eq."eqCh9" , -1) 
+    + coalesce(eq."eqCh10" , -1) 
+    + coalesce(eq."eqCh11" , -1) 
+    + coalesce(eq."eqCh12" , -1) 
+    + coalesce(eq."eqCh13" , -1) 
+    + coalesce(eq."eqCh14" , -1) 
+    + coalesce(eq."eqCh15" , -1) 
+    + coalesce(eq."eqCh16" , -1) 
+    + coalesce(eq."eqCh17" , -1) 
+    + coalesce(eq."eqCh18" , -1) 
+    + coalesce(eq."eqCh19" , -1) 
+    + coalesce(eq."eqCh20" , -1) 
+    + coalesce(eq."eqCh21" , -1) 
+    + coalesce(eq."eqCh22" , -1) 
+    + coalesce(eq."eqCh23" , -1) 
+    + coalesce(eq."eqCh24" , -1) 
+    + coalesce(eq."eqCh25" , -1) 
+    + coalesce(eq."eqCh26" , -1) 
+    + coalesce(eq."eqCh27" , -1) 
+    + coalesce(eq."eqCh28" , -1) 
+    + coalesce(eq."eqCh29" , -1) 
+    + coalesce(eq."eqCh30" , -1) 
+    + coalesce(eq."eqCh31" , -1) 
+    + coalesce(eq."eqCh32" , -1) 
+    + coalesce(eq."eqCh33" , -1) 
+    + coalesce(eq."eqCh34" , -1) 
+    + coalesce(eq."eqCh35" , -1) 
+    + coalesce(eq."eqCh36" , -1) 
+    + coalesce(eq."eqCh37" , -1) 
+    + coalesce(eq."eqCh38" , -1) 
+    + coalesce(eq."eqCh39" , -1) 
+    + coalesce(eq."eqCh40" , -1) 
+    + coalesce(eq."eqCh41" , -1) 
+    + coalesce(eq."eqCh42" , -1) 
+    + coalesce(eq."eqCh43" , -1) 
+    + coalesce(eq."eqCh44" , -1) 
+    + coalesce(eq."eqCh45" , -1) 
+    + coalesce(eq."eqCh46" , -1) 
+    + coalesce(eq."eqCh47" , -1) 
+    + coalesce(eq."eqCh48" , -1) 
+    + coalesce(eq."eqCh49" , -1) 
+    + coalesce(eq."eqCh50" , -1) 
+    + coalesce(eq."eqCh51" , -1)
+    + coalesce(eq."eqCh52" , -1)
+    ) as "eqSum",
+    SUM(coalesce(eq."eqCh1" , -1) 
+    + coalesce(eq."eqCh2" , -1) 
+    + coalesce(eq."eqCh3" , -1) 
+    + coalesce(eq."eqCh4" , -1) 
+    + coalesce(eq."eqCh5" , -1) 
+    + coalesce(eq."eqCh6" , -1) 
+    + coalesce(eq."eqCh7" , -1) 
+    + coalesce(eq."eqCh8" , -1) 
+    + coalesce(eq."eqCh9" , -1) 
+    + coalesce(eq."eqCh10" , -1) 
+    + coalesce(eq."eqCh11" , -1) 
+    + coalesce(eq."eqCh12" , -1) 
+    + coalesce(eq."eqCh13" , -1) 
+    + coalesce(eq."eqCh14" , -1) 
+    + coalesce(eq."eqCh15" , -1) 
+    + coalesce(eq."eqCh16" , -1) 
+    + coalesce(eq."eqCh17" , -1) 
+    + coalesce(eq."eqCh18" , -1) 
+    ) as "eqGood",
+    SUM(coalesce(eq."eqCh19" , -1) 
+    + coalesce(eq."eqCh20" , -1) 
+    + coalesce(eq."eqCh21" , -1) 
+    + coalesce(eq."eqCh22" , -1) 
+    + coalesce(eq."eqCh23" , -1) 
+    + coalesce(eq."eqCh24" , -1) 
+    +coalesce(eq."eqCh25" , -1) 
+    + coalesce(eq."eqCh26" , -1) 
+    + coalesce(eq."eqCh27" , -1) 
+    + coalesce(eq."eqCh28" , -1) 
+    + coalesce(eq."eqCh29" , -1) 
+    + coalesce(eq."eqCh30" , -1) 
+    + coalesce(eq."eqCh31" , -1) 
+    + coalesce(eq."eqCh32" , -1) 
+    + coalesce(eq."eqCh33" , -1) 
+    + coalesce(eq."eqCh34" , -1) 
+    + coalesce(eq."eqCh35" , -1) 
+    + coalesce(eq."eqCh36" , -1) 
+    ) as "eqGreet",
+    SUM(coalesce(eq."eqCh37" , -1) 
+    + coalesce(eq."eqCh38" , -1) 
+    + coalesce(eq."eqCh39" , -1) 
+    + coalesce(eq."eqCh40" , -1) 
+    + coalesce(eq."eqCh41" , -1) 
+    + coalesce(eq."eqCh42" , -1) 
+    + coalesce(eq."eqCh43" , -1) 
+    + coalesce(eq."eqCh44" , -1) 
+    + coalesce(eq."eqCh45" , -1) 
+    + coalesce(eq."eqCh46" , -1) 
+    + coalesce(eq."eqCh47" , -1) 
+    + coalesce(eq."eqCh48" , -1) 
+    + coalesce(eq."eqCh49" , -1) 
+    + coalesce(eq."eqCh50" , -1) 
+    + coalesce(eq."eqCh51" , -1)
+    + coalesce(eq."eqCh52" , -1)
+    ) as "eqHappy"
+  from
+    student s
+  left join 
+  (
+    select
+      eq.*
+    from
+      emotional_quotient eq
+    inner join year_term yt on
+      yt.id = eq."yearTermId"
+      and yt."isParent" 
+  ) as eq on eq."studentId" = s.id
+  left join classroom_type ct on
+    ct.id = s."classroomTypeId"
+  left join classroom c on
+    c.id = s. "classroomId"
+  group by
+    s.id ,
+    s."studentCode" ,
+    s.firstname ,
+    s.lastname ,
+    ct."typeName" ,
+    c."name" ,
+    ct."id" ,
+    c."id" ,
+    eq."updatedAt"`
 })
 export class VwEmotionalQuotientList {
-    @ViewColumn()
-    id: number;
+  @ViewColumn()
+  id: number;
+  @ViewColumn()
+  studentCode: string;
+  @ViewColumn()
+  studentValue: string;
+  @ViewColumn()
+  typeName: string;
+  @ViewColumn()
+  room: string;
+  @ViewColumn()
+  updatedAt:Date
+  @ViewColumn()
+  option1:number
+  @ViewColumn()
+  option2:number
+  @ViewColumn()
+  option3:number
+  @ViewColumn()
+  option4:number
+  @ViewColumn()
+  option5:number
+  @ViewColumn()
+  option6:number
+  @ViewColumn()
+  option7:number
+  @ViewColumn()
+  option8:number
+  @ViewColumn()
+  option9:number
+  @ViewColumn()
+  eqGood:number
+  @ViewColumn()
+  eqGreet:number
+  @ViewColumn()
+  eqHappy:number
+  @ViewColumn()
+  eqSum:number
+  @ViewColumn()
+  classroomTypeId: number;
+  @ViewColumn()
+  classroomId: number;
 
-    @ViewColumn()
-    studentId: number;
-
-    @ViewColumn()
-    studentValue: string;
-
-    @ViewColumn()
-    handleSalf: number;
-
-    @ViewColumn()
-    consider: number;
-
-    @ViewColumn()
-    responsible: number;
-
-    @ViewColumn()
-    motivated: number;
-
-    @ViewColumn()
-    decide: number;
-
-    @ViewColumn()
-    relationship: number;
-
-    @ViewColumn()
-    selfEsteem: number;
-
-    @ViewColumn()
-    lifeGood: number;
-
-    @ViewColumn()
-    happy: number;
 }
 
 @ViewEntity({

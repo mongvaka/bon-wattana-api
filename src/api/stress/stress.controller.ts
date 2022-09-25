@@ -8,6 +8,7 @@ import { SearchStudentDto } from "src/api/student/student.dto";
 import { SearchYearTermDto } from "src/api/year-term/year-term.dto";
 import { CreateStressDto, SearchStressDto, UpdateStressDto } from "./stress.dto";
 import { StressService } from "./stress.service";
+import { SearchClassroomDto } from "../classroom/classroom.dto";
 @ApiTags("stress")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -21,6 +22,39 @@ export class StressController extends BaseController{
   async item(@Param('id') id: number) {
     try{
       return this.success(await this.stressService.item(id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('current-term')
+  async currentTerm() {
+    try{
+      return this.success(await this.stressService.currentTerm())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-dropdown')
+  async classroomDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.stressService.classroomDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-type-dropdown')
+  async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.stressService.classroomTypeDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+
+  @Get('item-student/:id')
+  async itemStudent(@Param('id') id: number) {
+    try{
+      return this.success(await this.stressService.itemStudent(id))
     }catch(e){
       return this.error(e)
     }

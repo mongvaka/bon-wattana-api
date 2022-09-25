@@ -11,6 +11,11 @@ import { VwStudentDropdown } from 'src/api/student/student.entity';
 import { SearchStudentDto } from 'src/api/student/student.dto';
 import { VwYearTermDropdown } from 'src/api/year-term/year-term.entity';
 import { SearchYearTermDto } from 'src/api/year-term/year-term.dto';
+import { SearchClassroomDto } from '../classroom/classroom.dto';
+import { StudentService } from '../student/student.service';
+import { YearTermService } from '../year-term/year-term.service';
+import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { VwClassroomDropdown } from '../classroom/classroom.entity';
 
 @Injectable()
 export class EmotionalQuotientService extends BaseService {
@@ -26,7 +31,13 @@ export class EmotionalQuotientService extends BaseService {
         private readonly vwDropdownStudentRepository:Repository<VwStudentDropdown>,
         @InjectRepository(VwYearTermDropdown)
         private readonly vwDropdownYearTermRepository:Repository<VwYearTermDropdown>,
-        private readonly dropdownService: DropdownService
+        @InjectRepository(VwClassroomDropdown)
+        private readonly vwDropdownClassroomRepository:Repository<VwClassroomDropdown>,
+        @InjectRepository(VwClassroomTypeDropdown)
+        private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
+        private readonly dropdownService: DropdownService,
+        private readonly studentService:StudentService,
+        private readonly yearTermService:YearTermService
         ){
         super()
     }
@@ -49,7 +60,7 @@ export class EmotionalQuotientService extends BaseService {
         );
     }
     async update(id:number,dto:UpdateEmotionalQuotientDto,req:CustomRequest):Promise<EmotionalQuotientDto>{
-        const m = await this.emotionalquotientRepository.findOne({where:{id:id}})
+        const m = await this.emotionalquotientRepository.findOne({where:{id:dto.id}})
         return await this.emotionalquotientRepository.save(
             this.toUpdateModel(m,dto,req)
         );
@@ -63,6 +74,25 @@ export class EmotionalQuotientService extends BaseService {
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        const yearTerm = await this.yearTermService.findCurrrentTerm()
+
+        const model = await this.itemRepository.findOne({where:{studentId:id,yearTermId:yearTerm.id}})
+        if(model){
+            return {...model,isUpdateMode:true}
+        }
+        return {studentId:id,yearTermId:yearTerm.id,isUpdateMode:false}
     }
+    async itemStudent(id:number):Promise<any>{
+        return await this.studentService.item(id)
+    }
+    async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
+      }
+      async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
+      }
+
+      async currentTerm() {
+        return this.yearTermService.findCurrrentTerm()
+     }
 }
