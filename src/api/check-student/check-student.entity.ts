@@ -120,6 +120,8 @@ export class CheckStudent extends BasicData {
     student."studentCode",
     student."classroomId",
     student."classroomTypeId",
+    gendar."gendarName" AS "gendarValue",
+    student."birthDate",
     check_student.id AS "checkStudentId",
     check_student.weight,
     check_student.height,
@@ -135,11 +137,16 @@ export class CheckStudent extends BasicData {
      LEFT JOIN check_student check_student ON check_student."studentId" = student.id AND check_student."deletedAt" IS NULL
      LEFT JOIN classroom_type classroom_type ON classroom_type.id = student."classroomTypeId" AND classroom_type."deletedAt" IS NULL
      LEFT JOIN classroom classroom ON classroom.id = student."classroomId" AND classroom."deletedAt" IS NULL
+     LEFT JOIN gendar gendar ON gendar.id = student."gendarId" AND gendar."deletedAt" IS NULL
   WHERE student."deletedAt" IS null`
 })
 export class VwCheckStudentList {
   @ViewColumn()
   bmi:number
+  @ViewColumn()
+  gendarValue:string
+  @ViewColumn()
+  birthDate:Date
   @ViewColumn()
   studentCode:string
   @ViewColumn()
