@@ -43,7 +43,7 @@ import { CheckStudentModule } from './api/check-student/check-student.module';
 import { DepressionModule } from './api/depression/depression.module';
 import { EmotionalQuotientModule } from './api/emotional-quotient/emotional-quotient.module';
 import { StressModule } from './api/stress/stress.module';
-
+import { TeachingScheduleModule } from './api/teaching-schedule/teaching-schedule.module';
 @Module({
   imports: [
     // ConfigModule.forRoot(
@@ -70,8 +70,8 @@ ConfigModule.forRoot({
       useFactory: async (configService: ConfigService) => {
         return {
           type: "postgres",
-         // host: configService.get('DATABASE_URL', 'localhost'),
-          host: configService.get('DATABASE_URL', '203.159.93.121'),
+         host: configService.get('DATABASE_URL', 'localhost'),
+         //  host: configService.get('DATABASE_URL', '203.159.93.121'),
           port: Number(configService.get<number>('DATABASE_PORT', 5432)),
           username: configService.get('DATABASE_USERNAME', 'postgres'),
           password: configService.get('DATABASE_PASSWORD', 'password'),
@@ -122,7 +122,8 @@ ConfigModule.forRoot({
     CheckStudentModule,
     StressModule,
     DepressionModule,
-    EmotionalQuotientModule
+    EmotionalQuotientModule,
+    TeachingScheduleModule
   ],
   controllers: [AppController],
   providers: [AppService],

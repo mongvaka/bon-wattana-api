@@ -576,7 +576,7 @@ async itemTeacherSdq(id:number):Promise<any>{
     let yearInit =await this.itemYearTermRepository.findOne({where:{isParent:true}})
     let std = await this.itemStudentRepository.findOne({where:{id:id}})
     let sdq=  await this.itemRepository.findOne({where:{studentId:id,atSemester:yearInit.term,atYear:yearInit.year,estimateType:2}})
-    console.log(sdq)
+    //console.log(sdq)
     var atSemester =null;
     var atYear=null;
 if(yearInit!=undefined){
@@ -642,7 +642,7 @@ async getSumSDQTeacher(teacherId:any):Promise<any>{
 
     if(teacherId !== 'null'){
         var teacher =  await this.itemTeacherRepository.findOne({where:{id : teacherId}})
-        console.log('teacher',teacher)
+       // console.log('teacher',teacher)
         if(teacher.classroomTypeId!== null||teacher.classroomId!== null){
      sum01_normal =await this.vwSdqTableListForTeacherRepository.count({where:{emotionalBehaviorScore01_value : 'ปกติ',classroomId:teacher.classroomId,classroomTypeId:teacher.classroomTypeId}})
      sum01_risk =await this.vwSdqTableListForTeacherRepository.count({where:{emotionalBehaviorScore01_value : 'เสี่ยง',classroomId:teacher.classroomId,classroomTypeId:teacher.classroomTypeId}})
@@ -683,7 +683,7 @@ async getSumSDQTeacher(teacherId:any):Promise<any>{
      sum05 =sum05_strong+sum05_weak;
     }
   }else{
-    console.log('else')
+    //console.log('else')
      sum01_normal =await this.vwSdqTableListForTeacherRepository.count({where:{emotionalBehaviorScore01_value : 'ปกติ'}})
      sum01_risk =await this.vwSdqTableListForTeacherRepository.count({where:{emotionalBehaviorScore01_value : 'เสี่ยง'}})
      sum01_bad =await this.vwSdqTableListForTeacherRepository.count({where:{emotionalBehaviorScore01_value : 'มีปัญหา'}})
