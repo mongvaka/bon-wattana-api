@@ -640,7 +640,7 @@ async getSumSDQTeacher(teacherId:any):Promise<any>{
     let sum05=null;
 
 
-    if(teacherId !== 'null'){
+    if(teacherId !== '0'){
         var teacher =  await this.itemTeacherRepository.findOne({where:{id : teacherId}})
        // console.log('teacher',teacher)
         if(teacher.classroomTypeId!== null||teacher.classroomId!== null){
