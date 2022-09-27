@@ -7,12 +7,14 @@ import { DropdownService } from 'src/core/shared/services/dropdown.service';
 import { Repository } from 'typeorm';
 import { CreateTeachingScheduleDto, TeachingScheduleDto, SearchTeachingScheduleDto, UpdateTeachingScheduleDto } from './teaching-schedule.dto';
 import { TeachingSchedule, VwTeachingScheduleDropdown, VwTeachingScheduleItem, VwTeachingScheduleList } from './teaching-schedule.entity';
-import { VwTeacherDropdown } from 'src/api/teacher/teacher.entity';
+import { VwTeacherDropdown, VwTeachingScheduleTeacherList} from 'src/api/teacher/teacher.entity';
 import { SearchTeacherDto } from 'src/api/teacher/teacher.dto';
 //import { VwYearTermDropdown } from 'src/api/year-term/year-term.entity';
 import { SearchYearTermDto } from 'src/api/year-term/year-term.dto';
 import { YearTermService } from '../year-term/year-term.service';
 import { TeacherService } from 'src/api/teacher/teacher.service';
+import { VwPractitionerLevelDropdown } from 'src/api/practitioner-level/practitioner-level.entity';
+import { SearchPractitionerLevelDto } from "src/api/practitioner-level/practitioner-level.dto";
 @Injectable()
 export class TeachingScheduleService extends BaseService {
 
@@ -21,10 +23,14 @@ export class TeachingScheduleService extends BaseService {
         private readonly teachingscheduleRepository: Repository<TeachingSchedule>,
         @InjectRepository(VwTeachingScheduleList)
         private readonly vwTeachingScheduleRepository: Repository<VwTeachingScheduleList>,
+        @InjectRepository(VwTeachingScheduleTeacherList)
+        private readonly vwTeachingScheduleTeacherRepository: Repository<VwTeachingScheduleTeacherList>,
         @InjectRepository(VwTeachingScheduleItem)
         private readonly itemRepository:Repository<VwTeachingScheduleItem>,
         @InjectRepository(VwTeacherDropdown)
         private readonly vwDropdownTeacherRepository:Repository<VwTeacherDropdown>,
+        @InjectRepository(VwPractitionerLevelDropdown)
+        private readonly vwDropdownPractitionerLevelRepository:Repository<VwPractitionerLevelDropdown>,
       //  @InjectRepository(VwYearTermDropdown)
        // private readonly vwDropdownYearTermRepository:Repository<VwYearTermDropdown>,
         private readonly dropdownService: DropdownService,
@@ -88,8 +94,8 @@ export class TeachingScheduleService extends BaseService {
     }
 
     async isHasTeachingSchedule(id:number):Promise<any>{
-        const currentYearTerm = await this.yearTermService.findCurrrentTerm();
-        const teachingSchedule = await this.itemRepository.findOne({where:{teacherId:id,yearTermId: currentYearTerm.id}})
+        let currentYearTerm = await this.yearTermService.findCurrrentTerm();
+        let teachingSchedule = await this.itemRepository.findOne({where:{teacherId:id,yearTermId: currentYearTerm.id}})
         if(teachingSchedule!=undefined){
             return true;
          }else{
@@ -97,4 +103,14 @@ export class TeachingScheduleService extends BaseService {
          }
         
     }
+
+     async listForTeacher(dto:SearchTeacherDto):Promise<SearchResult<VwTeachingScheduleTeacherList>>{
+        const builder = this.createQueryBuider<VwTeachingScheduleTeacherList>(dto,this.vwTeachingScheduleTeacherRepository)
+        const [data, count] = await builder.getManyAndCount();
+        return this.toSearchResult<VwTeachingScheduleTeacherList>(dto.paginator,count,data);
+    }
+
+    async practitionerLevelDropdown(dto: SearchPractitionerLevelDto):Promise<SelectItems[]> {
+        return this.dropdownService.practitionerlevelDropdown(dto,this.vwDropdownPractitionerLevelRepository);
+      }
 }

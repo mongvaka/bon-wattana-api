@@ -461,3 +461,48 @@ export class VwTeacherItem {
     @ViewColumn()
     subDistrictValue: string;
 }
+
+
+@ViewEntity({
+  name:'teaching_schedule_teacher_list',
+  expression: (connection: Connection) => connection.createQueryBuilder()
+  .select("teacher.id", "id")
+  .addSelect("teacher.firstname", "firstname")
+  .addSelect("teacher.lastname", "lastname")
+  .addSelect("teacher.positionName", "positionName")
+  .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
+  .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
+  .addSelect("teacher.subjectGroupId", "subjectGroupId")
+  .addSelect("practicle.name", "subjectGroupValue")
+  .from(Teacher, "teacher")
+  .leftJoin(PractitionerLevel, "practitioner_level_id","practitioner_level_id.Id = teacher.practitionerLevelId")
+  .leftJoin(Practicle,'practicle','practicle.id = teacher.subjectGroupId')
+
+})
+export class VwTeachingScheduleTeacherList {
+
+
+  @ViewColumn()
+    id: number;
+    @ViewColumn()
+    firstname: string;
+
+
+    @ViewColumn()
+    lastname: string;
+
+    @ViewColumn()
+    positionName: string;
+
+    @ViewColumn()
+    practitionerLevelId: number;
+
+    @ViewColumn()
+    practitionerLevelValue: string;
+
+    @ViewColumn()
+    subjectGroupId: number;
+    @ViewColumn()
+    subjectGroupValue: number;
+    
+}

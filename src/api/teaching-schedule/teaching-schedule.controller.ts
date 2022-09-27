@@ -8,6 +8,7 @@ import { SearchTeacherDto } from "src/api/teacher/teacher.dto";
 import { SearchYearTermDto } from "src/api/year-term/year-term.dto";
 import { CreateTeachingScheduleDto, SearchTeachingScheduleDto, UpdateTeachingScheduleDto } from "./teaching-schedule.dto";
 import { TeachingScheduleService } from "./teaching-schedule.service";
+import { SearchPractitionerLevelDto } from "src/api/practitioner-level/practitioner-level.dto";
 @ApiTags("teaching-schedule")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -28,7 +29,7 @@ export class TeachingScheduleController extends BaseController{
   @Post('list')
   async findAll(@Body() dto: SearchTeachingScheduleDto) {
     try{      
-      return this.success(await this.teachingscheduleService.list(dto))
+      return this.success(await this.teachingscheduleService.listForTeacher(dto))
     }catch(e){
       return this.error(e)
     }
@@ -94,7 +95,16 @@ export class TeachingScheduleController extends BaseController{
   @Get('is-has-teaching-schedule/:id')
   async isHasTeachingSchedule(@Param('id') id: number) {
     try{
+      console.log("isHasTeachingSchedule>>>",id)
       return this.success(await this.teachingscheduleService.isHasTeachingSchedule(id))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('practitioner-level-dropdown')
+  async practitionerLevelDropdown(@Body() dto: SearchPractitionerLevelDto) {
+    try{      
+      return this.success(await this.teachingscheduleService.practitionerLevelDropdown(dto))
     }catch(e){
       return this.error(e)
     }

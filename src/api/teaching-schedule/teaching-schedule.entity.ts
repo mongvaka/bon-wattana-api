@@ -695,10 +695,8 @@ export class VwTeachingScheduleItem {
     @ViewColumn()
     teacherId: number;
     
-
     @ViewColumn()
     yearTermId: number;
-    
 
     @ViewColumn()
     monSubjectName01: string;
