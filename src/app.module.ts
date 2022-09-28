@@ -43,6 +43,11 @@ import { CheckStudentModule } from './api/check-student/check-student.module';
 import { DepressionModule } from './api/depression/depression.module';
 import { EmotionalQuotientModule } from './api/emotional-quotient/emotional-quotient.module';
 import { StressModule } from './api/stress/stress.module';
+import { StudentConsultantModule } from './api/student-consultant/student-consultant.module';
+import { StudentFilterModule } from './api/student-filter/student-filter.module';
+import { StudentHelpModule } from './api/student-help/student-help.module';
+import { StudentScolarModule } from './api/student-scolar/student-scolar.module';
+import { StudentSupportModule } from './api/student-support/student-support.module';
 
 @Module({
   imports: [
@@ -77,7 +82,7 @@ ConfigModule.forRoot({
           password: configService.get('DATABASE_PASSWORD', 'password'),
           database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
           useUTC:true,
-          logging:false,
+          logging:true,
           synchronize: configService.get<string>('SYNC_DATABASE', 'true')!='false',
           entities: ["dist/**/**/*.entity{.ts,.js}"],
           
@@ -122,7 +127,12 @@ ConfigModule.forRoot({
     CheckStudentModule,
     StressModule,
     DepressionModule,
-    EmotionalQuotientModule
+    EmotionalQuotientModule,
+    StudentConsultantModule,
+    StudentFilterModule,
+    StudentHelpModule,
+    StudentScolarModule,
+    StudentSupportModule
   ],
   controllers: [AppController],
   providers: [AppService],
