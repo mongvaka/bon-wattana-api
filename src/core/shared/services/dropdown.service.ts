@@ -40,6 +40,7 @@ import { VwStudentFilterDropdown } from "src/api/student-filter/student-filter.e
 import { VwStudentHelpDropdown } from "src/api/student-help/student-help.entity";
 import { VwStudentScolarDropdown } from "src/api/student-scolar/student-scolar.entity";
 import { VwStudentSupportDropdown } from "src/api/student-support/student-support.entity";
+import { VwTeachingScheduleDropdown } from "src/api/teaching-schedule/teaching-schedule.entity";
 
 @Injectable()
 export class DropdownService extends BaseService{
@@ -644,6 +645,22 @@ export class DropdownService extends BaseService{
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
             const model:VwSdqTableDropdown = el as unknown as VwSdqTableDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async teachingscheduleDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwTeachingScheduleDropdown = el as unknown as VwTeachingScheduleDropdown
             const dropdownModel:SelectItems ={
                 label:model.label,
                 value:model.value,

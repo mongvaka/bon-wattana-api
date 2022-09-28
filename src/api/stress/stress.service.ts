@@ -60,7 +60,7 @@ export class StressService extends BaseService {
         );
     }
     async update(id:number,dto:UpdateStressDto,req:CustomRequest):Promise<StressDto>{
-        console.log('update',id,dto);
+     //   console.log('update',id,dto);
         
         const m = await this.stressRepository.findOne({where:{id:dto.id}})
         return await this.stressRepository.save(
@@ -79,7 +79,7 @@ export class StressService extends BaseService {
         const yearTerm = await this.yearTermService.findCurrrentTerm()
 
         const model = await this.itemRepository.findOne({where:{studentId:id,yearTermId:yearTerm.id}})
-        console.log(model);
+      //  console.log(model);
         
         if(model){
             return {...model,isUpdateMode:true}

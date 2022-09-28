@@ -12,7 +12,7 @@ import { VwProvinceDropdown } from 'src/api/province/province.entity';
 import { VwDistrictDropdown } from 'src/api/district/district.entity';
 import { VwSubDistrictDropdown } from 'src/api/sub-district/sub-district.entity';
 import { TeacherController } from './teacher.controller';
-import { Teacher, VwTeacherDropdown, VwTeacherItem, VwTeacherList } from './teacher.entity';
+import { Teacher, VwTeacherDropdown, VwTeacherItem, VwTeacherList , VwTeachingScheduleTeacherList} from './teacher.entity';
 import { TeacherService } from './teacher.service';
 import { VwPracticleDropdown } from '../practicle/practicle.entity';
 import { ImagesModule } from 'src/core/images/images.module';
@@ -37,7 +37,8 @@ import { VwActivityStudentDropdown } from '../activity-student/activity-student.
     VwPracticleDropdown,
     VwClassroomDropdown,
     VwClassroomTypeDropdown,
-    VwActivityStudentDropdown
+    VwActivityStudentDropdown,
+    VwTeachingScheduleTeacherList
     ]),
     ImagesModule,
     AuthenticationsModule
