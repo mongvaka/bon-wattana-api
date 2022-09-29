@@ -172,7 +172,6 @@ export class BaseService{
     }
     createQueryBuider<T>(dto:SearchParameter,repository: Repository<T>):SelectQueryBuilder<T>{
         const buider = repository.createQueryBuilder(dto.tableKey);
-        console.log('dto.tableKey',dto.tableKey)
         const take = dto.paginator?.rows || 10
         const skip = (dto.paginator?.page || 0)*take
         dto.searchCondition.forEach(el => {

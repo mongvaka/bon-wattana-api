@@ -43,7 +43,13 @@ import { CheckStudentModule } from './api/check-student/check-student.module';
 import { DepressionModule } from './api/depression/depression.module';
 import { EmotionalQuotientModule } from './api/emotional-quotient/emotional-quotient.module';
 import { StressModule } from './api/stress/stress.module';
+import { StudentConsultantModule } from './api/student-consultant/student-consultant.module';
+import { StudentFilterModule } from './api/student-filter/student-filter.module';
+import { StudentHelpModule } from './api/student-help/student-help.module';
+import { StudentScolarModule } from './api/student-scolar/student-scolar.module';
+import { StudentSupportModule } from './api/student-support/student-support.module';
 
+import { TeachingScheduleModule } from './api/teaching-schedule/teaching-schedule.module';
 @Module({
   imports: [
     // ConfigModule.forRoot(
@@ -70,14 +76,14 @@ ConfigModule.forRoot({
       useFactory: async (configService: ConfigService) => {
         return {
           type: "postgres",
-         // host: configService.get('DATABASE_URL', 'localhost'),
-          host: configService.get('DATABASE_URL', '203.159.93.121'),
+        //  host: configService.get('DATABASE_URL', 'localhost'),
+         host: configService.get('DATABASE_URL', '203.159.93.121'),
           port: Number(configService.get<number>('DATABASE_PORT', 5432)),
           username: configService.get('DATABASE_USERNAME', 'postgres'),
           password: configService.get('DATABASE_PASSWORD', 'password'),
           database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
           useUTC:true,
-          logging:false,
+          logging:true,
           synchronize: configService.get<string>('SYNC_DATABASE', 'true')!='false',
           entities: ["dist/**/**/*.entity{.ts,.js}"],
           
@@ -122,7 +128,13 @@ ConfigModule.forRoot({
     CheckStudentModule,
     StressModule,
     DepressionModule,
-    EmotionalQuotientModule
+    EmotionalQuotientModule,
+    StudentConsultantModule,
+    StudentFilterModule,
+    StudentHelpModule,
+    StudentScolarModule,
+    StudentSupportModule,
+    TeachingScheduleModule
   ],
   controllers: [AppController],
   providers: [AppService],
