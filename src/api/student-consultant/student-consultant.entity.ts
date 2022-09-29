@@ -17,11 +17,11 @@ export class StudentConsultant extends BasicData {
   @Column({nullable: true})
   activityDate?: Date;
 
-  @Column({nullable: true})
-  startTime?: string;
+  @Column({nullable: true,type:'time'})
+  startTime?: Date;
 
-  @Column({nullable: true})
-  endTime?: string;
+  @Column({nullable: true,type:'time'})
+  endTime?: Date;
 
   @Column({nullable: true})
   consultantType?: number;
@@ -71,10 +71,10 @@ export class VwStudentConsultantList {
     activityDate: Date;
 
     @ViewColumn()
-    startTime: string;
+    startTime: Date;
 
     @ViewColumn()
-    endTime: string;
+    endTime: Date;
 
     @ViewColumn()
     storyType: number;
@@ -146,10 +146,10 @@ export class VwStudentConsultantItem {
     activityDate: Date;
 
     @ViewColumn()
-    startTime: string;
+    startTime: Date;
 
     @ViewColumn()
-    endTime: string;
+    endTime: Date;
 
     @ViewColumn()
     consultantType: number;

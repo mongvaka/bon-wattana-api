@@ -76,8 +76,8 @@ ConfigModule.forRoot({
       useFactory: async (configService: ConfigService) => {
         return {
           type: "postgres",
-         host: configService.get('DATABASE_URL', 'localhost'),
-         //  host: configService.get('DATABASE_URL', '203.159.93.121'),
+        //  host: configService.get('DATABASE_URL', 'localhost'),
+         host: configService.get('DATABASE_URL', '203.159.93.121'),
           port: Number(configService.get<number>('DATABASE_PORT', 5432)),
           username: configService.get('DATABASE_USERNAME', 'postgres'),
           password: configService.get('DATABASE_PASSWORD', 'password'),
@@ -133,7 +133,7 @@ ConfigModule.forRoot({
     StudentFilterModule,
     StudentHelpModule,
     StudentScolarModule,
-    StudentSupportModule
+    StudentSupportModule,
     TeachingScheduleModule
   ],
   controllers: [AppController],
