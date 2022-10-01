@@ -5,12 +5,15 @@ import { VwStudentDropdown } from 'src/api/student/student.entity';
 import { StudentHelpController } from './student-help.controller';
 import { StudentHelp, VwStudentHelpDropdown, VwStudentHelpItem, VwStudentHelpList } from './student-help.entity';
 import { StudentHelpService } from './student-help.service';
+import { YearTermService } from '../year-term/year-term.service';
+import { YearTermModule } from '../year-term/year-term.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([StudentHelp,VwStudentHelpList,VwStudentHelpItem,VwStudentHelpDropdown,
     VwStudentDropdown,
-    ])
+    ]),
+    YearTermModule
   ],
   controllers: [StudentHelpController],
   providers: [StudentHelpService,DropdownService],

@@ -363,66 +363,100 @@ export class StudentFilter extends BasicData {
   electronic4?: boolean;
 
   @Column({nullable: true})
-  summarize?: boolean;
+  summarize?: number;
 }
 @ViewEntity({
     name:'student_filter_list',
-    expression: (connection: Connection) => connection.createQueryBuilder()
-        .select("student_filter.id", "id")
-        .addSelect("student_filter.studentId", "studentId")
-        .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
-        .addSelect("student_filter.lernStatus", "lernStatus")
-        .addSelect("student_filter.healtyStatus", "healtyStatus")
-        .addSelect("student_filter.sexualStatus", "sexualStatus")
-        .addSelect("student_filter.drugStatus", "drugStatus")
-        .addSelect("student_filter.gameStatus", "gameStatus")
-        .addSelect("student_filter.economicStatus", "economicStatus")
-        .addSelect("student_filter.securityStatus", "securityStatus")
-        .addSelect("student_filter.specialStatus", "specialStatus")
-        .addSelect("student_filter.electronicStatus", "electronicStatus")
-        .addSelect("student_filter.summarize", "summarize")
-        .from(StudentFilter, "student_filter")
-        .leftJoin(Student, "student_id","student_id.Id = student_filter.studentId")
+    expression: `select 
+    s.id,
+    s."classroomId",
+    s."classroomTypeId",
+    s."studentCode" ,
+    CONCAT(s.firstname,' ',s.lastname) as "studentValue",
+    c.name as "room",
+    ct."typeName",
+    CONCAT(af.skill1,' ',af.skill2,' ',af.skill3) as "specialSkill",
+    af."lernStatus",
+    af."healtyStatus",
+    af."sexualStatus",
+    af."drugStatus",
+    af."gameStatus",
+    af."economicStatus",
+    af."securityStatus",
+    af."specialStatus",
+    af."electronicStatus",
+    af."summarize",
+    sdq1."sumScore_value" as "sdq1",
+    sdq2."sumScore_value" as "sdq2",
+    sdq3."sumScore_value" as "sdq3"
+    from student s 
+    left join (
+    select * from student_filter sf 
+    inner join year_term yt  on yt.id = sf."yearTermId" and yt."isParent" 
+    ) af on af."studentId" = s.id
+    left join classroom c on c.id = s."classroomId" 
+    left join classroom_type ct on ct.id  = s."classroomTypeId" 
+    left join (
+    select  sdq1."sumScore_value",sdq1.id , sdq1."studentId"  from sdq_table sdq1
+    where sdq1."estimateType" = 1
+    order by id desc limit 1
+    ) sdq1 on sdq1."studentId" = s.id 
+    left join (
+    select  sdq2."sumScore_value",sdq2.id , sdq2."studentId"  from sdq_table sdq2
+    where sdq2."estimateType" = 2
+    order by id desc limit 1
+    ) sdq2 on sdq2."studentId" = s.id 
+    left join (
+    select  sdq3."sumScore_value",sdq3.id , sdq3."studentId"  from sdq_table sdq3
+    where sdq3."estimateType" = 3
+    order by id desc limit 1
+    ) sdq3 on sdq3."studentId" = s.id 
+    `
 })
 export class VwStudentFilterList {
     @ViewColumn()
     id: number;
-
     @ViewColumn()
-    studentId: number;
-
+    studentCode: string;
     @ViewColumn()
     studentValue: string;
-
+    @ViewColumn()
+    room: string;
+    @ViewColumn()
+    typeName: string;
+    @ViewColumn()
+    classroomId: number;
+    @ViewColumn()
+classroomTypeId: number;
+    @ViewColumn()
+    specialSkill: number;
     @ViewColumn()
     lernStatus: number;
-
     @ViewColumn()
     healtyStatus: number;
-
     @ViewColumn()
     sexualStatus: number;
-
     @ViewColumn()
     drugStatus: number;
-
     @ViewColumn()
     gameStatus: number;
-
     @ViewColumn()
     economicStatus: number;
-
     @ViewColumn()
     securityStatus: number;
-
     @ViewColumn()
-    specialStatus: number;
-
-    @ViewColumn()
+   specialStatus: number;
+   @ViewColumn()
     electronicStatus: number;
-
     @ViewColumn()
-    summarize: boolean;
+    summarize: number;
+    @ViewColumn()
+    sdq1: string;
+    @ViewColumn()
+    sdq2: string;
+    @ViewColumn()
+    sdq3: string;
+
 }
 
 @ViewEntity({
@@ -935,5 +969,5 @@ export class VwStudentFilterItem {
     electronic4: boolean;
 
     @ViewColumn()
-    summarize: boolean;
+    summarize: number;
 }

@@ -8,6 +8,7 @@ import { SearchStudentDto } from "src/api/student/student.dto";
 import { SearchYearTermDto } from "src/api/year-term/year-term.dto";
 import { CreateStudentFilterDto, SearchStudentFilterDto, UpdateStudentFilterDto } from "./student-filter.dto";
 import { StudentFilterService } from "./student-filter.service";
+import { SearchClassroomDto } from "../classroom/classroom.dto";
 @ApiTags("student-filter")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -45,6 +46,22 @@ export class StudentFilterController extends BaseController{
   async yearTermDropdown(@Body() dto: SearchYearTermDto) {
     try{      
       return this.success(await this.studentfilterService.yearTermDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-dropdown')
+  async classroomDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.studentfilterService.classroomDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-type-dropdown')
+  async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.studentfilterService.classroomTypeDropdown(dto))
     }catch(e){
       return this.error(e)
     }

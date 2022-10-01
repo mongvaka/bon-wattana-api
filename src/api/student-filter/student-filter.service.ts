@@ -11,6 +11,10 @@ import { VwStudentDropdown } from 'src/api/student/student.entity';
 import { SearchStudentDto } from 'src/api/student/student.dto';
 import { VwYearTermDropdown } from 'src/api/year-term/year-term.entity';
 import { SearchYearTermDto } from 'src/api/year-term/year-term.dto';
+import { SearchClassroomDto } from '../classroom/classroom.dto';
+import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { VwClassroomDropdown } from '../classroom/classroom.entity';
+import { YearTermService } from '../year-term/year-term.service';
 
 @Injectable()
 export class StudentFilterService extends BaseService {
@@ -26,7 +30,12 @@ export class StudentFilterService extends BaseService {
         private readonly vwDropdownStudentRepository:Repository<VwStudentDropdown>,
         @InjectRepository(VwYearTermDropdown)
         private readonly vwDropdownYearTermRepository:Repository<VwYearTermDropdown>,
-        private readonly dropdownService: DropdownService
+        @InjectRepository(VwClassroomDropdown)
+        private readonly vwDropdownClassroomRepository:Repository<VwClassroomDropdown>,
+        @InjectRepository(VwClassroomTypeDropdown)
+        private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
+        private readonly dropdownService: DropdownService,
+        private readonly yearTermService:YearTermService
         ){
         super()
     }
@@ -49,7 +58,8 @@ export class StudentFilterService extends BaseService {
         );
     }
     async update(id:number,dto:UpdateStudentFilterDto,req:CustomRequest):Promise<StudentFilterDto>{
-        const m = await this.studentfilterRepository.findOne({where:{id:id}})
+        const currentYearTerm = await this.yearTermService.findCurrrentTerm()
+        const m = await this.studentfilterRepository.findOne({where:{studentId:id,yearTermId:currentYearTerm?.id}})
         return await this.studentfilterRepository.save(
             this.toUpdateModel(m,dto,req)
         );
@@ -63,6 +73,23 @@ export class StudentFilterService extends BaseService {
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        const yearTerm = await this.yearTermService.findCurrrentTerm()
+        // return await this.itemRepository.findOne({where:{studentId:id,yearTermId:yearTerm.id}})
+        const result =  await this.itemRepository.findOne({where:{studentId:id,yearTermId:yearTerm.id}})
+        if(result){
+            return {...result,isUpdateMode:true}
+        }
+        return {
+            isUpdateMode:false,
+            yearTermId:yearTerm?.id,
+            studentId:id,
+            
+        }
     }
+    async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
+      }
+      async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
+      }
 }

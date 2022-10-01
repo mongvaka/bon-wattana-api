@@ -9,6 +9,7 @@ import { CreateStudentHelpDto, StudentHelpDto, SearchStudentHelpDto, UpdateStude
 import { StudentHelp, VwStudentHelpDropdown, VwStudentHelpItem, VwStudentHelpList } from './student-help.entity';
 import { VwStudentDropdown } from 'src/api/student/student.entity';
 import { SearchStudentDto } from 'src/api/student/student.dto';
+import { YearTermService } from '../year-term/year-term.service';
 
 @Injectable()
 export class StudentHelpService extends BaseService {
@@ -22,7 +23,8 @@ export class StudentHelpService extends BaseService {
         private readonly itemRepository:Repository<VwStudentHelpItem>,
         @InjectRepository(VwStudentDropdown)
         private readonly vwDropdownStudentRepository:Repository<VwStudentDropdown>,
-        private readonly dropdownService: DropdownService
+        private readonly dropdownService: DropdownService,
+        private readonly yearTermService:YearTermService
         ){
         super()
     }
@@ -31,18 +33,23 @@ export class StudentHelpService extends BaseService {
       }
     async list(dto:SearchStudentHelpDto):Promise<SearchResult<VwStudentHelpList>>{
         const builder = this.createQueryBuider<VwStudentHelpList>(dto,this.vwStudentHelpRepository)
+        console.log(builder.getSql());
+        
         const [data, count] = await builder
         .getManyAndCount();
         return this.toSearchResult<VwStudentHelpList>(dto.paginator,count,data);
     }
     async create(dto:CreateStudentHelpDto,req:CustomRequest):Promise<StudentHelp>{        
+        const currentYearTerm = await this.yearTermService.findCurrrentTerm()
+        dto.yearTermId= currentYearTerm?.id
         const en = this.toCreateModel(dto,req) as StudentHelp  
         return await this.studenthelpRepository.save(
             this.studenthelpRepository.create(en)
         );
     }
     async update(id:number,dto:UpdateStudentHelpDto,req:CustomRequest):Promise<StudentHelpDto>{
-        const m = await this.studenthelpRepository.findOne({where:{id:id}})
+        const currentTerm = await this.yearTermService.findCurrrentTerm()
+        const m = await this.studenthelpRepository.findOne({where:{studentId:id,yearTermId:currentTerm?.id}})
         return await this.studenthelpRepository.save(
             this.toUpdateModel(m,dto,req)
         );
@@ -56,6 +63,13 @@ export class StudentHelpService extends BaseService {
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{id:id}})
+        const model = await this.itemRepository.findOne({where:{id:id}})
+        if(model){
+            return {...model,isUpdateMode:true}
+        }
+        return {
+            studentId:id,
+            isUpdateMode:false
+        }
     }
 }

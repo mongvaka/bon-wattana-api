@@ -12,6 +12,8 @@ export class SdqTable extends BasicData {
 
   @Column({nullable: true})
   studentId?: number;
+  @Column({nullable: true})
+  yearTermId?: number;
 
   @Column({nullable: true})
   atSemester?: string;
@@ -141,58 +143,7 @@ export class SdqTable extends BasicData {
 }
 @ViewEntity({
     name:'sdq_table_list',
-/*
-    expression:`select
-    CONCAT(s.firstname ,' ',s.lastname) as nameValue,
-    s."studentCode" ,
-      sdq.id as sdq_id,
-      "studentId",
-      "atSemester",
-      "atYear",
-      "evaluateId",
-      "evaluateDate",
-      "estimateType",
-      choice01,
-      choice02,
-      choice03,
-      choice04,
-      choice05,
-      choice06,
-      choice07,
-      choice08,
-      choice09,
-      choice10,
-      choice11,
-      choice12,
-      choice13,
-      choice14,
-      choice15,
-      choice16,
-      choice17,
-      choice18,
-      choice19,
-      choice20,
-      choice21,
-      choice22,
-      choice23,
-      choice24,
-      choice25,
-      "emotionalBehaviorScore01",
-      "nomalBehaviorScore02",
-      "ADHDBehaviorScore03",
-      "friendBehaviorScore04",
-      "socialBehaviorScore05",
-      "emotionalBehaviorScore01_value",
-      "nomalBehaviorScore02_value",
-      "ADHDBehaviorScore03_value",
-      "friendBehaviorScore04_value",
-      "socialBehaviorScore05_value"
-    from
-      sdq_table sdq
-    left join year_term yt on yt."year"  =sdq."atYear"  and yt."isParent" =true and yt.active = true
-    left join student s on s.id =sdq."studentId" 
-    where sdq."estimateType"= 1 
-    ;`*/
+
     expression: (connection: Connection) => connection.createQueryBuilder()
     .select("sdq_table.id", "id")
     .addSelect("sdq_table.studentId", "studentId")
@@ -207,6 +158,7 @@ export class SdqTable extends BasicData {
     .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
     .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
     .addSelect("sdq_table.sumScore_value", "sumScore_value")
+    .addSelect("sdq_table.yearTermId", "yearTermId")
     .from(SdqTable, "sdq_table")
     .leftJoin(YearTerm, "year_term","year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
     .leftJoin(Student, "student","student.id = sdq_table.studentId")
@@ -229,7 +181,8 @@ export class VwSdqTableList {
   studentCode: string;
   @ViewColumn()
   classroomValue: string;
-  
+  @ViewColumn()
+  yearTermId?: number;
   @ViewColumn()
   emotionalBehaviorScore01_value: string;
  
@@ -298,6 +251,7 @@ export class VwSdqTableDropdown {
         .addSelect("sdq_table.choice23", "choice23")
         .addSelect("sdq_table.choice24", "choice24")
         .addSelect("sdq_table.choice25", "choice25")
+        .addSelect("sdq_table.yearTermId", "yearTermId")
         .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
       .from(SdqTable, "sdq_table")
       .leftJoin(Student, "student","student.Id = sdq_table.studentId")
@@ -314,7 +268,8 @@ export class VwSdqTableDropdown {
 export class VwSdqTableItem {
   @ViewColumn()
   nameValue: string;
-
+  @ViewColumn()
+  yearTermId?: number;
   @ViewColumn()
     id: number;
 

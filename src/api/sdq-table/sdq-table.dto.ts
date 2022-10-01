@@ -94,6 +94,8 @@ export class SdqTableDto {
     sumScore:number
     @ApiPropertyOptional({ type: String})
     sumScore_value:string
+    @ApiPropertyOptional({ type: Number})
+    yearTermId?: number;
 } 
 export class CreateSdqTableDto extends SdqTableDto{
 @ApiPropertyOptional({ type: Number})

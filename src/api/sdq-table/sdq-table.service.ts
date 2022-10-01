@@ -416,7 +416,7 @@ export class SdqTableService extends BaseService {
     async item(id:number):Promise<any>{
          let yearInit =await this.itemYearTermRepository.findOne({where:{isParent:true}})
          let std = await this.itemStudentRepository.findOne({where:{id:id}})
-         let sdq=  await this.itemRepository.findOne({where:{studentId:id,atSemester:yearInit.term,atYear:yearInit.year,estimateType:1}})
+         let sdq=  await this.itemRepository.findOne({where:{studentId:id,yearTermId:yearInit?.id,estimateType:1}})
          var atSemester =null;
          var atYear=null;
  if(yearInit!=undefined){
@@ -456,7 +456,8 @@ export class SdqTableService extends BaseService {
             choice23: sdq.choice23,
             choice24: sdq.choice24,
             choice25: sdq.choice25,
-            sdq_id:sdq.id
+            sdq_id:sdq.id,
+            yearTermId:sdq.yearTermId
         }
     }
     async initial(id:number):Promise<any>{
@@ -470,13 +471,39 @@ if(yearInit!=undefined){
     atSemester =yearInit.term;
 }
         return {
+            yearTermId:yearInit?.id,
             atYear: atYear, 
             atSemester: atSemester,
             title:std.title,
             firstname : std.firstname,
             lastname: std.lastname,
             classroomTypeValue:std.classroomTypeValue,
-            birthDate:std.birthDate
+            birthDate:std.birthDate,
+            choice01: null ,
+           choice02: null,
+           choice03:null,
+           choice04: null ,
+           choice05: null ,
+           choice06: null ,
+           choice07: null ,
+           choice08: null ,
+           choice09:null ,
+           choice10: null ,
+           choice11:null ,
+           choice12: null ,
+           choice13: null ,
+           choice14: null ,
+           choice15: null ,
+           choice16: null ,
+           choice17: null ,
+           choice18: null ,
+           choice19: null ,
+           choice20:null ,
+           choice21: null ,
+           choice22:null ,
+           choice23: null ,
+           choice24: null ,
+           choice25: null ,
         }
     }
     async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
@@ -511,7 +538,7 @@ if(yearInit!=undefined){
     async itemparentsdq(id:number):Promise<any>{
         let yearInit =await this.itemYearTermRepository.findOne({where:{isParent:true}})
         let std = await this.itemStudentRepository.findOne({where:{id:id}})
-        let sdq=  await this.itemRepository.findOne({where:{studentId:id,atSemester:yearInit.term,atYear:yearInit.year,estimateType:3}})
+        let sdq=  await this.itemRepository.findOne({where:{studentId:id,yearTermId:yearInit?.id,estimateType:3}})
         var atSemester =null;
         var atYear=null;
 if(yearInit!=undefined){
@@ -551,7 +578,8 @@ if(yearInit!=undefined){
            choice23: sdq.choice23,
            choice24: sdq.choice24,
            choice25: sdq.choice25,
-           sdq_id:sdq.id
+           sdq_id:sdq.id,
+           yearTermId:yearInit?.id
        }
    }
    async getSDQCurrentTermDataPRT(id:number):Promise<any>{
@@ -575,7 +603,7 @@ async getSDQCurrentTermDataTeacher(id:number):Promise<any>{
 async itemTeacherSdq(id:number):Promise<any>{
     let yearInit =await this.itemYearTermRepository.findOne({where:{isParent:true}})
     let std = await this.itemStudentRepository.findOne({where:{id:id}})
-    let sdq=  await this.itemRepository.findOne({where:{studentId:id,atSemester:yearInit.term,atYear:yearInit.year,estimateType:2}})
+    let sdq=  await this.itemRepository.findOne({where:{studentId:id,yearTermId:yearInit?.id,estimateType:2}})
     //console.log(sdq)
     var atSemester =null;
     var atYear=null;
@@ -616,7 +644,8 @@ atSemester =yearInit.term;
        choice23: sdq.choice23,
        choice24: sdq.choice24,
        choice25: sdq.choice25,
-       sdq_id:sdq.id
+       sdq_id:sdq.id,
+       yearTermId:yearInit?.id
    }
 }
 async getSumSDQTeacher(teacherId:any):Promise<any>{

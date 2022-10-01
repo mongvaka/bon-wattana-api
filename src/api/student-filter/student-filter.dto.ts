@@ -242,8 +242,8 @@ export class StudentFilterDto {
     electronic3:boolean
 @ApiPropertyOptional({ type: Boolean})
     electronic4:boolean
-@ApiPropertyOptional({ type: Boolean})
-    summarize:boolean
+@ApiPropertyOptional({ type: Number})
+    summarize:number
 } 
 export class CreateStudentFilterDto extends StudentFilterDto{
 
