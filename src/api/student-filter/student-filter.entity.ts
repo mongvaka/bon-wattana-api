@@ -132,6 +132,19 @@ export class StudentFilter extends BasicData {
   healty9?: boolean;
 
   @Column({nullable: true})
+  feelingStatus?: number;
+  @Column({nullable: true})
+  behaviorStatus?: number;
+  @Column({nullable: true})
+  notStayStatus?: number;
+  @Column({nullable: true})
+  relationStatus?: number;
+  @Column({nullable: true})
+  sumarizeFeelingStatus?: number;
+  @Column({nullable: true})
+  socialStatus?: number;
+
+  @Column({nullable: true})
   sexualStatus?: number;
 
   @Column({nullable: true})
@@ -599,10 +612,25 @@ export class VwStudentFilterDropdown {
         .addSelect("student_filter.electronic3", "electronic3")
         .addSelect("student_filter.electronic4", "electronic4")
         .addSelect("student_filter.summarize", "summarize")
+
+
+        .addSelect("student_filter.feelingStatus", "feelingStatus")
+        .addSelect("student_filter.behaviorStatus", "behaviorStatus")
+        .addSelect("student_filter.notStayStatus", "notStayStatus")
+        .addSelect("student_filter.relationStatus", "relationStatus")
+        .addSelect("student_filter.sumarizeFeelingStatus", "sumarizeFeelingStatus")
+        .addSelect("student_filter.socialStatus", "socialStatus")
       .from(StudentFilter, "student_filter")
         .leftJoin(Student, "student_id","student_id.Id = student_filter.studentId")
         .leftJoin(YearTerm, "year_term_id","year_term_id.Id = student_filter.yearTermId")
 })
+
+
+
+
+
+
+
 export class VwStudentFilterItem {
 
   @ViewColumn()
@@ -970,4 +998,18 @@ export class VwStudentFilterItem {
 
     @ViewColumn()
     summarize: number;
+
+
+    @ViewColumn()
+    feelingStatus?: number;
+    @ViewColumn()
+    behaviorStatus?: number;
+    @ViewColumn()
+    notStayStatus?: number;
+    @ViewColumn()
+    relationStatus?: number;
+    @ViewColumn()
+    sumarizeFeelingStatus?: number;
+    @ViewColumn()
+    socialStatus?: number;
 }

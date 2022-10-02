@@ -54,7 +54,7 @@ export class YearTermService extends BaseService {
         )
     }
     async item(id:number):Promise<any>{
-        return await this.itemRepository.findOne({where:{stu:id}})
+        return await this.itemRepository.findOne({where:{id:id}})
     }
     async findCurrrentTerm(){
         return this.itemRepository.findOne({where:{isParent:true}})

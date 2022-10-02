@@ -50,6 +50,7 @@ import { StudentScolarModule } from './api/student-scolar/student-scolar.module'
 import { StudentSupportModule } from './api/student-support/student-support.module';
 
 import { TeachingScheduleModule } from './api/teaching-schedule/teaching-schedule.module';
+import { ReportModule } from './api/report/report.module';
 @Module({
   imports: [
     // ConfigModule.forRoot(
@@ -83,7 +84,7 @@ ConfigModule.forRoot({
           password: configService.get('DATABASE_PASSWORD', 'password'),
           database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
           useUTC:true,
-          logging:true,
+          logging:false,
           synchronize: configService.get<string>('SYNC_DATABASE', 'true')!='false',
           entities: ["dist/**/**/*.entity{.ts,.js}"],
           
@@ -134,7 +135,8 @@ ConfigModule.forRoot({
     StudentHelpModule,
     StudentScolarModule,
     StudentSupportModule,
-    TeachingScheduleModule
+    TeachingScheduleModule,
+    ReportModule
   ],
   controllers: [AppController],
   providers: [AppService],

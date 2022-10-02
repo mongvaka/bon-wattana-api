@@ -1,0 +1,284 @@
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { JwtAuthGuard } from "src/core/authentications/jwt-auth.guard";
+import { BaseController } from "src/core/shared/controller/base-controller";
+import { CustomRequest } from "src/core/shared/models/request-model";
+import { DropdownService } from "src/core/shared/services/dropdown.service";
+import { CreateYearTermDto, SearchYearTermDto, UpdateYearTermDto } from "./report.dto";
+import { ReportService } from "./report.service";
+@ApiTags("report")
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@Controller('report')
+export class ReportController extends BaseController{
+    constructor(private readonly reportService:ReportService,
+      ){
+      super()
+    }
+  @Get('student-by-room')
+  async studentByroom() {
+    try{
+      return this.success(await this.reportService.studentByroom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('student-by-class')
+  async studentByclass() {
+    try{
+      return this.success(await this.reportService.studentByclass())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('student-sumarize')
+  async studentSumarize() {
+    try{
+      return this.success(await this.reportService.studentSumarize())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('teacher-sumarize')
+  async teacherSumarize() {
+    try{
+      return this.success(await this.reportService.teacherSumarize())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('teacher-by-subject')
+  async teacherBySubject() {
+    try{
+      return this.success(await this.reportService.teacherBySubject())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('check-student-sumarize')
+  async checkStudentSumarize() {
+    try{
+      return this.success(await this.reportService.checkStudentSumarize())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+
+
+
+
+
+
+
+  @Get('report-eq-sumarize')
+  async getReportEqSumarize() {
+    try{
+      return this.success(await this.reportService.getReportEqSumarize())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-eq-by-room')
+  async getReportEqByRoom() {
+    try{
+      return this.success(await this.reportService.getReportEqByRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-eq-by-class')
+  async getReportEqByClass() {
+    try{
+      return this.success(await this.reportService.getReportEqByClass())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-eq-by-class-and-room')
+  async getReportEqByClassAndRoom() {
+    try{
+      return this.success(await this.reportService.getReportEqByClassAndRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-mome-visit-sumarize')
+  async getReportHomvisitSumarize() {
+    try{
+      return this.success(await this.reportService.getReportHomvisitSumarize())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-depression-sumarize')
+  async getReportDepressionSumarize() {
+    try{
+      return this.success(await this.reportService.getReportDepressionSumarize())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-depression-by-class')
+  async getReportDepressionByClass() {
+    try{
+      return this.success(await this.reportService.getReportDepressionByClass())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-depression-by-class-and-room')
+  async getReportDepressionByClassAndRoom() {
+    try{
+      return this.success(await this.reportService.getReportDepressionByClassAndRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-depression-by-room')
+  async getReportDepressionByRoom() {
+    try{
+      return this.success(await this.reportService.getReportDepressionByRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-filter-sumarize')
+  async getReportStudentFilterSumarize() {
+    try{
+      return this.success(await this.reportService.getReportStudentFilterSumarize())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-filter-bt-class')
+  async getReportStudentFilterByClass() {
+    try{
+      return this.success(await this.reportService.getReportStudentFilterByClass())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-filter-by-class-and-room')
+  async getReportStudentFilterByClassAndRoom() {
+    try{
+      return this.success(await this.reportService.getReportStudentFilterByClassAndRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-filter-by-room')
+  async getReportStudentFilterByRoom() {
+    try{
+      return this.success(await this.reportService.getReportStudentFilterByRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-help-by-class')
+  async getReportStudentHelpByClass() {
+    try{
+      return this.success(await this.reportService.getReportStudentHelpByClass())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-help-by-room')
+  async getReportStudentHelpByRoom() {
+    try{
+      return this.success(await this.reportService.getReportStudentHelpByRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-help-by-class-and-room')
+  async getReportStudentHelpByClassAndRoom() {
+    try{
+      return this.success(await this.reportService.getReportStudentHelpByClassAndRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-scolar-by-class')
+  async getReportStudentScolarByClass() {
+    try{
+      return this.success(await this.reportService.getReportStudentScolarByClass())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-scolar-by-room')
+  async getReportStudentScolarByRoom() {
+    try{
+      return this.success(await this.reportService.getReportStudentScolarByRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-scolar-by-class-and-room')
+  async getReportStudentScolarByClassAndRoom() {
+    try{
+      return this.success(await this.reportService.getReportStudentScolarByClassAndRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-send-to-by-class')
+  async getReportStudentSendToByClass() {
+    try{
+      return this.success(await this.reportService.getReportStudentSendToByClass())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-send-to-by-room')
+  async getReportStudentSendToByRoom() {
+    try{
+      return this.success(await this.reportService.getReportStudentSendToByRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-student-send-to-by-class-and-room')
+  async getReportStudentSendToByClassAndRoom() {
+    try{
+      return this.success(await this.reportService.getReportStudentSendToByClassAndRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-stress-sumarize')
+  async getReportStressSumarize() {
+    try{
+      return this.success(await this.reportService.getReportStressSumarize())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-stress-by-class')
+  async getReportStressByClass() {
+    try{
+      return this.success(await this.reportService.getReportStressByClass())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-stress-by-class-and-room')
+  async getReportStressByClassAndRoom() {
+    try{
+      return this.success(await this.reportService.getReportStressByClassAndRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('report-stress-by-room')
+  async getReportStressByRoom() {
+    try{
+      return this.success(await this.reportService.getReportStressByRoom())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+
+
+
+}

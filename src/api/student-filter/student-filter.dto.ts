@@ -244,6 +244,19 @@ export class StudentFilterDto {
     electronic4:boolean
 @ApiPropertyOptional({ type: Number})
     summarize:number
+
+    @ApiPropertyOptional({ type: Number})
+    feelingStatus?: number;
+    @ApiPropertyOptional({ type: Number})
+    behaviorStatus?: number;
+    @ApiPropertyOptional({ type: Number})
+    notStayStatus?: number;
+    @ApiPropertyOptional({ type: Number})
+    relationStatus?: number;
+    @ApiPropertyOptional({ type: Number})
+    sumarizeFeelingStatus?: number;
+    @ApiPropertyOptional({ type: Number})
+    socialStatus?: number;
 } 
 export class CreateStudentFilterDto extends StudentFilterDto{
 
