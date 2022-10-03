@@ -16,10 +16,29 @@ import { StudentService } from '../student/student.service';
 import { YearTermService } from '../year-term/year-term.service';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { VwClassroomDropdown } from '../classroom/classroom.entity';
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
 
 @Injectable()
 export class EmotionalQuotientService extends BaseService {
-
+    async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:EmotionalQuotient[] = []
+        data.forEach(el=>{
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+        })
+        return this.emotionalquotientRepository.save(
+            this.emotionalquotientRepository.create(dataBulkInsert)
+        )
+    }
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwEmotionalQuotientItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
+        return exportExcel(data)
+      }
     constructor(
         @InjectRepository(EmotionalQuotient)
         private readonly emotionalquotientRepository: Repository<EmotionalQuotient>,

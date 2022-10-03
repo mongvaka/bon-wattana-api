@@ -14,9 +14,28 @@ import { VwYearTermItem } from 'src/api/year-term/year-term.entity';
 import { VwTeacherItem } from 'src/api/teacher/teacher.entity';
 import { VwStudentItem,VwSdqTableListForTeacher,VwSdqTableListForParent,VwSdqTableListForStudent  } from 'src/api/student/student.entity';
 import { SearchStudentDto, StudentDto } from 'src/api/student/student.dto';
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
 @Injectable()
 export class SdqTableService extends BaseService {
-
+    async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:SdqTable[] = []
+        data.forEach(el=>{
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+        })
+        return this.sdqtableRepository.save(
+            this.sdqtableRepository.create(dataBulkInsert)
+        )
+    }
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwSdqTableItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
+        return exportExcel(data)
+      }
     constructor(
         @InjectRepository(SdqTable)
         private readonly sdqtableRepository: Repository<SdqTable>,
