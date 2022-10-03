@@ -4,15 +4,12 @@ import { json } from "body-parser";
 
 import {join} from "path";
 import {NestExpressApplication} from "@nestjs/platform-express";
-import {init as SentryInit} from '@sentry/node';
 import {ValidationPipe} from "@nestjs/common";
 import {SwaggerModule, DocumentBuilder} from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  SentryInit({
-    dsn: ""
-  });
+ 
   app.use(json({ limit: "10mb" }));
   const version = 'v1';
   const globalPrefix = `/api`;
