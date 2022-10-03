@@ -16,10 +16,29 @@ import { StudentService } from '../student/student.service';
 import { YearTermService } from '../year-term/year-term.service';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { VwClassroomDropdown } from '../classroom/classroom.entity';
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
 
 @Injectable()
 export class StressService extends BaseService {
-
+    async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:Stress[] = []
+        data.forEach(el=>{
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+        })
+        return this.stressRepository.save(
+            this.stressRepository.create(dataBulkInsert)
+        )
+    }
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwStressItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
+        return exportExcel(data)
+      }
     constructor(
         @InjectRepository(Stress)
         private readonly stressRepository: Repository<Stress>,

@@ -97,3 +97,18 @@ export class ReportStudentSendToByClassAndRoom {
   @ViewColumn()
   value3:number
 }
+@ViewEntity({
+  name:'rp_student_send_to_sumarize',
+  expression: `select  sc2."sentText" as name , count(sc2.id) as value1 from student_consultant sc2 
+	inner join student s on s.id = sc2.id 
+	where  sc2."deletedAt" isnull 
+	and "sentType" = 3
+	group by sc2."sentText"`
+})
+export class ReportStudentSendToSumarize {
+@ViewColumn()
+name:string
+@ViewColumn()
+value1:number
+
+}

@@ -15,9 +15,28 @@ import { YearTermService } from '../year-term/year-term.service';
 import { TeacherService } from 'src/api/teacher/teacher.service';
 import { VwPractitionerLevelDropdown } from 'src/api/practitioner-level/practitioner-level.entity';
 import { SearchPractitionerLevelDto } from "src/api/practitioner-level/practitioner-level.dto";
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
 @Injectable()
 export class TeachingScheduleService extends BaseService {
-
+    async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:TeachingSchedule[] = []
+        data.forEach(el=>{
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+        })
+        return this.teachingscheduleRepository.save(
+            this.teachingscheduleRepository.create(dataBulkInsert)
+        )
+    }
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwTeachingScheduleItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
+        return exportExcel(data)
+      }
     constructor(
         @InjectRepository(TeachingSchedule)
         private readonly teachingscheduleRepository: Repository<TeachingSchedule>,

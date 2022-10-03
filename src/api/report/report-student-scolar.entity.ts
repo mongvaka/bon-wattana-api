@@ -62,5 +62,7 @@ export class ReportStudentScolarByClassAndRoom  {
   name:string
   @ViewColumn()
   value1:number
+  @ViewColumn()
+  value2:number
   
 }

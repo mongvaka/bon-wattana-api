@@ -11,10 +11,29 @@ import { VwStudentDropdown } from 'src/api/student/student.entity';
 import { SearchStudentDto } from 'src/api/student/student.dto';
 import { VwTeacherDropdown } from 'src/api/teacher/teacher.entity';
 import { SearchTeacherDto } from 'src/api/teacher/teacher.dto';
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
 
 @Injectable()
 export class StudentConsultantService extends BaseService {
-
+    async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:StudentConsultant[] = []
+        data.forEach(el=>{
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+        })
+        return this.studentconsultantRepository.save(
+            this.studentconsultantRepository.create(dataBulkInsert)
+        )
+    }
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwStudentConsultantItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
+        return exportExcel(data)
+      }
     constructor(
         @InjectRepository(StudentConsultant)
         private readonly studentconsultantRepository: Repository<StudentConsultant>,

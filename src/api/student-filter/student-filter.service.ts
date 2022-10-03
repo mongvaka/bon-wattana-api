@@ -15,10 +15,29 @@ import { SearchClassroomDto } from '../classroom/classroom.dto';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { VwClassroomDropdown } from '../classroom/classroom.entity';
 import { YearTermService } from '../year-term/year-term.service';
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
 
 @Injectable()
 export class StudentFilterService extends BaseService {
-
+    async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:StudentFilter[] = []
+        data.forEach(el=>{
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+        })
+        return this.studentfilterRepository.save(
+            this.studentfilterRepository.create(dataBulkInsert)
+        )
+    }
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwStudentFilterItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
+        return exportExcel(data)
+      }
     constructor(
         @InjectRepository(StudentFilter)
         private readonly studentfilterRepository: Repository<StudentFilter>,

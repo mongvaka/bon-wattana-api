@@ -25,6 +25,20 @@ export enum ModuleName{
     PROVINCE = 'province',
     RELIGION = 'religion',
     SUB_DISTRICT = 'sub_district',
+   TEACHER_SCHEDULE ='teaching_schedule',
+   STUDENT_HOME_VISIT ='student_home_visit',
+   CHECK_STUDENT ='check_student',
+   SDQ_TABLE ='sdq_table',
+   SDQ_TEACHER = 'sdq_teacher',
+   SDQ_PARENT = 'sdq_parent',
+   STRESS = 'stress',
+   EQ = 'emotional_quotient',
+   DEPRESSION ='depression',
+    STUDENT_FILTER ='student_filter',
+   STUDENT_SUPPORT = 'student_support',
+   STUDENT_CONSULTANT = 'student_consultant',
+    STUDENT_SCOLAR  = 'student_scolar',
+STUDENT_HELP ='student_help'
 }
 export enum EditRequestStatus{
     REQUEST = 1,

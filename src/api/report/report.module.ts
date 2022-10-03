@@ -9,7 +9,7 @@ import { ReportDepressionSumarize, ReportDepressionByClass, ReportDepressionByCl
 import { ReportStudentFilterSumarize, ReportStudentFilterByClass, ReportStudentFilterByClassAndRoom, ReportStudentFilterByRoom } from './report-student-filter.entity';
 import { ReportStudentHelpByClass, ReportStudentHelpByRoom, ReportStudentHelpByClassAndRoom } from './report-student-help.entity';
 import { ReportStudentScolarByClass, ReportStudentScolarByRoom, ReportStudentScolarByClassAndRoom } from './report-student-scolar.entity';
-import { ReportStudentSendToByClass, ReportStudentSendToByRoom, ReportStudentSendToByClassAndRoom } from './report-student-send-to.entity';
+import { ReportStudentSendToByClass, ReportStudentSendToByRoom, ReportStudentSendToByClassAndRoom, ReportStudentSendToSumarize } from './report-student-send-to.entity';
 import { ReportController } from './report.controller';
 import { ReportStudentByClass, ReportStudentByRoom, ReportStudentSumarize } from './report.entity';
 import { ReportService } from './report.service';
@@ -51,6 +51,7 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ReportStressByClass,
       ReportStressByClassAndRoom,
       ReportStressByRoom,
+      ReportStudentSendToSumarize
     ]),
   ],
   controllers: [ReportController],

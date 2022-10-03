@@ -9,10 +9,29 @@ import { CreateStudentSupportDto, StudentSupportDto, SearchStudentSupportDto, Up
 import { StudentSupport, VwStudentSupportDropdown, VwStudentSupportItem, VwStudentSupportList } from './student-support.entity';
 import { VwTeacherDropdown } from 'src/api/teacher/teacher.entity';
 import { SearchTeacherDto } from 'src/api/teacher/teacher.dto';
+import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
+import { exportExcel } from 'src/core/shared/services/export-excel.service';
 
 @Injectable()
 export class StudentSupportService extends BaseService {
-
+    async import(data: any[]): Promise<any> {        
+        const dataBulkInsert:StudentSupport[] = []
+        data.forEach(el=>{
+            const contain = dataBulkInsert.filter(fn=>fn.id == el.id)            
+            if(contain.length==0){
+                dataBulkInsert.push({...el})
+            }
+        })
+        return this.studentsupportRepository.save(
+            this.studentsupportRepository.create(dataBulkInsert)
+        )
+    }
+    async export(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwStudentSupportItem>(dto,this.itemRepository)
+        const data = await builder
+        .getMany();
+        return exportExcel(data)
+      }
     constructor(
         @InjectRepository(StudentSupport)
         private readonly studentsupportRepository: Repository<StudentSupport>,

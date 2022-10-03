@@ -246,6 +246,15 @@ export class ReportController extends BaseController{
       return this.error(e)
     }
   }
+  @Get('report-student-send-to-sumarize')
+  async getReportStudentSendToSumarize() {
+    try{
+      return this.success(await this.reportService.getReportStudentSendToSumarize())
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  
   @Get('report-stress-sumarize')
   async getReportStressSumarize() {
     try{

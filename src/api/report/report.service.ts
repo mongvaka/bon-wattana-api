@@ -4,7 +4,8 @@ import { CustomRequest } from 'src/core/shared/models/request-model';
 import { SearchResult, SelectItems } from 'src/core/shared/models/search-param-model';
 import { BaseService } from 'src/core/shared/services/base.service';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
-import { Repository } from 'typeorm';
+import { MoreThan, Not, Repository } from 'typeorm';
+import { StudentConsultant } from '../student-consultant/student-consultant.entity';
 import { StudentService } from '../student/student.service';
 import { ReportCheckStudentSumarize } from './check-student.entity';
 import { ReportEqSumarize, ReportEqByRoom, ReportEqByClass, ReportEqByClassAndRoom } from './eq.entity';
@@ -13,7 +14,7 @@ import { ReportDepressionSumarize, ReportDepressionByClass, ReportDepressionByCl
 import { ReportStudentFilterSumarize, ReportStudentFilterByClass, ReportStudentFilterByClassAndRoom, ReportStudentFilterByRoom } from './report-student-filter.entity';
 import { ReportStudentHelpByClass, ReportStudentHelpByRoom, ReportStudentHelpByClassAndRoom } from './report-student-help.entity';
 import { ReportStudentScolarByClass, ReportStudentScolarByRoom, ReportStudentScolarByClassAndRoom } from './report-student-scolar.entity';
-import { ReportStudentSendToByClass, ReportStudentSendToByRoom, ReportStudentSendToByClassAndRoom } from './report-student-send-to.entity';
+import { ReportStudentSendToByClass, ReportStudentSendToByRoom, ReportStudentSendToByClassAndRoom, ReportStudentSendToSumarize } from './report-student-send-to.entity';
 import { CreateYearTermDto, YearTermDto, SearchYearTermDto, UpdateYearTermDto } from './report.dto';
 import { ReportStudentByClass, ReportStudentByRoom, ReportStudentSumarize } from './report.entity';
 import { ReportStressSumarize, ReportStressByClass, ReportStressByClassAndRoom, ReportStressByRoom } from './stress-report.entity';
@@ -55,7 +56,7 @@ export class ReportService extends BaseService {
         return this.reportEqByClass.find()
     }
     async getReportEqByClassAndRoom() {
-        return this.reportEqByClassAndRoom.find()
+        return this.reportEqByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)},{value4:MoreThan(0)}]})
     }
     async getReportHomvisitSumarize() {
         return this.reportHomvisitSumarize.find()
@@ -67,7 +68,7 @@ export class ReportService extends BaseService {
         return this.reportDepressionByClass.find()
     }
     async getReportDepressionByClassAndRoom() {
-        return this.reportDepressionByClassAndRoom.find()
+        return this.reportDepressionByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)},{value4:MoreThan(0)},{value5:MoreThan(0)}]})
     }
     async getReportDepressionByRoom() {
         return this.reportDepressionByRoom.find()
@@ -79,7 +80,37 @@ export class ReportService extends BaseService {
         return this.reportStudentFilterByClass.find()
     }
     async getReportStudentFilterByClassAndRoom() {
-        return this.reportStudentFilterByClassAndRoom.find()
+        return this.reportStudentFilterByClassAndRoom.find({where:[
+            {value2:MoreThan(0)},
+            {value3:MoreThan(0)},
+            {value4:MoreThan(0)},
+            {value5:MoreThan(0)},
+            {value6:MoreThan(0)},
+            {value7:MoreThan(0)},
+            {value8:MoreThan(0)},
+            {value9:MoreThan(0)},
+            {value10:MoreThan(0)},
+            {value11:MoreThan(0)},
+            {value12:MoreThan(0)},
+            {value13:MoreThan(0)},
+            {value14:MoreThan(0)},
+            {value15:MoreThan(0)},
+            {value16:MoreThan(0)},
+            {value17:MoreThan(0)},
+            {value18:MoreThan(0)},
+            {value19:MoreThan(0)},
+            {value20:MoreThan(0)},
+            {value21:MoreThan(0)},
+            {value22:MoreThan(0)},
+            {value23:MoreThan(0)},
+            {value24:MoreThan(0)},
+            {value25:MoreThan(0)},
+            {value26:MoreThan(0)},
+            {value27:MoreThan(0)},
+            {value28:MoreThan(0)},
+            {value29:MoreThan(0)},
+            {value30:MoreThan(0)},
+        ]})
     }
     async getReportStudentFilterByRoom() {
         return this.reportStudentFilterByRoom.find()
@@ -91,7 +122,7 @@ export class ReportService extends BaseService {
         return this.reportStudentHelpByRoom.find()
     }
     async getReportStudentHelpByClassAndRoom() {
-        return this.reportStudentHelpByClassAndRoom.find()
+        return this.reportStudentHelpByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)}]})
     }
     async getReportStudentScolarByClass() {
         return this.reportStudentScolarByClass.find()
@@ -100,7 +131,7 @@ export class ReportService extends BaseService {
         return this.reportStudentScolarByRoom.find()
     }
     async getReportStudentScolarByClassAndRoom() {
-        return this.reportStudentScolarByClassAndRoom.find()
+        return this.reportStudentScolarByClassAndRoom.find({where:[{value2:MoreThan(0)}]})
     }
     async getReportStudentSendToByClass() {
         return this.reportStudentSendToByClass.find()
@@ -109,8 +140,12 @@ export class ReportService extends BaseService {
         return this.reportStudentSendToByRoom.find()
     }
     async getReportStudentSendToByClassAndRoom() {
-        return this.reportStudentSendToByClassAndRoom.find()
+        return this.reportStudentSendToByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)}]})
     }
+    async getReportStudentSendToSumarize() {
+        return this.reportStudentSendToSumarize.find()
+    }
+    
     async getReportStressSumarize() {
         return this.reportStressSumarize.find()
     }
@@ -118,11 +153,26 @@ export class ReportService extends BaseService {
         return this.reportStressByClass.find()
     }
     async getReportStressByClassAndRoom() {
-        return this.reportStressByClassAndRoom.find()
+        return this.reportStressByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)},{value4:MoreThan(0)},{value5:MoreThan(0)}]})
     }
     async getReportStressByRoom() {
         return this.reportStressByRoom.find()
     }
+    // async getReportStudentConsultant() {
+    //     const sumConsult = await this.studentConsultant.count({where:{deletedAt:null,sentType:Not(null)}})
+    //     const sumSentTo = await this.studentConsultant.count({where:{deletedAt:null,storyType:3}})
+    //     return [
+    //     {
+    //         name:'นักเรียนที่รับคำปรึกษา',
+    //         value1:sumConsult
+    //     },
+    //     {
+    //         name:'นักเรียนที่ส่งต่อ',
+    //         value1:sumSentTo
+    //     }
+    // ]
+    // }
+    
     constructor(
         @InjectRepository(ReportStudentByClass)
         private readonly studentByClassRepository: Repository<ReportStudentByClass>,
@@ -180,6 +230,9 @@ export class ReportService extends BaseService {
         private readonly reportStudentSendToByRoom: Repository<ReportStudentSendToByRoom>,
         @InjectRepository(ReportStudentSendToByClassAndRoom)
         private readonly reportStudentSendToByClassAndRoom: Repository<ReportStudentSendToByClassAndRoom>,
+        @InjectRepository(ReportStudentSendToSumarize)
+        private readonly reportStudentSendToSumarize: Repository<ReportStudentSendToSumarize>,
+        
         @InjectRepository(ReportStressSumarize)
         private readonly reportStressSumarize: Repository<ReportStressSumarize>,
         @InjectRepository(ReportStressByClass)
@@ -188,6 +241,8 @@ export class ReportService extends BaseService {
         private readonly reportStressByClassAndRoom: Repository<ReportStressByClassAndRoom>,
         @InjectRepository(ReportStressByRoom)
         private readonly reportStressByRoom: Repository<ReportStressByRoom>,
+        // @InjectRepository(StudentConsultant)
+        // private readonly studentConsultant: Repository<StudentConsultant>,
         ){
         super()
     }
