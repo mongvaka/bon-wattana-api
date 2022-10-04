@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "src/core/authentications/jwt-auth.guard";
 import { BaseController } from "src/core/shared/controller/base-controller";
@@ -7,8 +7,7 @@ import { DropdownService } from "src/core/shared/services/dropdown.service";
 import { CreateYearTermDto, SearchYearTermDto, UpdateYearTermDto } from "./report.dto";
 import { ReportService } from "./report.service";
 @ApiTags("report")
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
+
 @Controller('report')
 export class ReportController extends BaseController{
     constructor(private readonly reportService:ReportService,
@@ -142,12 +141,29 @@ export class ReportController extends BaseController{
       return this.error(e)
     }
   }
+  // @Get('report-student-filter-sumarize')
+  // async getReportStudentFilterSumarize() {
+    
+  //   try{
+  //     return this.success(await this.reportService.getReportStudentFilterSumarize())
+  //   }catch(e){
+  //     return this.error(e)
+  //   }
+  // }
   @Get('report-student-filter-sumarize')
-  async getReportStudentFilterSumarize() {
-    try{
-      return this.success(await this.reportService.getReportStudentFilterSumarize())
-    }catch(e){
-      return this.error(e)
+  async exportPdf(@Res() response) {
+    try {
+      const pdfFile = await this.reportService.getReportStudentFilterSumarize();
+      const fileName = 'test'
+      response.writeHead(200, {
+       'Content-Type': 'application/pdf',
+       'Content-disposition': `attachment;filename=${fileName}.pdf`,
+      });
+      response.end(pdfFile);
+    } catch (e){      
+      console.log(e);
+      
+      throw new BadRequestException()
     }
   }
   @Get('report-student-filter-bt-class')

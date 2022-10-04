@@ -10,7 +10,6 @@ import { YearTermService } from './year-term.service';
   imports: [
     TypeOrmModule.forFeature([YearTerm,VwYearTermList,VwYearTermItem,VwYearTermDropdown,
     ]),
-    StudentModule
   ],
   controllers: [YearTermController],
   providers: [YearTermService,DropdownService],

@@ -114,6 +114,7 @@ export class Stress extends BasicData {
       ct.id = s."classroomTypeId"
     left join classroom c on
       c.id = s."classroomId"
+            where  s."deletedAt" isnull
     group by s.id, s."studentCode" ,
       s.firstname ,
       s.lastname ,

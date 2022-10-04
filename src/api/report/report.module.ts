@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
+import { ExportPdfModule } from '../export-pdf/export-pdf.module';
 import { StudentModule } from '../student/student.module';
 import { ReportCheckStudentSumarize } from './check-student.entity';
 import { ReportEqSumarize, ReportEqByRoom, ReportEqByClass, ReportEqByClassAndRoom } from './eq.entity';
@@ -53,6 +54,7 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ReportStressByRoom,
       ReportStudentSendToSumarize
     ]),
+    ExportPdfModule
   ],
   controllers: [ReportController],
   providers: [ReportService,DropdownService],

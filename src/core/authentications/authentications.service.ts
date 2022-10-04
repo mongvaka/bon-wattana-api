@@ -13,6 +13,12 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { CustomRequest } from "../shared/models/request-model";
 import { ActiveTime } from "src/api/active-time/active-time.entity";
 import { Teacher } from "src/api/teacher/teacher.entity";
+import { ClassroomType } from "src/api/classroom-type/classroom-type.entity";
+import { Classroom } from "src/api/classroom/classroom.entity";
+import { YearTerm } from "src/api/year-term/year-term.entity";
+import { YearTermService } from "src/api/year-term/year-term.service";
+import { ClassroomService } from "src/api/classroom/classroom.service";
+import { ClassroomTypeService } from "src/api/classroom-type/classroom-type.service";
 
 @Injectable()
 export class AuthenticationsService {
@@ -25,13 +31,20 @@ export class AuthenticationsService {
     @InjectRepository(Teacher)
     private readonly teacherRepository:Repository<Teacher>,
     @InjectRepository(ActiveTime)
-    private readonly activeTimeRepository:Repository<ActiveTime>
+    private readonly activeTimeRepository:Repository<ActiveTime>,
+
+    private readonly yearTermService:YearTermService,
+    private readonly classroomTypeService:ClassroomTypeService,
+    private readonly classroomService:ClassroomService
   ) {
   }
 
   async jwtGenerated(user: Users,matchPassword:boolean) {
     let classroomTypeId = 0
     let classroomId = 0
+    let className =''
+    let roomName = ''
+    let termName = ''
     const payload = {
       id: user.id,
       username: user.username,
@@ -57,17 +70,29 @@ export class AuthenticationsService {
       const infoTeacher = await this.teacherRepository.findOne({where:{id:user.inforId}}) as Teacher
       classroomId = infoTeacher.classroomId
       classroomTypeId = infoTeacher.classroomTypeId
+
+      const classroom = await this.classroomTypeService.item(classroomId)
+      const room = await this.classroomService.item(classroomTypeId)
+      className = classroom?.typeName
+      roomName = room?.name
       userModel = {...user,firstname:infoTeacher.firstname,lastname:infoTeacher.lastname}
     }
     const canEdit = await this.getCanEdit()
-    
+    const termModel = await this.yearTermService.findCurrrentTerm()
+    if(termModel){
+      termName = `${termModel?.term}/${termModel.year}`
+    }
+
     return {
         user: {...userModel},
         token: token,
         matchPassword:matchPassword,
         canEdit:canEdit,
         classroomId,
-        classroomTypeId
+        classroomTypeId,
+        className,
+        roomName,
+        termName
       }
   }
   async getCanEdit() {

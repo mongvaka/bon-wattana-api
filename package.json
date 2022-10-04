@@ -37,6 +37,7 @@
     "crypto-js": "^4.1.1",
     "exceljs": "^4.3.0",
     "fs": "^0.0.1-security",
+    "html-pdf-node-ts": "^1.0.7",
     "passport": "0.5.2",
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",

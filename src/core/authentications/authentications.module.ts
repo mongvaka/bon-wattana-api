@@ -11,6 +11,9 @@ import { Student } from "src/api/student/student.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ActiveTime } from "src/api/active-time/active-time.entity";
 import { Teacher } from "src/api/teacher/teacher.entity";
+import { ClassroomModule } from "src/api/classroom/classroom.module";
+import { ClassroomTypeModule } from "src/api/classroom-type/classroom-type.module";
+import { YearTermModule } from "src/api/year-term/year-term.module";
 
 @Module({
   imports: [
@@ -30,6 +33,9 @@ import { Teacher } from "src/api/teacher/teacher.entity";
     }),
     TypeOrmModule.forFeature([Student,ActiveTime,Teacher
       ]),
+      ClassroomModule,
+      ClassroomTypeModule,
+      YearTermModule
   ],
   providers: [AuthenticationsService, JwtStrategy],
   controllers: [AuthenticationsController],

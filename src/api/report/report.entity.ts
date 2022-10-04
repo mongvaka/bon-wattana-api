@@ -4,7 +4,7 @@ import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEnt
 
 @ViewEntity({
     name:'rp_student_by_room',
-    expression: `select 
+    expression: `  select 
     c.name,
     male."gendarCount" as "value1",
     female."gendarCount" as "value2"
@@ -15,6 +15,7 @@ import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEnt
           count(s.id) as  "gendarCount"
           from student s 
           where s."gendarId" = 1
+          and s."deletedAt" isnull 
           group by s."classroomId" , s."gendarId" 
           ) as male on male."classroomId" = c.id 
     left join (
@@ -23,9 +24,10 @@ import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEnt
           count(s2.id) as  "gendarCount"
           from student s2 
           where s2."gendarId" = 2
+          and s2."deletedAt" isnull 
           group by s2."classroomId" , s2."gendarId" 
           ) as female on female."classroomId" = c.id 
-          order by c."id" 
+          order by c."id"  
           `
 })
 export class ReportStudentByRoom {
@@ -49,6 +51,7 @@ export class ReportStudentByRoom {
         count(s.id) as  "gendarCount"
         from student s 
         where s."gendarId" = 1
+        and s."deletedAt" isnull 
         group by s."classroomTypeId" , s."gendarId" 
         ) as male on male."classroomTypeId" = c.id 
   left join (
@@ -57,6 +60,7 @@ export class ReportStudentByRoom {
         count(s2.id) as  "gendarCount"
         from student s2 
         where s2."gendarId" = 2
+        and s2."deletedAt" isnull 
         group by s2."classroomTypeId" , s2."gendarId" 
         ) as female on female."classroomTypeId" = c.id 
   order by c."typeName" 
