@@ -92,7 +92,8 @@ export class AuthenticationsService {
         classroomTypeId,
         className,
         roomName,
-        termName
+        termName,
+        termId:termModel?.id
       }
   }
   async getCanEdit() {

@@ -1,5 +1,5 @@
-import { ARIAL, TAHOMA } from "./font-data"
-import { logoImage } from "./image-data"
+import { SARABAN } from "./libs/assert/font-data"
+import { logoImage } from "./libs/assert/image-data"
 
 export const CssTemplate = ` <style>
 .cardHeader{
@@ -261,13 +261,13 @@ font-family: "Tahoma";
 @font-face { 
 font-family: "Arial";
 font-style: normal;
-src: url(${TAHOMA});
+src: url(${SARABAN});
 }
 
 @font-face { 
 font-family: "Tahoma";
 font-style: normal;
-src: url(${TAHOMA});
+src: url(${SARABAN});
 }
 </style>
 </head>

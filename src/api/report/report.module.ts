@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
+import { ClassroomType } from '../classroom-type/classroom-type.entity';
+import { Classroom } from '../classroom/classroom.entity';
 import { ExportPdfModule } from '../export-pdf/export-pdf.module';
 import { StudentModule } from '../student/student.module';
+import { YearTerm } from '../year-term/year-term.entity';
 import { ReportCheckStudentSumarize } from './check-student.entity';
 import { ReportEqSumarize, ReportEqByRoom, ReportEqByClass, ReportEqByClassAndRoom } from './eq.entity';
 import { ReportHomvisitSumarize } from './home-visit.entity';
 import { ReportDepressionSumarize, ReportDepressionByClass, ReportDepressionByClassAndRoom, ReportDepressionByRoom } from './report-depression.entity';
-import { ReportStudentFilterSumarize, ReportStudentFilterByClass, ReportStudentFilterByClassAndRoom, ReportStudentFilterByRoom } from './report-student-filter.entity';
+import { ReportStudentFilterSumarize, ReportStudentFilterByClass, ReportStudentFilterByClassAndRoom, ReportStudentFilterByRoom, ReportStudentFilterPosonal, ReportStudentFilterSumarizeByClassAndRoom } from './report-student-filter.entity';
 import { ReportStudentHelpByClass, ReportStudentHelpByRoom, ReportStudentHelpByClassAndRoom } from './report-student-help.entity';
 import { ReportStudentScolarByClass, ReportStudentScolarByRoom, ReportStudentScolarByClassAndRoom } from './report-student-scolar.entity';
 import { ReportStudentSendToByClass, ReportStudentSendToByRoom, ReportStudentSendToByClassAndRoom, ReportStudentSendToSumarize } from './report-student-send-to.entity';
@@ -52,7 +55,11 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ReportStressByClass,
       ReportStressByClassAndRoom,
       ReportStressByRoom,
-      ReportStudentSendToSumarize
+      ReportStudentSendToSumarize,
+      ReportStudentFilterPosonal,
+      ReportStudentFilterSumarizeByClassAndRoom,YearTerm,
+      Classroom,
+      ClassroomType
     ]),
     ExportPdfModule
   ],

@@ -1,5 +1,5 @@
 import { CssTemplate, RemarkTemplate } from "./html-report-template"
-import { logoImage } from "./image-data"
+import { logoImage } from "./libs/assert/image-data"
 
 export interface HeaderDetailModel{
     referenceNumber:string
@@ -626,10 +626,11 @@ return scanOutTable
         return RemarkTemplate
     }
    private closeTagHtml():string {
-        return `      </body>`
+    return `    </html>`
+      
     }
     private closeTagBody():string {
-        return `    </html>`
+      return `      </body>`
     }
     private openTagBody():string {
         return `    <body>`
