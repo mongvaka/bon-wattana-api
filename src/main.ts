@@ -9,7 +9,8 @@ import {SwaggerModule, DocumentBuilder} from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
- 
+  // const puppeteer = require('puppeteer');
+  // const browser = await puppeteer.launch();
   app.use(json({ limit: "10mb" }));
   const version = 'v1';
   const globalPrefix = `/api`;

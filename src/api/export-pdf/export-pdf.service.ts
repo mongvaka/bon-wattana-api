@@ -17,7 +17,9 @@ export class ExportPdfService {
           format: 'A4',
     
         };
-        return generatePdf(content, options)
+        return generatePdf(content, {...options,args:['--no-sandbox',
+        '--disable-setuid-sandbox',
+      ]})
       
 
     }
