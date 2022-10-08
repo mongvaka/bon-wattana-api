@@ -4,8 +4,9 @@ import { JwtAuthGuard } from "src/core/authentications/jwt-auth.guard";
 import { BaseController } from "src/core/shared/controller/base-controller";
 import { CustomRequest } from "src/core/shared/models/request-model";
 import { DropdownService } from "src/core/shared/services/dropdown.service";
-import { CreateYearTermDto, SearchYearTermDto, UpdateYearTermDto } from "./report.dto";
+import { CreateYearTermDto, ReportDto, SearchYearTermDto, UpdateYearTermDto } from "./report.dto";
 import { ReportService } from "./report.service";
+
 @ApiTags("report")
 
 @Controller('report')
@@ -162,33 +163,59 @@ export class ReportController extends BaseController{
       response.end(pdfFile);
     } catch (e){      
       console.log(e);
-      
       throw new BadRequestException()
     }
   }
   @Get('report-student-filter-bt-class')
-  async getReportStudentFilterByClass() {
-    try{
-      return this.success(await this.reportService.getReportStudentFilterByClass())
-    }catch(e){
-      return this.error(e)
+  async getReportStudentFilterByClass(@Res() response) {
+    try {
+      const pdfFile = await this.reportService.getReportStudentFilterByClass();
+      const fileName = 'report'
+      response.writeHead(200, {
+       'Content-Type': 'application/pdf',
+       'Content-disposition': `attachment;filename=${fileName}.pdf`,
+      });
+      response.end(pdfFile);
+    } catch (e){      
+      console.log(e);
+      throw new BadRequestException()
     }
+
   }
   @Get('report-student-filter-by-class-and-room')
-  async getReportStudentFilterByClassAndRoom() {
-    try{
-      return this.success(await this.reportService.getReportStudentFilterByClassAndRoom())
-    }catch(e){
-      return this.error(e)
+  async getReportStudentFilterByClassAndRoom(@Res() response) {
+    try {
+      const pdfFile = await this.reportService.getReportStudentFilterByClassAndRoom();
+      const fileName = 'report'
+      response.writeHead(200, {
+       'Content-Type': 'application/pdf',
+       'Content-disposition': `attachment;filename=${fileName}.pdf`,
+      });
+      response.end(pdfFile);
+    } catch (e){      
+      console.log(e);
+      throw new BadRequestException()
     }
   }
-  @Get('report-student-filter-by-room')
-  async getReportStudentFilterByRoom() {
-    try{
-      return this.success(await this.reportService.getReportStudentFilterByRoom())
-    }catch(e){
-      return this.error(e)
+  @Post('report-student-filter-by-room')
+  async getReportStudentFilterByRoom(@Body() dto:ReportDto,@Res() response) {
+    try {
+      const pdfFile = await this.reportService.getReportStudentFilterByRoom(dto.yearTermId,dto.classroomId,dto.classroomTypeId);
+      const fileName = 'report'
+      response.writeHead(200, {
+       'Content-Type': 'application/pdf',
+       'Content-disposition': `attachment;filename=${fileName}.pdf`,
+      });
+      response.end(pdfFile);
+    } catch (e){      
+      console.log(e);
+      throw new BadRequestException()
     }
+    // try{
+    //   return this.success(await this.reportService.getReportStudentFilterByRoom(dto.yearTermId,dto.classroomId,dto.classroomTypeId))
+    // }catch(e){
+    //   return this.error(e)
+    // }
   }
   @Get('report-student-help-by-class')
   async getReportStudentHelpByClass() {

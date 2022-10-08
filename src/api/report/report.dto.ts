@@ -31,3 +31,11 @@ export class UpdateYearTermDto extends YearTermDto{
 @ApiPropertyOptional({ type: Boolean})
     isParent:boolean
 }
+export class ReportDto{
+    @ApiPropertyOptional({ type: Number})
+    yearTermId:number
+    @ApiPropertyOptional({ type: Number})
+    classroomId:number
+    @ApiPropertyOptional({ type: Number})
+    classroomTypeId:number
+}
