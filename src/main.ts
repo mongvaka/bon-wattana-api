@@ -35,7 +35,7 @@ async function bootstrap() {
   app.enableCors();
   const port = process.env.PORT || '3000';
   const server = await app.listen(port);
-  server.setTimeout(1800000); // 30 min
+  server.setTimeout(1800000000); // 30 min
   console.log(
     `Application is running on: ${await app.getUrl()}${globalPrefix}`
   );

@@ -171,10 +171,10 @@ export class Student extends BasicData {
   @Column({nullable: true})
   congenitalDisease?: string;
 
-  @Column({nullable: true})
+  @Column({nullable: true,type:'double precision'})
   height?: number;
 
-  @Column({nullable: true})
+  @Column({nullable: true,type:'double precision'})
   weight?: number;
 
   @Column({nullable: true})

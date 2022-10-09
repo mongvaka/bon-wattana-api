@@ -5,7 +5,7 @@ export class BaseReport{
         let cssPaper = ' <style>'
         cssPaper += custom
         cssPaper += `@font-face { 
-            font-family: "Tahoma";
+            font-family: "Sarabun";
             font-style: normal;
             src: url(${SARABAN});
             }

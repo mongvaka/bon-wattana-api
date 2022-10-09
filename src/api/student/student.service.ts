@@ -45,9 +45,10 @@ import { Teacher } from '../teacher/teacher.entity';
 export class StudentService extends BaseService {
     async import(data: any[]): Promise<any> {        
         for (const el of data) {
-          // console.log('el',el);
-          
-          const model:Student = {...el,birthDate:null}
+          const birthDate = this.getBirthDate(el.birthDate)  
+          console.log('birthDate',birthDate);
+                  
+          const model:Student = {...el,birthDate:birthDate}
           const studentIsexist = await this.studentRepository.findOne({where:{studentCode:el.studentCode,deleted:false}})
           if(!studentIsexist){
             const info = await this.studentRepository.save(
@@ -69,6 +70,20 @@ export class StudentService extends BaseService {
         return {}
 
     }
+  getBirthDate(birthDate: any) {
+    if(birthDate){
+      const datArr = birthDate.split('/')
+      if(datArr.length == 3){
+        const year = this.getYear(datArr[2])
+        return `${year}/${datArr[1]}/${datArr[0]}`
+      }
+      return
+    }
+
+  }
+  getYear(arg0: any) {
+    return (+arg0)-543
+  }
 
     constructor(
         @InjectRepository(Student)
