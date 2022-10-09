@@ -36,7 +36,9 @@ export class ExportPdfService {
             top:'10mm'
           }
         };
-        return generatePdf(content, options)
+        return generatePdf(content, {...options,args:['--no-sandbox',
+        '--disable-setuid-sandbox',
+      ]})
       
 
     }
