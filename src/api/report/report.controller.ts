@@ -200,6 +200,8 @@ export class ReportController extends BaseController{
   @Post('report-student-filter-by-room')
   async getReportStudentFilterByRoom(@Body() dto:ReportDto,@Res() response) {
     try {
+      console.log(dto);
+      
       const pdfFile = await this.reportService.getReportStudentFilterByRoom(dto.yearTermId,dto.classroomId,dto.classroomTypeId);
       const fileName = 'report'
       response.writeHead(200, {

@@ -492,6 +492,8 @@ export class VwStudentFilterDropdown {
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("student_filter.id", "id")
         .addSelect("student_filter.studentId", "studentId")
+        .addSelect("student_id.classroomId", "classroomId")
+        .addSelect("student_id.classroomTypeId", "classroomTypeId")
         .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
         .addSelect("student_filter.yearTermId", "yearTermId")
         .addSelect("CONCAT(year_term_id.year , ' ' , year_term_id.term)", "yearTermValue")
@@ -635,7 +637,10 @@ export class VwStudentFilterItem {
 
   @ViewColumn()
     id: number;
-
+    @ViewColumn()
+    classroomTypeId: number;
+    @ViewColumn()
+    classroomId: number;
     @ViewColumn()
     studentId: number;
 

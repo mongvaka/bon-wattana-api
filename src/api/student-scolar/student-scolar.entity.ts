@@ -78,6 +78,8 @@ export class VwStudentScolarDropdown {
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("student_scolar.id", "id")
         .addSelect("student_scolar.studentId", "studentId")
+        .addSelect("student_id.classroomId", "classroomId")
+        .addSelect("student_id.classroomTypeId", "classroomTypeId")
         .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
         .addSelect("student_scolar.name", "name")
         .addSelect("student_scolar.amount", "amount")
@@ -90,7 +92,10 @@ export class VwStudentScolarItem {
 
   @ViewColumn()
     id: number;
-
+    @ViewColumn()
+    classroomTypeId: number;
+    @ViewColumn()
+    classroomId: number;
     @ViewColumn()
     studentId: number;
 
