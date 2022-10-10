@@ -38,7 +38,7 @@ import { VwActivityStudentDropdown } from '../activity-student/activity-student.
     VwClassroomDropdown,
     VwClassroomTypeDropdown,
     VwActivityStudentDropdown,
-    VwTeachingScheduleTeacherList
+    VwTeachingScheduleTeacherList,
     ]),
     ImagesModule,
     AuthenticationsModule

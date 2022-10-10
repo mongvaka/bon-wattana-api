@@ -117,6 +117,8 @@ async export(dto:SearchExportExcelDto):Promise<any>{
         private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
         @InjectRepository(VwActivityStudentDropdown)
         private readonly vwActivityStudentDropdownRepository:Repository<VwActivityStudentDropdown>,
+        @InjectRepository(VwPracticleDropdown)
+        private readonly vwDropdownPracticleRepository:Repository<VwPracticleDropdown>,
         
         private readonly dropdownService: DropdownService,
         private readonly imagesService:ImagesService,
@@ -135,6 +137,10 @@ async export(dto:SearchExportExcelDto):Promise<any>{
       }
     async religionDropdown(dto: SearchReligionDto):Promise<SelectItems[]> {
         return this.dropdownService.religionDropdown(dto,this.vwDropdownReligionRepository);
+      }
+      
+      async practicleDropdown(dto: SearchPractitionerLevelDto):Promise<SelectItems[]> {
+        return this.dropdownService.practicleDropdown(dto,this.vwDropdownPracticleRepository);
       }
     async practitionerLevelDropdown(dto: SearchPractitionerLevelDto):Promise<SelectItems[]> {
         return this.dropdownService.practitionerlevelDropdown(dto,this.vwDropdownPractitionerLevelRepository);

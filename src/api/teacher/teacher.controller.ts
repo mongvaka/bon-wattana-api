@@ -18,6 +18,7 @@ import { CreateTeacherDto, SearchTeacherDto, UpdateTeacherDto } from "./teacher.
 import { TeacherService } from "./teacher.service";
 import { SearchClassroomDto } from "../classroom/classroom.dto";
 import { SearchActivityStudentDto } from "../activity-student/activity-student.dto";
+import { SearchPracticleDto } from "../practicle/practicle.dto";
 @ApiTags("teacher")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -71,6 +72,15 @@ export class TeacherController extends BaseController{
   async religionDropdown(@Body() dto: SearchReligionDto) {
     try{      
       return this.success(await this.teacherService.religionDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  
+  @Get('practicle-dropdown')
+  async practicleDropdown(@Body() dto: SearchPracticleDto) {
+    try{      
+      return this.success(await this.teacherService.practicleDropdown(dto))
     }catch(e){
       return this.error(e)
     }

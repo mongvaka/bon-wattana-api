@@ -155,6 +155,16 @@ export class Teacher extends BasicData {
     name:'teacher_list',
     expression: (connection: Connection) => connection.createQueryBuilder()
         .select("teacher.id", "id")
+        
+        .addSelect("teacher.birthDate", "birthDate")
+        .addSelect("teacher.setInDate", "setInDate")
+        .addSelect("teacher.educationMajor", "educationMajor")
+        .addSelect("teacher.educationMinor", "educationMinor")
+        .addSelect("teacher.actionWork", "actionWork")
+        .addSelect("teacher.actionWorkSpecial", "actionWorkSpecial")
+        .addSelect("teacher.setInDateSchool", "setInDateSchool")
+        .addSelect("teacher.practitionerNo", "practitionerNo")
+        
         .addSelect("teacher.firstname", "firstname")
         .addSelect("teacher.lastname", "lastname")
         .addSelect("teacher.positionName", "positionName")
@@ -172,8 +182,9 @@ export class VwTeacherList {
     id: number;
     @ViewColumn()
     firstname: string;
-
-
+    @ViewColumn()
+    practitionerNo: string;
+    
     @ViewColumn()
     lastname: string;
 
@@ -190,7 +201,22 @@ export class VwTeacherList {
     subjectGroupId: number;
     @ViewColumn()
     subjectGroupValue: number;
-    
+
+    @ViewColumn()
+    birthDate?: Date;
+    @ViewColumn()
+    setInDate?: Date;
+    @ViewColumn()
+    educationMajor?: string;
+    @ViewColumn()
+    educationMinor?: string;
+    @ViewColumn()
+    actionWork: string;
+    @ViewColumn()
+    actionWorkSpecial: string;
+    @ViewColumn()
+    setInDateSchool:Date
+
 }
 
 @ViewEntity({

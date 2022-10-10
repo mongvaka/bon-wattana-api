@@ -281,7 +281,7 @@ export class Student extends BasicData {
         .addSelect("classroom.name", "classroomValue")
         .addSelect("gendar_id.gendarName", "gendarValue")
         .addSelect("classroom_type.typeName", "classroomTypeValue")
-    
+        .addSelect("student.phoneNumber", "phoneNumber")
         .from(Student, "student")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
         .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
@@ -300,7 +300,9 @@ export class VwStudentList {
     studentCode: string;
     @ViewColumn()
     classroomTypeValue: string;
-
+    @ViewColumn()
+    phoneNumber: string;
+    
     @ViewColumn()
     nameValue: string;
     @ViewColumn()
