@@ -167,7 +167,7 @@ export class Teacher extends BasicData {
         .addSelect("teacher.actionWorkSpecial", "actionWorkSpecial")
         .addSelect("teacher.setInDateSchool", "setInDateSchool")
         .addSelect("teacher.practitionerNo", "practitionerNo")
-        
+        .addSelect("teacher.teacherCode", "teacherCode")        
         .addSelect("teacher.firstname", "firstname")
         .addSelect("teacher.lastname", "lastname")
         .addSelect("teacher.positionNumber", "positionNumber")
@@ -184,8 +184,13 @@ export class Teacher extends BasicData {
 export class VwTeacherList {
     @ViewColumn()
     id: number;
+
+    @ViewColumn()
+    teacherCode: string;
+
     @ViewColumn()
     firstname: string;
+
     @ViewColumn()
     practitionerNo: string;
     
@@ -507,6 +512,7 @@ export class VwTeacherItem {
   name:'teaching_schedule_teacher_list',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("teacher.id", "id")
+  .addSelect("teacher.teacherCode", "teacherCode")
   .addSelect("teacher.firstname", "firstname")
   .addSelect("teacher.lastname", "lastname")
   .addSelect("teacher.positionNumber", "positionNumber")
@@ -525,6 +531,10 @@ export class VwTeachingScheduleTeacherList {
 
   @ViewColumn()
     id: number;
+
+    @ViewColumn()
+    teacherCode: string;
+
     @ViewColumn()
     firstname: string;
 
