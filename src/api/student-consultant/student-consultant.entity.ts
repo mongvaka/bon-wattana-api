@@ -5,166 +5,182 @@ import { Teacher } from "src/api/teacher/teacher.entity";
 
 @Entity('student_consultant')
 export class StudentConsultant extends BasicData {
-  @PrimaryGeneratedColumn({type: 'bigint'})
+  @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   studentId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   teacherId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   activityDate?: Date;
 
-  @Column({nullable: true,type:'time'})
+  @Column({ nullable: true, type: 'time' })
   startTime?: Date;
 
-  @Column({nullable: true,type:'time'})
+  @Column({ nullable: true, type: 'time' })
   endTime?: Date;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   consultantType?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   storyType?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   resultType?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   sentType?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   sentText?: string;
-  @Column({nullable: true})
+
+  @Column({ nullable: true })
   nickName?: string;
-  
+
+
+  @Column({ nullable: true })
+  sendNote?: string;
+
+
 }
 @ViewEntity({
-    name:'student_consultant_list',
-    expression: (connection: Connection) => connection.createQueryBuilder()
-        .select("student_consultant.id", "id")
-        .addSelect("student_consultant.studentId", "studentId")
-        .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
-        .addSelect("student_consultant.activityDate", "activityDate")
-        .addSelect("student_consultant.startTime", "startTime")
-        .addSelect("student_consultant.endTime", "endTime")
-        .addSelect("student_consultant.storyType", "storyType")
-        .addSelect("student_consultant.resultType", "resultType")
-        .addSelect("student_consultant.sentType", "sentType")
-        .addSelect("student_consultant.nickName", "nickName")
-        .from(StudentConsultant, "student_consultant")
-        .leftJoin(Student, "student_id","student_id.Id = student_consultant.studentId")
+  name: 'student_consultant_list',
+  expression: (connection: Connection) => connection.createQueryBuilder()
+    .select("student_consultant.id", "id")
+    .addSelect("student_consultant.studentId", "studentId")
+    .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
+    .addSelect("student_consultant.activityDate", "activityDate")
+    .addSelect("student_consultant.startTime", "startTime")
+    .addSelect("student_consultant.endTime", "endTime")
+    .addSelect("student_consultant.storyType", "storyType")
+    .addSelect("student_consultant.resultType", "resultType")
+    .addSelect("student_consultant.sentType", "sentType")
+    .addSelect("student_consultant.nickName", "nickName")
+    .addSelect("student_consultant.sendNote", "sendNote")
+    .from(StudentConsultant, "student_consultant")
+    .leftJoin(Student, "student_id", "student_id.Id = student_consultant.studentId")
 })
 export class VwStudentConsultantList {
-    @ViewColumn()
-    id: number;
+  @ViewColumn()
+  id: number;
 
-    @ViewColumn()
-    studentId: number;
+  @ViewColumn()
+  studentId: number;
 
-    @ViewColumn()
-    studentValue: string;
+  @ViewColumn()
+  studentValue: string;
 
-    @ViewColumn()
-    activityDate: Date;
+  @ViewColumn()
+  activityDate: Date;
 
-    @ViewColumn()
-    startTime: Date;
+  @ViewColumn()
+  startTime: Date;
 
-    @ViewColumn()
-    endTime: Date;
+  @ViewColumn()
+  endTime: Date;
 
-    @ViewColumn()
-    storyType: number;
+  @ViewColumn()
+  storyType: number;
 
-    @ViewColumn()
-    resultType: number;
+  @ViewColumn()
+  resultType: number;
 
-    @ViewColumn()
-    sentType: number;
-    @ViewColumn()
-    nickName: string;
-    
+  @ViewColumn()
+  sentType: number;
+
+  @ViewColumn()
+  nickName: string;
+
+  @ViewColumn()
+  sendNote: string;
+
 }
 
 @ViewEntity({
-  name:'student_consultant_dropdown',
+  name: 'student_consultant_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("student_consultant.id", "value")
-  .addSelect("CONCAT(student_consultant.startTime , ' ' , student_consultant.endTime)", "label")
-      .from(StudentConsultant, "student_consultant")
+    .select("student_consultant.id", "value")
+    .addSelect("CONCAT(student_consultant.startTime , ' ' , student_consultant.endTime)", "label")
+    .from(StudentConsultant, "student_consultant")
 })
 export class VwStudentConsultantDropdown {
 
   @ViewColumn()
-    value: number;
+  value: number;
 
-    @ViewColumn()
-    label: string;
+  @ViewColumn()
+  label: string;
 }
 @ViewEntity({
-  name:'student_consultant_item',
+  name: 'student_consultant_item',
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("student_consultant.id", "id")
-        .addSelect("student_consultant.studentId", "studentId")
-        .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
-        .addSelect("student_consultant.teacherId", "teacherId")
-        .addSelect("CONCAT(teacher_id.firstname , ' ' , teacher_id.lastname)", "teacherValue")
-        .addSelect("student_consultant.activityDate", "activityDate")
-        .addSelect("student_consultant.startTime", "startTime")
-        .addSelect("student_consultant.endTime", "endTime")
-        .addSelect("student_consultant.consultantType", "consultantType")
-        .addSelect("student_consultant.storyType", "storyType")
-        .addSelect("student_consultant.resultType", "resultType")
-        .addSelect("student_consultant.sentType", "sentType")
-        .addSelect("student_consultant.sentText", "sentText")
-        .addSelect("student_consultant.nickName", "nickName")
-      .from(StudentConsultant, "student_consultant")
-        .leftJoin(Student, "student_id","student_id.Id = student_consultant.studentId")
-        .leftJoin(Teacher, "teacher_id","teacher_id.Id = student_consultant.teacherId")
+    .select("student_consultant.id", "id")
+    .addSelect("student_consultant.studentId", "studentId")
+    .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
+    .addSelect("student_consultant.teacherId", "teacherId")
+    .addSelect("CONCAT(teacher_id.firstname , ' ' , teacher_id.lastname)", "teacherValue")
+    .addSelect("student_consultant.activityDate", "activityDate")
+    .addSelect("student_consultant.startTime", "startTime")
+    .addSelect("student_consultant.endTime", "endTime")
+    .addSelect("student_consultant.consultantType", "consultantType")
+    .addSelect("student_consultant.storyType", "storyType")
+    .addSelect("student_consultant.resultType", "resultType")
+    .addSelect("student_consultant.sentType", "sentType")
+    .addSelect("student_consultant.sentText", "sentText")
+    .addSelect("student_consultant.nickName", "nickName")
+    .addSelect("student_consultant.sendNote", "sendNote")
+    .from(StudentConsultant, "student_consultant")
+    .leftJoin(Student, "student_id", "student_id.Id = student_consultant.studentId")
+    .leftJoin(Teacher, "teacher_id", "teacher_id.Id = student_consultant.teacherId")
 })
 export class VwStudentConsultantItem {
 
   @ViewColumn()
-    id: number;
+  id: number;
 
-    @ViewColumn()
-    studentId: number;
+  @ViewColumn()
+  studentId: number;
 
-    @ViewColumn()
-    studentValue: string;
+  @ViewColumn()
+  studentValue: string;
 
-    @ViewColumn()
-    teacherId: number;
+  @ViewColumn()
+  teacherId: number;
 
-    @ViewColumn()
-    teacherValue: string;
+  @ViewColumn()
+  teacherValue: string;
 
-    @ViewColumn()
-    activityDate: Date;
+  @ViewColumn()
+  activityDate: Date;
 
-    @ViewColumn()
-    startTime: Date;
+  @ViewColumn()
+  startTime: Date;
 
-    @ViewColumn()
-    endTime: Date;
+  @ViewColumn()
+  endTime: Date;
 
-    @ViewColumn()
-    consultantType: number;
+  @ViewColumn()
+  consultantType: number;
 
-    @ViewColumn()
-    storyType: number;
+  @ViewColumn()
+  storyType: number;
 
-    @ViewColumn()
-    resultType: number;
+  @ViewColumn()
+  resultType: number;
 
-    @ViewColumn()
-    sentType: number;
+  @ViewColumn()
+  sentType: number;
 
-    @ViewColumn()
-    sentText: string;
-    @ViewColumn()
-    nickName: string;
+  @ViewColumn()
+  sentText: string;
+
+  @ViewColumn()
+  nickName: string;
+
+  @ViewColumn()
+  sendNote: string;
 }

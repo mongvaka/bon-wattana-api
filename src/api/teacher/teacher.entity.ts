@@ -17,317 +17,316 @@ import { ActivityStudent } from "../activity-student/activity-student.entity";
 
 @Entity('teacher')
 export class Teacher extends BasicData {
-  @PrimaryGeneratedColumn({type: 'bigint'})
+  @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
 
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   posonalCode?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   teacherCode?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   status?: number;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   title?: number;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   firstname?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   lastname?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   firstnameEn?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   lastnameEn?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   gendarId?: number;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   birthDate?: Date;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   nationalityId?: number;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   ethnicityId?: number;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   religionId?: number;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   positionName?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   positionNumber?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   practitionerLevelId?: number;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   practitionerNo?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   educationBackgroundId?: number;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   educationMajor?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   setInDate?: Date;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   teacherClass1?: boolean;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   teacherClass2?: boolean;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   teacherClass3?: boolean;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   teacherClass4?: boolean;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   teacherClass5?: boolean;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   teacherClass6?: boolean;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   subjectGroupId?: number;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   isOtherSubjectGroup: boolean;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   subjectGroupText: string;
-   @Column({nullable: true})
+  @Column({ nullable: true })
   teacherEmail?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   phoneNumber?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   facebookUrl?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   lineId?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   houseNumber?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   village?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   road?: string;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   countryId?: number;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   provinceId?: number;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   districtId?: number;
 
-   @Column({nullable: true})
+  @Column({ nullable: true })
   subDistrictId?: number;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   classroomId?: number;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   classroomTypeId?: number;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   educationMinor?: string;
-  @Column({nullable: true})
-  setInDateSchool:Date
-  @Column({nullable: true})
+  @Column({ nullable: true })
+  setInDateSchool: Date
+  @Column({ nullable: true })
   actionWork: string;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   actionWorkSpecial: string;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   activityStudentId: number;
 
 }
 @ViewEntity({
-    name:'teacher_list',
-    expression: (connection: Connection) => connection.createQueryBuilder()
-        .select("teacher.id", "id")
-        
-        .addSelect("teacher.birthDate", "birthDate")
-        .addSelect("teacher.setInDate", "setInDate")
-        .addSelect("teacher.educationMajor", "educationMajor")
-        .addSelect("teacher.educationMinor", "educationMinor")
-        .addSelect("teacher.actionWork", "actionWork")
-        .addSelect("teacher.actionWorkSpecial", "actionWorkSpecial")
-        .addSelect("teacher.setInDateSchool", "setInDateSchool")
-        .addSelect("teacher.practitionerNo", "practitionerNo")
-        .addSelect("teacher.teacherCode", "teacherCode")        
-        .addSelect("teacher.firstname", "firstname")
-        .addSelect("teacher.lastname", "lastname")
-        .addSelect("teacher.positionNumber", "positionNumber")
-        .addSelect("teacher.positionName", "positionName")
-        .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
-        .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
-        .addSelect("teacher.subjectGroupId", "subjectGroupId")
-        .addSelect("practicle.name", "subjectGroupValue")
-        .from(Teacher, "teacher")
-        .leftJoin(PractitionerLevel, "practitioner_level_id","practitioner_level_id.Id = teacher.practitionerLevelId")
-        .leftJoin(Practicle,'practicle','practicle.id = teacher.subjectGroupId')
+  name: 'teacher_list',
+  expression: (connection: Connection) => connection.createQueryBuilder()
+    .select("teacher.id", "id")
+    .addSelect("teacher.birthDate", "birthDate")
+    .addSelect("teacher.setInDate", "setInDate")
+    .addSelect("teacher.educationMajor", "educationMajor")
+    .addSelect("teacher.educationMinor", "educationMinor")
+    .addSelect("teacher.actionWork", "actionWork")
+    .addSelect("teacher.actionWorkSpecial", "actionWorkSpecial")
+    .addSelect("teacher.setInDateSchool", "setInDateSchool")
+    .addSelect("teacher.practitionerNo", "practitionerNo")
+    .addSelect("teacher.teacherCode", "teacherCode")
+    .addSelect("teacher.firstname", "firstname")
+    .addSelect("teacher.lastname", "lastname")
+    .addSelect("teacher.positionNumber", "positionNumber")
+    .addSelect("teacher.positionName", "positionName")
+    .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
+    .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
+    .addSelect("teacher.subjectGroupId", "subjectGroupId")
+    .addSelect("practicle.name", "subjectGroupValue")
+    .from(Teacher, "teacher")
+    .leftJoin(PractitionerLevel, "practitioner_level_id", "practitioner_level_id.Id = teacher.practitionerLevelId")
+    .leftJoin(Practicle, 'practicle', 'practicle.id = teacher.subjectGroupId')
 })
 
 export class VwTeacherList {
-    @ViewColumn()
-    id: number;
+  @ViewColumn()
+  id: number;
 
-    @ViewColumn()
-    teacherCode: string;
+  @ViewColumn()
+  teacherCode: string;
 
-    @ViewColumn()
-    firstname: string;
+  @ViewColumn()
+  firstname: string;
 
-    @ViewColumn()
-    practitionerNo: string;
-    
-    @ViewColumn()
-    lastname: string;
+  @ViewColumn()
+  practitionerNo: string;
 
-    @ViewColumn()
-    positionNumber: string;
+  @ViewColumn()
+  lastname: string;
 
-    @ViewColumn()
-    positionName: string;
+  @ViewColumn()
+  positionNumber: string;
+
+  @ViewColumn()
+  positionName: string;
 
 
 
-    @ViewColumn()
-    practitionerLevelId: number;
+  @ViewColumn()
+  practitionerLevelId: number;
 
-    @ViewColumn()
-    practitionerLevelValue: string;
+  @ViewColumn()
+  practitionerLevelValue: string;
 
-    @ViewColumn()
-    subjectGroupId: number;
-    @ViewColumn()
-    subjectGroupValue: number;
+  @ViewColumn()
+  subjectGroupId: number;
+  @ViewColumn()
+  subjectGroupValue: number;
 
-    @ViewColumn()
-    birthDate?: Date;
-    @ViewColumn()
-    setInDate?: Date;
-    @ViewColumn()
-    educationMajor?: string;
-    @ViewColumn()
-    educationMinor?: string;
-    @ViewColumn()
-    actionWork: string;
-    @ViewColumn()
-    actionWorkSpecial: string;
-    @ViewColumn()
-    setInDateSchool:Date
+  @ViewColumn()
+  birthDate?: Date;
+  @ViewColumn()
+  setInDate?: Date;
+  @ViewColumn()
+  educationMajor?: string;
+  @ViewColumn()
+  educationMinor?: string;
+  @ViewColumn()
+  actionWork: string;
+  @ViewColumn()
+  actionWorkSpecial: string;
+  @ViewColumn()
+  setInDateSchool: Date
 
 }
 
 @ViewEntity({
-  name:'teacher_dropdown',
+  name: 'teacher_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("teacher.id", "value")
-  .addSelect("CONCAT(teacher.firstname , ' ' , teacher.lastname)", "label")
-      .from(Teacher, "teacher")
+    .select("teacher.id", "value")
+    .addSelect("CONCAT(teacher.firstname , ' ' , teacher.lastname)", "label")
+    .from(Teacher, "teacher")
 })
 export class VwTeacherDropdown {
 
   @ViewColumn()
-    value: number;
+  value: number;
 
-    @ViewColumn()
-    label: string;
+  @ViewColumn()
+  label: string;
 }
 @ViewEntity({
-  name:'teacher_item',
+  name: 'teacher_item',
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("teacher.id", "id")
-        .addSelect("teacher.posonalCode", "posonalCode")
-        .addSelect("teacher.teacherCode", "teacherCode")
-        .addSelect("teacher.status", "status")
-        .addSelect("teacher.title", "title")
-        .addSelect("teacher.firstname", "firstname")
-        .addSelect("teacher.lastname", "lastname")
-        .addSelect("teacher.firstnameEn", "firstnameEn")
-        .addSelect("teacher.lastnameEn", "lastnameEn")
-        .addSelect("teacher.gendarId", "gendarId")
-        .addSelect("gendar_id.gendarName", "gendarValue")
-        .addSelect("teacher.birthDate", "birthDate")
-        .addSelect("teacher.nationalityId", "nationalityId")
-        .addSelect("nationality_id.nationalityName", "nationalityValue")
-        .addSelect("teacher.ethnicityId", "ethnicityId")
-        .addSelect("ethnicity_id.ethnicityName", "ethnicityValue")
-        .addSelect("teacher.religionId", "religionId")
-        .addSelect("religion_id.religionName", "religionValue")
-        .addSelect("teacher.positionNumber", "positionNumber")
-        .addSelect("teacher.positionName", "positionName")
-        .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
-        .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
-        .addSelect("teacher.practitionerNo", "practitionerNo")
-        .addSelect("teacher.educationBackgroundId", "educationBackgroundId")
-        .addSelect("CONCAT(education_background_id.educationShotNameTh , ' ' , education_background_id.educationShotNameEn)", "educationBackgroundValue")
-        .addSelect("teacher.educationMajor", "educationMajor")
-        .addSelect("teacher.setInDate", "setInDate")
-        .addSelect("teacher.setInDateSchool", "setInDateSchool")
-        .addSelect("teacher.educationMinor", "educationMinor")
-        .addSelect("teacher.classroomTypeId", "classroomTypeId")
-        .addSelect("classroom_type.typeName", "classroomTypeValue")
-        .addSelect("teacher.classroomId", "classroomId")
-        .addSelect("classroom.name", "classroomValue")
-        .addSelect("teacher.teacherClass1", "teacherClass1")
-        .addSelect("teacher.teacherClass2", "teacherClass2")
-        .addSelect("teacher.teacherClass3", "teacherClass3")
-        .addSelect("teacher.teacherClass4", "teacherClass4")
-        .addSelect("teacher.teacherClass5", "teacherClass5")
-        .addSelect("teacher.teacherClass6", "teacherClass6")
-        .addSelect("teacher.subjectGroupId", "subjectGroupId")
-        .addSelect("teacher.isOtherSubjectGroup", "isOtherSubjectGroup")
-        .addSelect("teacher.subjectGroupText", "subjectGroupText")
-        .addSelect("teacher.teacherEmail", "teacherEmail")
-        .addSelect("teacher.phoneNumber", "phoneNumber")
-        .addSelect("teacher.facebookUrl", "facebookUrl")
-        .addSelect("teacher.lineId", "lineId")
-        .addSelect("teacher.houseNumber", "houseNumber")
-        .addSelect("teacher.village", "village")
-        .addSelect("teacher.road", "road")
-        .addSelect("teacher.countryId", "countryId")
-        .addSelect("country_id.name", "countryValue")
-        .addSelect("teacher.provinceId", "provinceId")
-        .addSelect("province_id.name ", "provinceValue")
-        .addSelect("teacher.districtId", "districtId")
-        .addSelect("district_id.name", "districtValue")
-        .addSelect("teacher.subDistrictId", "subDistrictId")
-        .addSelect("sub_district_id.name", "subDistrictValue")
-        .addSelect("practicle.name", "subjectGroupValue")
-        .addSelect("teacher.actionWork", "actionWork")
-        .addSelect("teacher.actionWorkSpecial", "actionWorkSpecial")
-        .addSelect("teacher.activityStudentId", "activityStudentId")
-        .addSelect("activity_student.activityMainName", "activityStudentValue")
-      .from(Teacher, "teacher")
-        .leftJoin(Gendar, "gendar_id","gendar_id.Id = teacher.gendarId")
-        .leftJoin(Nationality, "nationality_id","nationality_id.Id = teacher.nationalityId")
-        .leftJoin(Ethnicity, "ethnicity_id","ethnicity_id.Id = teacher.ethnicityId")
-        .leftJoin(Religion, "religion_id","religion_id.Id = teacher.religionId")
-        .leftJoin(PractitionerLevel, "practitioner_level_id","practitioner_level_id.Id = teacher.practitionerLevelId")
-        .leftJoin(EducationBackground, "education_background_id","education_background_id.Id = teacher.educationBackgroundId")
-        .leftJoin(Country, "country_id","country_id.Id = teacher.countryId")
-        .leftJoin(Province, "province_id","province_id.Id = teacher.provinceId")
-        .leftJoin(District, "district_id","district_id.Id = teacher.districtId")
-        .leftJoin(SubDistrict, "sub_district_id","sub_district_id.Id = teacher.subDistrictId")
-        .leftJoin(Practicle, "practicle","practicle.Id = teacher.subjectGroupId")
-        .leftJoin(Classroom,'classroom','classroom.id = teacher.classroomId')
-        .leftJoin(ClassroomType,'classroom_type','classroom_type.id = teacher.classroomTypeId')
-        .leftJoin(ActivityStudent,'activity_student','activity_student.id = teacher.activityStudentId')
+    .select("teacher.id", "id")
+    .addSelect("teacher.posonalCode", "posonalCode")
+    .addSelect("teacher.teacherCode", "teacherCode")
+    .addSelect("teacher.status", "status")
+    .addSelect("teacher.title", "title")
+    .addSelect("teacher.firstname", "firstname")
+    .addSelect("teacher.lastname", "lastname")
+    .addSelect("teacher.firstnameEn", "firstnameEn")
+    .addSelect("teacher.lastnameEn", "lastnameEn")
+    .addSelect("teacher.gendarId", "gendarId")
+    .addSelect("gendar_id.gendarName", "gendarValue")
+    .addSelect("teacher.birthDate", "birthDate")
+    .addSelect("teacher.nationalityId", "nationalityId")
+    .addSelect("nationality_id.nationalityName", "nationalityValue")
+    .addSelect("teacher.ethnicityId", "ethnicityId")
+    .addSelect("ethnicity_id.ethnicityName", "ethnicityValue")
+    .addSelect("teacher.religionId", "religionId")
+    .addSelect("religion_id.religionName", "religionValue")
+    .addSelect("teacher.positionNumber", "positionNumber")
+    .addSelect("teacher.positionName", "positionName")
+    .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
+    .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
+    .addSelect("teacher.practitionerNo", "practitionerNo")
+    .addSelect("teacher.educationBackgroundId", "educationBackgroundId")
+    .addSelect("CONCAT(education_background_id.educationShotNameTh , ' ' , education_background_id.educationShotNameEn)", "educationBackgroundValue")
+    .addSelect("teacher.educationMajor", "educationMajor")
+    .addSelect("teacher.setInDate", "setInDate")
+    .addSelect("teacher.setInDateSchool", "setInDateSchool")
+    .addSelect("teacher.educationMinor", "educationMinor")
+    .addSelect("teacher.classroomTypeId", "classroomTypeId")
+    .addSelect("classroom_type.typeName", "classroomTypeValue")
+    .addSelect("teacher.classroomId", "classroomId")
+    .addSelect("classroom.name", "classroomValue")
+    .addSelect("teacher.teacherClass1", "teacherClass1")
+    .addSelect("teacher.teacherClass2", "teacherClass2")
+    .addSelect("teacher.teacherClass3", "teacherClass3")
+    .addSelect("teacher.teacherClass4", "teacherClass4")
+    .addSelect("teacher.teacherClass5", "teacherClass5")
+    .addSelect("teacher.teacherClass6", "teacherClass6")
+    .addSelect("teacher.subjectGroupId", "subjectGroupId")
+    .addSelect("teacher.isOtherSubjectGroup", "isOtherSubjectGroup")
+    .addSelect("teacher.subjectGroupText", "subjectGroupText")
+    .addSelect("teacher.teacherEmail", "teacherEmail")
+    .addSelect("teacher.phoneNumber", "phoneNumber")
+    .addSelect("teacher.facebookUrl", "facebookUrl")
+    .addSelect("teacher.lineId", "lineId")
+    .addSelect("teacher.houseNumber", "houseNumber")
+    .addSelect("teacher.village", "village")
+    .addSelect("teacher.road", "road")
+    .addSelect("teacher.countryId", "countryId")
+    .addSelect("country_id.name", "countryValue")
+    .addSelect("teacher.provinceId", "provinceId")
+    .addSelect("province_id.name ", "provinceValue")
+    .addSelect("teacher.districtId", "districtId")
+    .addSelect("district_id.name", "districtValue")
+    .addSelect("teacher.subDistrictId", "subDistrictId")
+    .addSelect("sub_district_id.name", "subDistrictValue")
+    .addSelect("practicle.name", "subjectGroupValue")
+    .addSelect("teacher.actionWork", "actionWork")
+    .addSelect("teacher.actionWorkSpecial", "actionWorkSpecial")
+    .addSelect("teacher.activityStudentId", "activityStudentId")
+    .addSelect("activity_student.activityMainName", "activityStudentValue")
+    .from(Teacher, "teacher")
+    .leftJoin(Gendar, "gendar_id", "gendar_id.Id = teacher.gendarId")
+    .leftJoin(Nationality, "nationality_id", "nationality_id.Id = teacher.nationalityId")
+    .leftJoin(Ethnicity, "ethnicity_id", "ethnicity_id.Id = teacher.ethnicityId")
+    .leftJoin(Religion, "religion_id", "religion_id.Id = teacher.religionId")
+    .leftJoin(PractitionerLevel, "practitioner_level_id", "practitioner_level_id.Id = teacher.practitionerLevelId")
+    .leftJoin(EducationBackground, "education_background_id", "education_background_id.Id = teacher.educationBackgroundId")
+    .leftJoin(Country, "country_id", "country_id.Id = teacher.countryId")
+    .leftJoin(Province, "province_id", "province_id.Id = teacher.provinceId")
+    .leftJoin(District, "district_id", "district_id.Id = teacher.districtId")
+    .leftJoin(SubDistrict, "sub_district_id", "sub_district_id.Id = teacher.subDistrictId")
+    .leftJoin(Practicle, "practicle", "practicle.Id = teacher.subjectGroupId")
+    .leftJoin(Classroom, 'classroom', 'classroom.id = teacher.classroomId')
+    .leftJoin(ClassroomType, 'classroom_type', 'classroom_type.id = teacher.classroomTypeId')
+    .leftJoin(ActivityStudent, 'activity_student', 'activity_student.id = teacher.activityStudentId')
 })
 export class VwTeacherItem {
 
@@ -340,224 +339,224 @@ export class VwTeacherItem {
   @ViewColumn()
   activityStudentValue: number;
   @ViewColumn()
-    id: number;
-    @ViewColumn()
-    setInDateSchool:Date
-    @ViewColumn()
-    educationMinor: string;
-    @ViewColumn()
-    classroomId: number;
-    @ViewColumn()
-    classroomTypeId: number;
-    @ViewColumn()
-    classroomValue: string;
-    @ViewColumn()
-    classroomTypeValue: string;
+  id: number;
+  @ViewColumn()
+  setInDateSchool: Date
+  @ViewColumn()
+  educationMinor: string;
+  @ViewColumn()
+  classroomId: number;
+  @ViewColumn()
+  classroomTypeId: number;
+  @ViewColumn()
+  classroomValue: string;
+  @ViewColumn()
+  classroomTypeValue: string;
 
-    @ViewColumn()
-    posonalCode: string;
+  @ViewColumn()
+  posonalCode: string;
 
-    @ViewColumn()
-    teacherCode: string;
+  @ViewColumn()
+  teacherCode: string;
 
-    @ViewColumn()
-    status: number;
+  @ViewColumn()
+  status: number;
 
-    @ViewColumn()
-    title: number;
+  @ViewColumn()
+  title: number;
 
-    @ViewColumn()
-    firstname: string;
+  @ViewColumn()
+  firstname: string;
 
-    @ViewColumn()
-    lastname: string;
+  @ViewColumn()
+  lastname: string;
 
-    @ViewColumn()
-    firstnameEn: string;
+  @ViewColumn()
+  firstnameEn: string;
 
-    @ViewColumn()
-    lastnameEn: string;
+  @ViewColumn()
+  lastnameEn: string;
 
-    @ViewColumn()
-    gendarId: number;
+  @ViewColumn()
+  gendarId: number;
 
-    @ViewColumn()
-    gendarValue: string;
+  @ViewColumn()
+  gendarValue: string;
 
-    @ViewColumn()
-    birthDate: Date;
+  @ViewColumn()
+  birthDate: Date;
 
-    @ViewColumn()
-    nationalityId: number;
+  @ViewColumn()
+  nationalityId: number;
 
-    @ViewColumn()
-    nationalityValue: string;
+  @ViewColumn()
+  nationalityValue: string;
 
-    @ViewColumn()
-    ethnicityId: number;
+  @ViewColumn()
+  ethnicityId: number;
 
-    @ViewColumn()
-    ethnicityValue: string;
+  @ViewColumn()
+  ethnicityValue: string;
 
-    @ViewColumn()
-    religionId: number;
+  @ViewColumn()
+  religionId: number;
 
-    @ViewColumn()
-    religionValue: string;
+  @ViewColumn()
+  religionValue: string;
 
-    @ViewColumn()
-    positionNumber: string;
+  @ViewColumn()
+  positionNumber: string;
 
-    @ViewColumn()
-    positionName: string;
+  @ViewColumn()
+  positionName: string;
 
 
-    @ViewColumn()
-    practitionerLevelId: number;
+  @ViewColumn()
+  practitionerLevelId: number;
 
-    @ViewColumn()
-    practitionerLevelValue: string;
+  @ViewColumn()
+  practitionerLevelValue: string;
 
-    @ViewColumn()
-    practitionerNo: string;
+  @ViewColumn()
+  practitionerNo: string;
 
-    @ViewColumn()
-    educationBackgroundId: number;
+  @ViewColumn()
+  educationBackgroundId: number;
 
-    @ViewColumn()
-    educationBackgroundValue: string;
+  @ViewColumn()
+  educationBackgroundValue: string;
 
-    @ViewColumn()
-    educationMajor: string;
+  @ViewColumn()
+  educationMajor: string;
 
-    @ViewColumn()
-    setInDate: Date;
+  @ViewColumn()
+  setInDate: Date;
 
-    @ViewColumn()
-    teacherClass1: boolean;
+  @ViewColumn()
+  teacherClass1: boolean;
 
-    @ViewColumn()
-    teacherClass2: boolean;
+  @ViewColumn()
+  teacherClass2: boolean;
 
-    @ViewColumn()
-    teacherClass3: boolean;
+  @ViewColumn()
+  teacherClass3: boolean;
 
-    @ViewColumn()
-    teacherClass4: boolean;
+  @ViewColumn()
+  teacherClass4: boolean;
 
-    @ViewColumn()
-    teacherClass5: boolean;
+  @ViewColumn()
+  teacherClass5: boolean;
 
-    @ViewColumn()
-    teacherClass6: boolean;
+  @ViewColumn()
+  teacherClass6: boolean;
 
-    @ViewColumn()
-    subjectGroupId: string;
-    
-    @ViewColumn()
-    subjectGroupValue: string;
-    
-    @ViewColumn()
-    isOtherSubjectGroup: boolean;
-    @ViewColumn()
-    subjectGroupText: string;
-    @ViewColumn()
-    teacherEmail: string;
+  @ViewColumn()
+  subjectGroupId: string;
 
-    @ViewColumn()
-    phoneNumber: string;
+  @ViewColumn()
+  subjectGroupValue: string;
 
-    @ViewColumn()
-    facebookUrl: string;
+  @ViewColumn()
+  isOtherSubjectGroup: boolean;
+  @ViewColumn()
+  subjectGroupText: string;
+  @ViewColumn()
+  teacherEmail: string;
 
-    @ViewColumn()
-    lineId: string;
+  @ViewColumn()
+  phoneNumber: string;
 
-    @ViewColumn()
-    houseNumber: string;
+  @ViewColumn()
+  facebookUrl: string;
 
-    @ViewColumn()
-    village: string;
+  @ViewColumn()
+  lineId: string;
 
-    @ViewColumn()
-    road: string;
+  @ViewColumn()
+  houseNumber: string;
 
-    @ViewColumn()
-    countryId: number;
+  @ViewColumn()
+  village: string;
 
-    @ViewColumn()
-    countryValue: string;
+  @ViewColumn()
+  road: string;
 
-    @ViewColumn()
-    provinceId: number;
+  @ViewColumn()
+  countryId: number;
 
-    @ViewColumn()
-    provinceValue: string;
+  @ViewColumn()
+  countryValue: string;
 
-    @ViewColumn()
-    districtId: number;
+  @ViewColumn()
+  provinceId: number;
 
-    @ViewColumn()
-    districtValue: string;
+  @ViewColumn()
+  provinceValue: string;
 
-    @ViewColumn()
-    subDistrictId: number;
+  @ViewColumn()
+  districtId: number;
 
-    @ViewColumn()
-    subDistrictValue: string;
+  @ViewColumn()
+  districtValue: string;
+
+  @ViewColumn()
+  subDistrictId: number;
+
+  @ViewColumn()
+  subDistrictValue: string;
 }
 
 
 @ViewEntity({
-  name:'teaching_schedule_teacher_list',
+  name: 'teaching_schedule_teacher_list',
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("teacher.id", "id")
-  .addSelect("teacher.teacherCode", "teacherCode")
-  .addSelect("teacher.firstname", "firstname")
-  .addSelect("teacher.lastname", "lastname")
-  .addSelect("teacher.positionNumber", "positionNumber")
-  .addSelect("teacher.positionName", "positionName")
-  .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
-  .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
-  .addSelect("teacher.subjectGroupId", "subjectGroupId")
-  .addSelect("practicle.name", "subjectGroupValue")
-  .from(Teacher, "teacher")
-  .leftJoin(PractitionerLevel, "practitioner_level_id","practitioner_level_id.Id = teacher.practitionerLevelId")
-  .leftJoin(Practicle,'practicle','practicle.id = teacher.subjectGroupId')
+    .select("teacher.id", "id")
+    .addSelect("teacher.teacherCode", "teacherCode")
+    .addSelect("teacher.firstname", "firstname")
+    .addSelect("teacher.lastname", "lastname")
+    .addSelect("teacher.positionNumber", "positionNumber")
+    .addSelect("teacher.positionName", "positionName")
+    .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
+    .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
+    .addSelect("teacher.subjectGroupId", "subjectGroupId")
+    .addSelect("practicle.name", "subjectGroupValue")
+    .from(Teacher, "teacher")
+    .leftJoin(PractitionerLevel, "practitioner_level_id", "practitioner_level_id.Id = teacher.practitionerLevelId")
+    .leftJoin(Practicle, 'practicle', 'practicle.id = teacher.subjectGroupId')
 
 })
 export class VwTeachingScheduleTeacherList {
 
 
   @ViewColumn()
-    id: number;
+  id: number;
 
-    @ViewColumn()
-    teacherCode: string;
+  @ViewColumn()
+  teacherCode: string;
 
-    @ViewColumn()
-    firstname: string;
-
-
-    @ViewColumn()
-    lastname: string;
-
-    @ViewColumn()
-    positionNumber: string;
-
-    @ViewColumn()
-    positionName: string;
+  @ViewColumn()
+  firstname: string;
 
 
-    @ViewColumn()
-    practitionerLevelId: number;
+  @ViewColumn()
+  lastname: string;
 
-    @ViewColumn()
-    practitionerLevelValue: string;
+  @ViewColumn()
+  positionNumber: string;
 
-    @ViewColumn()
-    subjectGroupId: number;
-    @ViewColumn()
-    subjectGroupValue: number;
-    
+  @ViewColumn()
+  positionName: string;
+
+
+  @ViewColumn()
+  practitionerLevelId: number;
+
+  @ViewColumn()
+  practitionerLevelValue: string;
+
+  @ViewColumn()
+  subjectGroupId: number;
+  @ViewColumn()
+  subjectGroupValue: number;
+
 }
