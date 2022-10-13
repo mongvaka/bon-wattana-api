@@ -8,6 +8,7 @@ export class SearchStudentDto extends SearchParameter {
 }
 export class StudentDto {
     studentCode:string
+    studentNumber:string
     imageProfile:string[]
     status:number
     title:number

@@ -16,1100 +16,1133 @@ import { YearTerm } from "src/api/year-term/year-term.entity";
 
 @Entity('student')
 export class Student extends BasicData {
-  @PrimaryGeneratedColumn({type: 'bigint'})
+  @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   studentCode?: string;
 
+
+ 
+  @Column({ nullable: true })
+  studentNumber?: string;
   // @Column({nullable: true})
   // imageProfile?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   status?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   title?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   firstname?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   lastname?: string;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   personalCode?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   firstnameEn?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   lastnameEn?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   gendarId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   birthDate?: Date;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   nationalityId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   ethnicityId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   religionId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   email?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   phoneNumber?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   specialAbility?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   birthHospital?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   birthCountryId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   birthProvinceId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   birthDistrictId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   birthSubDistrictId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   houseNumber?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   village?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   road?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   countryId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   provinceId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   districtId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   subDistrictId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   contractHouseNumber?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   contractVillage?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   contractRoad?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   contractCountryId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   contractProvinceId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   contractDistrictId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   contractSubDistrictId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   oldSchoolName?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   oldSchoolCountryId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   oldSchoolProvinceId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   oldSchoolDistrictId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   oldSchoolSubDistrictId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   closeFriendInClass?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   closeFriendInClassNickname?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   closeFriendInClassSchool?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   closeFriendInClassPhone?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   closeFriendOtherClass?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   closeFriendOtherClassNickname?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   closeFriendOtherClassSchool?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   closeFriendOtherClassPhone?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   bloodType?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   congenitalDisease?: string;
 
-  @Column({nullable: true,type:'double precision'})
+  @Column({ nullable: true, type: 'double precision' })
   height?: number;
 
-  @Column({nullable: true,type:'double precision'})
+  @Column({ nullable: true, type: 'double precision' })
   weight?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   defect?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   aliveWithId?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   parentStatus?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   classroomId?: number;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   classroomTypeId?: number;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   fatherTitle?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   fatherFirstname?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   fatherLastname?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   fatherPersonalCode?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   fatherBloodType?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   fatherIncome?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   fatherOccupation?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   fatherPhone?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   motherTitle?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   motherFirstname?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   motherLastname?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   motherPersonalCode?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   motherBloodType?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   motherIncome?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   motherOccupation?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   motherPhone?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   parentTitle?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   parentFirstname?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   parentLastname?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   parentPersonalCode?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   parentBloodType?: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   parentIncome?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   parentOccupation?: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   parentPhone?: string;
 }
 @ViewEntity({
-    name:'student_list',
-    expression: (connection: Connection) => connection.createQueryBuilder()
-        .select("student.id", "id")
-        .addSelect("student.studentCode", "studentCode")
-        .addSelect("student.status", "status")
-        .addSelect("student.firstname", "firstname")
-        .addSelect("student.lastname", "lastname")
-        .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
-        .addSelect("student.gendarId", "gendarId")
-        .addSelect("TO_CHAR(student.birthDate, 'DD/MM/YYYY') ", "birthDate")
-        .addSelect("student.personalCode", "personalCode")
-        .addSelect("CONCAT(student.houseNumber,' ',student.road,'  ',student.village, ' ' ,sub_district.name, ' ' ,district.name, ' ' ,province.name)", "addressValue")
-        .addSelect("student.classroomId", "classroomId")
-        .addSelect("student.houseNumber", "houseNumber")
-        .addSelect("student.classroomTypeId", "classroomTypeId")
-        .addSelect("classroom.name", "classroomValue")
-        .addSelect("gendar_id.gendarName", "gendarValue")
-        .addSelect("classroom_type.typeName", "classroomTypeValue")
-        .addSelect("student.phoneNumber", "phoneNumber")
-        .from(Student, "student")
-        .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
-        .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
-        .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
-        .leftJoin(Province,'province','student.provinceId = province.id')
-        .leftJoin(District,'district','district.id = student.districtId')
-        .leftJoin(SubDistrict,'sub_district','sub_district.id = student.subDistrictId')
+  name: 'student_list',
+  expression: (connection: Connection) => connection.createQueryBuilder()
+    .select("student.id", "id")
+    .addSelect("student.studentCode", "studentCode")
+    .addSelect("student.studentNumber", "studentNumber")
+    .addSelect("student.status", "status")
+    .addSelect("student.firstname", "firstname")
+    .addSelect("student.lastname", "lastname")
+    .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
+    .addSelect("student.gendarId", "gendarId")
+    .addSelect("TO_CHAR(student.birthDate, 'DD/MM/YYYY') ", "birthDate")
+    .addSelect("student.personalCode", "personalCode")
+    .addSelect("CONCAT(student.houseNumber,' ',student.road,'  ',student.village, ' ' ,sub_district.name, ' ' ,district.name, ' ' ,province.name)", "addressValue")
+    .addSelect("student.classroomId", "classroomId")
+    .addSelect("student.houseNumber", "houseNumber")
+    .addSelect("student.classroomTypeId", "classroomTypeId")
+    .addSelect("classroom.name", "classroomValue")
+    .addSelect("gendar_id.gendarName", "gendarValue")
+    .addSelect("classroom_type.typeName", "classroomTypeValue")
+    .addSelect("student.phoneNumber", "phoneNumber")
+    .from(Student, "student")
+    .leftJoin(Gendar, "gendar_id", "gendar_id.Id = student.gendarId")
+    .leftJoin(Classroom, "classroom", "classroom.Id = student.classroomId")
+    .leftJoin(ClassroomType, "classroom_type", "classroom_type.Id = student.classroomTypeId")
+    .leftJoin(Province, 'province', 'student.provinceId = province.id')
+    .leftJoin(District, 'district', 'district.id = student.districtId')
+    .leftJoin(SubDistrict, 'sub_district', 'sub_district.id = student.subDistrictId')
 
 })
 export class VwStudentList {
-    @ViewColumn()
-    id: number;
-    @ViewColumn()
-    classroomTypeId: number;
-    @ViewColumn()
-    studentCode: string;
-    @ViewColumn()
-    classroomTypeValue: string;
-    @ViewColumn()
-    phoneNumber: string;
-    
-    @ViewColumn()
-    nameValue: string;
-    @ViewColumn()
-    birthDate: string;
-    @ViewColumn()
-    addressValue: string;
-    
-    @ViewColumn()
-    status: number;
+  @ViewColumn()
+  id: number;
+  @ViewColumn()
+  classroomTypeId: number;
 
-    @ViewColumn()
-    firstname: string;
+  @ViewColumn()
+  studentCode: string;
 
-    @ViewColumn()
-    lastname: string;
+  @ViewColumn()
+  studentNumber: string;
 
-    @ViewColumn()
-    gendarId: number;
+  @ViewColumn()
+  classroomTypeValue: string;
+  @ViewColumn()
+  phoneNumber: string;
 
-    @ViewColumn()
-    gendarValue: string;
+  @ViewColumn()
+  nameValue: string;
+  @ViewColumn()
+  birthDate: string;
+  @ViewColumn()
+  addressValue: string;
 
-    @ViewColumn()
-    classroomId: number;
+  @ViewColumn()
+  status: number;
 
-    @ViewColumn()
-    classroomValue: string;
-    @ViewColumn()
-    personalCode: string;
-    
+  @ViewColumn()
+  firstname: string;
+
+  @ViewColumn()
+  lastname: string;
+
+  @ViewColumn()
+  gendarId: number;
+
+  @ViewColumn()
+  gendarValue: string;
+
+  @ViewColumn()
+  classroomId: number;
+
+  @ViewColumn()
+  classroomValue: string;
+  @ViewColumn()
+  personalCode: string;
+
 }
 
 @ViewEntity({
-  name:'student_dropdown',
+  name: 'student_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("student.id", "value")
-  .addSelect("CONCAT(student.firstname , ' ' , student.lastname)", "label")
-      .from(Student, "student")
+    .select("student.id", "value")
+    .addSelect("CONCAT(student.firstname , ' ' , student.lastname)", "label")
+    .from(Student, "student")
 })
 export class VwStudentDropdown {
 
   @ViewColumn()
-    value: number;
+  value: number;
 
-    @ViewColumn()
-    label: string;
+  @ViewColumn()
+  label: string;
 }
 @ViewEntity({
-  name:'student_item',
+  name: 'student_item',
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("student.id", "id")
-        .addSelect("student.studentCode", "studentCode")
-        .addSelect("student.status", "status")
-        .addSelect("student.title", "title")
-        .addSelect("student.firstname", "firstname")
-        .addSelect("student.lastname", "lastname")
-        .addSelect("student.firstnameEn", "firstnameEn")
-        .addSelect("student.lastnameEn", "lastnameEn")
-        .addSelect("student.gendarId", "gendarId")
-        .addSelect("gendar_id.gendarName", "gendarValue")
-        .addSelect("student.birthDate", "birthDate")
-        .addSelect("student.nationalityId", "nationalityId")
-        .addSelect("nationality_id.nationalityName", "nationalityValue")
-        .addSelect("student.ethnicityId", "ethnicityId")
-        .addSelect("ethnicity_id.ethnicityName", "ethnicityValue")
-        .addSelect("student.religionId", "religionId")
-        .addSelect("religion_id.religionName", "religionValue")
-        .addSelect("student.email", "email")
-        .addSelect("student.phoneNumber", "phoneNumber")
-        .addSelect("student.specialAbility", "specialAbility")
-        .addSelect("student.birthHospital", "birthHospital")
-        .addSelect("student.birthCountryId", "birthCountryId")
-        .addSelect("birth_country_id.name", "birthCountryValue")
-        .addSelect("student.birthProvinceId", "birthProvinceId")
-        .addSelect("student.birthDistrictId", "birthDistrictId")
-        .addSelect("student.birthSubDistrictId", "birthSubDistrictId")
-        .addSelect("student.houseNumber", "houseNumber")
-        .addSelect("student.village", "village")
-        .addSelect("student.road", "road")
-        .addSelect("student.countryId", "countryId")
-        .addSelect("country_id.name", "countryValue")
-        .addSelect("student.provinceId", "provinceId")
-        .addSelect("province_id.name", "provinceValue")
-        .addSelect("student.districtId", "districtId")
-        .addSelect("district_id.name", "districtValue")
-        .addSelect("student.subDistrictId", "subDistrictId")
-        .addSelect("sub_district_id.name", "subDistrictValue")
-        .addSelect("student.contractHouseNumber", "contractHouseNumber")
-        .addSelect("student.contractVillage", "contractVillage")
-        .addSelect("student.contractRoad", "contractRoad")
-        .addSelect("student.contractCountryId", "contractCountryId")
-        .addSelect("contract_country_id.name", "contractCountryValue")
-        .addSelect("student.contractProvinceId", "contractProvinceId")
-        .addSelect("contract_province_id.name", "contractProvinceValue")
-        .addSelect("student.contractDistrictId", "contractDistrictId")
-        .addSelect("contract_district_id.name", "contractDistrictValue")
-        .addSelect("student.contractSubDistrictId", "contractSubDistrictId")
-        .addSelect("contract_sub_district_id.name", "contractSubDistrictValue")
-        .addSelect("student.oldSchoolName", "oldSchoolName")
-        .addSelect("student.oldSchoolCountryId", "oldSchoolCountryId")
-        .addSelect("student.oldSchoolProvinceId", "oldSchoolProvinceId")
-        .addSelect("student.oldSchoolDistrictId", "oldSchoolDistrictId")
-        .addSelect("student.oldSchoolSubDistrictId", "oldSchoolSubDistrictId")
-        .addSelect("student.closeFriendInClass", "closeFriendInClass")
-        .addSelect("student.closeFriendInClassNickname", "closeFriendInClassNickname")
-        .addSelect("student.closeFriendInClassSchool", "closeFriendInClassSchool")
-        .addSelect("student.closeFriendInClassPhone", "closeFriendInClassPhone")
-        .addSelect("student.closeFriendOtherClass", "closeFriendOtherClass")
-        .addSelect("student.closeFriendOtherClassNickname", "closeFriendOtherClassNickname")
-        .addSelect("student.closeFriendOtherClassSchool", "closeFriendOtherClassSchool")
-        .addSelect("student.closeFriendOtherClassPhone", "closeFriendOtherClassPhone")
-        .addSelect("student.bloodType", "bloodType")
-        .addSelect("student.congenitalDisease", "congenitalDisease")
-        .addSelect("student.height", "height")
-        .addSelect("student.weight", "weight")
-        .addSelect("student.defect", "defect")
-        .addSelect("student.aliveWithId", "aliveWithId")
-        .addSelect("alive_with_id.aliveWithName", "aliveWithValue")
-        .addSelect("student.parentStatus", "parentStatus")
-        .addSelect("student.classroomId", "classroomId")
-        .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
-        .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomTypeValue")
-        .addSelect("student.fatherTitle", "fatherTitle")
-        .addSelect("student.fatherFirstname", "fatherFirstname")
-        .addSelect("student.fatherLastname", "fatherLastname")
-        .addSelect("student.fatherPersonalCode", "fatherPersonalCode")
-        .addSelect("student.fatherBloodType", "fatherBloodType")
-        .addSelect("student.fatherIncome", "fatherIncome")
-        .addSelect("student.fatherOccupation", "fatherOccupation")
-        .addSelect("student.fatherPhone", "fatherPhone")
-        .addSelect("student.motherTitle", "motherTitle")
-        .addSelect("student.motherFirstname", "motherFirstname")
-        .addSelect("student.motherLastname", "motherLastname")
-        .addSelect("student.motherPersonalCode", "motherPersonalCode")
-        .addSelect("student.motherBloodType", "motherBloodType")
-        .addSelect("student.motherIncome", "motherIncome")
-        .addSelect("student.motherOccupation", "motherOccupation")
-        .addSelect("student.motherPhone", "motherPhone")
-        .addSelect("student.parentTitle", "parentTitle")
-        .addSelect("student.parentFirstname", "parentFirstname")
-        .addSelect("student.parentLastname", "parentLastname")
-        .addSelect("student.parentPersonalCode", "parentPersonalCode")
-        .addSelect("student.parentBloodType", "parentBloodType")
-        .addSelect("student.parentIncome", "parentIncome")
-        .addSelect("student.parentOccupation", "parentOccupation")
-        .addSelect("student.parentPhone", "parentPhone")
-        .addSelect("student.personalCode", "personalCode")
-        .addSelect("student.classroomTypeId", "classroomTypeId")
-      .from(Student, "student")
-        .leftJoin(Gendar, "gendar_id","gendar_id.Id = student.gendarId")
-        .leftJoin(Nationality, "nationality_id","nationality_id.Id = student.nationalityId")
-        .leftJoin(Ethnicity, "ethnicity_id","ethnicity_id.Id = student.ethnicityId")
-        .leftJoin(Religion, "religion_id","religion_id.Id = student.religionId")
-        .leftJoin(Country, "birth_country_id","birth_country_id.Id = student.birthCountryId")
-        .leftJoin(Country, "country_id","country_id.Id = student.countryId")
-        .leftJoin(SubDistrict, "province_id","province_id.Id = student.provinceId")
-        .leftJoin(District, "district_id","district_id.Id = student.districtId")
-        .leftJoin(Province, "sub_district_id","sub_district_id.Id = student.subDistrictId")
-        .leftJoin(Country, "contract_country_id","contract_country_id.Id = student.contractCountryId")
-        .leftJoin(SubDistrict, "contract_province_id","contract_province_id.Id = student.contractProvinceId")
-        .leftJoin(District, "contract_district_id","contract_district_id.Id = student.contractDistrictId")
-        .leftJoin(Province, "contract_sub_district_id","contract_sub_district_id.Id = student.contractSubDistrictId")
-        .leftJoin(AliveWith, "alive_with_id","alive_with_id.Id = student.aliveWithId")
-        .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
-        .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
-      
+    .select("student.id", "id")
+    .addSelect("student.studentCode", "studentCode")
+    .addSelect("student.studentNumber", "studentNumber")
+    .addSelect("student.status", "status")
+    .addSelect("student.title", "title")
+    .addSelect("student.firstname", "firstname")
+    .addSelect("student.lastname", "lastname")
+    .addSelect("student.firstnameEn", "firstnameEn")
+    .addSelect("student.lastnameEn", "lastnameEn")
+    .addSelect("student.gendarId", "gendarId")
+    .addSelect("gendar_id.gendarName", "gendarValue")
+    .addSelect("student.birthDate", "birthDate")
+    .addSelect("student.nationalityId", "nationalityId")
+    .addSelect("nationality_id.nationalityName", "nationalityValue")
+    .addSelect("student.ethnicityId", "ethnicityId")
+    .addSelect("ethnicity_id.ethnicityName", "ethnicityValue")
+    .addSelect("student.religionId", "religionId")
+    .addSelect("religion_id.religionName", "religionValue")
+    .addSelect("student.email", "email")
+    .addSelect("student.phoneNumber", "phoneNumber")
+    .addSelect("student.specialAbility", "specialAbility")
+    .addSelect("student.birthHospital", "birthHospital")
+    .addSelect("student.birthCountryId", "birthCountryId")
+    .addSelect("birth_country_id.name", "birthCountryValue")
+    .addSelect("student.birthProvinceId", "birthProvinceId")
+    .addSelect("student.birthDistrictId", "birthDistrictId")
+    .addSelect("student.birthSubDistrictId", "birthSubDistrictId")
+    .addSelect("student.houseNumber", "houseNumber")
+    .addSelect("student.village", "village")
+    .addSelect("student.road", "road")
+    .addSelect("student.countryId", "countryId")
+    .addSelect("country_id.name", "countryValue")
+    .addSelect("student.provinceId", "provinceId")
+    .addSelect("province_id.name", "provinceValue")
+    .addSelect("student.districtId", "districtId")
+    .addSelect("district_id.name", "districtValue")
+    .addSelect("student.subDistrictId", "subDistrictId")
+    .addSelect("sub_district_id.name", "subDistrictValue")
+    .addSelect("student.contractHouseNumber", "contractHouseNumber")
+    .addSelect("student.contractVillage", "contractVillage")
+    .addSelect("student.contractRoad", "contractRoad")
+    .addSelect("student.contractCountryId", "contractCountryId")
+    .addSelect("contract_country_id.name", "contractCountryValue")
+    .addSelect("student.contractProvinceId", "contractProvinceId")
+    .addSelect("contract_province_id.name", "contractProvinceValue")
+    .addSelect("student.contractDistrictId", "contractDistrictId")
+    .addSelect("contract_district_id.name", "contractDistrictValue")
+    .addSelect("student.contractSubDistrictId", "contractSubDistrictId")
+    .addSelect("contract_sub_district_id.name", "contractSubDistrictValue")
+    .addSelect("student.oldSchoolName", "oldSchoolName")
+    .addSelect("student.oldSchoolCountryId", "oldSchoolCountryId")
+    .addSelect("student.oldSchoolProvinceId", "oldSchoolProvinceId")
+    .addSelect("student.oldSchoolDistrictId", "oldSchoolDistrictId")
+    .addSelect("student.oldSchoolSubDistrictId", "oldSchoolSubDistrictId")
+    .addSelect("student.closeFriendInClass", "closeFriendInClass")
+    .addSelect("student.closeFriendInClassNickname", "closeFriendInClassNickname")
+    .addSelect("student.closeFriendInClassSchool", "closeFriendInClassSchool")
+    .addSelect("student.closeFriendInClassPhone", "closeFriendInClassPhone")
+    .addSelect("student.closeFriendOtherClass", "closeFriendOtherClass")
+    .addSelect("student.closeFriendOtherClassNickname", "closeFriendOtherClassNickname")
+    .addSelect("student.closeFriendOtherClassSchool", "closeFriendOtherClassSchool")
+    .addSelect("student.closeFriendOtherClassPhone", "closeFriendOtherClassPhone")
+    .addSelect("student.bloodType", "bloodType")
+    .addSelect("student.congenitalDisease", "congenitalDisease")
+    .addSelect("student.height", "height")
+    .addSelect("student.weight", "weight")
+    .addSelect("student.defect", "defect")
+    .addSelect("student.aliveWithId", "aliveWithId")
+    .addSelect("alive_with_id.aliveWithName", "aliveWithValue")
+    .addSelect("student.parentStatus", "parentStatus")
+    .addSelect("student.classroomId", "classroomId")
+    .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
+    .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomTypeValue")
+    .addSelect("student.fatherTitle", "fatherTitle")
+    .addSelect("student.fatherFirstname", "fatherFirstname")
+    .addSelect("student.fatherLastname", "fatherLastname")
+    .addSelect("student.fatherPersonalCode", "fatherPersonalCode")
+    .addSelect("student.fatherBloodType", "fatherBloodType")
+    .addSelect("student.fatherIncome", "fatherIncome")
+    .addSelect("student.fatherOccupation", "fatherOccupation")
+    .addSelect("student.fatherPhone", "fatherPhone")
+    .addSelect("student.motherTitle", "motherTitle")
+    .addSelect("student.motherFirstname", "motherFirstname")
+    .addSelect("student.motherLastname", "motherLastname")
+    .addSelect("student.motherPersonalCode", "motherPersonalCode")
+    .addSelect("student.motherBloodType", "motherBloodType")
+    .addSelect("student.motherIncome", "motherIncome")
+    .addSelect("student.motherOccupation", "motherOccupation")
+    .addSelect("student.motherPhone", "motherPhone")
+    .addSelect("student.parentTitle", "parentTitle")
+    .addSelect("student.parentFirstname", "parentFirstname")
+    .addSelect("student.parentLastname", "parentLastname")
+    .addSelect("student.parentPersonalCode", "parentPersonalCode")
+    .addSelect("student.parentBloodType", "parentBloodType")
+    .addSelect("student.parentIncome", "parentIncome")
+    .addSelect("student.parentOccupation", "parentOccupation")
+    .addSelect("student.parentPhone", "parentPhone")
+    .addSelect("student.personalCode", "personalCode")
+    .addSelect("student.classroomTypeId", "classroomTypeId")
+    .from(Student, "student")
+    .leftJoin(Gendar, "gendar_id", "gendar_id.Id = student.gendarId")
+    .leftJoin(Nationality, "nationality_id", "nationality_id.Id = student.nationalityId")
+    .leftJoin(Ethnicity, "ethnicity_id", "ethnicity_id.Id = student.ethnicityId")
+    .leftJoin(Religion, "religion_id", "religion_id.Id = student.religionId")
+    .leftJoin(Country, "birth_country_id", "birth_country_id.Id = student.birthCountryId")
+    .leftJoin(Country, "country_id", "country_id.Id = student.countryId")
+    .leftJoin(SubDistrict, "province_id", "province_id.Id = student.provinceId")
+    .leftJoin(District, "district_id", "district_id.Id = student.districtId")
+    .leftJoin(Province, "sub_district_id", "sub_district_id.Id = student.subDistrictId")
+    .leftJoin(Country, "contract_country_id", "contract_country_id.Id = student.contractCountryId")
+    .leftJoin(SubDistrict, "contract_province_id", "contract_province_id.Id = student.contractProvinceId")
+    .leftJoin(District, "contract_district_id", "contract_district_id.Id = student.contractDistrictId")
+    .leftJoin(Province, "contract_sub_district_id", "contract_sub_district_id.Id = student.contractSubDistrictId")
+    .leftJoin(AliveWith, "alive_with_id", "alive_with_id.Id = student.aliveWithId")
+    .leftJoin(Classroom, "classroom", "classroom.Id = student.classroomId")
+    .leftJoin(ClassroomType, "classroom_type", "classroom_type.Id = student.classroomTypeId")
+
 })
 export class VwStudentItem {
 
   @ViewColumn()
-    id: number;
-    @ViewColumn()
-    studentCode: string;
-    @ViewColumn()
-    classroomTypeId: number;
+  id: number;
 
-    @ViewColumn()
-    classroomTypeValue: string;
-    @ViewColumn()
-    classroomId: number;
+  @ViewColumn()
+  studentCode: string;
 
-    @ViewColumn()
-    classroomValue: string;
-    @ViewColumn()
-    personalCode: string;
+  @ViewColumn()
+  studentNumber: string;
 
-    @ViewColumn()
-    status: number;
+  @ViewColumn()
+  classroomTypeId: number;
 
-    @ViewColumn()
-    title: number;
+  @ViewColumn()
+  classroomTypeValue: string;
+  @ViewColumn()
+  classroomId: number;
 
-    @ViewColumn()
-    firstname: string;
+  @ViewColumn()
+  classroomValue: string;
+  @ViewColumn()
+  personalCode: string;
 
-    @ViewColumn()
-    lastname: string;
+  @ViewColumn()
+  status: number;
 
-    @ViewColumn()
-    firstnameEn: string;
+  @ViewColumn()
+  title: number;
 
-    @ViewColumn()
-    lastnameEn: string;
+  @ViewColumn()
+  firstname: string;
 
-    @ViewColumn()
-    gendarId: number;
+  @ViewColumn()
+  lastname: string;
 
-    @ViewColumn()
-    gendarValue: string;
+  @ViewColumn()
+  firstnameEn: string;
 
-    @ViewColumn()
-    birthDate: Date;
+  @ViewColumn()
+  lastnameEn: string;
 
-    @ViewColumn()
-    nationalityId: number;
+  @ViewColumn()
+  gendarId: number;
 
-    @ViewColumn()
-    nationalityValue: string;
+  @ViewColumn()
+  gendarValue: string;
 
-    @ViewColumn()
-    ethnicityId: number;
+  @ViewColumn()
+  birthDate: Date;
 
-    @ViewColumn()
-    ethnicityValue: string;
+  @ViewColumn()
+  nationalityId: number;
 
-    @ViewColumn()
-    religionId: number;
+  @ViewColumn()
+  nationalityValue: string;
 
-    @ViewColumn()
-    religionValue: string;
+  @ViewColumn()
+  ethnicityId: number;
 
-    @ViewColumn()
-    email: string;
+  @ViewColumn()
+  ethnicityValue: string;
 
-    @ViewColumn()
-    phoneNumber: string;
+  @ViewColumn()
+  religionId: number;
 
-    @ViewColumn()
-    specialAbility: string;
+  @ViewColumn()
+  religionValue: string;
 
-    @ViewColumn()
-    birthHospital: string;
+  @ViewColumn()
+  email: string;
 
-    @ViewColumn()
-    birthCountryId: number;
+  @ViewColumn()
+  phoneNumber: string;
 
-    @ViewColumn()
-    birthCountryValue: string;
+  @ViewColumn()
+  specialAbility: string;
 
-    @ViewColumn()
-    birthProvinceId: string;
+  @ViewColumn()
+  birthHospital: string;
 
-    @ViewColumn()
-    birthDistrictId: string;
+  @ViewColumn()
+  birthCountryId: number;
 
-    @ViewColumn()
-    birthSubDistrictId: string;
+  @ViewColumn()
+  birthCountryValue: string;
 
-    @ViewColumn()
-    houseNumber: string;
+  @ViewColumn()
+  birthProvinceId: string;
 
-    @ViewColumn()
-    village: string;
+  @ViewColumn()
+  birthDistrictId: string;
 
-    @ViewColumn()
-    road: string;
+  @ViewColumn()
+  birthSubDistrictId: string;
 
-    @ViewColumn()
-    countryId: number;
+  @ViewColumn()
+  houseNumber: string;
 
-    @ViewColumn()
-    countryValue: string;
+  @ViewColumn()
+  village: string;
 
-    @ViewColumn()
-    provinceId: number;
+  @ViewColumn()
+  road: string;
 
-    @ViewColumn()
-    provinceValue: string;
+  @ViewColumn()
+  countryId: number;
 
-    @ViewColumn()
-    districtId: number;
+  @ViewColumn()
+  countryValue: string;
 
-    @ViewColumn()
-    districtValue: string;
+  @ViewColumn()
+  provinceId: number;
 
-    @ViewColumn()
-    subDistrictId: number;
+  @ViewColumn()
+  provinceValue: string;
 
-    @ViewColumn()
-    subDistrictValue: string;
+  @ViewColumn()
+  districtId: number;
 
-    @ViewColumn()
-    contractHouseNumber: string;
+  @ViewColumn()
+  districtValue: string;
 
-    @ViewColumn()
-    contractVillage: string;
+  @ViewColumn()
+  subDistrictId: number;
 
-    @ViewColumn()
-    contractRoad: string;
+  @ViewColumn()
+  subDistrictValue: string;
 
-    @ViewColumn()
-    contractCountryId: number;
+  @ViewColumn()
+  contractHouseNumber: string;
 
-    @ViewColumn()
-    contractCountryValue: string;
+  @ViewColumn()
+  contractVillage: string;
 
-    @ViewColumn()
-    contractProvinceId: number;
+  @ViewColumn()
+  contractRoad: string;
 
-    @ViewColumn()
-    contractProvinceValue: string;
+  @ViewColumn()
+  contractCountryId: number;
 
-    @ViewColumn()
-    contractDistrictId: number;
+  @ViewColumn()
+  contractCountryValue: string;
 
-    @ViewColumn()
-    contractDistrictValue: string;
+  @ViewColumn()
+  contractProvinceId: number;
 
-    @ViewColumn()
-    contractSubDistrictId: number;
+  @ViewColumn()
+  contractProvinceValue: string;
 
-    @ViewColumn()
-    contractSubDistrictValue: string;
+  @ViewColumn()
+  contractDistrictId: number;
 
-    @ViewColumn()
-    oldSchoolName: string;
+  @ViewColumn()
+  contractDistrictValue: string;
 
-    @ViewColumn()
-    oldSchoolCountryId: string;
+  @ViewColumn()
+  contractSubDistrictId: number;
 
-    @ViewColumn()
-    oldSchoolProvinceId: string;
+  @ViewColumn()
+  contractSubDistrictValue: string;
 
-    @ViewColumn()
-    oldSchoolDistrictId: string;
+  @ViewColumn()
+  oldSchoolName: string;
 
-    @ViewColumn()
-    oldSchoolSubDistrictId: string;
+  @ViewColumn()
+  oldSchoolCountryId: string;
 
-    @ViewColumn()
-    closeFriendInClass: string;
+  @ViewColumn()
+  oldSchoolProvinceId: string;
 
-    @ViewColumn()
-    closeFriendInClassNickname: string;
+  @ViewColumn()
+  oldSchoolDistrictId: string;
 
-    @ViewColumn()
-    closeFriendInClassSchool: string;
+  @ViewColumn()
+  oldSchoolSubDistrictId: string;
 
-    @ViewColumn()
-    closeFriendInClassPhone: string;
+  @ViewColumn()
+  closeFriendInClass: string;
 
-    @ViewColumn()
-    closeFriendOtherClass: string;
+  @ViewColumn()
+  closeFriendInClassNickname: string;
 
-    @ViewColumn()
-    closeFriendOtherClassNickname: string;
+  @ViewColumn()
+  closeFriendInClassSchool: string;
 
-    @ViewColumn()
-    closeFriendOtherClassSchool: string;
+  @ViewColumn()
+  closeFriendInClassPhone: string;
 
-    @ViewColumn()
-    closeFriendOtherClassPhone: string;
+  @ViewColumn()
+  closeFriendOtherClass: string;
 
-    @ViewColumn()
-    bloodType: number;
+  @ViewColumn()
+  closeFriendOtherClassNickname: string;
 
-    @ViewColumn()
-    congenitalDisease: string;
+  @ViewColumn()
+  closeFriendOtherClassSchool: string;
 
-    @ViewColumn()
-    height: number;
+  @ViewColumn()
+  closeFriendOtherClassPhone: string;
 
-    @ViewColumn()
-    weight: number;
+  @ViewColumn()
+  bloodType: number;
 
-    @ViewColumn()
-    defect: string;
+  @ViewColumn()
+  congenitalDisease: string;
 
-    @ViewColumn()
-    aliveWithId: number;
+  @ViewColumn()
+  height: number;
 
-    @ViewColumn()
-    aliveWithValue: string;
+  @ViewColumn()
+  weight: number;
 
-    @ViewColumn()
-    parentStatus: number;
+  @ViewColumn()
+  defect: string;
 
+  @ViewColumn()
+  aliveWithId: number;
 
+  @ViewColumn()
+  aliveWithValue: string;
 
-    @ViewColumn()
-    fatherTitle: number;
+  @ViewColumn()
+  parentStatus: number;
 
-    @ViewColumn()
-    fatherFirstname: string;
 
-    @ViewColumn()
-    fatherLastname: string;
 
-    @ViewColumn()
-    fatherPersonalCode: string;
+  @ViewColumn()
+  fatherTitle: number;
 
-    @ViewColumn()
-    fatherBloodType: number;
+  @ViewColumn()
+  fatherFirstname: string;
 
-    @ViewColumn()
-    fatherIncome: string;
+  @ViewColumn()
+  fatherLastname: string;
 
-    @ViewColumn()
-    fatherOccupation: string;
+  @ViewColumn()
+  fatherPersonalCode: string;
 
-    @ViewColumn()
-    fatherPhone: string;
+  @ViewColumn()
+  fatherBloodType: number;
 
-    @ViewColumn()
-    motherTitle: number;
+  @ViewColumn()
+  fatherIncome: string;
 
-    @ViewColumn()
-    motherFirstname: string;
+  @ViewColumn()
+  fatherOccupation: string;
 
-    @ViewColumn()
-    motherLastname: string;
+  @ViewColumn()
+  fatherPhone: string;
 
-    @ViewColumn()
-    motherPersonalCode: string;
+  @ViewColumn()
+  motherTitle: number;
 
-    @ViewColumn()
-    motherBloodType: number;
+  @ViewColumn()
+  motherFirstname: string;
 
-    @ViewColumn()
-    motherIncome: string;
+  @ViewColumn()
+  motherLastname: string;
 
-    @ViewColumn()
-    motherOccupation: string;
+  @ViewColumn()
+  motherPersonalCode: string;
 
-    @ViewColumn()
-    motherPhone: string;
+  @ViewColumn()
+  motherBloodType: number;
 
-    @ViewColumn()
-    parentTitle: number;
+  @ViewColumn()
+  motherIncome: string;
 
-    @ViewColumn()
-    parentFirstname: string;
+  @ViewColumn()
+  motherOccupation: string;
 
-    @ViewColumn()
-    parentLastname: string;
+  @ViewColumn()
+  motherPhone: string;
 
-    @ViewColumn()
-    parentPersonalCode: string;
+  @ViewColumn()
+  parentTitle: number;
 
-    @ViewColumn()
-    parentBloodType: number;
+  @ViewColumn()
+  parentFirstname: string;
 
-    @ViewColumn()
-    parentIncome: string;
+  @ViewColumn()
+  parentLastname: string;
 
-    @ViewColumn()
-    parentOccupation: string;
+  @ViewColumn()
+  parentPersonalCode: string;
 
-    @ViewColumn()
-    parentPhone: string;
+  @ViewColumn()
+  parentBloodType: number;
 
-    
+  @ViewColumn()
+  parentIncome: string;
+
+  @ViewColumn()
+  parentOccupation: string;
+
+  @ViewColumn()
+  parentPhone: string;
+
+
 }
 @ViewEntity({
-  name:'sdq_table_list_for_teacher',
+  name: 'sdq_table_list_for_teacher',
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("student.id", "id")
-  .addSelect("sdq_table.studentId", "studentId")
-  .addSelect("student.studentCode", "studentCode")
-  .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
-  .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
-  .addSelect("student.classroomId", "classroomId")
-  .addSelect("student.classroomTypeId", "classroomTypeId")
-  .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
-  .addSelect(`CASE
+    .select("student.id", "id")
+    .addSelect("sdq_table.studentId", "studentId")
+    .addSelect("student.studentCode", "studentCode")
+    .addSelect("student.studentNumber", "studentNumber")
+    .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
+    .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
+    .addSelect("student.classroomId", "classroomId")
+    .addSelect("student.classroomTypeId", "classroomTypeId")
+    .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
+    .addSelect(`CASE
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'เป็นจุดแข็ง' THEN 'มีจุดแข็ง'
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'ไม่มีจุดแข็ง' THEN 'ไม่มีจุดแข็ง'
                         ELSE '-'
                     END`, "socialBehaviorScore05_value_display")
-  .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "friendBehaviorScore04_value_display")
-  .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "ADHDBehaviorScore03_value_display")
-  .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "nomalBehaviorScore02_value_display")
-  .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "emotionalBehaviorScore01_value_display")
-  .addSelect("sdq_table.sumScore_value", "sumScore_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.sumScore_value", "sumScore_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."sumScore_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."sumScore_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."sumScore_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "sumScore_value_display")
-.addSelect(`CASE
+    .addSelect(`CASE
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'เป็นจุดแข็ง' THEN 'เสร็จสิ้น'
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'ไม่มีจุดแข็ง' THEN 'เสร็จสิ้น'
                         ELSE 'ไม่เสร็จสิ้น'
                     END`, "status_display")
 
-  .from(Student, "student")
-  .leftJoin(SdqTable, "sdq_table","sdq_table.studentId = student.id AND sdq_table.estimateType = 2")
-  .leftJoin(YearTerm, "year_term","year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
-  .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
-  .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
+    .from(Student, "student")
+    .leftJoin(SdqTable, "sdq_table", "sdq_table.studentId = student.id AND sdq_table.estimateType = 2")
+    .leftJoin(YearTerm, "year_term", "year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
+    .leftJoin(Classroom, "classroom", "classroom.Id = student.classroomId")
+    .leftJoin(ClassroomType, "classroom_type", "classroom_type.Id = student.classroomTypeId")
 })
 export class VwSdqTableListForTeacher {
 
-   @ViewColumn()
-   sumScore_value: string;
+  @ViewColumn()
+  sumScore_value: string;
   @ViewColumn()
   id: number;
-@ViewColumn()
-nameValue: number;
-@ViewColumn()
-classroomId: number;
-@ViewColumn()
-classroomTypeId: number;
-@ViewColumn()
-studentCode: string;
-@ViewColumn()
-classroomValue: string;
+  @ViewColumn()
+  nameValue: number;
+  @ViewColumn()
+  classroomId: number;
+  @ViewColumn()
+  classroomTypeId: number;
 
-@ViewColumn()
-emotionalBehaviorScore01_value: string;
+  @ViewColumn()
+  studentCode: string;
 
-@ViewColumn()
-nomalBehaviorScore02_value: string;
+  @ViewColumn()
+  studentNumber: string;
 
-@ViewColumn()
-ADHDBehaviorScore03_value: string;
+  @ViewColumn()
+  classroomValue: string;
 
-@ViewColumn()
-friendBehaviorScore04_value: string;
+  @ViewColumn()
+  emotionalBehaviorScore01_value: string;
 
-@ViewColumn()
-socialBehaviorScore05_value: string;
+  @ViewColumn()
+  nomalBehaviorScore02_value: string;
 
-@ViewColumn()
-emotionalBehaviorScore01_value_display: string;
+  @ViewColumn()
+  ADHDBehaviorScore03_value: string;
 
-@ViewColumn()
-nomalBehaviorScore02_value_display: string;
+  @ViewColumn()
+  friendBehaviorScore04_value: string;
 
-@ViewColumn()
-ADHDBehaviorScore03_value_display: string;
+  @ViewColumn()
+  socialBehaviorScore05_value: string;
 
-@ViewColumn()
-friendBehaviorScore04_value_display: string;
+  @ViewColumn()
+  emotionalBehaviorScore01_value_display: string;
 
-@ViewColumn()
-socialBehaviorScore05_value_display: string;  
-@ViewColumn()
-sumScore_value_display: string;
-@ViewColumn()
-status_display: string;
+  @ViewColumn()
+  nomalBehaviorScore02_value_display: string;
+
+  @ViewColumn()
+  ADHDBehaviorScore03_value_display: string;
+
+  @ViewColumn()
+  friendBehaviorScore04_value_display: string;
+
+  @ViewColumn()
+  socialBehaviorScore05_value_display: string;
+  @ViewColumn()
+  sumScore_value_display: string;
+  @ViewColumn()
+  status_display: string;
 }
 @ViewEntity({
-  name:'sdq_table_list_for_parent',
+  name: 'sdq_table_list_for_parent',
 
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("student.id", "id")
-  .addSelect("sdq_table.studentId", "studentId")
-  .addSelect("student.studentCode", "studentCode")
-  .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
-  .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
-  .addSelect("student.classroomId", "classroomId")
-  .addSelect("student.classroomTypeId", "classroomTypeId")
-  .addSelect("sdq_table.sumScore_value", "sumScore_value")
-  .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
-  .addSelect(`CASE
+    .select("student.id", "id")
+    .addSelect("sdq_table.studentId", "studentId")
+    .addSelect("student.studentCode", "studentCode")
+    .addSelect("student.studentNumber", "studentNumber")
+    .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
+    .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
+    .addSelect("student.classroomId", "classroomId")
+    .addSelect("student.classroomTypeId", "classroomTypeId")
+    .addSelect("sdq_table.sumScore_value", "sumScore_value")
+    .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
+    .addSelect(`CASE
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'เป็นจุดแข็ง' THEN 'มีจุดแข็ง'
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'ไม่มีจุดแข็ง' THEN 'ไม่มีจุดแข็ง'
                         ELSE '-'
                     END`, "socialBehaviorScore05_value_display")
-  .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "friendBehaviorScore04_value_display")
-  .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "ADHDBehaviorScore03_value_display")
-  .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "nomalBehaviorScore02_value_display")
-  .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "emotionalBehaviorScore01_value_display")
-  .addSelect("sdq_table.sumScore_value", "sumScore_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.sumScore_value", "sumScore_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."sumScore_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."sumScore_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."sumScore_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "sumScore_value_display")
-.addSelect(`CASE
+    .addSelect(`CASE
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'เป็นจุดแข็ง' THEN 'เสร็จสิ้น'
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'ไม่มีจุดแข็ง' THEN 'เสร็จสิ้น'
                         ELSE 'ไม่เสร็จสิ้น'
                     END`, "status_display")
-  .from(Student, "student")
-  .leftJoin(SdqTable, "sdq_table","sdq_table.studentId = student.id AND sdq_table.estimateType = 3")
-  .leftJoin(YearTerm, "year_term","year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
-  .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
-  .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
+    .from(Student, "student")
+    .leftJoin(SdqTable, "sdq_table", "sdq_table.studentId = student.id AND sdq_table.estimateType = 3")
+    .leftJoin(YearTerm, "year_term", "year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
+    .leftJoin(Classroom, "classroom", "classroom.Id = student.classroomId")
+    .leftJoin(ClassroomType, "classroom_type", "classroom_type.Id = student.classroomTypeId")
 })
 export class VwSdqTableListForParent {
   @ViewColumn()
   id: number;
-@ViewColumn()
-nameValue: number;
-@ViewColumn()
-classroomId: number;
-@ViewColumn()
-classroomTypeId: number;
-@ViewColumn()
-studentCode: string;
-@ViewColumn()
-classroomValue: string;
-@ViewColumn()
-sumScore_value: string;
-@ViewColumn()
-emotionalBehaviorScore01_value: string;
+  @ViewColumn()
+  nameValue: number;
+  @ViewColumn()
+  classroomId: number;
+  @ViewColumn()
+  classroomTypeId: number;
+  @ViewColumn()
+  studentCode: string;
 
-@ViewColumn()
-nomalBehaviorScore02_value: string;
+  @ViewColumn()
+  studentNumber: string;
+  
 
-@ViewColumn()
-ADHDBehaviorScore03_value: string;
+  @ViewColumn()
+  classroomValue: string;
+  @ViewColumn()
+  sumScore_value: string;
+  @ViewColumn()
+  emotionalBehaviorScore01_value: string;
 
-@ViewColumn()
-friendBehaviorScore04_value: string;
+  @ViewColumn()
+  nomalBehaviorScore02_value: string;
 
-@ViewColumn()
-socialBehaviorScore05_value: string;
+  @ViewColumn()
+  ADHDBehaviorScore03_value: string;
 
-@ViewColumn()
-emotionalBehaviorScore01_value_display: string;
+  @ViewColumn()
+  friendBehaviorScore04_value: string;
 
-@ViewColumn()
-nomalBehaviorScore02_value_display: string;
+  @ViewColumn()
+  socialBehaviorScore05_value: string;
 
-@ViewColumn()
-ADHDBehaviorScore03_value_display: string;
+  @ViewColumn()
+  emotionalBehaviorScore01_value_display: string;
 
-@ViewColumn()
-friendBehaviorScore04_value_display: string;
+  @ViewColumn()
+  nomalBehaviorScore02_value_display: string;
 
-@ViewColumn()
-socialBehaviorScore05_value_display: string;  
-@ViewColumn()
-sumScore_value_display: string;
-@ViewColumn()
-status_display: string;
+  @ViewColumn()
+  ADHDBehaviorScore03_value_display: string;
+
+  @ViewColumn()
+  friendBehaviorScore04_value_display: string;
+
+  @ViewColumn()
+  socialBehaviorScore05_value_display: string;
+  @ViewColumn()
+  sumScore_value_display: string;
+  @ViewColumn()
+  status_display: string;
 }
 
 @ViewEntity({
-  name:'sdq_table_list_for_student',
+  name: 'sdq_table_list_for_student',
 
   expression: (connection: Connection) => connection.createQueryBuilder()
-  .select("student.id", "id")
-  .addSelect("sdq_table.studentId", "studentId")
-  .addSelect("student.studentCode", "studentCode")
-  .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
-  .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
-  .addSelect("student.classroomId", "classroomId")
-  .addSelect("student.classroomTypeId", "classroomTypeId")
-  .addSelect("sdq_table.sumScore_value", "sumScore_value")
-  .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
-  .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
-  .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
-  .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
-  .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
-  .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
-  .addSelect(`CASE
+    .select("student.id", "id")
+    .addSelect("sdq_table.studentId", "studentId")
+    .addSelect("student.studentCode", "studentCode")
+    .addSelect("student.studentNumber", "studentNumber")
+    .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
+    .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
+    .addSelect("student.classroomId", "classroomId")
+    .addSelect("student.classroomTypeId", "classroomTypeId")
+    .addSelect("sdq_table.sumScore_value", "sumScore_value")
+    .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
+    .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
+    .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
+    .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
+    .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
+    .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
+    .addSelect(`CASE
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'เป็นจุดแข็ง' THEN 'มีจุดแข็ง'
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'ไม่มีจุดแข็ง' THEN 'ไม่มีจุดแข็ง'
                         ELSE '-'
                     END`, "socialBehaviorScore05_value_display")
-  .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "friendBehaviorScore04_value_display")
-  .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "ADHDBehaviorScore03_value_display")
-  .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "nomalBehaviorScore02_value_display")
-  .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "emotionalBehaviorScore01_value_display")
-  .addSelect("sdq_table.sumScore_value", "sumScore_value")
-  .addSelect(`CASE
+    .addSelect("sdq_table.sumScore_value", "sumScore_value")
+    .addSelect(`CASE
   WHEN "sdq_table"."sumScore_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."sumScore_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."sumScore_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "sumScore_value_display")
-.addSelect(`CASE
+    .addSelect(`CASE
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'เป็นจุดแข็ง' THEN 'เสร็จสิ้น'
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'ไม่มีจุดแข็ง' THEN 'เสร็จสิ้น'
                         ELSE 'ไม่เสร็จสิ้น'
                     END`, "status_display")
-  .from(Student, "student")
-  .leftJoin(SdqTable, "sdq_table","sdq_table.studentId = student.id AND sdq_table.estimateType = 1")
-  .leftJoin(YearTerm, "year_term","year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
-  .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
-  .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
+    .from(Student, "student")
+    .leftJoin(SdqTable, "sdq_table", "sdq_table.studentId = student.id AND sdq_table.estimateType = 1")
+    .leftJoin(YearTerm, "year_term", "year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
+    .leftJoin(Classroom, "classroom", "classroom.Id = student.classroomId")
+    .leftJoin(ClassroomType, "classroom_type", "classroom_type.Id = student.classroomTypeId")
 })
 export class VwSdqTableListForStudent {
   @ViewColumn()
   id: number;
-@ViewColumn()
-nameValue: number;
-@ViewColumn()
-classroomId: number;
-@ViewColumn()
-classroomTypeId: number;
-@ViewColumn()
-studentCode: string;
-@ViewColumn()
-classroomValue: string;
-@ViewColumn()
-sumScore_value: string;
-@ViewColumn()
-emotionalBehaviorScore01_value: string;
+  @ViewColumn()
+  nameValue: number;
+  @ViewColumn()
+  classroomId: number;
+  @ViewColumn()
+  classroomTypeId: number;
+  @ViewColumn()
+  studentCode: string;
 
-@ViewColumn()
-nomalBehaviorScore02_value: string;
+  @ViewColumn()
+  studentNumber: string;
 
-@ViewColumn()
-ADHDBehaviorScore03_value: string;
+  @ViewColumn()
+  classroomValue: string;
+  @ViewColumn()
+  sumScore_value: string;
+  @ViewColumn()
+  emotionalBehaviorScore01_value: string;
 
-@ViewColumn()
-friendBehaviorScore04_value: string;
+  @ViewColumn()
+  nomalBehaviorScore02_value: string;
 
-@ViewColumn()
-socialBehaviorScore05_value: string;
+  @ViewColumn()
+  ADHDBehaviorScore03_value: string;
 
-@ViewColumn()
-emotionalBehaviorScore01_value_display: string;
+  @ViewColumn()
+  friendBehaviorScore04_value: string;
 
-@ViewColumn()
-nomalBehaviorScore02_value_display: string;
+  @ViewColumn()
+  socialBehaviorScore05_value: string;
 
-@ViewColumn()
-ADHDBehaviorScore03_value_display: string;
+  @ViewColumn()
+  emotionalBehaviorScore01_value_display: string;
 
-@ViewColumn()
-friendBehaviorScore04_value_display: string;
+  @ViewColumn()
+  nomalBehaviorScore02_value_display: string;
 
-@ViewColumn()
-socialBehaviorScore05_value_display: string;  
-@ViewColumn()
-sumScore_value_display: string;
-@ViewColumn()
-status_display: string;
+  @ViewColumn()
+  ADHDBehaviorScore03_value_display: string;
+
+  @ViewColumn()
+  friendBehaviorScore04_value_display: string;
+
+  @ViewColumn()
+  socialBehaviorScore05_value_display: string;
+  @ViewColumn()
+  sumScore_value_display: string;
+  @ViewColumn()
+  status_display: string;
 
 }

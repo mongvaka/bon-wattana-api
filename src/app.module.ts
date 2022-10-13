@@ -1,7 +1,7 @@
-import {AppController} from './app.controller';
-import {AppService} from './app.service';
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {UsersModule} from './core/users/users.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { UsersModule } from './core/users/users.module';
 import { DemoModule } from './core/demo/demo.module';
 import { CountryModule } from './api/country/country.module';
 import { DistrictModule } from './api/district/district.module';
@@ -67,27 +67,33 @@ import { ReportModule } from './api/report/report.module';
     //   synchronize:true,
     //   entities: ["dist/**/*.entity{.ts,.js}"]
     // }),
-ConfigModule.forRoot({
-    isGlobal: true,
-  }),
-  
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         return {
           type: "postgres",
-        //  host: configService.get('DATABASE_URL', 'localhost'),
-         host: configService.get('DATABASE_URL', '203.159.93.121'),
+          host: configService.get('DATABASE_URL', 'localhost'),
           port: Number(configService.get<number>('DATABASE_PORT', 5432)),
           username: configService.get('DATABASE_USERNAME', 'postgres'),
-          password: configService.get('DATABASE_PASSWORD', 'password'),
-          database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
-          useUTC:true,
-          logging:false,
-          synchronize: configService.get<string>('SYNC_DATABASE', 'true')!='false',
+          password: configService.get('DATABASE_PASSWORD', 'postgres'),
+          database: configService.get<string>('DATABASE_SCHEMA', 'bwn1'),
+
+          // host: configService.get('DATABASE_URL', '203.159.93.121'),
+          // port: Number(configService.get<number>('DATABASE_PORT', 5432)),
+          // username: configService.get('DATABASE_USERNAME', 'postgres'),
+          // password: configService.get('DATABASE_PASSWORD', 'password'),
+          // database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
+
+          useUTC: true,
+          logging: false,
+          synchronize: configService.get<string>('SYNC_DATABASE', 'true') != 'true',
           entities: ["dist/**/**/*.entity{.ts,.js}"],
-          
+
         };
       },
     }),

@@ -20,7 +20,7 @@ export class StudentScolar extends BasicData {
   year?: string;
 
   @Column({nullable: true})
-  term?: string;
+  inTerm?: string;
 
   @Column({nullable: true})
   getFrom?: string;
@@ -34,7 +34,7 @@ export class StudentScolar extends BasicData {
         .addSelect("student_scolar.name", "name")
         .addSelect("student_scolar.amount", "amount")
         .addSelect("student_scolar.year", "year")
-        .addSelect("student_scolar.term", "term")
+        .addSelect("student_scolar.inTerm", "inTerm")
         .addSelect("student_scolar.getFrom", "getFrom")
         .from(StudentScolar, "student_scolar")
         .leftJoin(Student, "student_id","student_id.Id = student_scolar.studentId")
@@ -59,7 +59,7 @@ export class VwStudentScolarList {
     year: string;
 
     @ViewColumn()
-    term: string;
+    inTerm: string;
 
 
 
@@ -93,7 +93,7 @@ export class VwStudentScolarDropdown {
         .addSelect("student_scolar.name", "name")
         .addSelect("student_scolar.amount", "amount")
         .addSelect("student_scolar.year", "year")
-        .addSelect("student_scolar.term", "term")
+        .addSelect("student_scolar.inTerm", "inTerm")
         .addSelect("student_scolar.getFrom", "getFrom")
       .from(StudentScolar, "student_scolar")
         .leftJoin(Student, "student_id","student_id.Id = student_scolar.studentId")
@@ -122,7 +122,7 @@ export class VwStudentScolarItem {
     year: string;
 
     @ViewColumn()
-    term: string;
+    inTerm: string;
 
 
     @ViewColumn()

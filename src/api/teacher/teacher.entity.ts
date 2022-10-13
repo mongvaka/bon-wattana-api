@@ -64,6 +64,9 @@ export class Teacher extends BasicData {
    @Column({nullable: true})
   positionName?: string;
 
+  @Column({nullable: true})
+  positionNumber?: string;
+
    @Column({nullable: true})
   practitionerLevelId?: number;
 
@@ -167,6 +170,7 @@ export class Teacher extends BasicData {
         
         .addSelect("teacher.firstname", "firstname")
         .addSelect("teacher.lastname", "lastname")
+        .addSelect("teacher.positionNumber", "positionNumber")
         .addSelect("teacher.positionName", "positionName")
         .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
         .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
@@ -189,7 +193,12 @@ export class VwTeacherList {
     lastname: string;
 
     @ViewColumn()
+    positionNumber: string;
+
+    @ViewColumn()
     positionName: string;
+
+
 
     @ViewColumn()
     practitionerLevelId: number;
@@ -255,6 +264,7 @@ export class VwTeacherDropdown {
         .addSelect("ethnicity_id.ethnicityName", "ethnicityValue")
         .addSelect("teacher.religionId", "religionId")
         .addSelect("religion_id.religionName", "religionValue")
+        .addSelect("teacher.positionNumber", "positionNumber")
         .addSelect("teacher.positionName", "positionName")
         .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
         .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
@@ -391,7 +401,11 @@ export class VwTeacherItem {
     religionValue: string;
 
     @ViewColumn()
+    positionNumber: string;
+
+    @ViewColumn()
     positionName: string;
+
 
     @ViewColumn()
     practitionerLevelId: number;
@@ -495,6 +509,7 @@ export class VwTeacherItem {
   .select("teacher.id", "id")
   .addSelect("teacher.firstname", "firstname")
   .addSelect("teacher.lastname", "lastname")
+  .addSelect("teacher.positionNumber", "positionNumber")
   .addSelect("teacher.positionName", "positionName")
   .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
   .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
@@ -518,7 +533,11 @@ export class VwTeachingScheduleTeacherList {
     lastname: string;
 
     @ViewColumn()
+    positionNumber: string;
+
+    @ViewColumn()
     positionName: string;
+
 
     @ViewColumn()
     practitionerLevelId: number;

@@ -41,7 +41,9 @@ export class TeacherDto {
 @ApiPropertyOptional({ type: Number})
     religionId:number
 @ApiPropertyOptional({ type: String})
-    positionName:string
+    positionNumber:string
+    @ApiPropertyOptional({ type: String})
+    positionName:string    
 @ApiPropertyOptional({ type: Number})
     practitionerLevelId:number
 @ApiPropertyOptional({ type: String})
