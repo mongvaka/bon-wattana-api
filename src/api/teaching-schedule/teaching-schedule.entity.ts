@@ -468,23 +468,21 @@ export class TeachingSchedule extends BasicData {
     name:'teaching_schedule_list',
     expression: (connection: Connection) => connection.createQueryBuilder()
         .select("teaching_schedule.id", "id")
-      //  .addSelect("teaching_schedule.teacherId", "teacherId")
-       // .addSelect("CONCAT(teacher_id.null , ' ' , teacher_id.null)", "teacherValue")
-      //  .addSelect("teaching_schedule.yearTermId", "yearTermId")
-      //  .addSelect("CONCAT(year_term_id.null , ' ' , year_term_id.null)", "yearTermValue")
-        .addSelect("teaching_schedule.monSubjectName01", "monSubjectName01")
-        .addSelect("teaching_schedule.monSubjectName02", "monSubjectName02")
-        .addSelect("teaching_schedule.monSubjectName03", "monSubjectName03")
+        .addSelect("teaching_schedule.teacherId", "teacherId")
+        .addSelect("CONCAT(teacher_id.firstname , ' ' , teacher_id.lastname)", "teacherValue")
+        .addSelect("teaching_schedule.yearTermId", "yearTermId")
+        .addSelect("CONCAT(year_term_id.term , ' / ' , year_term_id.year)", "yearTermValue")
+        .addSelect("year_term_id.year", "schoolYear")
         .from(TeachingSchedule, "teaching_schedule")
-        //.leftJoin(Teacher, "teacher_id","teacher_id.Id = teaching_schedule.teacherId")
-       // .leftJoin(YearTerm, "year_term_id","year_term_id.Id = teaching_schedule.yearTermId")
+        .leftJoin(Teacher, "teacher_id","teacher_id.Id = teaching_schedule.teacherId")
+        .leftJoin(YearTerm, "year_term_id","year_term_id.Id = teaching_schedule.yearTermId")
 })
 export class VwTeachingScheduleList {
     @ViewColumn()
     id: number;
 
-   // @ViewColumn()
-   // teacherId: number;
+    @ViewColumn()
+    teacherId: number;
 
     @ViewColumn()
     teacherValue: string;
@@ -494,15 +492,8 @@ export class VwTeachingScheduleList {
 
     @ViewColumn()
     yearTermValue: string;
-
     @ViewColumn()
-    monSubjectName01: string;
-
-    @ViewColumn()
-    monSubjectName02: string;
-
-    @ViewColumn()
-    monSubjectName03: string;
+    schoolYear: string;
 }
 
 @ViewEntity({
@@ -676,13 +667,15 @@ export class VwTeachingScheduleDropdown {
         .addSelect("teaching_schedule.firClass08", "firClass08")
         .addSelect("teaching_schedule.firClass09", "firClass09")
         .addSelect("teaching_schedule.firClass10", "firClass10")
-
         .addSelect("teacher_id.title", "teacher_title")
         .addSelect("teacher_id.lastname", "teacher_lastname")
         .addSelect("teacher_id.firstname", "teacher_firstname")
         .addSelect("year_term_id.term", "term")
         .addSelect("year_term_id.year", "year")
-
+        .addSelect("CONCAT(year_term_id.year,'-',teacher_id.Id)", "refId")
+        .addSelect("CONCAT(teacher_id.firstname , ' ' , teacher_id.lastname)", "teacherValue")
+        .addSelect("CONCAT(year_term_id.term , ' / ' , year_term_id.year)", "yearTermValue")
+       
       .from(TeachingSchedule, "teaching_schedule")
       .leftJoin(Teacher, "teacher_id","teacher_id.Id = teaching_schedule.teacherId")
        .leftJoin(YearTerm, "year_term_id","year_term_id.Id = teaching_schedule.yearTermId")
@@ -1163,4 +1156,12 @@ export class VwTeachingScheduleItem {
     @ViewColumn()
     year:string;
 
+    @ViewColumn()
+    yearTermValue:string;
+
+    @ViewColumn()
+    refId:string;
+
+    @ViewColumn()
+    teacherValue:string;
 }

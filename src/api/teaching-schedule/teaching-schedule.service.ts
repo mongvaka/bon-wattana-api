@@ -9,7 +9,7 @@ import { CreateTeachingScheduleDto, TeachingScheduleDto, SearchTeachingScheduleD
 import { TeachingSchedule, VwTeachingScheduleDropdown, VwTeachingScheduleItem, VwTeachingScheduleList } from './teaching-schedule.entity';
 import { VwTeacherDropdown, VwTeachingScheduleTeacherList} from 'src/api/teacher/teacher.entity';
 import { SearchTeacherDto } from 'src/api/teacher/teacher.dto';
-//import { VwYearTermDropdown } from 'src/api/year-term/year-term.entity';
+import { VwYearTermDropdown } from 'src/api/year-term/year-term.entity';
 import { SearchYearTermDto } from 'src/api/year-term/year-term.dto';
 import { YearTermService } from '../year-term/year-term.service';
 import { TeacherService } from 'src/api/teacher/teacher.service';
@@ -17,6 +17,7 @@ import { VwPractitionerLevelDropdown } from 'src/api/practitioner-level/practiti
 import { SearchPractitionerLevelDto } from "src/api/practitioner-level/practitioner-level.dto";
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
+
 @Injectable()
 export class TeachingScheduleService extends BaseService {
     async import(data: any[]): Promise<any> {        
@@ -50,8 +51,8 @@ export class TeachingScheduleService extends BaseService {
         private readonly vwDropdownTeacherRepository:Repository<VwTeacherDropdown>,
         @InjectRepository(VwPractitionerLevelDropdown)
         private readonly vwDropdownPractitionerLevelRepository:Repository<VwPractitionerLevelDropdown>,
-      //  @InjectRepository(VwYearTermDropdown)
-       // private readonly vwDropdownYearTermRepository:Repository<VwYearTermDropdown>,
+        @InjectRepository(VwYearTermDropdown)
+        private readonly vwDropdownYearTermRepository:Repository<VwYearTermDropdown>,
         private readonly dropdownService: DropdownService,
         private readonly yearTermService:YearTermService,
         private readonly teacherService:TeacherService
@@ -132,4 +133,9 @@ export class TeachingScheduleService extends BaseService {
     async practitionerLevelDropdown(dto: SearchPractitionerLevelDto):Promise<SelectItems[]> {
         return this.dropdownService.practitionerlevelDropdown(dto,this.vwDropdownPractitionerLevelRepository);
       }
+      async yearTermDropdown(dto: SearchYearTermDto):Promise<SelectItems[]> {
+        return await this.dropdownService.yeartermDropdown(dto,this.vwDropdownYearTermRepository);
+      }
+
+     
 }

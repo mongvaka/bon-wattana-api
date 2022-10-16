@@ -232,6 +232,7 @@ export class VwTeacherDropdown {
         .addSelect("teacher.positionName", "positionName")
         .addSelect("teacher.practitionerLevelId", "practitionerLevelId")
         .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
+        .addSelect("CONCAT(practitioner_level_id.levelName )", "practitionerLevelNameValue")
         .addSelect("teacher.practitionerNo", "practitionerNo")
         .addSelect("teacher.educationBackgroundId", "educationBackgroundId")
         .addSelect("CONCAT(education_background_id.educationShotNameTh , ' ' , education_background_id.educationShotNameEn)", "educationBackgroundValue")
@@ -460,6 +461,8 @@ export class VwTeacherItem {
 
     @ViewColumn()
     subDistrictValue: string;
+    @ViewColumn()
+    practitionerLevelNameValue: string;
 }
 
 
