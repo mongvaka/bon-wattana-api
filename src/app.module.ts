@@ -77,21 +77,22 @@ import { ReportModule } from './api/report/report.module';
       useFactory: async (configService: ConfigService) => {
         return {
           type: "postgres",
-          host: configService.get('DATABASE_URL', 'localhost'),
-          port: Number(configService.get<number>('DATABASE_PORT', 5432)),
-          username: configService.get('DATABASE_USERNAME', 'postgres'),
-          password: configService.get('DATABASE_PASSWORD', 'postgres'),
-          database: configService.get<string>('DATABASE_SCHEMA', 'bwn1'),
-
-          // host: configService.get('DATABASE_URL', '203.159.93.121'),
+          // host: configService.get('DATABASE_URL', 'localhost'),
           // port: Number(configService.get<number>('DATABASE_PORT', 5432)),
           // username: configService.get('DATABASE_USERNAME', 'postgres'),
-          // password: configService.get('DATABASE_PASSWORD', 'password'),
-          // database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
+          // password: configService.get('DATABASE_PASSWORD', 'postgres'),
+          // database: configService.get<string>('DATABASE_SCHEMA', 'bwn1'),
+
+          host: configService.get('DATABASE_URL', '203.159.93.121'),
+          port: Number(configService.get<number>('DATABASE_PORT', 5432)),
+          username: configService.get('DATABASE_USERNAME', 'postgres'),
+          password: configService.get('DATABASE_PASSWORD', 'password'),
+          database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
 
           useUTC: true,
           logging: false,
-          synchronize: configService.get<string>('SYNC_DATABASE', 'true') != 'true',
+          synchronize: configService.get<string>('SYNC_DATABASE', 'true')!='false',
+
           entities: ["dist/**/**/*.entity{.ts,.js}"],
 
         };

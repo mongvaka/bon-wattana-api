@@ -346,119 +346,62 @@ export class ReportDepressionByClassAndRoom {
   value5:number
 }
 @ViewEntity({
-    name:'rp_depression_by_room',
+    name:'rp_depression_personal',
     expression: `select 
-    cr."name" as name,
-    a.sumva as value1,
-    b.sumva as value2,
-    c.sumva as value3,
-    d.sumva as value4
-    from classroom cr
-    left join (
-    select  count(drp.id) as sumva ,s."classroomId"   from  depression drp
-    inner join student s on s.id = drp.id 
-    inner join year_term yt on yt.id = drp."yearTermId" and yt."isParent" 
-    where drp."deletedAt" isnull 
-    and (
-    drp."depressionCh3" +
-    drp."depressionCh4" +
-    drp."depressionCh5" +
-    drp."depressionCh6" +
-    drp."depressionCh7" +
-    drp."depressionCh8" +
-    drp."depressionCh9" +
-    drp."depressionCh10" +
-    drp."depressionCh11" 
-    ) < 7
-    group by s."classroomId" 
-    ) as a on a."classroomId" = cr.id 
-    left join (
-    select  count(drp.id) as sumva,s."classroomId"    from  depression drp
-    inner join student s on s.id = drp.id 
-    inner join year_term yt on yt.id = drp."yearTermId"  and yt."isParent" 
-    where drp."deletedAt" isnull 
-    and (
-    drp."depressionCh3" +
-    drp."depressionCh4" +
-    drp."depressionCh5" +
-    drp."depressionCh6" +
-    drp."depressionCh7" +
-    drp."depressionCh8" +
-    drp."depressionCh9" +
-    drp."depressionCh10" +
-    drp."depressionCh11" 
-    ) >= 7
-    and (
-    drp."depressionCh3" +
-    drp."depressionCh4" +
-    drp."depressionCh5" +
-    drp."depressionCh6" +
-    drp."depressionCh7" +
-    drp."depressionCh8" +
-    drp."depressionCh9" +
-    drp."depressionCh10" +
-    drp."depressionCh11" 
-    ) <13
-    group by s."classroomId" 
-    ) as b on b."classroomId" = cr.id 
-    left join (
-    select  count(drp.id) as sumva,s."classroomId"   from  depression drp
-    inner join student s on s.id = drp.id 
-    inner join year_term yt on yt.id = drp."yearTermId" and yt."isParent" 
-    where drp."deletedAt" isnull 
-    and (
-    drp."depressionCh3" +
-    drp."depressionCh4" +
-    drp."depressionCh5" +
-    drp."depressionCh6" +
-    drp."depressionCh7" +
-    drp."depressionCh8" +
-    drp."depressionCh9" +
-    drp."depressionCh10" +
-    drp."depressionCh11" 
-    ) >= 13
-    and (
-    drp."depressionCh3" +
-    drp."depressionCh4" +
-    drp."depressionCh5" +
-    drp."depressionCh6" +
-    drp."depressionCh7" +
-    drp."depressionCh8" +
-    drp."depressionCh9" +
-    drp."depressionCh10" +
-    drp."depressionCh11" 
-    ) <19
-    group by s."classroomId" 
-    ) as c on c."classroomId" = cr.id 
-    left join (
-    select  count(drp.id) as sumva,s."classroomId"   from  depression drp
-    inner join student s on s.id = drp.id 
-    inner join year_term yt on yt.id = drp."yearTermId" and yt."isParent" 
-    where drp."deletedAt" isnull 
-    and (
-    drp."depressionCh3" +
-    drp."depressionCh4" +
-    drp."depressionCh5" +
-    drp."depressionCh6" +
-    drp."depressionCh7" +
-    drp."depressionCh8" +
-    drp."depressionCh9" +
-    drp."depressionCh10" +
-    drp."depressionCh11" 
-    ) >= 7
-    group by s."classroomId" 
-    ) as d on d."classroomId" = cr.id 
-    order by cr.id`
+    concat(s.firstname,' ',s.lastname) as "studentValue",
+    s."classroomTypeId" as "classId",
+    s."classroomId" as "roomId",
+    ct."typeName" as "className",
+    c."name" as "roomName",
+    s."studentNumber" as "studentNumber",
+    d."yearTermId" as "yearTermId",
+    (d."depressionCh3"
+    +d."depressionCh4"
+    +d."depressionCh5"
+    +d."depressionCh6"
+    +d."depressionCh7"
+    +d."depressionCh8"
+    +d."depressionCh9"
+    +d."depressionCh10"
+    +d."depressionCh11"
+    ) as "depressionValue",
+    (d."depressionCh12"
+    +d."depressionCh13"
+    +d."depressionCh14"
+    +d."depressionCh15"
+    +d."depressionCh16"
+    +d."depressionCh17"
+    +d."depressionCh18"
+    +d."depressionCh19"
+    +d."depressionCh20"
+    ) as "sucuidValue",
+    d."updatedAt" as "updatedAt"
+    from student s 
+    left join classroom_type ct on ct.id = s."classroomTypeId" 
+    left join classroom c  on c.id = s."classroomId" 
+    left join depression d on d."studentId" = s.id
+    where s."deletedAt" isnull 
+    order by s."studentNumber"`
 })
-export class ReportDepressionByRoom {
+export class ReportDepressionPesonal {
   @ViewColumn()
-  name:string
+  studentValue:string
   @ViewColumn()
-  value1:number
+  classId:number
   @ViewColumn()
-  value2:number
+  roomId:number
   @ViewColumn()
-  value3:number
+  className:string
   @ViewColumn()
-  value4:number
+  roomName:string
+  @ViewColumn()
+  studentNumber:string
+  @ViewColumn()
+  yearTermId:number
+  @ViewColumn()
+  depressionValue:number
+  @ViewColumn()
+  sucuidValue:number
+  @ViewColumn()
+  updatedAt:Date
 }

@@ -1,7 +1,7 @@
 import { EReportType } from "../../enum/report-enum";
 import { DataRowModel, HeaderReport } from "../../interface/interface";
 import { BaseReport } from "../shared/base-report";
-import { CSS_STUDENT_FILTER } from "./css-student-filter";
+import { CSS_STUDENT_FILTER } from "./source/css-student-filter";
 
 export class StudentFilterReport extends BaseReport{
     html = ''

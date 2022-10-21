@@ -39,3 +39,11 @@ export class ReportDto{
     @ApiPropertyOptional({ type: Number})
     classroomTypeId:number
 }
+export class ExportExcelDto {
+    @ApiPropertyOptional({ type: Number})
+    yearTermId:number
+    @ApiPropertyOptional({ type: Number})
+    classId:number
+    @ApiPropertyOptional({ type: Number})
+    roomId:number
+}

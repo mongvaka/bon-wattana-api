@@ -1,13 +1,13 @@
 import { BadRequestException } from '@nestjs/common';
 import { Workbook } from 'exceljs';
 
-export async function exportExcel(data :any[]) {
+export async function exportExcel(data :any[],key?:string[]) {
   if(data.length ==0){
     throw new BadRequestException('Data not found')
   }
   const book = new Workbook(); // creating workbook
   const sheet = book.addWorksheet('sheet1');
-  const keyList = Object.keys(data[0])
+  const keyList =key?key: Object.keys(data[0])
   sheet.addRow([...keyList]);
   data.forEach((el) => {
     const keys = Object.keys(el)

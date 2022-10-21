@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
-import { ClassroomType } from '../classroom-type/classroom-type.entity';
-import { Classroom } from '../classroom/classroom.entity';
+import { ClassroomType, VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { Classroom, VwClassroomDropdown } from '../classroom/classroom.entity';
 import { ExportPdfModule } from '../export-pdf/export-pdf.module';
 import { StudentModule } from '../student/student.module';
-import { YearTerm } from '../year-term/year-term.entity';
+import { VwYearTermDropdown, YearTerm } from '../year-term/year-term.entity';
+import { YearTermModule } from '../year-term/year-term.module';
 import { ReportCheckStudentSumarize } from './check-student.entity';
 import { ReportEqSumarize, ReportEqByRoom, ReportEqByClass, ReportEqByClassAndRoom } from './eq.entity';
 import { ReportHomvisitSumarize } from './home-visit.entity';
-import { ReportDepressionSumarize, ReportDepressionByClass, ReportDepressionByClassAndRoom, ReportDepressionByRoom } from './report-depression.entity';
+import { ReportDepressionSumarize, ReportDepressionByClass, ReportDepressionByClassAndRoom, ReportDepressionPesonal } from './report-depression.entity';
 import { ReportStudentFilterSumarize, ReportStudentFilterByClass, ReportStudentFilterByClassAndRoom, ReportStudentFilterByRoom, ReportStudentFilterPosonal, ReportStudentFilterSumarizeByClassAndRoom } from './report-student-filter.entity';
 import { ReportStudentHelpByClass, ReportStudentHelpByRoom, ReportStudentHelpByClassAndRoom } from './report-student-help.entity';
 import { ReportStudentScolarByClass, ReportStudentScolarByRoom, ReportStudentScolarByClassAndRoom } from './report-student-scolar.entity';
@@ -37,7 +38,7 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ReportDepressionSumarize,
       ReportDepressionByClass,
       ReportDepressionByClassAndRoom,
-      ReportDepressionByRoom,
+      ReportDepressionPesonal,
       ReportStudentFilterSumarize,
       ReportStudentFilterByClass,
       ReportStudentFilterByClassAndRoom,
@@ -59,9 +60,12 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ReportStudentFilterPosonal,
       ReportStudentFilterSumarizeByClassAndRoom,YearTerm,
       Classroom,
-      ClassroomType
+      ClassroomType,
+      VwClassroomTypeDropdown,
+      VwClassroomDropdown,
+      VwYearTermDropdown
     ]),
-    ExportPdfModule
+    ExportPdfModule,YearTermModule
   ],
   controllers: [ReportController],
   providers: [ReportService,DropdownService],

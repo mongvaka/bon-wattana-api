@@ -5,29 +5,46 @@ import { SearchResult, SelectItems } from 'src/core/shared/models/search-param-m
 import { BaseService } from 'src/core/shared/services/base.service';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
 import { MoreThan, Not, Repository } from 'typeorm';
-import { ClassroomType } from '../classroom-type/classroom-type.entity';
-import { Classroom } from '../classroom/classroom.entity';
+import { ClassroomType, VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { SearchClassroomDto } from '../classroom/classroom.dto';
+import { Classroom, VwClassroomDropdown } from '../classroom/classroom.entity';
 import { EReportType } from '../export-pdf/enum/report-enum';
 import { ExportPdfService } from '../export-pdf/export-pdf.service';
 import { DataRowModel, HeaderReport } from '../export-pdf/interface/interface';
+import { ISumarizeRoomDepressionReport } from '../export-pdf/libs/depression-report/room-depression-report';
 import { StudentConsultant } from '../student-consultant/student-consultant.entity';
 import { StudentService } from '../student/student.service';
-import { YearTerm } from '../year-term/year-term.entity';
+import { VwYearTermDropdown, YearTerm } from '../year-term/year-term.entity';
+import { YearTermService } from '../year-term/year-term.service';
 import { ReportCheckStudentSumarize } from './check-student.entity';
 import { ReportEqSumarize, ReportEqByRoom, ReportEqByClass, ReportEqByClassAndRoom } from './eq.entity';
 import { ReportHomvisitSumarize } from './home-visit.entity';
-import { ReportDepressionSumarize, ReportDepressionByClass, ReportDepressionByClassAndRoom, ReportDepressionByRoom } from './report-depression.entity';
+import { ReportDepressionSumarize, ReportDepressionByClass, ReportDepressionByClassAndRoom, ReportDepressionPesonal } from './report-depression.entity';
 import { ReportStudentFilterSumarize, ReportStudentFilterByClass, ReportStudentFilterByClassAndRoom, ReportStudentFilterByRoom, ReportStudentFilterSumarizeByClassAndRoom, ReportStudentFilterPosonal } from './report-student-filter.entity';
 import { ReportStudentHelpByClass, ReportStudentHelpByRoom, ReportStudentHelpByClassAndRoom } from './report-student-help.entity';
 import { ReportStudentScolarByClass, ReportStudentScolarByRoom, ReportStudentScolarByClassAndRoom } from './report-student-scolar.entity';
 import { ReportStudentSendToByClass, ReportStudentSendToByRoom, ReportStudentSendToByClassAndRoom, ReportStudentSendToSumarize } from './report-student-send-to.entity';
-import { CreateYearTermDto, YearTermDto, SearchYearTermDto, UpdateYearTermDto } from './report.dto';
+import { CreateYearTermDto, YearTermDto, SearchYearTermDto, UpdateYearTermDto, ExportExcelDto } from './report.dto';
 import { ReportStudentByClass, ReportStudentByRoom, ReportStudentSumarize } from './report.entity';
 import { ReportStressSumarize, ReportStressByClass, ReportStressByClassAndRoom, ReportStressByRoom } from './stress-report.entity';
 import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity';
 
 @Injectable()
 export class ReportService extends BaseService {
+    reportDepressionByRoom: any;
+    async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
+      }
+      async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
+      }
+
+      async currentTerm() {
+        return this.yearTermService.findCurrrentTerm()
+     }
+     async yearTermDropdown(dto: SearchYearTermDto):Promise<SelectItems[]> {
+        return await this.dropdownService.yeartermDropdown(dto,this.vwDropdownYearTermRepository);
+      }
    checkStudentSumarize(): any {
         return this.checkStudentSumarizeRepository.find()
     }
@@ -46,12 +63,6 @@ export class ReportService extends BaseService {
     async studentByroom() {
         return this.studentByRoomRepository.find()
     }
-
-
-
-
-
-
     async getReportEqSumarize() {
         return this.reportEqSumarize.find()
     }
@@ -67,14 +78,243 @@ export class ReportService extends BaseService {
     async getReportHomvisitSumarize() {
         return this.reportHomvisitSumarize.find()
     }
-    async getReportDepressionSumarize() {
-        return this.reportDepressionSumarize.find()
+    async getReportDepressionSumarize(dto:ExportExcelDto) {
+        const result = await this.reportDepressionPesonal.find({where:{yearTermId:dto.yearTermId},order:{classId:'ASC',roomId:'ASC',studentNumber:'ASC'}})
+        const headerName = 'รายงานผลประเมินโรคซึมเศร้าของนักเรียน'
+        const header:HeaderReport = await this.getHeaderReport(headerName,dto.yearTermId,dto.classId,dto.roomId)
+        const dataList:DataRowModel[] = result.map(m=>{
+            return {
+                v1:m.studentValue,
+                v2:m.className,
+                v3:m.roomName,
+                v4:m.studentNumber??'',
+                v5:m.depressionValue,
+                v6:m.sucuidValue,
+                v7:this.getDateLabel(m.updatedAt) ,
+            }
+        })
+        const allClass = await this.classroomType.find({where:{active:true},order:{id:'ASC'}})
+        const depression = this.getDepressionBySumarize(allClass,result)
+        const sucuid = this.getSucuidBySumarize(allClass,result)
+        return this.exportPdfService.getDepressionReportSumarize(header,dataList,depression,sucuid)
     }
-    async getReportDepressionByClass() {
-        return this.reportDepressionByClass.find()
+    getSucuidBySumarize(allClass: ClassroomType[], result: ReportDepressionPesonal[]) {
+        const sumList:DataRowModel[] = []
+        allClass.forEach(el=>{
+            const model:DataRowModel = {
+                v1:el.typeName,
+                v2:this.getSumNoneSucuidByClass(result,el.id),
+                v3:this.getSumLitleSucuidByClass(result,el.id),
+                v4:this.getSumMeduimSucuidByClass(result,el.id),
+                v5:this.getSumStrongSucuidByClass(result,el.id)
+            }
+            sumList.push(model)
+        })
+        return sumList
     }
-    async getReportDepressionByClassAndRoom() {
-        return this.reportDepressionByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)},{value4:MoreThan(0)},{value5:MoreThan(0)}]})
+    getDepressionBySumarize(allClass: ClassroomType[], result: ReportDepressionPesonal[]) {
+        const sumList:DataRowModel[] = []
+        allClass.forEach(el=>{
+            const model:DataRowModel = {
+                v1:el.typeName,
+                v2:this.getSumNoneDepressionByClass(result,el.id),
+                v3:this.getSumLitleDepressionByClass(result,el.id),
+                v4:this.getSumMeduimDeprssionByClass(result,el.id),
+                v5:this.getSumStrongDepressionByClass(result,el.id)
+            }
+            sumList.push(model)
+        })
+        return sumList
+    }
+    async getReportDepressionByClass(dto:ExportExcelDto) {
+        const result = await this.reportDepressionPesonal.find({where:{classId:dto.classId,yearTermId:dto.yearTermId},order:{classId:'ASC',roomId:'ASC',studentNumber:'ASC'}})
+        const headerName = 'รายงานผลประเมินโรคซึมเศร้าของนักเรียน'
+        const header:HeaderReport = await this.getHeaderReport(headerName,dto.yearTermId,dto.classId,dto.roomId)
+        const dataList:DataRowModel[] = result.map(m=>{
+            return {
+                v1:m.studentValue,
+                v2:m.roomName,
+                v3:m.studentNumber??'',
+                v4:m.depressionValue,
+                v5:m.sucuidValue,
+                v6:this.getDateLabel(m.updatedAt) ,
+            }
+        })
+        const allRoom = await this.classroom.find({where:{active:true},order:{id:'ASC'}})
+        const depression = this.getDepressionByClass(allRoom,result)
+        const sucuid = this.getSucuidByClass(allRoom,result)
+        return this.exportPdfService.getDepressionReportByClass(header,dataList,depression,sucuid)
+    }
+    getSucuidByClass(allRoom: Classroom[], result: ReportDepressionPesonal[]) {
+        const sumList:DataRowModel[] = []
+        allRoom.forEach(el=>{
+            const model:DataRowModel = {
+                v1:el.name,
+                v2:this.getSumNoneSucuid(result,el.id),
+                v3:this.getSumLitleSucuid(result,el.id),
+                v4:this.getSumMeduimSucuid(result,el.id),
+                v5:this.getSumStrongSucuid(result,el.id)
+            }
+            sumList.push(model)
+        })
+        return sumList
+    }
+    getSumStrongSucuid(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.sucuidValue >=17&&fl.roomId == id).length
+    }
+    getSumMeduimSucuid(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.sucuidValue >=9 && fl.sucuidValue<=16&&fl.roomId == id).length
+    }
+    getSumLitleSucuid(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.sucuidValue >=1 && fl.sucuidValue<=8&&fl.roomId == id).length
+    }
+    getSumNoneSucuid(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>(fl.sucuidValue==0 || fl.sucuidValue==null)&&fl.roomId == id).length
+    }
+
+
+    getSumStrongSucuidByClass(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.sucuidValue >=17&&fl.classId == id).length
+    }
+    getSumMeduimSucuidByClass(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.sucuidValue >=9 && fl.sucuidValue<=16&&fl.classId == id).length
+    }
+    getSumLitleSucuidByClass(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.sucuidValue >=1 && fl.sucuidValue<=8&&fl.classId == id).length
+    }
+    getSumNoneSucuidByClass(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>(fl.sucuidValue==0 || fl.sucuidValue==null)&&fl.classId == id).length
+    }
+
+
+
+    getDepressionByClass(allRoom: Classroom[], result: ReportDepressionPesonal[]) {
+        const sumList:DataRowModel[] = []
+        allRoom.forEach(el=>{
+            const model:DataRowModel = {
+                v1:el.name,
+                v2:this.getSumNoneDepression(result,el.id),
+                v3:this.getSumLitleDepression(result,el.id),
+                v4:this.getSumMeduimDeprssion(result,el.id),
+                v5:this.getSumStrongDepression(result,el.id)
+            }
+            sumList.push(model)
+        })
+        return sumList
+    }
+
+
+    getSumStrongDepression(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.depressionValue>=19&&fl.roomId==id).length
+    }
+    getSumMeduimDeprssion(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.depressionValue>=13&&fl.depressionValue<=18&&fl.roomId==id).length
+    }
+    getSumLitleDepression(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.depressionValue>=7&&fl.depressionValue<=12&&fl.roomId==id).length
+    }
+    getSumNoneDepression(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.depressionValue<7&&fl.roomId==id).length
+    }
+
+    getSumStrongDepressionByClass(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.depressionValue>=19&&fl.classId==id).length
+    }
+    getSumMeduimDeprssionByClass(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.depressionValue>=13&&fl.depressionValue<=18&&fl.classId==id).length
+    }
+    getSumLitleDepressionByClass(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.depressionValue>=7&&fl.depressionValue<=12&&fl.classId==id).length
+    }
+    getSumNoneDepressionByClass(result: ReportDepressionPesonal[],id:number): any {
+        return result.filter(fl=>fl.depressionValue<7&&fl.classId==id).length
+    }
+
+    async getReportDepressionByClassAndRoom(dto:ExportExcelDto) {
+        const result = await this.reportDepressionPesonal.find({where:{classId:dto.classId,roomId:dto.roomId,yearTermId:dto.yearTermId},order:{classId:'ASC',roomId:'ASC',studentNumber:'ASC'}})
+        const headerName = 'รายงานผลประเมินโรคซึมเศร้าของนักเรียน'
+        const header:HeaderReport = await this.getHeaderReport(headerName,dto.yearTermId,dto.classId,dto.roomId)
+        const dataList:DataRowModel[] = result.map(m=>{
+            return {
+                v1:m.studentValue,
+                v2:m.studentNumber??'',
+                v3:m.depressionValue,
+                v4:m.sucuidValue,
+                v5:this.getDateLabel(m.updatedAt) ,
+            }
+        })
+        const noneDepression = this.getNoneDepression(dataList)
+        const litleDepression = this.getLitleDepression(dataList)
+        const meduimDeprssion = this.getMeduimDepression(dataList)
+        const strongDepression = this.getStrongDepresson(dataList)
+
+        const noneSucuid = this.getNoneSucuid(dataList)
+        const litleSucuid = this.getLitleSucuid(dataList)
+        const meduimSucuid = this.getMeduimSucuid(dataList)
+        const strongSucuid =this.getStrongSucuid(dataList)
+        const sumModel:ISumarizeRoomDepressionReport = {
+            noneDepression:noneDepression,
+            litleDepression:litleDepression,
+            meduimDepression:meduimDeprssion,
+            strongDepression:strongDepression,
+            noneSucuid:noneSucuid,
+            litleSuciud:litleSucuid,
+            meduimSuciud:meduimSucuid,
+            strongSucuid:strongSucuid
+        }
+        return this.exportPdfService.getDepressionReportByRoom(header,dataList,sumModel)
+    }
+    getDateLabel(updatedAt: Date): any {
+        if(updatedAt){
+            return `${updatedAt.getDate()}/${updatedAt.getMonth()+1}/${updatedAt.getFullYear()}`
+        }else{
+            return ''
+        }
+    }
+    getNoneDepression(dataList: DataRowModel[]):number {
+        let count = dataList.filter(fl=>fl.v3<7)
+        return count.length
+    }
+    getLitleDepression(dataList: DataRowModel[]):number {
+        let count = dataList.filter(fl=>fl.v3>=7&&fl.v3<=12)
+        return count.length
+    }
+    getMeduimDepression(dataList: DataRowModel[]):number {
+        let count = dataList.filter(fl=>fl.v3>=13&&fl.v3<=18)
+        return count.length
+    }
+    getStrongDepresson(dataList: DataRowModel[]):number {
+        let count = dataList.filter(fl=>fl.v3>=19)
+        return count.length
+    }
+    getNoneSucuid(dataList: DataRowModel[]):number {
+        let count = dataList.filter(fl=>fl.v4==0||fl.v4==null)
+        return count.length
+    }
+    getLitleSucuid(dataList: DataRowModel[]):number {
+        let count = dataList.filter(fl=>fl.v4>=1&&fl.v4<=8)
+        return count.length
+    }
+    getMeduimSucuid(dataList: DataRowModel[]):number {
+        let count = dataList.filter(fl=>fl.v4>=9&&fl.v4<=16)
+        return count.length
+    }
+    getStrongSucuid(dataList: DataRowModel[]):number {
+        let count = dataList.filter(fl=>fl.v4>=17)
+        return count.length
+    }
+    async getHeaderReport(headerName: string, yearTermId: any, classId: any, roomId: any): Promise<HeaderReport> {
+        const yearTermModel = await this.yearTerm.findOne({where:{id:yearTermId}})
+        const classModel = await this.classroomType.findOne({where:{id:classId}})
+        const roomModel = await this.classroom.findOne({where:{id:roomId}})
+        const header:HeaderReport = {
+            reportName:headerName,
+            className:classModel?.typeName,
+            roomName:roomModel?.name,
+            year:yearTermModel?.year,
+            term:yearTermModel?.term
+        }
+        return header
     }
     async getReportDepressionByRoom() {
         return this.reportDepressionByRoom.find()
@@ -635,8 +875,8 @@ export class ReportService extends BaseService {
         private readonly reportDepressionByClass: Repository<ReportDepressionByClass>,
         @InjectRepository(ReportDepressionByClassAndRoom)
         private readonly reportDepressionByClassAndRoom: Repository<ReportDepressionByClassAndRoom>,
-        @InjectRepository(ReportDepressionByRoom)
-        private readonly reportDepressionByRoom: Repository<ReportDepressionByRoom>,
+        @InjectRepository(ReportDepressionPesonal)
+        private readonly reportDepressionPesonal: Repository<ReportDepressionPesonal>,
         @InjectRepository(ReportStudentFilterSumarize)
         private readonly reportStudentFilterSumarize: Repository<ReportStudentFilterSumarize>,
         @InjectRepository(ReportStudentFilterByClass)
@@ -685,6 +925,14 @@ export class ReportService extends BaseService {
         private readonly classroomType: Repository<ClassroomType>,
         @InjectRepository(YearTerm)
         private readonly yearTerm: Repository<YearTerm>,
+        @InjectRepository(VwYearTermDropdown)
+        private readonly vwDropdownYearTermRepository:Repository<VwYearTermDropdown>,
+        @InjectRepository(VwClassroomDropdown)
+        private readonly vwDropdownClassroomRepository:Repository<VwClassroomDropdown>,
+        @InjectRepository(VwClassroomTypeDropdown)
+        private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
+        private readonly dropdownService: DropdownService,
+        private readonly yearTermService:YearTermService,
         private readonly exportPdfService:ExportPdfService
         ){
         super()

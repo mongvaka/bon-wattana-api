@@ -4,7 +4,8 @@ import { JwtAuthGuard } from "src/core/authentications/jwt-auth.guard";
 import { BaseController } from "src/core/shared/controller/base-controller";
 import { CustomRequest } from "src/core/shared/models/request-model";
 import { DropdownService } from "src/core/shared/services/dropdown.service";
-import { CreateYearTermDto, ReportDto, SearchYearTermDto, UpdateYearTermDto } from "./report.dto";
+import { SearchClassroomDto } from "../classroom/classroom.dto";
+import { CreateYearTermDto, ExportExcelDto, ReportDto, SearchYearTermDto, UpdateYearTermDto } from "./report.dto";
 import { ReportService } from "./report.service";
 
 @ApiTags("report")
@@ -14,6 +15,38 @@ export class ReportController extends BaseController{
     constructor(private readonly reportService:ReportService,
       ){
       super()
+    }
+    @Get('classroom-dropdown')
+    async classroomDropdown(@Body() dto: SearchClassroomDto) {
+      try{      
+        return this.success(await this.reportService.classroomDropdown(dto))
+      }catch(e){
+        return this.error(e)
+      }
+    }
+    @Get('classroom-type-dropdown')
+    async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
+      try{      
+        return this.success(await this.reportService.classroomTypeDropdown(dto))
+      }catch(e){
+        return this.error(e)
+      }
+    }
+    @Get('year-term-dropdown')
+    async yearTermDropdown(@Body() dto: SearchYearTermDto) {
+      try{      
+        return this.success(await this.reportService.yearTermDropdown(dto))
+      }catch(e){
+        return this.error(e)
+      }
+    }
+    @Get('current-term')
+    async currentTerm() {
+      try{
+        return this.success(await this.reportService.currentTerm())
+      }catch(e){
+        return this.error(e)
+      }
     }
   @Get('student-by-room')
   async studentByroom() {
@@ -110,28 +143,50 @@ export class ReportController extends BaseController{
       return this.error(e)
     }
   }
-  @Get('report-depression-sumarize')
-  async getReportDepressionSumarize() {
-    try{
-      return this.success(await this.reportService.getReportDepressionSumarize())
-    }catch(e){
-      return this.error(e)
+  @Post('report-depression-sumarize')
+  async getReportDepressionSumarize(@Body() dto:ExportExcelDto,@Res() response) {
+
+    try {
+      const pdfFile = await this.reportService.getReportDepressionSumarize(dto);
+      const fileName = 'test'
+      response.writeHead(200, {
+       'Content-Type': 'application/pdf',
+       'Content-disposition': `attachment;filename=${fileName}.pdf`,
+      });
+      response.end(pdfFile);
+    } catch (e){      
+      console.log(e);
+      throw new BadRequestException()
     }
   }
-  @Get('report-depression-by-class')
-  async getReportDepressionByClass() {
-    try{
-      return this.success(await this.reportService.getReportDepressionByClass())
-    }catch(e){
-      return this.error(e)
+  @Post('report-depression-by-class')
+  async getReportDepressionByClass(@Body() dto:ExportExcelDto,@Res() response) {
+    try {
+      const pdfFile = await this.reportService.getReportDepressionByClass(dto);
+      const fileName = 'test'
+      response.writeHead(200, {
+       'Content-Type': 'application/pdf',
+       'Content-disposition': `attachment;filename=${fileName}.pdf`,
+      });
+      response.end(pdfFile);
+    } catch (e){      
+      console.log(e);
+      throw new BadRequestException()
     }
   }
-  @Get('report-depression-by-class-and-room')
-  async getReportDepressionByClassAndRoom() {
-    try{
-      return this.success(await this.reportService.getReportDepressionByClassAndRoom())
-    }catch(e){
-      return this.error(e)
+  @Post('report-depression-by-class-and-room')
+  async getReportDepressionByClassAndRoom(@Body() dto:ExportExcelDto,@Res() response) {
+    try {
+      const pdfFile = await this.reportService.getReportDepressionByClassAndRoom(dto);
+      const fileName = 'test'
+      response.writeHead(200, {
+       'Content-Type': 'application/pdf',
+       'Content-disposition': `attachment;filename=${fileName}.pdf`,
+      });
+      response.end(pdfFile);
+    } catch (e){      
+      console.log(e);
+      throw new BadRequestException()
     }
   }
   @Get('report-depression-by-room')

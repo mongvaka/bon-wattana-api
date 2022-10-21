@@ -40,6 +40,8 @@ import { UserType } from 'src/core/shared/constans/enum-constans';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { Teacher } from '../teacher/teacher.entity';
+import { STUDENT_TITLE } from 'src/core/shared/constans/dropdown-constanst';
+import { getLabelEnum } from 'src/core/shared/functions';
 
 @Injectable()
 export class StudentService extends BaseService {
@@ -291,6 +293,14 @@ export class StudentService extends BaseService {
       const builder = this.createQueryBuider<VwStudentItem>(dto,this.itemRepository)
       const data = await builder
       .getMany();
-      return exportExcel(data)
+      const list = data.map(m=>{
+        return {
+          "คำนำหน้าชื่อ":getLabelEnum(STUDENT_TITLE,m.title),
+          "ชื่อ":m.firstname
+        }
+      })
+
+      return exportExcel(list)
     }
+
 }
