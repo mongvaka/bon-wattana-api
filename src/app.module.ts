@@ -48,9 +48,35 @@ import { StudentFilterModule } from './api/student-filter/student-filter.module'
 import { StudentHelpModule } from './api/student-help/student-help.module';
 import { StudentScolarModule } from './api/student-scolar/student-scolar.module';
 import { StudentSupportModule } from './api/student-support/student-support.module';
-
+import { SarPresonalDataModule } from './api/sar-presonal-data/sar-presonal-data.module';
 import { TeachingScheduleModule } from './api/teaching-schedule/teaching-schedule.module';
 import { ReportModule } from './api/report/report.module';
+import { SarPresonalLeaveDataModule } from './api/sar-presonal-leave-data/sar-presonal-leave-data.module';
+import { SarCoursesYearTermModule } from './api/sar-courses-year-term/sar-courses-year-term.module';
+import { SarAnotherSpeacialDutyModule } from './api/sar-another-speacial-duty/sar-another-speacial-duty.module';
+import { SarLearningManagementPlanModule } from './api/sar-learning-management-plan/sar-learning-management-plan.module';
+import { SarMediaProductionModule } from './api/sar-media-production/sar-media-production.module';
+import { SarIntegratedLearningModule } from './api/sar-integrated-learning/sar-integrated-learning.module';
+import { SarResearchInClassModule } from './api/sar-research-in-class/sar-research-in-class.module';
+import { SarStudentAssignModule } from './api/sar-student-assign/sar-student-assign.module';
+import { SarLecturerInviteModule } from './api/sar-lecturer-invite/sar-lecturer-invite.module';
+import { SarTeachingFormatModule } from './api/sar-teaching-format/sar-teaching-format.module';
+import { SarTeachingConditionModule } from './api/sar-teaching-condition/sar-teaching-condition.module';
+import { SarSelfDevelopmentModule } from './api/sar-self-development/sar-self-development.module';
+import { SarAwardModule } from './api/sar-award/sar-award.module';
+import { SarInvitedSpeakerModule } from './api/sar-invited-speaker/sar-invited-speaker.module';
+import { SarTeachingResultModule } from './api/sar-teaching-result/sar-teaching-result.module';
+import { SarPerformingSpecialDutiesModule } from './api/sar-performing-special-duties/sar-performing-special-duties.module';
+import { SarStudentEstimateTeachingModule } from './api/sar-student-estimate-teaching/sar-student-estimate-teaching.module';
+import { SarSelfAssessmentModule } from './api/sar-self-assessment/sar-self-assessment.module';
+import { SarQualityOfLearnersModule } from './api/sar-quality-of-learners/sar-quality-of-learners.module';
+import { SarQualityEvidenceModule } from './api/sar-quality-evidence/sar-quality-evidence.module';
+import { SarStandard2Module } from './api/sar-standard2/sar-standard2.module';
+import { SarStandard3Module } from './api/sar-standard3/sar-standard3.module';
+import {SarStandard4Module  } from './api/sar-standard4/sar-standard4.module';
+import {SarCompetencyAssessmentModule  } from './api/sar-competency-assessment/sar-competency-assessment.module';
+import {SarCrudAssessmentModule  } from './api/sar-crud-assessment/sar-crud-assessment.module';
+import {SarModule  } from './api/sar/sar.module';
 @Module({
   imports: [
     // ConfigModule.forRoot(
@@ -143,7 +169,34 @@ import { ReportModule } from './api/report/report.module';
     StudentScolarModule,
     StudentSupportModule,
     TeachingScheduleModule,
-    ReportModule
+    ReportModule,
+    SarPresonalDataModule,
+    SarPresonalLeaveDataModule,
+    SarCoursesYearTermModule,
+    SarAnotherSpeacialDutyModule,
+    SarLearningManagementPlanModule,
+    SarMediaProductionModule,
+    SarIntegratedLearningModule,
+    SarResearchInClassModule,
+    SarStudentAssignModule,
+    SarLecturerInviteModule,
+    SarTeachingFormatModule,
+    SarTeachingConditionModule,
+    SarSelfDevelopmentModule,
+    SarAwardModule,
+    SarInvitedSpeakerModule,
+    SarTeachingResultModule,
+    SarPerformingSpecialDutiesModule,
+    SarStudentEstimateTeachingModule,
+    SarSelfAssessmentModule,
+    SarQualityOfLearnersModule,
+    SarQualityEvidenceModule,
+    SarStandard2Module,
+    SarStandard3Module,
+    SarStandard4Module,
+    SarCompetencyAssessmentModule,
+    SarCrudAssessmentModule,
+    SarModule
   ],
   controllers: [AppController],
   providers: [AppService],

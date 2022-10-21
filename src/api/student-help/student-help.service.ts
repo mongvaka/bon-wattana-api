@@ -52,7 +52,7 @@ export class StudentHelpService extends BaseService {
       }
     async list(dto:SearchStudentHelpDto):Promise<SearchResult<VwStudentHelpList>>{
         const builder = this.createQueryBuider<VwStudentHelpList>(dto,this.vwStudentHelpRepository)
-        console.log(builder.getSql());
+       // console.log(builder.getSql());
         
         const [data, count] = await builder
         .getManyAndCount();

@@ -41,6 +41,33 @@ import { VwStudentHelpDropdown } from "src/api/student-help/student-help.entity"
 import { VwStudentScolarDropdown } from "src/api/student-scolar/student-scolar.entity";
 import { VwStudentSupportDropdown } from "src/api/student-support/student-support.entity";
 import { VwTeachingScheduleDropdown } from "src/api/teaching-schedule/teaching-schedule.entity";
+import { VwSarPresonalDataDropdown } from "src/api/sar-presonal-data/sar-presonal-data.entity";
+import { VwSarPresonalLeaveDataDropdown } from "src/api/sar-presonal-leave-data/sar-presonal-leave-data.entity";
+import { VwSarCoursesYearTermDropdown } from "src/api/sar-courses-year-term/sar-courses-year-term.entity";
+import { VwSarAnotherSpeacialDutyDropdown } from "src/api/sar-another-speacial-duty/sar-another-speacial-duty.entity";
+import { VwSarLearningManagementPlanDropdown } from "src/api/sar-learning-management-plan/sar-learning-management-plan.entity";
+import { VwSarMediaProductionDropdown } from "src/api/sar-media-production/sar-media-production.entity";
+import { VwSarIntegratedLearningDropdown } from "src/api/sar-integrated-learning/sar-integrated-learning.entity";
+import { VwSarResearchInClassDropdown } from "src/api/sar-research-in-class/sar-research-in-class.entity";
+import { VwSarStudentAssignDropdown } from "src/api/sar-student-assign/sar-student-assign.entity";
+import { VwSarLecturerInviteDropdown } from "src/api/sar-lecturer-invite/sar-lecturer-invite.entity";
+import { VwSarTeachingFormatDropdown } from "src/api/sar-teaching-format/sar-teaching-format.entity";
+import { VwSarTeachingConditionDropdown } from "src/api/sar-teaching-condition/sar-teaching-condition.entity";
+import { VwSarSelfDevelopmentDropdown } from "src/api/sar-self-development/sar-self-development.entity";
+import { VwSarAwardDropdown } from "src/api/sar-award/sar-award.entity";
+import { VwSarInvitedSpeakerDropdown } from "src/api/sar-invited-speaker/sar-invited-speaker.entity";
+import { VwSarTeachingResultDropdown } from "src/api/sar-teaching-result/sar-teaching-result.entity";
+import { VwSarPerformingSpecialDutiesDropdown } from "src/api/sar-performing-special-duties/sar-performing-special-duties.entity";
+import { VwSarStudentEstimateTeachingDropdown } from "src/api/sar-student-estimate-teaching/sar-student-estimate-teaching.entity";
+import { VwSarSelfAssessmentDropdown } from "src/api/sar-self-assessment/sar-self-assessment.entity";
+import { VwSarQualityOfLearnersDropdown } from "src/api/sar-quality-of-learners/sar-quality-of-learners.entity";
+import { VwSarQualityEvidenceDropdown } from "src/api/sar-quality-evidence/sar-quality-evidence.entity";
+import { VwSarStandard4Dropdown } from "src/api/sar-standard4/sar-standard4.entity";
+import { VwSarStandard3Dropdown } from "src/api/sar-standard3/sar-standard3.entity";
+import { VwSarStandard2Dropdown } from "src/api/sar-standard2/sar-standard2.entity";
+import { VwSarCompetencyAssessmentDropdown } from "src/api/sar-competency-assessment/sar-competency-assessment.entity";
+import { VwSarCrudAssessmentDropdown } from "src/api/sar-crud-assessment/sar-crud-assessment.entity";
+import { VwSarDropdown } from "src/api/sar/sar.entity";
 
 @Injectable()
 export class DropdownService extends BaseService{
@@ -671,5 +698,414 @@ export class DropdownService extends BaseService{
         return dropdownList;
     }
 
+    async sarpresonaldataDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarPresonalDataDropdown = el as unknown as VwSarPresonalDataDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarpresonalleavedataDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarPresonalLeaveDataDropdown = el as unknown as VwSarPresonalLeaveDataDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarcoursesyeartermDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarCoursesYearTermDropdown = el as unknown as VwSarCoursesYearTermDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async saranotherspeacialdutyDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarAnotherSpeacialDutyDropdown = el as unknown as VwSarAnotherSpeacialDutyDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarlearningmanagementplanDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarLearningManagementPlanDropdown = el as unknown as VwSarLearningManagementPlanDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async sarmediaproductionDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarMediaProductionDropdown = el as unknown as VwSarMediaProductionDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarintegratedlearningDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarIntegratedLearningDropdown = el as unknown as VwSarIntegratedLearningDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarresearchinclassDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarResearchInClassDropdown = el as unknown as VwSarResearchInClassDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async sarstudentassignDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarStudentAssignDropdown = el as unknown as VwSarStudentAssignDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarlecturerinviteDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarLecturerInviteDropdown = el as unknown as VwSarLecturerInviteDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarteachingformatDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarTeachingFormatDropdown = el as unknown as VwSarTeachingFormatDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarteachingconditionDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarTeachingConditionDropdown = el as unknown as VwSarTeachingConditionDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarselfdevelopmentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarSelfDevelopmentDropdown = el as unknown as VwSarSelfDevelopmentDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarawardDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarAwardDropdown = el as unknown as VwSarAwardDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarinvitedspeakerDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarInvitedSpeakerDropdown = el as unknown as VwSarInvitedSpeakerDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarteachingresultDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarTeachingResultDropdown = el as unknown as VwSarTeachingResultDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarperformingspecialdutiesDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarPerformingSpecialDutiesDropdown = el as unknown as VwSarPerformingSpecialDutiesDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarstudentestimateteachingDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarStudentEstimateTeachingDropdown = el as unknown as VwSarStudentEstimateTeachingDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarselfassessmentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarSelfAssessmentDropdown = el as unknown as VwSarSelfAssessmentDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarqualityoflearnersDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarQualityOfLearnersDropdown = el as unknown as VwSarQualityOfLearnersDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async sarqualityevidenceDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarQualityEvidenceDropdown = el as unknown as VwSarQualityEvidenceDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarstandard2Dropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarStandard2Dropdown = el as unknown as VwSarStandard2Dropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarstandard3Dropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarStandard3Dropdown = el as unknown as VwSarStandard3Dropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarstandard4Dropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarStandard4Dropdown = el as unknown as VwSarStandard4Dropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarcompetencyassessmentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarCompetencyAssessmentDropdown = el as unknown as VwSarCompetencyAssessmentDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarcrudassessmentDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarCrudAssessmentDropdown = el as unknown as VwSarCrudAssessmentDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async sarDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarDropdown = el as unknown as VwSarDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
 
 }

@@ -18,7 +18,7 @@ export class TeachingScheduleController extends BaseController{
       ){
       super()
     }
-  @Get('item/:id')
+  @Get('sar-item/:id')
   async item(@Param('id') id: number) {
     try{
       return this.success(await this.teachingscheduleService.item(id))
@@ -42,14 +42,14 @@ export class TeachingScheduleController extends BaseController{
       return this.error(e)
     }
   }
- /* @Get('year-term-dropdown')
+  @Get('year-term-dropdown')
   async yearTermDropdown(@Body() dto: SearchYearTermDto) {
     try{      
       return this.success(await this.teachingscheduleService.yearTermDropdown(dto))
     }catch(e){
       return this.error(e)
     }
-  }*/
+  }
   @Post('create')
   async create(@Body() dto: CreateTeachingScheduleDto, @Req() req:CustomRequest,){ 
     try{      
@@ -95,7 +95,7 @@ export class TeachingScheduleController extends BaseController{
   @Get('is-has-teaching-schedule/:id')
   async isHasTeachingSchedule(@Param('id') id: number) {
     try{
-      console.log("isHasTeachingSchedule>>>",id)
+   //   console.log("isHasTeachingSchedule>>>",id)
       return this.success(await this.teachingscheduleService.isHasTeachingSchedule(id))
     }catch(e){
       return this.error(e)
@@ -105,6 +105,15 @@ export class TeachingScheduleController extends BaseController{
   async practitionerLevelDropdown(@Body() dto: SearchPractitionerLevelDto) {
     try{      
       return this.success(await this.teachingscheduleService.practitionerLevelDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+
+  @Post('sar-list')
+  async sarList(@Body() dto: SearchTeachingScheduleDto) {
+    try{      
+      return this.success(await this.teachingscheduleService.list(dto))
     }catch(e){
       return this.error(e)
     }
