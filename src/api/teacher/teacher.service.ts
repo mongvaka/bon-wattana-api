@@ -63,8 +63,8 @@ export class TeacherService extends BaseService {
         const regisModel:RegisterDto = {
           email:`${info.teacherCode}`,
           password:`${info.teacherCode}`,
-          firstname:'',
-          lastname:'',
+          firstname:`${info.firstname}`,
+          lastname:`${info.lastname}`,
           inforId:info.id,
           type:UserType.TEACHER
         }

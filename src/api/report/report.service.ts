@@ -24,14 +24,294 @@ import { ReportStudentFilterSumarize, ReportStudentFilterByClass, ReportStudentF
 import { ReportStudentHelpByClass, ReportStudentHelpByRoom, ReportStudentHelpByClassAndRoom } from './report-student-help.entity';
 import { ReportStudentScolarByClass, ReportStudentScolarByRoom, ReportStudentScolarByClassAndRoom } from './report-student-scolar.entity';
 import { ReportStudentSendToByClass, ReportStudentSendToByRoom, ReportStudentSendToByClassAndRoom, ReportStudentSendToSumarize } from './report-student-send-to.entity';
-import { CreateYearTermDto, YearTermDto, SearchYearTermDto, UpdateYearTermDto, ExportExcelDto } from './report.dto';
+import { CreateYearTermDto, YearTermDto, SearchYearTermDto, UpdateYearTermDto, ExportPdfDto } from './report.dto';
 import { ReportStudentByClass, ReportStudentByRoom, ReportStudentSumarize } from './report.entity';
 import { ReportStressSumarize, ReportStressByClass, ReportStressByClassAndRoom, ReportStressByRoom } from './stress-report.entity';
 import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity';
 
 @Injectable()
 export class ReportService extends BaseService {
-    reportDepressionByRoom: any;
+  async downloadReport(dto: ExportPdfDto) {
+    switch(dto.reportName){
+        case'DEPRESSION':
+            return this.depresstionReport(dto)
+        case 'STUDENT_FILTER':
+            return this.studentFilterReport(dto)
+        case 'HOME_VISIT':
+            return this.homeVisitReport(dto)
+        case 'CHECK_STUDENT':
+            return this.checkStudentReport(dto)
+        case 'SDQ_TEACHER':
+            return this.sdqTeacherReport(dto)
+        case 'SDQ_STUDENT':
+            return this.sdqStudentReport(dto)
+        case 'SDQ_PARENT':
+            return this.sdqParentReport(dto)
+        case 'STRESS':
+            return this.stressReport(dto)
+        case 'EQ':
+            return this.eqReport(dto)
+        case 'STUDENT_SUPPORT':
+            return this.studentSupportReport(dto)
+        case 'STUDENT_CONSULT':
+            return this.studentConsultReport(dto)
+        case 'STUDENT_SCOLAR':
+            return this.studentScolarReport(dto)
+        case 'STUDENT_HELP':
+            return this.studentHelpReport(dto)
+        case 'STUDENT_SEND_TO':
+            return this.studentSendtoReport(dto)
+
+    }
+  }
+    homeVisitReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportHomeVisitReport (dto)
+            case 'CLASS':
+                return this.getReportHomeVisitReportByClass(dto)
+            case 'ROOM':
+                return this.getReportHomeVisitReportByRoom(dto)
+        }
+    }
+    getReportHomeVisitReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportHomeVisitReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportHomeVisitReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    checkStudentReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportCheckStudentReport (dto)
+            case 'CLASS':
+                return this.getReportCheckStudentReportByClass(dto)
+            case 'ROOM':
+                return this.getReportCheckStudentReportByRoom(dto)
+        }
+    }
+    getReportCheckStudentReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportCheckStudentReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportCheckStudentReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    sdqTeacherReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportSdqTeacherReport (dto)
+            case 'CLASS':
+                return this.getReportSdqTeacherReportByClass(dto)
+            case 'ROOM':
+                return this.getReportSdqTeacherReportByRoom(dto)
+        }
+    }
+    getReportSdqTeacherReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportSdqTeacherReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportSdqTeacherReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    sdqStudentReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportSdqStudentReport (dto)
+            case 'CLASS':
+                return this.getReportSdqStudentReportByClass(dto)
+            case 'ROOM':
+                return this.getReportSdqStudentReportByRoom(dto)
+        }
+    }
+    getReportSdqStudentReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportSdqStudentReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportSdqStudentReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    sdqParentReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportSdqParentReport (dto)
+            case 'CLASS':
+                return this.getReportSdqParentReportByClass(dto)
+            case 'ROOM':
+                return this.getReportSdqParentReportByRoom(dto)
+        }
+    }
+    getReportSdqParentReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportSdqParentReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportSdqParentReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    stressReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportStressReport (dto)
+            case 'CLASS':
+                return this.getReportStressReportByClass(dto)
+            case 'ROOM':
+                return this.getReportStressReportByRoom(dto)
+        }
+    }
+    getReportStressReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStressReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStressReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    eqReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportEqReport (dto)
+            case 'CLASS':
+                return this.getReportEqReportByClass(dto)
+            case 'ROOM':
+                return this.getReportEqReportByRoom(dto)
+        }
+    }
+    getReportEqReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportEqReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportEqReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    studentSupportReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportStudentSupportReport (dto)
+            case 'CLASS':
+                return this.getReportStudentSupportReportByClass(dto)
+            case 'ROOM':
+                return this.getReportStudentSupportReportByRoom(dto)
+        }
+    }
+    getReportStudentSupportReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStudentSupportReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStudentSupportReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    studentConsultReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportStudentConsultReport (dto)
+            case 'CLASS':
+                return this.getReportStudentConsultReportByClass(dto)
+            case 'ROOM':
+                return this.getReportStudentConsultReportByRoom(dto)
+        }
+    }
+    getReportStudentConsultReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStudentConsultReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStudentConsultReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    studentScolarReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportStudentScolarReport (dto)
+            case 'CLASS':
+                return this.getReportStudentScolarReportByClass(dto)
+            case 'ROOM':
+                return this.getReportStudentScolarReportByRoom(dto)
+        }
+    }
+    getReportStudentScolarReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStudentScolarReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStudentScolarReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    studentHelpReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportStudentHelpReport (dto)
+            case 'CLASS':
+                return this.getReportStudentHelpReportByClass(dto)
+            case 'ROOM':
+                return this.getReportStudentHelpReportByRoom(dto)
+        }
+    }
+    getReportStudentHelpReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStudentHelpReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStudentHelpReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    studentSendtoReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportStudentSendtoReport (dto)
+            case 'CLASS':
+                return this.getReportStudentSendtoReportByClass(dto)
+            case 'ROOM':
+                return this.getReportStudentSendtoReportByRoom(dto)
+        }
+    }
+    getReportStudentSendtoReport(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStudentSendtoReportByClass(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    getReportStudentSendtoReportByRoom(dto: ExportPdfDto) {
+        throw new Error('Method not implemented.');
+    }
+    studentFilterReport(dto: ExportPdfDto) {        
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportStudentFilter(dto)
+            case 'CLASS':
+                return this.getReportStudentFilterByClass(dto)
+            case 'ROOM':
+                return this.getReportStudentFilterByRoom(dto)
+        }
+    }
+   async depresstionReport(dto: ExportPdfDto) {
+        switch(dto.reportType){
+            case 'ALL':
+                return this.getReportDepression(dto)
+            case 'CLASS':
+                return this.getReportDepressionByRoom(dto)
+            case 'ROOM':
+                return this.getReportDepressionByClass(dto)
+        }
+    }
     async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
         return this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
       }
@@ -45,40 +325,40 @@ export class ReportService extends BaseService {
      async yearTermDropdown(dto: SearchYearTermDto):Promise<SelectItems[]> {
         return await this.dropdownService.yeartermDropdown(dto,this.vwDropdownYearTermRepository);
       }
-   checkStudentSumarize(): any {
-        return this.checkStudentSumarizeRepository.find()
-    }
-    teacherBySubject(): any {
-        return this.teacherBySubjectRepository.find()
-    }
-    teacherSumarize(): any {
-        return this.teacherSumarizeRepository.find()
-    }
-    async studentSumarize() {
-      return this.studentSumarizeRepository.find()
-    }
-    async studentByclass() {
-        return this.studentByClassRepository.find()
-    }
-    async studentByroom() {
-        return this.studentByRoomRepository.find()
-    }
-    async getReportEqSumarize() {
-        return this.reportEqSumarize.find()
-    }
-    async getReportEqByRoom() {
-        return this.reportEqByRoom.find()
-    }
-    async getReportEqByClass() {
-        return this.reportEqByClass.find()
-    }
-    async getReportEqByClassAndRoom() {
-        return this.reportEqByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)},{value4:MoreThan(0)}]})
-    }
-    async getReportHomvisitSumarize() {
-        return this.reportHomvisitSumarize.find()
-    }
-    async getReportDepressionSumarize(dto:ExportExcelDto) {
+//    checkStudentSumarize(): any {
+//         return this.checkStudentSumarizeRepository.find()
+//     }
+//     teacherBySubject(): any {
+//         return this.teacherBySubjectRepository.find()
+//     }
+//     teacherSumarize(): any {
+//         return this.teacherSumarizeRepository.find()
+//     }
+//     async studentSumarize() {
+//       return this.studentSumarizeRepository.find()
+//     }
+//     async studentByclass() {
+//         return this.studentByClassRepository.find()
+//     }
+//     async studentByroom() {
+//         return this.studentByRoomRepository.find()
+//     }
+//     async getReportEqSumarize() {
+//         return this.reportEqSumarize.find()
+//     }
+//     async getReportEqByRoom() {
+//         return this.reportEqByRoom.find()
+//     }
+//     async getReportEqByClass() {
+//         return this.reportEqByClass.find()
+//     }
+//     async getReportEqByClassAndRoom() {
+//         return this.reportEqByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)},{value4:MoreThan(0)}]})
+//     }
+//     async getReportHomvisitSumarize() {
+//         return this.reportHomvisitSumarize.find()
+//     }
+    async getReportDepression(dto:ExportPdfDto) {
         const result = await this.reportDepressionPesonal.find({where:{yearTermId:dto.yearTermId},order:{classId:'ASC',roomId:'ASC',studentNumber:'ASC'}})
         const headerName = 'รายงานผลประเมินโรคซึมเศร้าของนักเรียน'
         const header:HeaderReport = await this.getHeaderReport(headerName,dto.yearTermId,dto.classId,dto.roomId)
@@ -126,7 +406,7 @@ export class ReportService extends BaseService {
         })
         return sumList
     }
-    async getReportDepressionByClass(dto:ExportExcelDto) {
+    async getReportDepressionByClass(dto:ExportPdfDto) {
         const result = await this.reportDepressionPesonal.find({where:{classId:dto.classId,yearTermId:dto.yearTermId},order:{classId:'ASC',roomId:'ASC',studentNumber:'ASC'}})
         const headerName = 'รายงานผลประเมินโรคซึมเศร้าของนักเรียน'
         const header:HeaderReport = await this.getHeaderReport(headerName,dto.yearTermId,dto.classId,dto.roomId)
@@ -230,7 +510,7 @@ export class ReportService extends BaseService {
         return result.filter(fl=>fl.depressionValue<7&&fl.classId==id).length
     }
 
-    async getReportDepressionByClassAndRoom(dto:ExportExcelDto) {
+    async getReportDepressionByRoom(dto:ExportPdfDto) {
         const result = await this.reportDepressionPesonal.find({where:{classId:dto.classId,roomId:dto.roomId,yearTermId:dto.yearTermId},order:{classId:'ASC',roomId:'ASC',studentNumber:'ASC'}})
         const headerName = 'รายงานผลประเมินโรคซึมเศร้าของนักเรียน'
         const header:HeaderReport = await this.getHeaderReport(headerName,dto.yearTermId,dto.classId,dto.roomId)
@@ -316,10 +596,8 @@ export class ReportService extends BaseService {
         }
         return header
     }
-    async getReportDepressionByRoom() {
-        return this.reportDepressionByRoom.find()
-    }
-    async getReportStudentFilterSumarize() {
+
+    async getReportStudentFilterSumarize(dto: ExportPdfDto) {
         const result = await this.reportStudentFilterSumarize.find()
         let sumVa1:number = 0;
         let sumVa2:number = 0;
@@ -340,7 +618,7 @@ export class ReportService extends BaseService {
         })
         // return this.exportPdfService.downloadPdf()
     }
-    async getReportStudentFilterByClass() {
+    async getReportStudentFilter(dto: ExportPdfDto) {
         const result =await this.reportStudentFilterByClass.find()
         let sumVa1:number = 0;
         let sumVa2:number = 0;
@@ -481,7 +759,7 @@ export class ReportService extends BaseService {
         }}) 
         return this.exportPdfService.getStudentFilterReport(header,dataList)
     }
-    async getReportStudentFilterByClassAndRoom() {
+    async getReportStudentFilterByClass(dto: ExportPdfDto) {
         const result = await this.reportStudentFilterByClassAndRoom.find({where:[
             {value2:MoreThan(0)},
             {value3:MoreThan(0)},
@@ -653,18 +931,18 @@ export class ReportService extends BaseService {
         }}) 
         return this.exportPdfService.getStudentFilterReport(header,dataList)
     }
-    async getReportStudentFilterByRoom(yearTermId:number,classroomId:number,classroomTypeId:number) {
-        const yearTerm = await this.yearTerm.findOne({where:{id:yearTermId}})
-        const classroom = await this.classroom.findOne({where:{id:classroomId}})
+    async getReportStudentFilterByRoom(dto: ExportPdfDto) {
+        const yearTerm = await this.yearTerm.findOne({where:{id:dto.yearTermId}})
+        const classroom = await this.classroom.findOne({where:{id:dto.roomId}})
         if(!classroom){
             throw new BadRequestException({describe:'ไม่มีข้อมูลห้องเรียน'})
         }
-        const classroomType = await this.classroomType.findOne({where:{id:classroomTypeId}})
+        const classroomType = await this.classroomType.findOne({where:{id:dto.classId}})
         if(!classroomType){
             throw new BadRequestException({describe:'ไม่มีข้อมูลชั้นเรียน'})
         }
-        const sumarize =await this.reportStudentFilterSumarizeByClassAndRoom.find({where:{yearTermId:yearTermId,classroomId:classroomId,classroomTypeId:classroomTypeId}})
-        const personal = await this.reportStudentFilterPosonal.find({where:{classroomId:classroomId,classroomTypeId:classroomTypeId}})
+        const sumarize =await this.reportStudentFilterSumarizeByClassAndRoom.find({where:{yearTermId:dto.yearTermId,classroomId:dto.roomId,classroomTypeId:dto.classId}})
+        const personal = await this.reportStudentFilterPosonal.find({where:{classroomId:dto.roomId,classroomTypeId:dto.classId}})
         const personalMaped:DataRowModel[] = personal.map((m,i)=>{
             return {
                     name1:'',
@@ -788,49 +1066,49 @@ export class ReportService extends BaseService {
         }
         return '/'
     }
-    async getReportStudentHelpByClass() {
-        return this.reportStudentHelpByClass.find()
-    }
-    async getReportStudentHelpByRoom() {
-        return this.reportStudentHelpByRoom.find()
-    }
-    async getReportStudentHelpByClassAndRoom() {
-        return this.reportStudentHelpByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)}]})
-    }
-    async getReportStudentScolarByClass() {
-        return this.reportStudentScolarByClass.find()
-    }
-    async getReportStudentScolarByRoom() {
-        return this.reportStudentScolarByRoom.find()
-    }
-    async getReportStudentScolarByClassAndRoom() {
-        return this.reportStudentScolarByClassAndRoom.find({where:[{value2:MoreThan(0)}]})
-    }
-    async getReportStudentSendToByClass() {
-        return this.reportStudentSendToByClass.find()
-    }
-    async getReportStudentSendToByRoom() {
-        return this.reportStudentSendToByRoom.find()
-    }
-    async getReportStudentSendToByClassAndRoom() {
-        return this.reportStudentSendToByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)}]})
-    }
-    async getReportStudentSendToSumarize() {
-        return this.reportStudentSendToSumarize.find()
-    }
+    // async getReportStudentHelpByClass() {
+    //     return this.reportStudentHelpByClass.find()
+    // }
+    // async getReportStudentHelpByRoom() {
+    //     return this.reportStudentHelpByRoom.find()
+    // }
+    // async getReportStudentHelpByClassAndRoom() {
+    //     return this.reportStudentHelpByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)}]})
+    // }
+    // async getReportStudentScolarByClass() {
+    //     return this.reportStudentScolarByClass.find()
+    // }
+    // async getReportStudentScolarByRoom() {
+    //     return this.reportStudentScolarByRoom.find()
+    // }
+    // async getReportStudentScolarByClassAndRoom() {
+    //     return this.reportStudentScolarByClassAndRoom.find({where:[{value2:MoreThan(0)}]})
+    // }
+    // async getReportStudentSendToByClass() {
+    //     return this.reportStudentSendToByClass.find()
+    // }
+    // async getReportStudentSendToByRoom() {
+    //     return this.reportStudentSendToByRoom.find()
+    // }
+    // async getReportStudentSendToByClassAndRoom() {
+    //     return this.reportStudentSendToByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)}]})
+    // }
+    // async getReportStudentSendToSumarize() {
+    //     return this.reportStudentSendToSumarize.find()
+    // }
     
-    async getReportStressSumarize() {
-        return this.reportStressSumarize.find()
-    }
-    async getReportStressByClass() {
-        return this.reportStressByClass.find()
-    }
-    async getReportStressByClassAndRoom() {
-        return this.reportStressByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)},{value4:MoreThan(0)},{value5:MoreThan(0)}]})
-    }
-    async getReportStressByRoom() {
-        return this.reportStressByRoom.find()
-    }
+    // async getReportStressSumarize() {
+    //     return this.reportStressSumarize.find()
+    // }
+    // async getReportStressByClass() {
+    //     return this.reportStressByClass.find()
+    // }
+    // async getReportStressByClassAndRoom() {
+    //     return this.reportStressByClassAndRoom.find({where:[{value2:MoreThan(0)},{value3:MoreThan(0)},{value4:MoreThan(0)},{value5:MoreThan(0)}]})
+    // }
+    // async getReportStressByRoom() {
+    //     return this.reportStressByRoom.find()
+    // }
     // async getReportStudentConsultant() {
     //     const sumConsult = await this.studentConsultant.count({where:{deletedAt:null,sentType:Not(null)}})
     //     const sumSentTo = await this.studentConsultant.count({where:{deletedAt:null,storyType:3}})

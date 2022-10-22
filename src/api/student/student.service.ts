@@ -237,8 +237,8 @@ export class StudentService extends BaseService {
         const regisModel:RegisterDto = {
           email:`${result.studentCode}`,
           password:`${result.studentCode}`,
-          firstname:'',
-          lastname:'',
+          firstname:`${result.firstname}`,
+          lastname:`${result.lastname}`,
           inforId:result.id,
           type:UserType.STUDENT
         }
