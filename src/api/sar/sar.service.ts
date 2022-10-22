@@ -38,6 +38,10 @@ import { SarStandard3Service} from 'src/api/sar-standard3/sar-standard3.service'
 import { SarStandard4Service} from 'src/api/sar-standard4/sar-standard4.service'
 import { SarCompetencyAssessmentService} from 'src/api/sar-competency-assessment/sar-competency-assessment.service'
 import { SarCrudAssessmentService} from 'src/api/sar-crud-assessment/sar-crud-assessment.service'
+import { SarActivitiesService} from 'src/api/sar-activities/sar-activities.service'
+import { SarAdviseClassService} from 'src/api/sar-advise-class/sar-advise-class.service'
+import { VwSarCrudAssessmentList} from 'src/api/sar-crud-assessment/sar-crud-assessment.entity'
+import { VwSarCompetencyAssessmentList} from 'src/api/sar-competency-assessment/sar-competency-assessment.entity'
 export class SarService extends BaseService {
 
     constructor(
@@ -52,7 +56,11 @@ export class SarService extends BaseService {
         @InjectRepository(VwSarTeachingResultItem)
         private readonly teachingresultRepository:Repository<VwSarTeachingResultItem>,
         @InjectRepository(VwSarTeachingResultList)
-        private readonly teachingresultlistRepository:Repository<VwSarTeachingResultList>,
+        private readonly teachingresultlistRepository:Repository<VwSarTeachingResultList>, 
+         @InjectRepository(VwSarCrudAssessmentList)
+        private readonly sarcrudassessmentlistRepository:Repository<VwSarCrudAssessmentList>,
+        @InjectRepository(VwSarCompetencyAssessmentList)
+        private readonly sacompetencyassessmentlistRepository:Repository<VwSarCompetencyAssessmentList>,
         @InjectRepository(VwTeacherDropdown)
         private readonly vwDropdownTeacherRepository:Repository<VwTeacherDropdown>,
         private readonly dropdownService: DropdownService,
@@ -82,8 +90,9 @@ export class SarService extends BaseService {
         private readonly sarstandard3 : SarStandard3Service, 
         private readonly sarstandard4 : SarStandard4Service,
         private readonly sacompetencyassessment : SarCompetencyAssessmentService,
-        private readonly sarcrudassessment : SarCrudAssessmentService
-
+        private readonly sarcrudassessment : SarCrudAssessmentService,
+        private readonly saractivities : SarActivitiesService,
+        private readonly saradviseclass : SarAdviseClassService
         ){
         super()
     }
@@ -140,7 +149,11 @@ export class SarService extends BaseService {
              var year = age_dt.getUTCFullYear();
              //now calculate the age of the user
               age = Math.abs(year - 1970);
-              teacher.birthDateValue = teacher.birthDate.toLocaleDateString("en-US");
+              teacher.birthDateValue = teacher.birthDate.toLocaleDateString("th-TH", {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              });
              }
              teacher.age= age;
    
@@ -154,7 +167,11 @@ export class SarService extends BaseService {
              var month_diff2_dt = new Date(month_diff2); 
              var year2 = month_diff2_dt.getUTCFullYear();
               setInTotalYear = Math.abs(year2 - 1970);
-             teacher.setInDateValue = teacher.setInDate.toLocaleDateString("en-US");
+             teacher.setInDateValue = teacher.setInDate.toLocaleDateString("th-TH", {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              });
            
              }
              teacher.setInTotalYear=setInTotalYear;
@@ -201,6 +218,15 @@ export class SarService extends BaseService {
            const sarstandard4 = await this.sarstandard4.getItemByRefId(refIdValue)
            const sacompetencyassessment = await this.sacompetencyassessment.getListByRefId(refIdValue)
            const sarcrudassessment = await this.sarcrudassessment.getListByRefId(refIdValue)
+           const sarcrudassessmentTerm1 = await this.sarcrudassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:1}})
+           const sarcrudassessmentTerm2 = await this.sarcrudassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:2}})
+       
+           const saractivities = await this.saractivities.getListByRefId(refIdValue)
+           const saradviseclass = await this.saradviseclass.getListByRefId(refIdValue)
+
+           const sacompetencyassessmentTerm1 = await this.sacompetencyassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:1}})
+           const sacompetencyassessmentTerm2 = await this.sacompetencyassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:2}})
+       
        // console.log("sarqualityevidenceStandard1Good",sarqualityevidenceStandard1Good)
        
            return {
@@ -243,7 +269,13 @@ export class SarService extends BaseService {
                sarstandard3:sarstandard3,
                sarstandard4:sarstandard4,
                sacompetencyassessment:sacompetencyassessment,
-               sarcrudassessment:sarcrudassessment
+               sarcrudassessment:sarcrudassessment,
+               saractivities:saractivities,
+               saradviseclass:saradviseclass,
+               sarcrudassessmentTerm1 : sarcrudassessmentTerm1 ,
+               sarcrudassessmentTerm2 :  sarcrudassessmentTerm2,
+               sacompetencyassessmentTerm1:sacompetencyassessmentTerm1,
+               sacompetencyassessmentTerm2:sacompetencyassessmentTerm2
            }
     }
 
@@ -270,7 +302,11 @@ export class SarService extends BaseService {
           var year = age_dt.getUTCFullYear();
           //now calculate the age of the user
            age = Math.abs(year - 1970);
-           teacher.birthDateValue = teacher.birthDate.toLocaleDateString("en-US");
+           teacher.birthDateValue = teacher.birthDate.toLocaleDateString("th-TH", {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          });
           }
           teacher.age= age;
 
@@ -284,7 +320,11 @@ export class SarService extends BaseService {
           var month_diff2_dt = new Date(month_diff2); 
           var year2 = month_diff2_dt.getUTCFullYear();
            setInTotalYear = Math.abs(year2 - 1970);
-          teacher.setInDateValue = teacher.setInDate.toLocaleDateString("en-US");
+          teacher.setInDateValue = teacher.setInDate.toLocaleDateString("th-TH", {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          });
         
           }
           teacher.setInTotalYear=setInTotalYear;
@@ -293,7 +333,7 @@ export class SarService extends BaseService {
         const education = await this.educationbackground.getListByTeacherId(parseInt(teacherId))
         const sarPersonalData = await this.sarpresonaldata.getItemByRefId(refIdValue)
 
-        console.log("sarPersonalData",sarPersonalData)
+      //console.log(" teacher.setInDateValue", teacher.setInDateValue)
 
 
         const sarPersonalLeaveData = await this.sarpresonalleavedata.getListByRefId(refIdValue)
@@ -331,7 +371,17 @@ export class SarService extends BaseService {
         const sarstandard3 = await this.sarstandard3.getItemByRefId(refIdValue)
         const sarstandard4 = await this.sarstandard4.getItemByRefId(refIdValue)
         const sacompetencyassessment = await this.sacompetencyassessment.getListByRefId(refIdValue)
+
+        const sarcrudassessmentTerm1 = await this.sarcrudassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:1}})
+        const sarcrudassessmentTerm2 = await this.sarcrudassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:2}})
         const sarcrudassessment = await this.sarcrudassessment.getListByRefId(refIdValue)
+    
+        const saractivities = await this.saractivities.getListByRefId(refIdValue)
+        const saradviseclass = await this.saradviseclass.getListByRefId(refIdValue)
+
+        const sacompetencyassessmentTerm1 = await this.sacompetencyassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:1}})
+        const sacompetencyassessmentTerm2 = await this.sacompetencyassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:2}})
+    
     // console.log("sarqualityevidenceStandard1Good",sarqualityevidenceStandard1Good)
     // console.log("sarTeachingFormat",sarTeachingFormat)
 
@@ -374,7 +424,13 @@ export class SarService extends BaseService {
             sarstandard3:sarstandard3,
             sarstandard4:sarstandard4,
             sacompetencyassessment:sacompetencyassessment,
-            sarcrudassessment:sarcrudassessment
+            sarcrudassessment:sarcrudassessment,
+            sarcrudassessmentTerm1 : sarcrudassessmentTerm1 ,
+             sarcrudassessmentTerm2 :  sarcrudassessmentTerm2,
+            saractivities:saractivities,
+            saradviseclass:saradviseclass,
+            sacompetencyassessmentTerm1:sacompetencyassessmentTerm1,
+            sacompetencyassessmentTerm2:sacompetencyassessmentTerm2
         }
     }
 }

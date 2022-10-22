@@ -28,6 +28,9 @@ export class SarCoursesYearTerm extends BasicData {
 
   @Column({nullable: true})
   hourPerWeek?: number;
+
+  @Column({nullable: true})
+  totalRoom?: number;
 }
 @ViewEntity({
     name:'sar_courses_year_term_list',
@@ -44,6 +47,7 @@ export class SarCoursesYearTerm extends BasicData {
         .addSelect("sar_courses_year_term.subjectCode", "subjectCode")
         .addSelect("sar_courses_year_term.class", "class")
         .addSelect("sar_courses_year_term.hourPerWeek", "hourPerWeek")
+        .addSelect("sar_courses_year_term.totalRoom", "totalRoom")
         .from(SarCoursesYearTerm, "sar_courses_year_term")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = sar_courses_year_term.teacherId")
         .leftJoin(YearTerm, "year_term_id","year_term_id.Id = sar_courses_year_term.yearTermId")
@@ -84,6 +88,10 @@ export class VwSarCoursesYearTermList {
     @ViewColumn()
     term: string;
 
+    @ViewColumn()
+    totalRoom: number;
+
+
 }
 
 @ViewEntity({
@@ -116,6 +124,7 @@ export class VwSarCoursesYearTermDropdown {
         .addSelect("sar_courses_year_term.hourPerWeek", "hourPerWeek")
         .addSelect("year_term_id.year", "schoolYear")
         .addSelect("year_term_id.term", "term")
+        .addSelect("sar_courses_year_term.totalRoom", "totalRoom")
       .from(SarCoursesYearTerm, "sar_courses_year_term")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = sar_courses_year_term.teacherId")
         .leftJoin(YearTerm, "year_term_id","year_term_id.Id = sar_courses_year_term.yearTermId")
@@ -157,4 +166,7 @@ export class VwSarCoursesYearTermItem {
 
     @ViewColumn()
     term: string;
+
+    @ViewColumn()
+    totalRoom: number;
 }

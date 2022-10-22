@@ -1,6 +1,7 @@
 import { BasicData } from "src/core/shared/entities/basic-data";
 import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
 import { Teacher } from "src/api/teacher/teacher.entity";
+import { YearTerm } from "../year-term/year-term.entity";
 
 @Entity('sar_competency_assessment')
 export class SarCompetencyAssessment extends BasicData {
@@ -29,15 +30,18 @@ export class SarCompetencyAssessment extends BasicData {
   class?: string;
 
   @Column({nullable: true})
-  assessment1?: string;
+  assessment1?: number;
   @Column({nullable: true})
-  assessment2?: string;
+  assessment2?: number;
   @Column({nullable: true})
-  assessment3?: string;
+  assessment3?: number;
   @Column({nullable: true})
-  assessment4?: string;
+  assessment4?: number;
   @Column({nullable: true})
-  assessment5?: string;
+  subject?: string;
+  @Column({nullable: true})
+  yearTermId?: number;
+
 }
 @ViewEntity({
     name:'sar_competency_assessment_list',
@@ -55,9 +59,13 @@ export class SarCompetencyAssessment extends BasicData {
         .addSelect("sar_competency_assessment.assessment2", "assessment2")
         .addSelect("sar_competency_assessment.assessment3", "assessment3")
         .addSelect("sar_competency_assessment.assessment4", "assessment4")
-        .addSelect("sar_competency_assessment.assessment5", "assessment5")
+        .addSelect("sar_competency_assessment.subject", "subject")
+        .addSelect("CONCAT(year_term_id.term , '/' , year_term_id.year)", "yearTermValue")
+        .addSelect("year_term_id.term", "term")
+        .addSelect("year_term_id.year", "year")
         .from(SarCompetencyAssessment, "sar_competency_assessment")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = sar_competency_assessment.teacherId")
+        .leftJoin(YearTerm, "year_term_id","year_term_id.Id = sar_competency_assessment.yearTermId")
 })
 export class VwSarCompetencyAssessmentList {
     @ViewColumn()
@@ -86,21 +94,30 @@ export class VwSarCompetencyAssessmentList {
 
     @ViewColumn()
     class: string;
+    @ViewColumn()
+    assessment1: number;
+        
+    @ViewColumn()
+    assessment2: number;
+        
+    @ViewColumn()
+    assessment3: number;
+        
+    @ViewColumn()
+    assessment4: number;
+
     
     @ViewColumn()
-    assessment1: string;
+    year: string;
+
+    @ViewColumn()
+    term: string;
+
+    @ViewColumn()
+    yearTermValue: string;
         
     @ViewColumn()
-    assessment2: string;
-        
-    @ViewColumn()
-    assessment3: string;
-        
-    @ViewColumn()
-    assessment4: string;
-        
-    @ViewColumn()
-    assessment5: string;
+    subject: string;
 }
 
 @ViewEntity({
@@ -134,9 +151,14 @@ export class VwSarCompetencyAssessmentDropdown {
         .addSelect("sar_competency_assessment.assessment2", "assessment2")
         .addSelect("sar_competency_assessment.assessment3", "assessment3")
         .addSelect("sar_competency_assessment.assessment4", "assessment4")
-        .addSelect("sar_competency_assessment.assessment5", "assessment5")
+        .addSelect("sar_competency_assessment.subject", "subject")
+        .addSelect("CONCAT(year_term_id.term , '/' , year_term_id.year)", "yearTermValue")
+        .addSelect("year_term_id.term", "term")
+        .addSelect("year_term_id.year", "year")
+        .addSelect("sar_competency_assessment.yearTermId", "yearTermId")
       .from(SarCompetencyAssessment, "sar_competency_assessment")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = sar_competency_assessment.teacherId")
+        .leftJoin(YearTerm, "year_term_id","year_term_id.Id = sar_competency_assessment.yearTermId")
 })
 export class VwSarCompetencyAssessmentItem {
 
@@ -167,17 +189,30 @@ export class VwSarCompetencyAssessmentItem {
     @ViewColumn()
     class: string;
     @ViewColumn()
-    assessment1: string;
+    assessment1: number;
         
     @ViewColumn()
-    assessment2: string;
+    assessment2: number;
         
     @ViewColumn()
-    assessment3: string;
+    assessment3: number;
         
     @ViewColumn()
-    assessment4: string;
+    assessment4: number;
+
+    
+    @ViewColumn()
+    year: string;
+
+    @ViewColumn()
+    term: string;
+
+    @ViewColumn()
+    yearTermValue: string;
         
     @ViewColumn()
-    assessment5: string;
+    subject: string;
+    
+    @ViewColumn()
+    yearTermId: number;
 }

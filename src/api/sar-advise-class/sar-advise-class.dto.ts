@@ -1,13 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { SearchParameter } from "src/core/shared/models/search-param-model";
 
-export class SearchSarIntegratedLearningDto extends SearchParameter {
+export class SearchSarAdviseClassDto extends SearchParameter {
 @ApiPropertyOptional({ type: Number})
     teacherId?:number
 @ApiPropertyOptional({ type: String})
     schoolyear?:string
 }
-export class SarIntegratedLearningDto {
+export class SarAdviseClassDto {
 @ApiPropertyOptional({ type: Number})
     teacherId:number
 @ApiPropertyOptional({ type: String})
@@ -15,15 +15,15 @@ export class SarIntegratedLearningDto {
 @ApiPropertyOptional({ type: String})
     schoolyear:string
 @ApiPropertyOptional({ type: Number})
-    hourCount:number
-    @ApiPropertyOptional({ type: String})
-    mediaProductionName:string
-    @ApiPropertyOptional({ type: String})
-    mediaProductionUnit:string
-
-    
+    totalStudent:number
+@ApiPropertyOptional({ type: String})
+    class:string
+@ApiPropertyOptional({ type: Number})
+    totalBoy:number
+@ApiPropertyOptional({ type: Number})
+    totalGirl:number
 } 
-export class CreateSarIntegratedLearningDto extends SarIntegratedLearningDto{
+export class CreateSarAdviseClassDto extends SarAdviseClassDto{
 @ApiPropertyOptional({ type: Number})
     teacherId:number
 @ApiPropertyOptional({ type: String})
@@ -31,14 +31,15 @@ export class CreateSarIntegratedLearningDto extends SarIntegratedLearningDto{
 @ApiPropertyOptional({ type: String})
     schoolyear:string
 @ApiPropertyOptional({ type: Number})
-    hourCount:number
-    @ApiPropertyOptional({ type: String})
-    mediaProductionName:string
-    @ApiPropertyOptional({ type: String})
-    mediaProductionUnit:string
-
+    totalStudent:number
+@ApiPropertyOptional({ type: String})
+    class:string
+@ApiPropertyOptional({ type: Number})
+    totalBoy:number
+@ApiPropertyOptional({ type: Number})
+    totalGirl:number
 }
-export class UpdateSarIntegratedLearningDto extends SarIntegratedLearningDto{
+export class UpdateSarAdviseClassDto extends SarAdviseClassDto{
 @ApiPropertyOptional({ type: Number})
     teacherId:number
 @ApiPropertyOptional({ type: String})
@@ -46,10 +47,11 @@ export class UpdateSarIntegratedLearningDto extends SarIntegratedLearningDto{
 @ApiPropertyOptional({ type: String})
     schoolyear:string
 @ApiPropertyOptional({ type: Number})
-    hourCount:number
-    @ApiPropertyOptional({ type: String})
-    mediaProductionName:string
-    @ApiPropertyOptional({ type: String})
-    mediaProductionUnit:string
-
+    totalStudent:number
+@ApiPropertyOptional({ type: String})
+    class:string
+@ApiPropertyOptional({ type: Number})
+    totalBoy:number
+@ApiPropertyOptional({ type: Number})
+    totalGirl:number
 }

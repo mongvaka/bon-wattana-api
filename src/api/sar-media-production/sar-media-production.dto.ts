@@ -18,6 +18,8 @@ export class SarMediaProductionDto {
     mediaProductionName:string
 @ApiPropertyOptional({ type: Number})
     mediaProductionCount:number
+@ApiPropertyOptional({ type: String})
+    mediaProductionUnit:string
 } 
 export class CreateSarMediaProductionDto extends SarMediaProductionDto{
 @ApiPropertyOptional({ type: Number})
@@ -30,6 +32,8 @@ export class CreateSarMediaProductionDto extends SarMediaProductionDto{
     mediaProductionName:string
 @ApiPropertyOptional({ type: Number})
     mediaProductionCount:number
+    @ApiPropertyOptional({ type: String})
+    mediaProductionUnit:string
 }
 export class UpdateSarMediaProductionDto extends SarMediaProductionDto{
 @ApiPropertyOptional({ type: Number})
@@ -42,4 +46,6 @@ export class UpdateSarMediaProductionDto extends SarMediaProductionDto{
     mediaProductionName:string
 @ApiPropertyOptional({ type: Number})
     mediaProductionCount:number
+    @ApiPropertyOptional({ type: String})
+    mediaProductionUnit:string
 }

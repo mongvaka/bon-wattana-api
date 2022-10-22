@@ -66,6 +66,17 @@ export class SarPerformingSpecialDuties extends BasicData {
 
   @Column({nullable: true})
   group4Text3?: string;
+
+    @Column({nullable: true})
+    group1Text4?: string;
+      @Column({nullable: true})
+    group1Text5?: string;
+      @Column({nullable: true})
+    group5Text1?: string;
+      @Column({nullable: true})
+    group5Text2?: string;
+    @Column({nullable: true})
+    group5Result?:number
 }
 @ViewEntity({
     name:'sar_performing_special_duties_list',
@@ -92,6 +103,11 @@ export class SarPerformingSpecialDuties extends BasicData {
         .addSelect("sar_performing_special_duties.group4Text2", "group4Text2")
         .addSelect("sar_performing_special_duties.group4Result", "group4Result")
         .addSelect("sar_performing_special_duties.group4Text3", "group4Text3")
+        .addSelect("sar_performing_special_duties.group5Result", "group5Result")
+        .addSelect("sar_performing_special_duties.group5Text2", "group5Text2")
+        .addSelect("sar_performing_special_duties.group5Text1", "group5Text1")
+        .addSelect("sar_performing_special_duties.group1Text5", "group1Text5")
+        .addSelect("sar_performing_special_duties.group1Text4", "group1Text4")
         .from(SarPerformingSpecialDuties, "sar_performing_special_duties")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = sar_performing_special_duties.teacherId")
 })
@@ -161,6 +177,17 @@ export class VwSarPerformingSpecialDutiesList {
 
     @ViewColumn()
     group4Text3: string;
+
+    @ViewColumn()
+    group1Text5: string;
+    @ViewColumn()
+    group1Text4: string;
+    @ViewColumn()
+    group5Text1: string;
+    @ViewColumn()
+    group5Text2: string;
+    @ViewColumn()
+    group5Result: number;
 }
 
 @ViewEntity({
@@ -203,6 +230,11 @@ export class VwSarPerformingSpecialDutiesDropdown {
         .addSelect("sar_performing_special_duties.group4Text2", "group4Text2")
         .addSelect("sar_performing_special_duties.group4Result", "group4Result")
         .addSelect("sar_performing_special_duties.group4Text3", "group4Text3")
+        .addSelect("sar_performing_special_duties.group5Result", "group5Result")
+        .addSelect("sar_performing_special_duties.group5Text2", "group5Text2")
+        .addSelect("sar_performing_special_duties.group5Text1", "group5Text1")
+        .addSelect("sar_performing_special_duties.group1Text5", "group1Text5")
+        .addSelect("sar_performing_special_duties.group1Text4", "group1Text4")
       .from(SarPerformingSpecialDuties, "sar_performing_special_duties")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = sar_performing_special_duties.teacherId")
 })
@@ -273,4 +305,15 @@ export class VwSarPerformingSpecialDutiesItem {
 
     @ViewColumn()
     group4Text3: string;
+
+    @ViewColumn()
+    group1Text5: string;
+    @ViewColumn()
+    group1Text4: string;
+    @ViewColumn()
+    group5Text1: string;
+    @ViewColumn()
+    group5Text2: string;
+    @ViewColumn()
+    group5Result: number;
 }

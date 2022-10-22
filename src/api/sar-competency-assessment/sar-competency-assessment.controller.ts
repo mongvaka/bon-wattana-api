@@ -7,6 +7,7 @@ import { DropdownService } from "src/core/shared/services/dropdown.service";
 import { SearchTeacherDto } from "src/api/teacher/teacher.dto";
 import { CreateSarCompetencyAssessmentDto, SearchSarCompetencyAssessmentDto, UpdateSarCompetencyAssessmentDto } from "./sar-competency-assessment.dto";
 import { SarCompetencyAssessmentService } from "./sar-competency-assessment.service";
+import { SearchYearTermDto } from "../year-term/year-term.dto";
 @ApiTags("sar-competency-assessment")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -63,5 +64,13 @@ export class SarCompetencyAssessmentController extends BaseController{
     }catch(e){
       return this.error(e)
     }    
+  }
+  @Get('year-term-dropdown')
+  async yearTermDropdown(@Body() dto: SearchYearTermDto) {
+    try{      
+      return this.success(await this.sarcompetencyassessmentService.yearTermDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
   }
 }

@@ -1,63 +1,57 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { SearchParameter } from "src/core/shared/models/search-param-model";
 
-export class SearchSarCoursesYearTermDto extends SearchParameter {
+export class SearchSarActivitiesDto extends SearchParameter {
 @ApiPropertyOptional({ type: Number})
     teacherId?:number
-@ApiPropertyOptional({ type: Number})
-    yearTermId?:number
+@ApiPropertyOptional({ type: String})
+    schoolyear?:string
 }
-export class SarCoursesYearTermDto {
+export class SarActivitiesDto {
 @ApiPropertyOptional({ type: Number})
     teacherId:number
 @ApiPropertyOptional({ type: String})
     refId:string
-@ApiPropertyOptional({ type: Number})
-    yearTermId:number
 @ApiPropertyOptional({ type: String})
-    subjectName:string
+    schoolyear:string
 @ApiPropertyOptional({ type: String})
-    subjectCode:string
+    activitieName:string
 @ApiPropertyOptional({ type: String})
     class:string
 @ApiPropertyOptional({ type: Number})
-    hourPerWeek:number
-    @ApiPropertyOptional({ type: Number})
-    totalRoom:number
+    totalStudent:number
+@ApiPropertyOptional({ type: Number})
+    passValue:number
 } 
-export class CreateSarCoursesYearTermDto extends SarCoursesYearTermDto{
+export class CreateSarActivitiesDto extends SarActivitiesDto{
 @ApiPropertyOptional({ type: Number})
     teacherId:number
 @ApiPropertyOptional({ type: String})
     refId:string
-@ApiPropertyOptional({ type: Number})
-    yearTermId:number
 @ApiPropertyOptional({ type: String})
-    subjectName:string
+    schoolyear:string
 @ApiPropertyOptional({ type: String})
-    subjectCode:string
+    activitieName:string
 @ApiPropertyOptional({ type: String})
     class:string
 @ApiPropertyOptional({ type: Number})
-    hourPerWeek:number
-    @ApiPropertyOptional({ type: Number})
-    totalRoom:number
+    totalStudent:number
+@ApiPropertyOptional({ type: Number})
+    passValue:number
 }
-export class UpdateSarCoursesYearTermDto extends SarCoursesYearTermDto{
+export class UpdateSarActivitiesDto extends SarActivitiesDto{
 @ApiPropertyOptional({ type: Number})
     teacherId:number
 @ApiPropertyOptional({ type: String})
     refId:string
-@ApiPropertyOptional({ type: Number})
-    yearTermId:number
 @ApiPropertyOptional({ type: String})
-    subjectName:string
+    schoolyear:string
 @ApiPropertyOptional({ type: String})
-    subjectCode:string
+    activitieName:string
 @ApiPropertyOptional({ type: String})
     class:string
 @ApiPropertyOptional({ type: Number})
-    hourPerWeek:number
-    @ApiPropertyOptional({ type: Number})
-    totalRoom:number
+    totalStudent:number
+@ApiPropertyOptional({ type: Number})
+    passValue:number
 }

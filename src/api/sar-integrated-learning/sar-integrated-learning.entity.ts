@@ -21,6 +21,8 @@ export class SarIntegratedLearning extends BasicData {
 
   @Column({nullable: true})
   mediaProductionName?: string;
+  @Column({nullable: true})
+  mediaProductionUnit?: string;
 }
 @ViewEntity({
     name:'sar_integrated_learning_list',
@@ -32,6 +34,7 @@ export class SarIntegratedLearning extends BasicData {
         .addSelect("sar_integrated_learning.schoolyear", "schoolyear")
         .addSelect("sar_integrated_learning.hourCount", "hourCount")
         .addSelect("sar_integrated_learning.mediaProductionName", "mediaProductionName")
+        .addSelect("sar_integrated_learning.mediaProductionUnit", "mediaProductionUnit")
         .from(SarIntegratedLearning, "sar_integrated_learning")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = sar_integrated_learning.teacherId")
 })
@@ -55,6 +58,8 @@ export class VwSarIntegratedLearningList {
     hourCount: number;
     @ViewColumn()
     mediaProductionName: string;
+    @ViewColumn()
+    mediaProductionUnit: string;
 }
 
 @ViewEntity({
@@ -82,6 +87,7 @@ export class VwSarIntegratedLearningDropdown {
         .addSelect("sar_integrated_learning.schoolyear", "schoolyear")
         .addSelect("sar_integrated_learning.hourCount", "hourCount")
         .addSelect("sar_integrated_learning.mediaProductionName", "mediaProductionName")
+        .addSelect("sar_integrated_learning.mediaProductionUnit", "mediaProductionUnit")
       .from(SarIntegratedLearning, "sar_integrated_learning")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = sar_integrated_learning.teacherId")
 })
@@ -107,5 +113,8 @@ export class VwSarIntegratedLearningItem {
 
     @ViewColumn()
     mediaProductionName: string;
+
+    @ViewColumn()
+    mediaProductionUnit: string;
 
 }
