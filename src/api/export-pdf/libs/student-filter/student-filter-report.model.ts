@@ -182,7 +182,7 @@ export class StudentFilterReport extends BaseReport{
        
     }
     private getRowData(el: DataRowModel,reportType:EReportType) {
-      let nameValue = ''
+       let nameValue =``
       if(reportType == EReportType.SUMARIZE){
         nameValue = el.name1
       }

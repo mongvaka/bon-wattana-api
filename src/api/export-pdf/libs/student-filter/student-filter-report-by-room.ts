@@ -150,7 +150,7 @@ export class StudentFilterReportByRoom extends BaseReport{
       </tr>`
     }
     private getRowData(el: DataRowModel,reportType:EReportType) {
-      let nameValue = ''
+       
  
         return `    <tr>
         <td class="no">${el.v1}</td>

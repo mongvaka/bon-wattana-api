@@ -261,6 +261,7 @@ export class VwTeacherDropdown {
         .addSelect("teacher.lastnameEn", "lastnameEn")
         .addSelect("teacher.gendarId", "gendarId")
         .addSelect("gendar_id.gendarName", "gendarValue")
+        .addSelect("teacher.positionNumber", "positionNumber")
         .addSelect("teacher.birthDate", "birthDate")
         .addSelect("teacher.nationalityId", "nationalityId")
         .addSelect("nationality_id.nationalityName", "nationalityValue")

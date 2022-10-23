@@ -13,17 +13,15 @@ export const CSS_STD_HOMVISIT  = `body{
     height: 297mm;
     width: 209mm;
     font-family: "Sarabun";
-    background-color: antiquewhite;
     padding-left: 15mm;
     padding-right: 15mm;
-    padding-top: 15mm;
-    padding-bottom: 15mm;
+    padding-top: 5mm;
+    padding-bottom: 5mm;
 }
 p{
     margin-top: 0px;
     margin-bottom: 0px;
     padding-bottom: 0px;
-    padding-top: 5px;
     font-weight: 400;
 }
 .content{
@@ -31,6 +29,7 @@ p{
 
 
 }
+
 .border{
     border: 1px;
     border-style: solid;
@@ -40,16 +39,17 @@ p{
     font-size: 20px;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 .title{
     text-align: center;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 span{
     margin-left: 10px;
     margin-right: 10px;
+    font-weight: 100;
 }
 .imageSection{
     display: flex;

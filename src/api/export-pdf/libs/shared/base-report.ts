@@ -51,4 +51,7 @@ export class BaseReport{
       <p class="header center">${header.reportName}  </p>
       <p class="header center">ปีการศึกษา <span>${header.term}/${header.year}</span></p>`
     }
+    protected getClassOnly(value:string){
+      return value.replace('ม.','');
+    }
 }

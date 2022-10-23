@@ -38,20 +38,16 @@ export const HTML_SDQ = `<div class="a4">
         <table>
 
             <tr>
-                <th>ชื่อ-สกุล</th>
+                <th>รายด้าน</th>
                 <th>ปกติ</th>
                 <th>เสี่ยง</th>
                 <th>มีปัญหา</th>
-  
-
             </tr>
             <tr>
                 <td class="cb1" >สานิต วักชัยภูมิ</td>
                 <td class="cb2">1</td>
                 <td class="cb2">1</td>
                 <td class="cb2">1</td>
-
-
             </tr>
         </table>
     </div>
@@ -67,10 +63,6 @@ export const HTML_SDQ = `<div class="a4">
         <p>จำนวน <span>1</span>คน</p>
     </div>
 </div>
-<div class="content">
-    
-</div>
-
 </div>
 
 <div class="a4">
@@ -81,7 +73,7 @@ export const HTML_SDQ = `<div class="a4">
     <table>
 
         <tr>
-            <th rowspan="2">ระดับชั้น</th>
+            <th rowspan="2">ห้อง</th>
             <th colspan="3">ด้านที่ 1</th>
             <th colspan="3">ด้านที่ 2</th>
             <th colspan="3">ด้านที่ 3</th>

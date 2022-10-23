@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ImagesModule } from 'src/core/images/images.module';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
 import { ClassroomType, VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { Classroom, VwClassroomDropdown } from '../classroom/classroom.entity';
@@ -9,7 +10,7 @@ import { VwYearTermDropdown, YearTerm } from '../year-term/year-term.entity';
 import { YearTermModule } from '../year-term/year-term.module';
 import { ReportCheckStudentSumarize } from './check-student.entity';
 import { ReportEqSumarize, ReportEqByRoom, ReportEqByClass, ReportEqByClassAndRoom } from './eq.entity';
-import { ReportHomvisitSumarize } from './home-visit.entity';
+import { ReportHomeVisitNeedHelp, ReportHomeVisitSumarize, ReportHomeVisitPersonal } from './home-visit.entity';
 import { ReportDepressionSumarize, ReportDepressionByClass, ReportDepressionByClassAndRoom, ReportDepressionPesonal } from './report-depression.entity';
 import { ReportStudentFilterSumarize, ReportStudentFilterByClass, ReportStudentFilterByClassAndRoom, ReportStudentFilterByRoom, ReportStudentFilterPosonal, ReportStudentFilterSumarizeByClassAndRoom } from './report-student-filter.entity';
 import { ReportStudentHelpByClass, ReportStudentHelpByRoom, ReportStudentHelpByClassAndRoom } from './report-student-help.entity';
@@ -34,7 +35,6 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ReportEqByRoom,
       ReportEqByClass,
       ReportEqByClassAndRoom,
-      ReportHomvisitSumarize,
       ReportDepressionSumarize,
       ReportDepressionByClass,
       ReportDepressionByClassAndRoom,
@@ -63,9 +63,12 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ClassroomType,
       VwClassroomTypeDropdown,
       VwClassroomDropdown,
-      VwYearTermDropdown
+      VwYearTermDropdown,
+      ReportHomeVisitNeedHelp,
+      ReportHomeVisitSumarize,
+      ReportHomeVisitPersonal
     ]),
-    ExportPdfModule,YearTermModule
+    ExportPdfModule,YearTermModule,StudentModule,ImagesModule
   ],
   controllers: [ReportController],
   providers: [ReportService,DropdownService],

@@ -43,7 +43,7 @@ export const HTML_STD_HOMVISIT = `<div class="a4">
                     ที่อยู่ที่สามารถติดต่อได้ <span>value</span>
                 </p>
                 <p class="text">
-                    ที่อยู๋ตามทะเบียนบ้าน <span>value</span>
+                    ที่อยู่ตามทะเบียนบ้าน <span>value</span>
                 </p>
             </div>
             <div class="col">

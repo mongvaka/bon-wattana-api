@@ -15,14 +15,16 @@ export const HTML_STD_SUPPORT = `<div class="a4">
         <th>ผลกิจกรรม</th>
         <th>ครูผู้ดูแล</th>
     </tr>
-    <td class="col1">สานิต วักชัยภูมิ</td>
-    <td class="col2">99</td>
-    <td class="col3">31/12/2566</td>
-    <td class="col4">ค่ายศิลปะประจำปี</td>
-    <td class="col5">การงานอาชีพและเทคโนโลยี</td>
-    <td class="col6">องการบริหารส่วนตำบล</td>
-    <td class="col7">ดีขึ้น</td>
-    <td class="col8">วรวรรณ ชัยเสน</td>
+    <tr>
+        <td class="col1">สานิต วักชัยภูมิ</td>
+        <td class="col2">99</td>
+        <td class="col3">31/12/2566</td>
+        <td class="col4">ค่ายศิลปะประจำปี</td>
+        <td class="col5">การงานอาชีพและเทคโนโลยี</td>
+        <td class="col6">องการบริหารส่วนตำบล</td>
+        <td class="col7">ดีขึ้น</td>
+        <td class="col8">วรวรรณ ชัยเสน</td>
+    </tr>
    </table>
 </div>
 </div>
@@ -77,15 +79,17 @@ export const HTML_STD_SUPPORT = `<div class="a4">
         <th>ผลกิจกรรม</th>
         <th>ครูผู้ดูแล</th>
     </tr>
-    <td class="col1">สานิต วักชัยภูมิ</td>
-    <td class="col2">99</td>
-    <td class="col2">99</td>
-    <td class="col3">31/12/2566</td>
-    <td class="col4">ค่ายศิลปะประจำปี</td>
-    <td class="col5">การงานอาชีพและเทคโนโลยี</td>
-    <td class="col6">องการบริหารส่วนตำบล</td>
-    <td class="col7">ดีขึ้น</td>
-    <td class="col8">วรวรรณ ชัยเสน</td>
+    <tr>
+        <td class="col1">สานิต วักชัยภูมิ</td>
+        <td class="col2">99</td>
+        <td class="col2">99</td>
+        <td class="col3">31/12/2566</td>
+        <td class="col4">ค่ายศิลปะประจำปี</td>
+        <td class="col5">การงานอาชีพและเทคโนโลยี</td>
+        <td class="col6">องการบริหารส่วนตำบล</td>
+        <td class="col7">ดีขึ้น</td>
+        <td class="col8">วรวรรณ ชัยเสน</td>
+    </tr>
    </table>
 </div>
 </div>
@@ -95,9 +99,7 @@ export const HTML_STD_SUPPORT = `<div class="a4">
     
     <table>
         <tr>
-
             <th>ห้อง</th>
-
             <th>ด้านวิชาการ</th>
             <th>ด้านศิลปะ</th>
             <th>ด้านกีฬา</th>
@@ -108,18 +110,18 @@ export const HTML_STD_SUPPORT = `<div class="a4">
             <th>ด้านจิตอาสา</th>
             <th>ด้านอื่น ๆ</th>
         </tr>
-
-        <td class="col2">99</td>
-
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
+        <tr>
+            <td class="col2">99</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+        </tr>
        </table>
 </div>
 </div>
@@ -135,9 +137,7 @@ export const HTML_STD_SUPPORT = `<div class="a4">
     
     <table>
         <tr>
-
             <th>ระดับชั้น</th>
-
             <th>ด้านวิชาการ</th>
             <th>ด้านศิลปะ</th>
             <th>ด้านกีฬา</th>
@@ -148,18 +148,18 @@ export const HTML_STD_SUPPORT = `<div class="a4">
             <th>ด้านจิตอาสา</th>
             <th>ด้านอื่น ๆ</th>
         </tr>
-
-        <td class="col2">99</td>
-
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
-        <td class="col8 right">1</td>
+        <tr>
+            <td class="col2">99</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+            <td class="col8 right">1</td>
+        </tr>
        </table>
 </div>
 </div>`

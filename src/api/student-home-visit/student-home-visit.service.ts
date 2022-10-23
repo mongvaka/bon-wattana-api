@@ -208,7 +208,7 @@ export class StudentHomeVisitService extends BaseService {
         let stdTeacher = await this.itemTeacherRepository.findOne({where:{classroomTypeId:std.classroomTypeId , classroomId:std.classroomId}})
      
          return {
-            result:result,
+            ...result,
             title:std.title,
             firstname : std.firstname,
             lastname: std.lastname,
@@ -227,7 +227,7 @@ export class StudentHomeVisitService extends BaseService {
             provinceId:std.provinceId,
             phoneNumber:std.phoneNumber,
             parentPhone:std.parentPhone,
-            adviserNameValue:stdTeacher.firstname+" "+stdTeacher.lastname
+            adviserNameValue:stdTeacher?.firstname+" "+stdTeacher?.lastname
         };
     }
 }

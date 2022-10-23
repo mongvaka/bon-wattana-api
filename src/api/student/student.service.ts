@@ -45,6 +45,13 @@ import { getLabelEnum } from 'src/core/shared/functions';
 
 @Injectable()
 export class StudentService extends BaseService {
+    async countByClassRoom(classId: number, roomId: number) {
+      console.log('classId',classId);
+      console.log('roomId',roomId);
+        const countStd = await this.studentRepository.count({where:{classroomId:roomId,classroomTypeId:classId,deleted:null}})
+        console.log('countStd',countStd);
+        return countStd
+    }
     async import(data: any[]): Promise<any> {        
         for (const el of data) {
           const birthDate = this.getBirthDate(el.birthDate)  

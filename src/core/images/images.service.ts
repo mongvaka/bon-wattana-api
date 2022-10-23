@@ -5,11 +5,37 @@ import { SearchResult } from 'src/core/shared/models/search-param-model';
 import { BaseService } from 'src/core/shared/services/base.service';
 import { Repository } from 'typeorm';
 import { Operators } from '../shared/constans/constanst';
-import { ColumnType } from '../shared/constans/enum-system';
+import { ColumnType, ImageType } from '../shared/constans/enum-system';
 import { CreateImagesDto, SearchImagesDto, UpdateImagesDto } from './images.dto';
 import { Images } from './images.entity';
+import * as fs from 'fs';
 @Injectable()
 export class ImagesService extends BaseService {
+    async getImgBase64FromIds(refId: number, type: ImageType) {
+        const images = await this.repository.find({where:{refId:refId,refType:type}})
+        const arr:string[] = []
+        for (const el of images) {
+            try{
+                const imageBase64 = fs.readFileSync(`public/uploads/images/${el?.imageUrl}`, 'base64');
+                arr.push(imageBase64)
+            }catch(e){
+                console.log(e);
+                
+            }
+
+            
+        }
+        return arr
+    }
+    async getImgBase64FromId(refId: number, type: ImageType) {
+        const image = await this.repository.findOne({where:{refId:refId,refType:type}})
+        try{
+            return fs.readFileSync(`public/uploads/images/${image?.imageUrl}`, 'base64');
+          }catch(e){
+            console.log(e);
+            
+          }
+    }
     async removeWithRefId(id: number) {
         return this.repository.remove(await this.repository.find({refId:id})) 
     }
