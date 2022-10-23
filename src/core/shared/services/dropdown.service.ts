@@ -71,6 +71,7 @@ import { VwSarDropdown } from "src/api/sar/sar.entity";
 import { VwSarActivitiesDropdown } from "src/api/sar-activities/sar-activities.entity";
 import { VwSarAdviseClassDropdown } from "src/api/sar-advise-class/sar-advise-class.entity";
 import { VwSarUploadImgDropdown } from "src/api/sar-upload-img/sar-upload-img.entity";
+import { VwSarOrderedPositionDropdown } from "src/api/sar-ordered-position/sar-ordered-position.entity";
 
 @Injectable()
 export class DropdownService extends BaseService{
@@ -1148,6 +1149,21 @@ export class DropdownService extends BaseService{
         const dropdownList:SelectItems[]=[]
         data.forEach(el => {
             const model:VwSarUploadImgDropdown = el as unknown as VwSarUploadImgDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarorderedpositionDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarOrderedPositionDropdown = el as unknown as VwSarOrderedPositionDropdown
             const dropdownModel:SelectItems ={
                 label:model.label,
                 value:model.value,
