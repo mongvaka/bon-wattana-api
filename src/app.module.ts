@@ -79,6 +79,7 @@ import { SarCrudAssessmentModule  } from './api/sar-crud-assessment/sar-crud-ass
 import { SarModule  } from './api/sar/sar.module';
 import { SarActivitiesModule  } from './api/sar-activities/sar-activities.module';
 import { SarAdviseClassModule  } from './api/sar-advise-class/sar-advise-class.module';
+import { SarUploadImgModule  } from './api/sar-upload-img/sar-upload-img.module';
 @Module({
   imports: [
     // ConfigModule.forRoot(
@@ -193,7 +194,8 @@ ConfigModule.forRoot({
     SarCrudAssessmentModule,
     SarModule,
     SarActivitiesModule,
-    SarAdviseClassModule
+    SarAdviseClassModule,
+    SarUploadImgModule
   ],
   controllers: [AppController],
   providers: [AppService],
