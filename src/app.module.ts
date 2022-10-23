@@ -73,10 +73,14 @@ import { SarQualityOfLearnersModule } from './api/sar-quality-of-learners/sar-qu
 import { SarQualityEvidenceModule } from './api/sar-quality-evidence/sar-quality-evidence.module';
 import { SarStandard2Module } from './api/sar-standard2/sar-standard2.module';
 import { SarStandard3Module } from './api/sar-standard3/sar-standard3.module';
-import {SarStandard4Module  } from './api/sar-standard4/sar-standard4.module';
-import {SarCompetencyAssessmentModule  } from './api/sar-competency-assessment/sar-competency-assessment.module';
-import {SarCrudAssessmentModule  } from './api/sar-crud-assessment/sar-crud-assessment.module';
-import {SarModule  } from './api/sar/sar.module';
+import { SarStandard4Module  } from './api/sar-standard4/sar-standard4.module';
+import { SarCompetencyAssessmentModule  } from './api/sar-competency-assessment/sar-competency-assessment.module';
+import { SarCrudAssessmentModule  } from './api/sar-crud-assessment/sar-crud-assessment.module';
+import { SarModule  } from './api/sar/sar.module';
+import { SarActivitiesModule  } from './api/sar-activities/sar-activities.module';
+import { SarAdviseClassModule  } from './api/sar-advise-class/sar-advise-class.module';
+import { SarUploadImgModule  } from './api/sar-upload-img/sar-upload-img.module';
+import { SarOrderedPositionModule  } from './api/sar-ordered-position/sar-ordered-position.module';
 @Module({
   imports: [
     // ConfigModule.forRoot(
@@ -196,7 +200,11 @@ import {SarModule  } from './api/sar/sar.module';
     SarStandard4Module,
     SarCompetencyAssessmentModule,
     SarCrudAssessmentModule,
-    SarModule
+    SarModule,
+    SarActivitiesModule,
+    SarAdviseClassModule,
+    SarUploadImgModule,
+    SarOrderedPositionModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -8,6 +8,7 @@ export enum ImageType {
   STUDENT = 1,
   TEACHER = 2,
   HOME_VISIT = 3,
+  SAR = 4
 }
 export enum BracketType {
   None = 0,

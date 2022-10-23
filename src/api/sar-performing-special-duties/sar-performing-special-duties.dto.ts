@@ -48,6 +48,17 @@ export class SarPerformingSpecialDutiesDto {
     group4Result:number
 @ApiPropertyOptional({ type: String})
     group4Text3:string
+
+    @ApiPropertyOptional({ type: String})
+    group1Text4:string
+    @ApiPropertyOptional({ type: String})
+    group1Text5:string
+    @ApiPropertyOptional({ type: String})
+    group5Text1:string
+    @ApiPropertyOptional({ type: String})
+    group5Text2:string
+    @ApiPropertyOptional({ type: Number})
+    group5Result:number
 } 
 export class CreateSarPerformingSpecialDutiesDto extends SarPerformingSpecialDutiesDto{
 @ApiPropertyOptional({ type: Number})
@@ -90,6 +101,16 @@ export class CreateSarPerformingSpecialDutiesDto extends SarPerformingSpecialDut
     group4Result:number
 @ApiPropertyOptional({ type: String})
     group4Text3:string
+    @ApiPropertyOptional({ type: String})
+    group1Text4:string
+    @ApiPropertyOptional({ type: String})
+    group1Text5:string
+    @ApiPropertyOptional({ type: String})
+    group5Text1:string
+    @ApiPropertyOptional({ type: String})
+    group5Text2:string
+    @ApiPropertyOptional({ type: Number})
+    group5Result:number
 }
 export class UpdateSarPerformingSpecialDutiesDto extends SarPerformingSpecialDutiesDto{
 @ApiPropertyOptional({ type: Number})
@@ -132,4 +153,14 @@ export class UpdateSarPerformingSpecialDutiesDto extends SarPerformingSpecialDut
     group4Result:number
 @ApiPropertyOptional({ type: String})
     group4Text3:string
+    @ApiPropertyOptional({ type: String})
+    group1Text4:string
+    @ApiPropertyOptional({ type: String})
+    group1Text5:string
+    @ApiPropertyOptional({ type: String})
+    group5Text1:string
+    @ApiPropertyOptional({ type: String})
+    group5Text2:string
+    @ApiPropertyOptional({ type: Number})
+    group5Result:number
 }

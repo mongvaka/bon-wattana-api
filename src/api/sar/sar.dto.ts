@@ -14,7 +14,6 @@ export class SarDto {
     refId:string
 @ApiPropertyOptional({ type: String})
     schoolyear:string
-
     @ApiPropertyOptional({ type: Number})
     sarCoursesYearTermToTalSubject:number
     @ApiPropertyOptional({ type: Number})
@@ -41,11 +40,40 @@ sacompetencyassessmentresult :string
 sarcrudassessmentresult :string
 @ApiPropertyOptional({ type: String})
 sarattributeassessmentresult :string
+@ApiPropertyOptional({ type: String})
+sarPersonalLeaveschoolYearValue :string
 
 
-
-
-
+@ApiPropertyOptional({ type: String})
+sarqualityoflearnersNote:string;
+@ApiPropertyOptional({ type: String})
+sarstandard2Note:string;
+@ApiPropertyOptional({ type: String})
+sarstandard3Note:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment1_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment1_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment1_3:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment2_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment2_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment2_3:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment3_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment3_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment3_3:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment4_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment4_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment4_3:string;
 
 } 
 export class CreateSarDto extends SarDto{
@@ -81,6 +109,41 @@ sacompetencyassessmentresult :string
 sarcrudassessmentresult :string
 @ApiPropertyOptional({ type: String})
 sarattributeassessmentresult :string
+@ApiPropertyOptional({ type: String})
+sarPersonalLeaveschoolYearValue :string
+
+
+@ApiPropertyOptional({ type: String})
+sarqualityoflearnersNote:string;
+@ApiPropertyOptional({ type: String})
+sarstandard2Note:string;
+@ApiPropertyOptional({ type: String})
+sarstandard3Note:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment1_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment1_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment1_3:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment2_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment2_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment2_3:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment3_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment3_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment3_3:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment4_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment4_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment4_3:string;
+
 }
 export class UpdateSarDto extends SarDto{
 @ApiPropertyOptional({ type: Number})
@@ -115,4 +178,39 @@ sacompetencyassessmentresult :string
 sarcrudassessmentresult :string
 @ApiPropertyOptional({ type: String})
 sarattributeassessmentresult :string
+@ApiPropertyOptional({ type: String})
+sarPersonalLeaveschoolYearValue :string
+
+
+@ApiPropertyOptional({ type: String})
+sarqualityoflearnersNote:string;
+@ApiPropertyOptional({ type: String})
+sarstandard2Note:string;
+@ApiPropertyOptional({ type: String})
+sarstandard3Note:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment1_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment1_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment1_3:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment2_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment2_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment2_3:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment3_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment3_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment3_3:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment4_1:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment4_2:string;
+@ApiPropertyOptional({ type: String})
+SelfAssessment4_3:string;
+
 }

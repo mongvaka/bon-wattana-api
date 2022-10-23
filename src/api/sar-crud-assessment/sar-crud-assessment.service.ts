@@ -9,7 +9,8 @@ import { CreateSarCrudAssessmentDto, SarCrudAssessmentDto, SearchSarCrudAssessme
 import { SarCrudAssessment, VwSarCrudAssessmentDropdown, VwSarCrudAssessmentItem, VwSarCrudAssessmentList } from './sar-crud-assessment.entity';
 import { VwTeacherDropdown } from 'src/api/teacher/teacher.entity';
 import { SearchTeacherDto } from 'src/api/teacher/teacher.dto';
-
+import { SearchYearTermDto } from '../year-term/year-term.dto';
+import { VwYearTermDropdown } from 'src/api/year-term/year-term.entity';
 @Injectable()
 export class SarCrudAssessmentService extends BaseService {
 
@@ -22,7 +23,9 @@ export class SarCrudAssessmentService extends BaseService {
         private readonly itemRepository:Repository<VwSarCrudAssessmentItem>,
         @InjectRepository(VwTeacherDropdown)
         private readonly vwDropdownTeacherRepository:Repository<VwTeacherDropdown>,
-        private readonly dropdownService: DropdownService
+        private readonly dropdownService: DropdownService,
+        @InjectRepository(VwYearTermDropdown)
+        private readonly vwDropdownYearTermRepository:Repository<VwYearTermDropdown>,
         ){
         super()
     }
@@ -61,4 +64,7 @@ export class SarCrudAssessmentService extends BaseService {
     async getListByRefId(refIdValue:string):Promise<any>{
         return await this.itemRepository.find({where:{refId:refIdValue}})
     }
+    async yearTermDropdown(dto: SearchYearTermDto):Promise<SelectItems[]> {
+        return await this.dropdownService.yeartermDropdown(dto,this.vwDropdownYearTermRepository);
+      }
 }

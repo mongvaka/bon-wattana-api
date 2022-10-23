@@ -42,6 +42,42 @@ sacompetencyassessmentresult? :string
 sarcrudassessmentresult? :string
   @Column({nullable: true})
 sarattributeassessmentresult? :string
+@Column({nullable: true})
+sarPersonalLeaveschoolYearValue? :string
+
+
+
+@Column({nullable: true})
+sarqualityoflearnersNote?:string;
+@Column({nullable: true})
+sarstandard2Note?:string;
+@Column({nullable: true})
+sarstandard3Note?:string;
+@Column({nullable: true})
+SelfAssessment1_1?:string;
+@Column({nullable: true})
+SelfAssessment1_2?:string;
+@Column({nullable: true})
+SelfAssessment1_3?:string;
+@Column({nullable: true})
+SelfAssessment2_1?:string;
+@Column({nullable: true})
+SelfAssessment2_2?:string;
+@Column({nullable: true})
+SelfAssessment2_3?:string;
+@Column({nullable: true})
+SelfAssessment3_1?:string;
+@Column({nullable: true})
+SelfAssessment3_2?:string;
+@Column({nullable: true})
+SelfAssessment3_3?:string;
+@Column({nullable: true})
+SelfAssessment4_1?:string;
+@Column({nullable: true})
+SelfAssessment4_2?:string;
+@Column({nullable: true})
+SelfAssessment4_3?:string;
+
 
 }
 @ViewEntity({
@@ -108,6 +144,22 @@ export class VwSarDropdown {
         .addSelect("sar.sacompetencyassessmentresult", "sacompetencyassessmentresult")
         .addSelect("sar.sarcrudassessmentresult", "sarcrudassessmentresult")
         .addSelect("sar.sarattributeassessmentresult", "sarattributeassessmentresult")
+        .addSelect("sar.sarPersonalLeaveschoolYearValue", "sarPersonalLeaveschoolYearValue")
+        .addSelect("sar.sarqualityoflearnersNote", "sarqualityoflearnersNote")
+        .addSelect("sar.sarstandard2Note", "sarstandard2Note")
+        .addSelect("sar.sarstandard3Note", "sarstandard3Note")
+        .addSelect("sar.SelfAssessment1_1", "SelfAssessment1_1")
+        .addSelect("sar.SelfAssessment1_2", "SelfAssessment1_2")
+        .addSelect("sar.SelfAssessment1_3", "SelfAssessment1_3")
+        .addSelect("sar.SelfAssessment2_1", "SelfAssessment2_1")
+        .addSelect("sar.SelfAssessment2_2", "SelfAssessment2_2")
+        .addSelect("sar.SelfAssessment2_3", "SelfAssessment2_3")
+        .addSelect("sar.SelfAssessment3_1", "SelfAssessment3_1")
+        .addSelect("sar.SelfAssessment3_2", "SelfAssessment3_2")
+        .addSelect("sar.SelfAssessment3_3", "SelfAssessment3_3")
+        .addSelect("sar.SelfAssessment4_1", "SelfAssessment4_1")
+        .addSelect("sar.SelfAssessment4_2", "SelfAssessment4_2")
+        .addSelect("sar.SelfAssessment4_3", "SelfAssessment4_3")
       .from(Sar, "sar")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = sar.teacherId")
 })
@@ -154,4 +206,38 @@ export class VwSarItem {
   sarcrudassessmentresult :string
      @ViewColumn()
   sarattributeassessmentresult :string
+  @ViewColumn()
+  sarPersonalLeaveschoolYearValue :string
+
+    @ViewColumn()
+sarqualityoflearnersNote:string;
+  @ViewColumn()
+sarstandard2Note:string;
+  @ViewColumn()
+sarstandard3Note:string;
+  @ViewColumn()
+SelfAssessment1_1:string;
+  @ViewColumn()
+SelfAssessment1_2:string;
+  @ViewColumn()
+SelfAssessment1_3:string;
+  @ViewColumn()
+SelfAssessment2_1:string;
+  @ViewColumn()
+SelfAssessment2_2:string;
+  @ViewColumn()
+SelfAssessment2_3:string;
+  @ViewColumn()
+SelfAssessment3_1:string;
+  @ViewColumn()
+SelfAssessment3_2:string;
+  @ViewColumn()
+SelfAssessment3_3:string;
+  @ViewColumn()
+SelfAssessment4_1:string;
+  @ViewColumn()
+SelfAssessment4_2:string;
+  @ViewColumn()
+SelfAssessment4_3:string;
+
 }

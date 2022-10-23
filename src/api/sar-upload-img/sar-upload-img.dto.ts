@@ -1,13 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { SearchParameter } from "src/core/shared/models/search-param-model";
 
-export class SearchSarMediaProductionDto extends SearchParameter {
+export class SearchSarUploadImgDto extends SearchParameter {
 @ApiPropertyOptional({ type: Number})
     teacherId?:number
 @ApiPropertyOptional({ type: String})
     schoolyear?:string
 }
-export class SarMediaProductionDto {
+export class SarUploadImgDto {
 @ApiPropertyOptional({ type: Number})
     teacherId:number
 @ApiPropertyOptional({ type: String})
@@ -15,13 +15,10 @@ export class SarMediaProductionDto {
 @ApiPropertyOptional({ type: String})
     schoolyear:string
 @ApiPropertyOptional({ type: String})
-    mediaProductionName:string
-@ApiPropertyOptional({ type: Number})
-    mediaProductionCount:number
-@ApiPropertyOptional({ type: String})
-    mediaProductionUnit:string
+    titleName:string
+    images: string[];
 } 
-export class CreateSarMediaProductionDto extends SarMediaProductionDto{
+export class CreateSarUploadImgDto extends SarUploadImgDto{
 @ApiPropertyOptional({ type: Number})
     teacherId:number
 @ApiPropertyOptional({ type: String})
@@ -29,13 +26,10 @@ export class CreateSarMediaProductionDto extends SarMediaProductionDto{
 @ApiPropertyOptional({ type: String})
     schoolyear:string
 @ApiPropertyOptional({ type: String})
-    mediaProductionName:string
-@ApiPropertyOptional({ type: Number})
-    mediaProductionCount:number
-    @ApiPropertyOptional({ type: String})
-    mediaProductionUnit:string
+    titleName:string
+    images: string[];
 }
-export class UpdateSarMediaProductionDto extends SarMediaProductionDto{
+export class UpdateSarUploadImgDto extends SarUploadImgDto{
 @ApiPropertyOptional({ type: Number})
     teacherId:number
 @ApiPropertyOptional({ type: String})
@@ -43,9 +37,7 @@ export class UpdateSarMediaProductionDto extends SarMediaProductionDto{
 @ApiPropertyOptional({ type: String})
     schoolyear:string
 @ApiPropertyOptional({ type: String})
-    mediaProductionName:string
-@ApiPropertyOptional({ type: Number})
-    mediaProductionCount:number
-    @ApiPropertyOptional({ type: String})
-    mediaProductionUnit:string
+    titleName:string
+
+    images: string[];
 }

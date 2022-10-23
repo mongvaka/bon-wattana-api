@@ -7,6 +7,7 @@ import { DropdownService } from "src/core/shared/services/dropdown.service";
 import { SearchTeacherDto } from "src/api/teacher/teacher.dto";
 import { CreateSarCrudAssessmentDto, SearchSarCrudAssessmentDto, UpdateSarCrudAssessmentDto } from "./sar-crud-assessment.dto";
 import { SarCrudAssessmentService } from "./sar-crud-assessment.service";
+import { SearchYearTermDto } from "../year-term/year-term.dto";
 @ApiTags("sar-crud-assessment")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -63,5 +64,13 @@ export class SarCrudAssessmentController extends BaseController{
     }catch(e){
       return this.error(e)
     }    
+  }
+  @Get('year-term-dropdown')
+  async yearTermDropdown(@Body() dto: SearchYearTermDto) {
+    try{      
+      return this.success(await this.sarcrudassessmentService.yearTermDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
   }
 }

@@ -68,6 +68,10 @@ import { VwSarStandard2Dropdown } from "src/api/sar-standard2/sar-standard2.enti
 import { VwSarCompetencyAssessmentDropdown } from "src/api/sar-competency-assessment/sar-competency-assessment.entity";
 import { VwSarCrudAssessmentDropdown } from "src/api/sar-crud-assessment/sar-crud-assessment.entity";
 import { VwSarDropdown } from "src/api/sar/sar.entity";
+import { VwSarActivitiesDropdown } from "src/api/sar-activities/sar-activities.entity";
+import { VwSarAdviseClassDropdown } from "src/api/sar-advise-class/sar-advise-class.entity";
+import { VwSarUploadImgDropdown } from "src/api/sar-upload-img/sar-upload-img.entity";
+import { VwSarOrderedPositionDropdown } from "src/api/sar-ordered-position/sar-ordered-position.entity";
 
 @Injectable()
 export class DropdownService extends BaseService{
@@ -1107,5 +1111,68 @@ export class DropdownService extends BaseService{
         });        
         return dropdownList;
     }
+    async saractivitiesDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarActivitiesDropdown = el as unknown as VwSarActivitiesDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async saradviseclassDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarAdviseClassDropdown = el as unknown as VwSarAdviseClassDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
+    async saruploadimgDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarUploadImgDropdown = el as unknown as VwSarUploadImgDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+    async sarorderedpositionDropdown(dto:SearchParameter,repository: Repository<any>):Promise<SelectItems[]>{        
+        const buider = this.createQueryBuider(dto,repository)
+        const data =await buider.getMany();
+        const dropdownList:SelectItems[]=[]
+        data.forEach(el => {
+            const model:VwSarOrderedPositionDropdown = el as unknown as VwSarOrderedPositionDropdown
+            const dropdownModel:SelectItems ={
+                label:model.label,
+                value:model.value,
+                rowData:model
+            }
+            dropdownList.push(dropdownModel)
+        });        
+        return dropdownList;
+    }
+
 
 }

@@ -21,9 +21,12 @@ export class SarMediaProduction extends BasicData {
 
   @Column({nullable: true})
   mediaProductionCount?: number;
+
+  @Column({nullable: true})
+    mediaProductionUnit?:string
 }
 @ViewEntity({
-    name:'sar_media production_list',
+    name:'sar_media_production_list',
     expression: (connection: Connection) => connection.createQueryBuilder()
         .select("sar_media production.id", "id")
         .addSelect("sar_media production.teacherId", "teacherId")
@@ -32,6 +35,7 @@ export class SarMediaProduction extends BasicData {
         .addSelect("sar_media production.schoolyear", "schoolyear")
         .addSelect("sar_media production.mediaProductionName", "mediaProductionName")
         .addSelect("sar_media production.mediaProductionCount", "mediaProductionCount")
+        .addSelect("sar_media production.mediaProductionUnit", "mediaProductionUnit")
         .from(SarMediaProduction, "sar_media production")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = sar_media production.teacherId")
 })
@@ -56,6 +60,9 @@ export class VwSarMediaProductionList {
 
     @ViewColumn()
     mediaProductionCount: number;
+
+    @ViewColumn()
+    mediaProductionUnit: string;
 }
 
 @ViewEntity({
@@ -74,7 +81,7 @@ export class VwSarMediaProductionDropdown {
     label: string;
 }
 @ViewEntity({
-  name:'sar_media production_item',
+  name:'sar_media_production_item',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("sar_media production.id", "id")
         .addSelect("sar_media production.teacherId", "teacherId")
@@ -83,6 +90,7 @@ export class VwSarMediaProductionDropdown {
         .addSelect("sar_media production.schoolyear", "schoolyear")
         .addSelect("sar_media production.mediaProductionName", "mediaProductionName")
         .addSelect("sar_media production.mediaProductionCount", "mediaProductionCount")
+        .addSelect("sar_media production.mediaProductionUnit", "mediaProductionUnit")
       .from(SarMediaProduction, "sar_media production")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = sar_media production.teacherId")
 })
@@ -108,4 +116,7 @@ export class VwSarMediaProductionItem {
 
     @ViewColumn()
     mediaProductionCount: number;
+
+    @ViewColumn()
+    mediaProductionUnit: string;
 }

@@ -22,14 +22,18 @@ export class SarCrudAssessmentDto {
     totalStudent:number
 @ApiPropertyOptional({ type: String})
     class:string
+    @ApiPropertyOptional({ type: Number})
+    assessment1:number
+    @ApiPropertyOptional({ type: Number})
+    assessment2:number
+    @ApiPropertyOptional({ type: Number})
+    assessment3:number
+    @ApiPropertyOptional({ type: Number})
+    assessment4:number
     @ApiPropertyOptional({ type: String})
-    assessment1:string
-    @ApiPropertyOptional({ type: String})
-    assessment2:string
-    @ApiPropertyOptional({ type: String})
-    assessment3:string
-    @ApiPropertyOptional({ type: String})
-    assessment4:string
+    subject:string
+    @ApiPropertyOptional({ type: Number})
+    yearTermId:number
 } 
 export class CreateSarCrudAssessmentDto extends SarCrudAssessmentDto{
 @ApiPropertyOptional({ type: Number})
@@ -46,14 +50,18 @@ export class CreateSarCrudAssessmentDto extends SarCrudAssessmentDto{
     totalStudent:number
 @ApiPropertyOptional({ type: String})
     class:string
+    @ApiPropertyOptional({ type: Number})
+    assessment1:number
+    @ApiPropertyOptional({ type: Number})
+    assessment2:number
+    @ApiPropertyOptional({ type: Number})
+    assessment3:number
+    @ApiPropertyOptional({ type: Number})
+    assessment4:number
     @ApiPropertyOptional({ type: String})
-    assessment1:string
-    @ApiPropertyOptional({ type: String})
-    assessment2:string
-    @ApiPropertyOptional({ type: String})
-    assessment3:string
-    @ApiPropertyOptional({ type: String})
-    assessment4:string
+    subject:string
+    @ApiPropertyOptional({ type: Number})
+    yearTermId:number
 }
 export class UpdateSarCrudAssessmentDto extends SarCrudAssessmentDto{
 @ApiPropertyOptional({ type: Number})
@@ -70,12 +78,16 @@ export class UpdateSarCrudAssessmentDto extends SarCrudAssessmentDto{
     totalStudent:number
 @ApiPropertyOptional({ type: String})
     class:string
+    @ApiPropertyOptional({ type: Number})
+    assessment1:number
+    @ApiPropertyOptional({ type: Number})
+    assessment2:number
+    @ApiPropertyOptional({ type: Number})
+    assessment3:number
+    @ApiPropertyOptional({ type: Number})
+    assessment4:number
     @ApiPropertyOptional({ type: String})
-    assessment1:string
-    @ApiPropertyOptional({ type: String})
-    assessment2:string
-    @ApiPropertyOptional({ type: String})
-    assessment3:string
-    @ApiPropertyOptional({ type: String})
-    assessment4:string
+    subject:string
+    @ApiPropertyOptional({ type: Number})
+    yearTermId:number
 }
