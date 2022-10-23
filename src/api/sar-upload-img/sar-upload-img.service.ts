@@ -61,9 +61,21 @@ export class SarUploadImgService extends BaseService {
     }
     async update(id:number,dto:UpdateSarUploadImgDto,req:CustomRequest):Promise<SarUploadImgDto>{
         const m = await this.saruploadimgRepository.findOne({where:{id:id}})
-        return await this.saruploadimgRepository.save(
+        const result = await this.saruploadimgRepository.save(
             this.toUpdateModel(m,dto,req)
         );
+          const moduleName = 'images'
+
+        if(dto.images?.length>0){
+            for (const iterator of dto.images) {
+                const fileName = filename()
+                await savefileWithName(iterator,fileName,moduleName)
+                await this.imageService.create({imageUrl:fileName,refId:result.id,refType:ImageType.SAR,imageType:0},req)
+
+            }
+
+        }  
+        return result
     }
     async delete(id:number,req:CustomRequest):Promise<SarUploadImgDto>{
         let m = await this.saruploadimgRepository.findOne({where:{id:id}})
@@ -75,5 +87,8 @@ export class SarUploadImgService extends BaseService {
     }
     async item(id:number):Promise<any>{
         return await this.itemRepository.findOne({where:{id:id}})
+    }
+    async getListByRefId(refIdValue:string):Promise<any>{
+        return await this.itemRepository.find({where:{refId:refIdValue}})
     }
 }

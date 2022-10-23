@@ -42,6 +42,7 @@ import { SarActivitiesService} from 'src/api/sar-activities/sar-activities.servi
 import { SarAdviseClassService} from 'src/api/sar-advise-class/sar-advise-class.service'
 import { VwSarCrudAssessmentList} from 'src/api/sar-crud-assessment/sar-crud-assessment.entity'
 import { VwSarCompetencyAssessmentList} from 'src/api/sar-competency-assessment/sar-competency-assessment.entity'
+import { SarUploadImgService} from 'src/api/sar-upload-img/sar-upload-img.service'
 export class SarService extends BaseService {
 
     constructor(
@@ -92,7 +93,8 @@ export class SarService extends BaseService {
         private readonly sacompetencyassessment : SarCompetencyAssessmentService,
         private readonly sarcrudassessment : SarCrudAssessmentService,
         private readonly saractivities : SarActivitiesService,
-        private readonly saradviseclass : SarAdviseClassService
+        private readonly saradviseclass : SarAdviseClassService,
+        private readonly saruploadimg :SarUploadImgService
         ){
         super()
     }
@@ -226,7 +228,7 @@ export class SarService extends BaseService {
 
            const sacompetencyassessmentTerm1 = await this.sacompetencyassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:1}})
            const sacompetencyassessmentTerm2 = await this.sacompetencyassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:2}})
-       
+           const saruploadimg= await this.saruploadimg.getListByRefId(refIdValue)
        // console.log("sarqualityevidenceStandard1Good",sarqualityevidenceStandard1Good)
        
            return {
@@ -275,7 +277,8 @@ export class SarService extends BaseService {
                sarcrudassessmentTerm1 : sarcrudassessmentTerm1 ,
                sarcrudassessmentTerm2 :  sarcrudassessmentTerm2,
                sacompetencyassessmentTerm1:sacompetencyassessmentTerm1,
-               sacompetencyassessmentTerm2:sacompetencyassessmentTerm2
+               sacompetencyassessmentTerm2:sacompetencyassessmentTerm2,
+               saruploadimg:saruploadimg
            }
     }
 
@@ -381,7 +384,7 @@ export class SarService extends BaseService {
 
         const sacompetencyassessmentTerm1 = await this.sacompetencyassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:1}})
         const sacompetencyassessmentTerm2 = await this.sacompetencyassessmentlistRepository.find({where:{teacherId:parseInt(teacherId),year:schoolYear,term:2}})
-    
+        const saruploadimg= await this.saruploadimg.getListByRefId(refIdValue)
     // console.log("sarqualityevidenceStandard1Good",sarqualityevidenceStandard1Good)
     // console.log("sarTeachingFormat",sarTeachingFormat)
 
@@ -430,7 +433,8 @@ export class SarService extends BaseService {
             saractivities:saractivities,
             saradviseclass:saradviseclass,
             sacompetencyassessmentTerm1:sacompetencyassessmentTerm1,
-            sacompetencyassessmentTerm2:sacompetencyassessmentTerm2
+            sacompetencyassessmentTerm2:sacompetencyassessmentTerm2,
+            saruploadimg:saruploadimg
         }
     }
 }
