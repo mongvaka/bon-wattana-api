@@ -156,7 +156,7 @@ export class ReportController extends BaseController{
       response.end(pdfFile);
     } catch (e){      
       console.log(e);
-      throw new BadRequestException()
+      throw new BadRequestException('ไม่มีข้อมูล')
     }
   }
   // @Post('report-depression-sumarize')

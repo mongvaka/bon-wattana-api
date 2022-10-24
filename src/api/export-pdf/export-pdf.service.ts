@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { generatePdf } from 'html-pdf-node-ts';
 import { PDFOptions } from 'puppeteer';
 import { DataRowModel, HeaderReport } from "./interface/interface";
@@ -39,16 +39,25 @@ export class ExportPdfService {
         
     }
     async getEqReportByClass(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:EqReportByClass = new EqReportByClass(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getEqReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:EqReportByRoom = new EqReportByRoom(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getEqReportSumarize(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:EqReportSumarize = new EqReportSumarize(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
@@ -58,16 +67,25 @@ export class ExportPdfService {
 
 
     async getSdqReportByClass(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:SdqReportByClass = new SdqReportByClass(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getSdqReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[],sumarizeList2:DataRowModel){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:SdqReportByRoom = new SdqReportByRoom(header,dataList,sumarizeList,sumarizeList2)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getSdqReportSumarize(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:SdqReportSumarize = new SdqReportSumarize(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
@@ -76,11 +94,17 @@ export class ExportPdfService {
 
 
     async getStudentConsultReportByClass(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentConsultReportByClass = new StudentConsultReportByClass(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getStudentConsultReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentConsultReportByRoom = new StudentConsultReportByRoom(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
@@ -90,16 +114,25 @@ export class ExportPdfService {
 
 
     async getStudentHelpReportByClass(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentHelpReportByClass = new StudentHelpReportByClass(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getStudentHelpReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentHelpReportByRoom = new StudentHelpReportByRoom(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getStudentHelpReportSumarize(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentHelpReportSumarize = new StudentHelpReportSumarize(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
@@ -108,21 +141,33 @@ export class ExportPdfService {
 
 
     async getStudentHomeVisitReportByRoom(header:HeaderReport,dataList:HomvisitRowData[],sumarizeList:DataRowModel[],sumModel:DataRowModel){
+      if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentHomeVisitReportByRoom = new StudentHomeVisitReportByRoom(header,dataList,sumarizeList,sumModel)
       const html = service.getHtml() 
-      return this.downloadPdf(html,false,'0mm','0mm')
+      return this.downloadPdf(html,false,'10mm','10mm')
     }
 
 
 
 
     async getStudentSendToReportByClass(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentSendToReportByClass = new StudentSendToReportByClass(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
 
     async getStudentSendToReportSumarize(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentSendToReportSumarize = new StudentSendToReportSumarize(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
@@ -131,16 +176,25 @@ export class ExportPdfService {
 
 
     async getStudentSupportReportByClass(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentSupportReportByClass = new StudentSupportReportByClass(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getStudentSupportReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentSupportReportByRoom = new StudentSupportReportByRoom(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getStudentSupportReportSumarize(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentSupportReportSumarize = new StudentSupportReportSumarize(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
@@ -148,16 +202,25 @@ export class ExportPdfService {
 
 
     async getStressReportByClass(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StressReportByClass = new StressReportByClass(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getStressReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StressReportByRoom = new StressReportByRoom(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getStressReportSumarize(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StressReportSumarize = new StressReportSumarize(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
@@ -165,44 +228,68 @@ export class ExportPdfService {
 
     
     async getStudentScolarReportByClass(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentScolarReportByClass = new StudentScolarReportByClass(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getStudentScolarReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentScolarReportByRoom = new StudentScolarReportByRoom(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getStudentScolarReportSumarize(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:StudentScolarReportSumarize = new StudentScolarReportSumarize(header,dataList,sumarizeList)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
 
     async getDepressionReportSumarize(header:HeaderReport,dataList:DataRowModel[],depression:DataRowModel[],sucuid:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:SumarizeDepressionReport = new SumarizeDepressionReport(header,dataList,depression,sucuid)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
     async getDepressionReportByClass(header:HeaderReport,dataList:DataRowModel[],depression:DataRowModel[],sucuid:DataRowModel[]){
+            if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
       const service:ClassDepressionReport = new ClassDepressionReport(header,dataList,depression,sucuid)
       const html = service.getHtml() 
       return this.downloadPdf(html)
     }
   async getDepressionReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumModel:ISumarizeRoomDepressionReport){
-    const service:RoomDepressionReport = new RoomDepressionReport(header,dataList,sumModel)
+          if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
+      const service:RoomDepressionReport = new RoomDepressionReport(header,dataList,sumModel)
     const html = service.getHtml()    
     console.log(html);
     return this.downloadPdf(html)
   }
   async getStudentFilterReport(header:HeaderReport,dataList:DataRowModel[]){
-    const service:StudentFilterReport = new StudentFilterReport(header,dataList)
+          if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
+      const service:StudentFilterReport = new StudentFilterReport(header,dataList)
     const html = service.getHtml()  
     return this.downloadPdf(html,true,'10mm','10mm')
   }
   async getStudentFilterReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumarize:DataRowModel[]){
-    const service:StudentFilterReportByRoom = new  StudentFilterReportByRoom(header,dataList,sumarize)
+          if(dataList.length==0){
+        throw new BadRequestException('ไม่มีข้อมูล')
+      }
+      const service:StudentFilterReportByRoom = new  StudentFilterReportByRoom(header,dataList,sumarize)
     const html = service.getHtml()    
     return this.downloadPdf(html,true,'10mm','10mm')
   }
