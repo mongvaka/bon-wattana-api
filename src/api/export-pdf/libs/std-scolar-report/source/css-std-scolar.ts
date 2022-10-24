@@ -13,7 +13,7 @@ export const CSS_STD_SCOLAR  = `body{
     height: 297mm;
     width: 209mm;
     font-family: "Sarabun";
-    background-color: antiquewhite;
+
     padding-left: 15mm;
     padding-right: 15mm;
     padding-top: 15mm;

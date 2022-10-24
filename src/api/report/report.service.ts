@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { notEqual } from 'assert';
+import e from 'express';
 import { ImagesService } from 'src/core/images/images.service';
 import { DEMO_IMAGE } from 'src/core/shared/constans/constanst';
 import { ImageType } from 'src/core/shared/constans/enum-system';
@@ -9,6 +10,7 @@ import { SearchResult, SelectItems } from 'src/core/shared/models/search-param-m
 import { BaseService } from 'src/core/shared/services/base.service';
 import { DropdownService } from 'src/core/shared/services/dropdown.service';
 import { MoreThan, Not, Repository } from 'typeorm';
+import { v1 } from 'uuid';
 import { ClassroomType, VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { SearchClassroomDto } from '../classroom/classroom.dto';
 import { Classroom, VwClassroomDropdown } from '../classroom/classroom.entity';
@@ -17,12 +19,14 @@ import { ExportPdfService } from '../export-pdf/export-pdf.service';
 import { DataRowModel, HeaderReport } from '../export-pdf/interface/interface';
 import { ISumarizeRoomDepressionReport } from '../export-pdf/libs/depression-report/room-depression-report';
 import { HomvisitRowData } from '../export-pdf/libs/std-homvisit-report/room-std-homvisit-report';
+import { SdqTable, VwSdqTableList } from '../sdq-table/sdq-table.entity';
 import { StudentConsultant } from '../student-consultant/student-consultant.entity';
 import { StudentService } from '../student/student.service';
 import { VwYearTermDropdown, YearTerm } from '../year-term/year-term.entity';
 import { YearTermService } from '../year-term/year-term.service';
 import { ReportCheckStudentSumarize } from './check-student.entity';
-import { ReportEqSumarize, ReportEqByRoom, ReportEqByClass, ReportEqByClassAndRoom } from './eq.entity';
+import { ReportEq } from './eq.entity';
+
 import { ReportHomeVisitNeedHelp, ReportHomeVisitPersonal, ReportHomeVisitSumarize } from './home-visit.entity';
 import { ReportDepressionSumarize, ReportDepressionByClass, ReportDepressionByClassAndRoom, ReportDepressionPesonal } from './report-depression.entity';
 import { ReportStudentFilterSumarize, ReportStudentFilterByClass, ReportStudentFilterByClassAndRoom, ReportStudentFilterByRoom, ReportStudentFilterSumarizeByClassAndRoom, ReportStudentFilterPosonal } from './report-student-filter.entity';
@@ -31,7 +35,8 @@ import { ReportStudentScolarByClass, ReportStudentScolarByRoom, ReportStudentSco
 import { ReportStudentSendToByClass, ReportStudentSendToByRoom, ReportStudentSendToByClassAndRoom, ReportStudentSendToSumarize } from './report-student-send-to.entity';
 import { CreateYearTermDto, YearTermDto, SearchYearTermDto, UpdateYearTermDto, ExportPdfDto } from './report.dto';
 import { ReportStudentByClass, ReportStudentByRoom, ReportStudentSumarize } from './report.entity';
-import { ReportStressSumarize, ReportStressByClass, ReportStressByClassAndRoom, ReportStressByRoom } from './stress-report.entity';
+import { ReportStress } from './stress-report.entity';
+import { ReportStudentConsult } from './student-consult.entity';
 import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity';
 
 @Injectable()
@@ -47,11 +52,11 @@ export class ReportService extends BaseService {
         case 'CHECK_STUDENT':
             return this.checkStudentReport(dto)
         case 'SDQ_TEACHER':
-            return this.sdqTeacherReport(dto)
+            return this.sdqReport(dto,'ครูประเมินนักเรียน',2)
         case 'SDQ_STUDENT':
-            return this.sdqStudentReport(dto)
+            return this.sdqReport(dto,'นักเรียนประเมินตนเอง',1)
         case 'SDQ_PARENT':
-            return this.sdqParentReport(dto)
+            return this.sdqReport(dto,'ผู้ปกครองประเมินนักเรียน',3)
         case 'STRESS':
             return this.stressReport(dto)
         case 'EQ':
@@ -330,105 +335,300 @@ const dontHelp = dontHelp1+dontHelp2
         return ((dontHelp/countStudent)*100)
     }
     async  checkStudentReport(dto: ExportPdfDto) {
+
+    }
+
+    sdqReport(dto: ExportPdfDto,reportName:string,type:number) {
         switch(dto.reportType){
             case 'ALL':
-                return this.getReportCheckStudentReport (dto)
+                return this.getReportSdqReport(dto,reportName,type)
             case 'CLASS':
-                return this.getReportCheckStudentReportByClass(dto)
+                return this.getReportSdqReportByClass(dto,reportName,type)
             case 'ROOM':
-                return this.getReportCheckStudentReportByRoom(dto)
+                return this.getReportSdqReportByRoom(dto,reportName,type)
         }
     }
-    async getReportCheckStudentReport(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+  async getReportSdqReport(dto: ExportPdfDto,reportName:string,type:number) {
+    
+        //  const reportName = 'ครูประเมินนักเรียน'
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
+        const result = await this.sdqRepository.find({where:{yearTermId:dto.yearTermId,estimateType:type}})
+        const classResult = await this.classroomType.find({order:{typeName:'ASC'}})
+        const dataList:DataRowModel[] = classResult.map(m=>{
+            return {
+                v1:m.typeName,
+                v2:this.getSumChoice2(result,m.id, 'emotionalBehaviorScore01_value','ปกติ'),
+                v3:this.getSumChoice2(result,m.id,'emotionalBehaviorScore01_value','เสี่ยง'),
+                v4:this.getSumChoice2(result,m.id,'emotionalBehaviorScore01_value','มีปัญหา'),
+
+                v5:this.getSumChoice2(result,m.id,'nomalBehaviorScore02_value','ปกติ'),
+                v6:this.getSumChoice2(result,m.id,'nomalBehaviorScore02_value','เสี่ยง'),
+                v7:this.getSumChoice2(result,m.id,'nomalBehaviorScore02_value','มีปัญหา'),
+
+                v8:this.getSumChoice2(result,m.id,'ADHDBehaviorScore03_value','ปกติ'),
+                v9:this.getSumChoice2(result,m.id,'ADHDBehaviorScore03_value','เสี่ยง'),
+                v10:this.getSumChoice2(result,m.id,'ADHDBehaviorScore03_value','มีปัญหา'),
+
+                v11:this.getSumChoice2(result,m.id,'friendBehaviorScore04_value','ปกติ'),
+                v12:this.getSumChoice2(result,m.id,'friendBehaviorScore04_value','เสี่ยง'),
+                v13:this.getSumChoice2(result,m.id,'friendBehaviorScore04_value','มีปัญหา'),
+
+                v14:this.getSumChoice2(result,m.id,'sumScore_value','ปกติ'),
+                v15:this.getSumChoice2(result,m.id,'sumScore_value','เสี่ยง'),
+                v16:this.getSumChoice2(result,m.id,'sumScore_value','มีปัญหา'),
+            }
+        })
+        const sumModel:DataRowModel ={
+            v1:'รวม',
+                v2:this.getSumChoice2(result,-1, 'emotionalBehaviorScore01_value','ปกติ'),
+                v3:this.getSumChoice2(result,-1,'emotionalBehaviorScore01_value','เสี่ยง'),
+                v4:this.getSumChoice2(result,-1,'emotionalBehaviorScore01_value','มีปัญหา'),
+
+                v5:this.getSumChoice2(result,-1,'nomalBehaviorScore02_value','ปกติ'),
+                v6:this.getSumChoice2(result,-1,'nomalBehaviorScore02_value','เสี่ยง'),
+                v7:this.getSumChoice2(result,-1,'nomalBehaviorScore02_value','มีปัญหา'),
+
+                v8:this.getSumChoice2(result,-1,'ADHDBehaviorScore03_value','ปกติ'),
+                v9:this.getSumChoice2(result,-1,'ADHDBehaviorScore03_value','เสี่ยง'),
+                v10:this.getSumChoice2(result,-1,'ADHDBehaviorScore03_value','มีปัญหา'),
+
+                v11:this.getSumChoice2(result,-1,'friendBehaviorScore04_value','ปกติ'),
+                v12:this.getSumChoice2(result,-1,'friendBehaviorScore04_value','เสี่ยง'),
+                v13:this.getSumChoice2(result,-1,'friendBehaviorScore04_value','มีปัญหา'),
+
+                v14:this.getSumChoice2(result,-1,'sumScore_value','ปกติ'),
+                v15:this.getSumChoice2(result,-1,'sumScore_value','เสี่ยง'),
+                v16:this.getSumChoice2(result,-1,'sumScore_value','มีปัญหา'),
+        }
+        dataList.push(sumModel)
+        const sumarize:DataRowModel[] = classResult.map(m=>{
+            return {
+                v1:m.typeName,
+                v2:this.getSumChoice2(result,m.id, 'socialBehaviorScore05_value','เป็นจุดแข็ง'),
+                v3:this.getSumChoice2(result,m.id,'socialBehaviorScore05_value','ไม่มีจุดแข็ง'),
+            }
+        })
+        console.log(sumarize);
+        
+        return this.exportPdfService.getSdqReportSumarize(header,dataList,sumarize)
     }
-  async getReportCheckStudentReportByClass(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+  async getReportSdqReportByClass(dto: ExportPdfDto,reportName:string,type:number) {
+    // const reportName = 'ครูประเมินนักเรียน'
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
+        const result = await this.sdqRepository.find({where:{classroomTypeId:dto.classId,yearTermId:dto.yearTermId,estimateType:type}})
+        const roomResult = await this.classroom.find({where:{active:true,deletedAt:null},order:{id:'ASC'}})
+        const datalist:DataRowModel[] = roomResult.map(m=>{
+        
+            return {
+                v1:this.getSdqLabelName(header.className,m.name),
+                v2:this.getSumChoice(result,m.id, 'emotionalBehaviorScore01_value','ปกติ'),
+                v3:this.getSumChoice(result,m.id,'emotionalBehaviorScore01_value','เสี่ยง'),
+                v4:this.getSumChoice(result,m.id,'emotionalBehaviorScore01_value','มีปัญหา'),
+
+                v5:this.getSumChoice(result,m.id,'nomalBehaviorScore02_value','ปกติ'),
+                v6:this.getSumChoice(result,m.id,'nomalBehaviorScore02_value','เสี่ยง'),
+                v7:this.getSumChoice(result,m.id,'nomalBehaviorScore02_value','มีปัญหา'),
+
+                v8:this.getSumChoice(result,m.id,'ADHDBehaviorScore03_value','ปกติ'),
+                v9:this.getSumChoice(result,m.id,'ADHDBehaviorScore03_value','เสี่ยง'),
+                v10:this.getSumChoice(result,m.id,'ADHDBehaviorScore03_value','มีปัญหา'),
+
+                v11:this.getSumChoice(result,m.id,'friendBehaviorScore04_value','ปกติ'),
+                v12:this.getSumChoice(result,m.id,'friendBehaviorScore04_value','เสี่ยง'),
+                v13:this.getSumChoice(result,m.id,'friendBehaviorScore04_value','มีปัญหา'),
+
+                v14:this.getSumChoice(result,m.id,'sumScore_value','ปกติ'),
+                v15:this.getSumChoice(result,m.id,'sumScore_value','เสี่ยง'),
+                v16:this.getSumChoice(result,m.id,'sumScore_value','มีปัญหา'),
+
+            }
+        })
+        const sumModel:DataRowModel ={
+            v1:'รวม',
+                v2:this.getSumChoice(result,-1, 'emotionalBehaviorScore01_value','ปกติ'),
+                v3:this.getSumChoice(result,-1,'emotionalBehaviorScore01_value','เสี่ยง'),
+                v4:this.getSumChoice(result,-1,'emotionalBehaviorScore01_value','มีปัญหา'),
+
+                v5:this.getSumChoice(result,-1,'nomalBehaviorScore02_value','ปกติ'),
+                v6:this.getSumChoice(result,-1,'nomalBehaviorScore02_value','เสี่ยง'),
+                v7:this.getSumChoice(result,-1,'nomalBehaviorScore02_value','มีปัญหา'),
+
+                v8:this.getSumChoice(result,-1,'ADHDBehaviorScore03_value','ปกติ'),
+                v9:this.getSumChoice(result,-1,'ADHDBehaviorScore03_value','เสี่ยง'),
+                v10:this.getSumChoice(result,-1,'ADHDBehaviorScore03_value','มีปัญหา'),
+
+                v11:this.getSumChoice(result,-1,'friendBehaviorScore04_value','ปกติ'),
+                v12:this.getSumChoice(result,-1,'friendBehaviorScore04_value','เสี่ยง'),
+                v13:this.getSumChoice(result,-1,'friendBehaviorScore04_value','มีปัญหา'),
+
+                v14:this.getSumChoice(result,-1,'sumScore_value','ปกติ'),
+                v15:this.getSumChoice(result,-1,'sumScore_value','เสี่ยง'),
+                v16:this.getSumChoice(result,-1,'sumScore_value','มีปัญหา'),
+        }
+        datalist.push(sumModel)
+        const sumarize:DataRowModel[] = roomResult.map(m=>{
+            return {
+                v1:this.getSdqLabelName(header.className,m.name),
+                v2:this.getSumChoice(result,m.id, 'socialBehaviorScore05_value','เป็นจุดแข็ง'),
+                v3:this.getSumChoice(result,m.id,'socialBehaviorScore05_value','ไม่มีจุดแข็ง'),
+            }
+        })
+        console.log(sumarize);
+        
+        return this.exportPdfService.getSdqReportByClass(header,datalist,sumarize)
     }
-  async getReportCheckStudentReportByRoom(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+    getSdqLabelName(className: string, name: string): any {
+        return `${className}/${name}`
+    }
+    getSumChoice(result: VwSdqTableList[], id: number, arg2: string, arg3: string): any {
+        if(
+            id==-1
+        ){
+            return  result.filter(fl=> fl[arg2] == arg3&& fl.classroomId !=null).length
+        }
+        return result.filter(fl=> fl[arg2] == arg3&& fl.classroomId == id).length
+    }
+    getSumChoice2(result: VwSdqTableList[], id: number, arg2: string, arg3: string): any {
+        if(
+            id==-1
+        ){
+            return  result.filter(fl=> fl[arg2] == arg3&& fl.classroomTypeId!=null).length
+        }
+        return result.filter(fl=> fl[arg2] == arg3&& fl.classroomTypeId == id).length
+    }
+  async getReportSdqReportByRoom(dto: ExportPdfDto,reportName:string,type:number) {
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
+        const result = await this.sdqRepository.find({where:{classroomId:dto.roomId,classroomTypeId:dto.classId,yearTermId:dto.yearTermId,estimateType:type}})
+        const dataList:DataRowModel[] = result.map(m=>{
+            return {
+                v1:m.nameValue,
+                v2:m.studentNumber,
+                v3:this.getSdqLabel(m.emotionalBehaviorScore01_value),
+                v4:this.getSdqLabel(m.nomalBehaviorScore02_value),
+                v5:this.getSdqLabel(m.ADHDBehaviorScore03_value),
+                v6:this.getSdqLabel(m.friendBehaviorScore04_value),
+                v7:m.socialBehaviorScore05_value,
+                v8:this.getSdqLabel(m.sumScore_value),
+            }
+        })
+        const sumarizeList:DataRowModel[] = [
+            {
+                v1:'',
+                v2:this.getChoice1(dataList,'ป'),
+                v3:this.getChoice1(dataList,'ส'),
+                v4:this.getChoice1(dataList,'ห')
+            },
+            {
+                v1:'',
+                v2:this.getChoice2(dataList,'ป'),
+                v3:this.getChoice2(dataList,'ส'),
+                v4:this.getChoice2(dataList,'ห')
+            },
+            {
+                v1:'',
+                v2:this.getChoice3(dataList,'ป'),
+                v3:this.getChoice3(dataList,'ส'),
+                v4:this.getChoice3(dataList,'ห')
+            },
+            {
+                v1:'',
+                v2:this.getChoice4(dataList,'ป'),
+                v3:this.getChoice4(dataList,'ส'),
+                v4:this.getChoice4(dataList,'ห')
+            },
+            {
+                v1:'',
+                v2:this.getChoiceSum(dataList,'ป'),
+                v3:this.getChoiceSum(dataList,'ส'),
+                v4:this.getChoiceSum(dataList,'ห')
+            }
+        ]
+        const sumarize2 :DataRowModel = 
+        {
+            v1:this.getStrange(dataList,'เป็นจุดแข็ง'),
+            v2:this.getStrange(dataList,'ไม่มีจุดแข็ง'),
+            v3:dataList.length,
+        }
+
+        return this.exportPdfService.getSdqReportByRoom(header,dataList,sumarizeList,sumarize2)
+
     }
-    sdqTeacherReport(dto: ExportPdfDto) {
-        switch(dto.reportType){
-            case 'ALL':
-                return this.getReportSdqTeacherReport (dto)
-            case 'CLASS':
-                return this.getReportSdqTeacherReportByClass(dto)
-            case 'ROOM':
-                return this.getReportSdqTeacherReportByRoom(dto)
+    getStrange(dataList: DataRowModel[],arg:string): any {
+        return dataList.filter(fl=>fl.v7 == arg).length
+    }
+    getChoiceSum(dataList: DataRowModel[], arg1: string): any {
+        let count = 0
+        dataList.forEach(el=>{
+            if(el.v3 == arg1){
+                count += 1
+            }
+            if(el.v4 == arg1){
+                count += 1
+            }
+            if(el.v5 == arg1){
+                count += 1
+            }
+            if(el.v6 == arg1){
+                count += 1
+            }
+        })
+        return count
+    }
+    getChoice1(dataList: DataRowModel[], arg1: string): any {
+        let count = 0
+        dataList.forEach(el=>{
+            if(el.v3 == arg1){
+                count += 1
+            }
+            
+        })
+        return count
+    }
+    getChoice2(dataList: DataRowModel[], arg1: string): any {
+        let count = 0
+        dataList.forEach(el=>{
+            if(el.v4 == arg1){
+                count += 1
+            }
+            
+        })
+        return count
+    }
+    getChoice3(dataList: DataRowModel[], arg1: string): any {
+        let count = 0
+        dataList.forEach(el=>{
+            if(el.v5 == arg1){
+                count += 1
+            }
+            
+        })
+        return count
+    }
+    getChoice4(dataList: DataRowModel[], arg1: string): any {
+        let count = 0
+        dataList.forEach(el=>{
+            if(el.v6 == arg1){
+                count += 1
+            }
+            
+        })
+        return count
+    }
+    getSdqLabel(value: string): any {
+        switch(value){
+            case 'มีปัญหา':
+                return 'ห'
+            case 'เสี่ยง':
+                return 'ส'
+            case 'ปกติ':
+                return 'ป'
         }
     }
-  async getReportSdqTeacherReport(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
-        const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getSdqReportSumarize(header,[],[])
-    }
-  async getReportSdqTeacherReportByClass(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
-        const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getSdqReportByClass(header,[],[])
-    }
-  async getReportSdqTeacherReportByRoom(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
-        const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-    }
-    sdqStudentReport(dto: ExportPdfDto) {
-        switch(dto.reportType){
-            case 'ALL':
-                return this.getReportSdqStudentReport (dto)
-            case 'CLASS':
-                return this.getReportSdqStudentReportByClass(dto)
-            case 'ROOM':
-                return this.getReportSdqStudentReportByRoom(dto)
-        }
-    }
-  async getReportSdqStudentReport(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
-        const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getSdqReportSumarize(header,[],[])
-    }
-  async getReportSdqStudentReportByClass(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
-        const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getSdqReportByClass(header,[],[])
-    }
-  async getReportSdqStudentReportByRoom(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
-        const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getSdqReportByRoom(header,[],[],{})
-    }
-    sdqParentReport(dto: ExportPdfDto) {
-        switch(dto.reportType){
-            case 'ALL':
-                return this.getReportSdqParentReport (dto)
-            case 'CLASS':
-                return this.getReportSdqParentReportByClass(dto)
-            case 'ROOM':
-                return this.getReportSdqParentReportByRoom(dto)
-        }
-    }
-  async getReportSdqParentReport(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
-        const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getSdqReportSumarize(header,[],[])
-    }
-  async getReportSdqParentReportByClass(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
-        const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getSdqReportByClass(header,[],[])
-    }
-  async getReportSdqParentReportByRoom(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
-        const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getSdqReportByRoom(header,[],[],{})
-    }
+
     stressReport(dto: ExportPdfDto) {
         switch(dto.reportType){
             case 'ALL':
-                return this.getReportStressReport (dto)
+                return this.getReportStressReport(dto)
             case 'CLASS':
                 return this.getReportStressReportByClass(dto)
             case 'ROOM':
@@ -436,19 +636,121 @@ const dontHelp = dontHelp1+dontHelp2
         }
     }
   async getReportStressReport(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+         const reportName = 'รายงานผลประเมินความเครียดของนักเรียน'
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getStressReportSumarize(header,[],[])
+        const result = await this.reportStress.find({where:{yearTermId:dto.yearTermId},order:{classroomTypeId:'ASC',classroomId:'ASC',studentNumber:'ASC'}})
+        const dataList:DataRowModel[] = result.map(m=>{
+            return {
+                v1:m.className??'',
+                v2:m.roomName??'',
+                v3:m.studentNumber??'',
+                v4:m.studentName??'',
+                v5:this.getStressLabel(m.sumva),
+                v6:this.getDateLabel(m.updatedAt)
+            }
+        })
+        const classResult = await this.classroomType.find({where:{active:true},order:{id:'ASC'}})
+        const sumarizeList:DataRowModel[] = classResult.map(m=>{
+            return {
+                v1:m.typeName,
+                v2:this.sumStressInRang2(m.id,result,0,23),
+                v3:this.sumStressInRang2(m.id,result,24,41),
+                v4:this.sumStressInRang2(m.id,result,42,61),
+                v5:this.sumStressInRang2(m.id,result,62,500),
+            }
+        })
+        const sumModel:DataRowModel={
+            v1:'รวม',
+            v2:this.sumStressInRang2(-1,result,0,23),
+            v3:this.sumStressInRang2(-1,result,24,41),
+            v4:this.sumStressInRang2(-1,result,42,61),
+            v5:this.sumStressInRang2(-1,result,62,500),
+        }
+        sumarizeList.push(sumModel)
+        return this.exportPdfService.getStressReportSumarize(header,dataList,sumarizeList)
     }
   async getReportStressReportByClass(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+         const reportName = 'รายงานผลประเมินความเครียดของนักเรียน '
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getStressReportByClass(header,[],[])
+        const result = await this.reportStress.find({where:{yearTermId:dto.yearTermId,classroomTypeId:dto.classId},order:{classroomTypeId:'ASC',classroomId:'ASC',studentNumber:'ASC'}})
+        const dataList:DataRowModel[] = result.map(m=>{
+            return {
+                v1:m.roomName??'',
+                v2:m.studentNumber??'',
+                v3:m.studentName??'',
+                v4:this.getStressLabel(m.sumva),
+                v5:this.getDateLabel(m.updatedAt)
+            }
+        })
+        const roomResult = await this.classroom.find({where:{active:true},order:{id:'ASC'}})
+        const sumarizeList:DataRowModel[] = roomResult.map(m=>{
+            return {
+                v1:this.getSdqLabelName(header.className,m.name),
+                v2:this.sumStressInRang(m.id,result,0,23),
+                v3:this.sumStressInRang(m.id,result,24,41),
+                v4:this.sumStressInRang(m.id,result,42,61),
+                v5:this.sumStressInRang(m.id,result,62,500),
+            }
+        })
+        const sumModel:DataRowModel={
+            v1:'รวม',
+            v2:this.sumStressInRang(-1,result,0,23),
+            v3:this.sumStressInRang(-1,result,24,41),
+            v4:this.sumStressInRang(-1,result,42,61),
+            v5:this.sumStressInRang(-1,result,62,500),
+        }
+        sumarizeList.push(sumModel)
+
+        return this.exportPdfService.getStressReportByClass(header,dataList,sumarizeList)
     }
+    sumStressInRang(id: number, result: ReportStress[], arg2: number, arg3: number): any {
+       if(id == -1){
+        return result.filter(fl=>fl.classroomId != null && fl.sumva>=arg2&&fl.sumva<=arg3).length
+       }
+       return result.filter(fl=>fl.classroomId == id && fl.sumva>=arg2&&fl.sumva<=arg3).length
+    }
+    sumStressInRang2(id: number, result: ReportStress[], arg2: number, arg3: number): any {
+        if(id == -1){
+         return result.filter(fl=>fl.classroomTypeId != null && fl.sumva>=arg2&&fl.sumva<=arg3).length
+        }
+        return result.filter(fl=>fl.classroomTypeId == id && fl.sumva>=arg2&&fl.sumva<=arg3).length
+     }
   async getReportStressReportByRoom(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+         const reportName = 'รายงานผลประเมินความเครียดของนักเรียน '
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getStressReportByRoom(header,[],{})
+        const result = await this.reportStress.find({where:{yearTermId:dto.yearTermId,classroomId:dto.roomId,classroomTypeId:dto.classId},order:{classroomTypeId:'ASC',classroomId:'ASC',studentNumber:'ASC'}})
+        const dataList = result.map(m=>{
+            return {
+                v1:m.studentNumber??'',
+                v2:m.studentName??'',
+                v3:this.getStressLabel(m.sumva),
+                v4:this.getDateLabel(m.updatedAt),
+            }
+        })
+        const sum:DataRowModel ={
+            v1:this.sumByLabel(dataList,'เครียดเล็กน้อย'),
+            v2:this.sumByLabel(dataList,'เครียดปานกลาง'),
+            v3:this.sumByLabel(dataList,'เครียดสูง'),
+            v4:this.sumByLabel(dataList,'เครียดรุนแรง')
+        }
+        return this.exportPdfService.getStressReportByRoom(header,dataList,sum)
+    }
+    sumByLabel(dataList: { v1: string; v2: string; v3: any; v4: string; }[], arg1: string): any {
+        return dataList.filter(fl=>fl.v3 == arg1 ).length
+    }
+    getStressLabel(sumva: number): any {
+        if(sumva<=23){
+            return `เครียดเล็กน้อย`
+        }
+        if(sumva>=23 && sumva<=41){
+            return `เครียดปานกลาง`
+        }
+        if(sumva>=42 && sumva<=61){
+            return `เครียดสูง`
+        }
+        if(sumva>=62){
+            return `เครียดรุนแรง`
+        }
     }
     eqReport(dto: ExportPdfDto) {
         switch(dto.reportType){
@@ -461,19 +763,91 @@ const dontHelp = dontHelp1+dontHelp2
         }
     }
   async getReportEqReport(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+         const reportName = 'ผลประเมินความฉลาดทางอารมณ์ '
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getEqReportSumarize(header,[],{})
+        const result  = await this.reportEq.find({where:{yearTermId:dto.yearTermId},order:{classroomTypeId:'ASC',classroomId:'ASC',studentNumber:'ASC'}})
+        const classResult = await this.classroomType.find({order:{typeName:'ASC'}})
+        const dataList:DataRowModel[] = classResult.map(m=>{
+            return{
+                v1:m.typeName,
+                v2:this.sumEq2(m.id,result,0,139),
+                v3:this.sumEq2(m.id,result,140,170),
+                v4:this.sumEq2(m.id,result,171,500)
+            }
+        })
+        const sumModel:DataRowModel = {
+            v1:this.sumEq2(-1,result,0,139),
+            v2:this.sumEq2(-1,result,140,170),
+            v3:this.sumEq2(-1,result,171,500),
+            v4:result.filter(fl=>fl.classroomTypeId!=null).length
+        }
+
+        return this.exportPdfService.getEqReportSumarize(header,dataList,sumModel)
     }
   async getReportEqReportByClass(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+         const reportName = 'ผลประเมินความฉลาดทางอารมณ์ '
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getEqReportByClass(header,[],{})
+        const result  = await this.reportEq.find({where:{yearTermId:dto.yearTermId,classroomTypeId:dto.classId},order:{classroomTypeId:'ASC',classroomId:'ASC',studentNumber:'ASC'}})
+        const roomResult = await this.classroom.find({where:{active:true,deletedAt:null},order:{id:'ASC'}})
+        const dataList:DataRowModel[] = roomResult.map(m=>{
+            return{
+                v1:this.getSdqLabelName(header.className,m.name),
+                v2:this.sumEq(m.id,result,0,139),
+                v3:this.sumEq(m.id,result,140,170),
+                v4:this.sumEq(m.id,result,171,500)
+            }
+        })
+        const sumModel:DataRowModel = {
+            v1:this.sumEq(-1,result,0,139),
+            v2:this.sumEq(-1,result,140,170),
+            v3:this.sumEq(-1,result,171,500),
+            v4:result.filter(fl=>fl.classroomId!=null).length
+        }
+        return this.exportPdfService.getEqReportByClass(header,dataList,sumModel)
+    }
+    sumEq(id: number, result: ReportEq[], arg2: number, arg3: number): any {
+        if(id==-1){
+            return result.filter(fl=>fl.classroomId !=null&& fl.sumva>=arg2&&fl.sumva<=arg3).length
+        }else{
+            return result.filter(fl=>fl.classroomId == id&& fl.sumva>=arg2&&fl.sumva<=arg3).length
+        }
+    }
+    sumEq2(id: number, result: ReportEq[], arg2: number, arg3: number): any {
+        if(id==-1){
+            return result.filter(fl=>fl.classroomTypeId !=null&& fl.sumva>=arg2&&fl.sumva<=arg3).length
+        }else{
+            return result.filter(fl=>fl.classroomTypeId == id&& fl.sumva>=arg2&&fl.sumva<=arg3).length
+        }
     }
   async getReportEqReportByRoom(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+         const reportName = 'ผลประเมินความฉลาดทางอารมณ์ '
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getEqReportByRoom(header,[],{})
+        const result  = await this.reportEq.find({where:{yearTermId:dto.yearTermId,classroomId:dto.roomId,classroomTypeId:dto.classId},order:{classroomTypeId:'ASC',classroomId:'ASC',studentNumber:'ASC'}})
+        const dataList:DataRowModel[] = result.map(m=>{
+            return {
+                v1:m.studentName,
+                v2:m.studentNumber,
+                v3:this.getLabelEq(m.sumva,0,139),
+                v4:this.getLabelEq(m.sumva,140,170),
+                v5:this.getLabelEq(m.sumva,171,500),
+            }
+        })
+        const sumModel:DataRowModel={
+            v1:this.getSumEq(dataList,'v3'),
+            v2:this.getSumEq(dataList,'v3'),
+            v3:this.getSumEq(dataList,'v3'),
+            v4:dataList.length
+        }
+        return this.exportPdfService.getEqReportByRoom(header,dataList,sumModel)
+    }
+    getSumEq(dataList: DataRowModel[], arg1: string): any {
+        return dataList.filter(fl=>fl[arg1] == '/').length
+    }
+    getLabelEq(sumva: number, arg1: number, arg2: number): any {
+        if(sumva>=arg1&&sumva<=arg2){
+            return `/`
+        }
+        return ``
     }
     studentSupportReport(dto: ExportPdfDto) {
         switch(dto.reportType){
@@ -486,44 +860,126 @@ const dontHelp = dontHelp1+dontHelp2
         }
     }
   async getReportStudentSupportReport(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+         const reportName = 'รายงานการส่งเสริมและพัฒนาศักยภาพนักเรียน '
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
         return this.exportPdfService.getStudentSupportReportSumarize(header,[],[])
     }
   async getReportStudentSupportReportByClass(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+         const reportName = 'รายงานการส่งเสริมและพัฒนาศักยภาพนักเรียน '
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
         return this.exportPdfService.getStudentSupportReportByClass(header,[],[])
     }
   async getReportStudentSupportReportByRoom(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
+         const reportName = 'รายงานการส่งเสริมและพัฒนาศักยภาพนักเรียน '
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
         return this.exportPdfService.getStudentSupportReportByRoom(header,[],{})
     }
     studentConsultReport(dto: ExportPdfDto) {
         switch(dto.reportType){
-            case 'ALL':
-                return this.getReportStudentConsultReport (dto)
             case 'CLASS':
                 return this.getReportStudentConsultReportByClass(dto)
             case 'ROOM':
                 return this.getReportStudentConsultReportByRoom(dto)
         }
     }
-  async getReportStudentConsultReport(dto: ExportPdfDto) {
-         const reportName = 'กำลังพัฒนา'
-        const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getStudentConsultReportByClass(header,[],{})
-    }
+
   async getReportStudentConsultReportByClass(dto: ExportPdfDto) {
          const reportName = 'กำลังพัฒนา'
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getStudentConsultReportByClass(header,[],{})
+        const result = await this.reportStudentConsult.find({where:{yearTermId:dto.yearTermId,classroomTypeId:dto.classId},order:{classroomTypeId:'ASC',classroomId:'ASC',studentNumber:'ASC'}})
+        const dataList:DataRowModel[] = result.map(m=>{
+            return{
+                v1:m.nickName,
+                v2:m.roomName,
+                v3:this.getDateLabel(m.createdAt),
+                v4:this.getTimeLabel(m.diffTime) ,
+                v5:this.getStoryLabel(m.storyType),
+                v6:this.getResultLabel(m.resultType),
+                v7:this.getSendTypeLabel(m.sentType,m.sentText) 
+            }
+        })
+        console.log(dataList);
+        
+        const sumModel:DataRowModel ={
+            v1:result.filter(fl=>fl.classroomId!=null).length,
+            v2:this.countSentTo(result)
+        }
+        return this.exportPdfService.getStudentConsultReportByClass(header,dataList,sumModel)
+    }
+    getTimeLabel(diffTime: {}): any {
+        console.log(diffTime);
+        if(diffTime['minutes']){
+            if(diffTime['hours']){
+                return `${diffTime['hours']}:${+diffTime['minutes']<10?'0'+diffTime['minutes']:diffTime['minutes']} นาที`
+            }
+            return `${+diffTime['minutes']<10?'0'+diffTime['minutes']:diffTime['minutes']} นาที`
+
+        }
+        return ``
     }
   async getReportStudentConsultReportByRoom(dto: ExportPdfDto) {
          const reportName = 'กำลังพัฒนา'
         const header = await this.getHeaderReport(reportName,dto.yearTermId,dto.classId,dto.roomId)
-        return this.exportPdfService.getStudentConsultReportByRoom(header,[],{})
+        const result = await this.reportStudentConsult.find({where:{yearTermId:dto.yearTermId,classroomTypeId:dto.classId,classroomId:dto.roomId},order:{classroomTypeId:'ASC',classroomId:'ASC',studentNumber:'ASC'}})
+        const dataList:DataRowModel[] = result.map(m=>{
+            return{
+                v1:m.nickName,
+                v2:this.getDateLabel(m.createdAt),
+                v3:m.diffTime,
+                v4:this.getStoryLabel(m.storyType),
+                v5:this.getResultLabel(m.resultType),
+                v6:this.getSendTypeLabel(m.sentType,m.sentText) 
+            }
+        })
+        const sumModel:DataRowModel ={
+            v1:result.filter(fl=>fl.classroomId!=null).length,
+            v2:this.countSentTo(result)
+        }
+        return this.exportPdfService.getStudentConsultReportByRoom(header,dataList,sumModel)
+    }
+    countSentTo(result: ReportStudentConsult[]): any {
+        return result.filter(fl=>fl.classroomId!=null && (fl.sentType == 3||fl.sentType == 4||fl.sentType == 5||fl.sentType == 6)).length
+    }
+
+    getSendTypeLabel(sentType: number,text:string): any {
+        switch(sentType){
+            case 1:
+                return ``
+                case 2:
+                    return ``
+                    case 3:
+                        return `ส่งต่อครูแนะแนว`
+                        case 4:
+                            return `ส่งต่องานพยาบาล`
+                            case 5:
+                                return `ส่งต่องานปกครอง`
+                                case 6:
+                                    return text
+                    default:
+                        return ``
+        }
+    }
+    getResultLabel(resultType: number): any {
+        switch(resultType){
+            case 1:
+                return `นักเรียนสามารถแก้ปัญหาได้`
+                case 2:
+                    return `นักเรียนไม่สามารถแก้ปัญหาได้`
+                    default:
+                        return ``
+        }
+    }
+    getStoryLabel(storyType: number): any {
+        switch(storyType){
+            case 1:
+                return `การเรียน`
+                case 2:
+                    return `ส่วนตัวและสังคม`
+                    case 3:
+                        return `การศึกษาต่อและอาชีพ`
+                    default:
+                        return ``
+        }
     }
     studentScolarReport(dto: ExportPdfDto) {
         switch(dto.reportType){
@@ -615,9 +1071,9 @@ const dontHelp = dontHelp1+dontHelp2
             case 'ALL':
                 return this.getReportDepression(dto)
             case 'CLASS':
-                return this.getReportDepressionByRoom(dto)
-            case 'ROOM':
                 return this.getReportDepressionByClass(dto)
+            case 'ROOM':
+                return this.getReportDepressionByRoom(dto)
         }
     }
     async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
@@ -905,350 +1361,20 @@ const dontHelp = dontHelp1+dontHelp2
         return header
     }
 
-    async getReportStudentFilterSumarize(dto: ExportPdfDto) {
-        const result = await this.reportStudentFilterSumarize.find()
-        let sumVa1:number = 0;
-        let sumVa2:number = 0;
-        let sumVa3:number = 0;
-        
-        result.forEach(en=>{
-             sumVa1 += +(en.value1?en.value1:0)
-             sumVa2 += +(en.value2?en.value2:0)
-             sumVa3 += +(en.value3?en.value3:0)
-           
-        })
-        result.push({
-            name:' สรุปผลการคัดกรอง',
-            value1:sumVa1,
-            value2:sumVa2,
-            value3:sumVa3,
-           
-        })
-        // return this.exportPdfService.downloadPdf()
-    }
+
     async getReportStudentFilter(dto: ExportPdfDto) {
-        const result =await this.reportStudentFilterByClass.find()
-        let sumVa1:number = 0;
-        let sumVa2:number = 0;
-        let sumVa3:number = 0;
-        let sumVa4:number = 0;
-        let sumVa5:number = 0;
-        let sumVa6:number = 0;
-        let sumVa7:number = 0;
-        let sumVa8:number = 0;
-        let sumVa9:number = 0;
-        let sumVa10:number = 0;
-        let sumVa11:number = 0;
-        let sumVa12:number = 0;
-        let sumVa13:number = 0;
-        let sumVa14:number = 0;
-        let sumVa15:number = 0;
-        let sumVa16:number = 0;
-        let sumVa17:number = 0;
-        let sumVa18:number = 0;
-        let sumVa19:number = 0;
-        let sumVa20:number = 0;
-        let sumVa21:number = 0;
-        let sumVa22:number = 0;
-        let sumVa23:number = 0;
-        let sumVa24:number = 0;
-        let sumVa25:number = 0;
-        let sumVa26:number = 0;
-        let sumVa27:number = 0;
-        let sumVa28:number = 0;
-        let sumVa29:number = 0;
-        let sumVa30:number = 0;
-        result.forEach(en=>{
-             sumVa1 += +(en.value1?en.value1:0)
-             sumVa2 += +(en.value2?en.value2:0)
-             sumVa3 += +(en.value3?en.value3:0)
-             sumVa4 += +(en.value4?en.value4:0)
-             sumVa5 += +(en.value5?en.value5:0)
-             sumVa6 += +(en.value6?en.value6:0)
-             sumVa7 += +(en.value7?en.value7:0)
-             sumVa8 += +(en.value8?en.value8:0)
-             sumVa9 += +(en.value9?en.value9:0)
-             sumVa10 += +(en.value10?en.value10:0)
-             sumVa11 += +(en.value11?en.value11:0)
-             sumVa12 += +(en.value12?en.value12:0)
-             sumVa13 += +(en.value13?en.value13:0)
-             sumVa14 += +(en.value14?en.value14:0)
-             sumVa15 += +(en.value15?en.value15:0)
-             sumVa16 += +(en.value16?en.value16:0)
-             sumVa17 += +(en.value17?en.value17:0)
-             sumVa18 += +(en.value18?en.value18:0)
-             sumVa19 += +(en.value19?en.value19:0)
-             sumVa20 += +(en.value20?en.value20:0)
-             sumVa21 += +(en.value21?en.value21:0)
-             sumVa22 += +(en.value22?en.value22:0)
-             sumVa23 += +(en.value23?en.value23:0)
-             sumVa24 += +(en.value24?en.value24:0)
-             sumVa25 += +(en.value25?en.value25:0)
-             sumVa26 += +(en.value26?en.value26:0)
-             sumVa27 += +(en.value27?en.value27:0)
-             sumVa28 += +(en.value28?en.value28:0)
-             sumVa29 += +(en.value29?en.value29:0)
-             sumVa30 += +(en.value30?en.value30:0)
-        })
-        result.push({
-            name1:'รวม',
-            value1:sumVa1,
-            value2:sumVa2,
-            value3:sumVa3,
-            value4:sumVa4,
-            value5:sumVa5,
-            value6:sumVa6,
-            value7:sumVa7,
-            value8:sumVa8,
-            value9:sumVa9,
-            value10:sumVa10,
-            value11:sumVa11,
-            value12:sumVa12,
-            value13:sumVa13,
-            value14:sumVa14,
-            value15:sumVa15,
-            value16:sumVa16,
-            value17:sumVa17,
-            value18:sumVa18,
-            value19:sumVa19,
-            value20:sumVa20,
-            value21:sumVa21,
-            value22:sumVa22,
-            value23:sumVa23,
-            value24:sumVa24,
-            value25:sumVa25,
-            value26:sumVa26,
-            value27:sumVa27,
-            value28:sumVa28,
-            value29:sumVa29,
-            value30:sumVa30,
-        })
-        const header:HeaderReport = {
-            reportType:EReportType.SUMARIZE,
-            reportName:'ผลการคัดกรองนักเรียน',
-            year:'2556',
-            term:'2',
-            className:'ม.6'
-        }
-        const dataList:DataRowModel[] = result.map(m=>{return {
-            name1:m.name1,
-            name2:'',
-            v1:m.value1,
-            v2:m.value2,
-            v3:m.value3,
-            v4:m.value4,
-            v5:m.value5,
-            v6:m.value6,
-            v7:m.value7,
-            v8:m.value8,
-            v9:m.value9,
-            v10:m.value10,
-            v11:m.value11,
-            v12:m.value12,
-            v13:m.value13,
-            v14:m.value14,
-            v15:m.value15,
-            v16:m.value16,
-            v17:m.value17,
-            v18:m.value18,
-            v19:m.value19,
-            v20:m.value20,
-            v21:m.value21,
-            v22:m.value22,
-            v23:m.value23,
-            v24:m.value24,
-            v25:m.value25,
-            v26:m.value26,
-            v27:m.value27,
-            v28:m.value28,
-            v29:m.value29,
-            v30:m.value30,
-           
-        }}) 
-        return this.exportPdfService.getStudentFilterReport(header,dataList)
+        const headerName = 'ผลการคัดกรองนักเรียน'
+        const header:HeaderReport = await this.getHeaderReport(headerName,dto.yearTermId,dto.classId,dto.roomId)
+        return this.exportPdfService.getStudentFilterReport(header,[])
     }
     async getReportStudentFilterByClass(dto: ExportPdfDto) {
-        const result = await this.reportStudentFilterByClassAndRoom.find({where:[
-            {value2:MoreThan(0)},
-            {value3:MoreThan(0)},
-            {value4:MoreThan(0)},
-            {value5:MoreThan(0)},
-            {value6:MoreThan(0)},
-            {value7:MoreThan(0)},
-            {value8:MoreThan(0)},
-            {value9:MoreThan(0)},
-            {value10:MoreThan(0)},
-            {value11:MoreThan(0)},
-            {value12:MoreThan(0)},
-            {value13:MoreThan(0)},
-            {value14:MoreThan(0)},
-            {value15:MoreThan(0)},
-            {value16:MoreThan(0)},
-            {value17:MoreThan(0)},
-            {value18:MoreThan(0)},
-            {value19:MoreThan(0)},
-            {value20:MoreThan(0)},
-            {value21:MoreThan(0)},
-            {value22:MoreThan(0)},
-            {value23:MoreThan(0)},
-            {value24:MoreThan(0)},
-            {value25:MoreThan(0)},
-            {value26:MoreThan(0)},
-            {value27:MoreThan(0)},
-            {value28:MoreThan(0)},
-            {value29:MoreThan(0)},
-            {value30:MoreThan(0)},
-        ]})
-        let sumVa1:number = 0;
-        let sumVa2:number = 0;
-        let sumVa3:number = 0;
-        let sumVa4:number = 0;
-        let sumVa5:number = 0;
-        let sumVa6:number = 0;
-        let sumVa7:number = 0;
-        let sumVa8:number = 0;
-        let sumVa9:number = 0;
-        let sumVa10:number = 0;
-        let sumVa11:number = 0;
-        let sumVa12:number = 0;
-        let sumVa13:number = 0;
-        let sumVa14:number = 0;
-        let sumVa15:number = 0;
-        let sumVa16:number = 0;
-        let sumVa17:number = 0;
-        let sumVa18:number = 0;
-        let sumVa19:number = 0;
-        let sumVa20:number = 0;
-        let sumVa21:number = 0;
-        let sumVa22:number = 0;
-        let sumVa23:number = 0;
-        let sumVa24:number = 0;
-        let sumVa25:number = 0;
-        let sumVa26:number = 0;
-        let sumVa27:number = 0;
-        let sumVa28:number = 0;
-        let sumVa29:number = 0;
-        let sumVa30:number = 0;
-        result.forEach(en=>{
-            sumVa1 += +(en.value1?en.value1:0)
-             sumVa2 += +(en.value2?en.value2:0)
-             sumVa3 += +(en.value3?en.value3:0)
-             sumVa4 += +(en.value4?en.value4:0)
-             sumVa5 += +(en.value5?en.value5:0)
-             sumVa6 += +(en.value6?en.value6:0)
-             sumVa7 += +(en.value7?en.value7:0)
-             sumVa8 += +(en.value8?en.value8:0)
-             sumVa9 += +(en.value9?en.value9:0)
-             sumVa10 += +(en.value10?en.value10:0)
-             sumVa11 += +(en.value11?en.value11:0)
-             sumVa12 += +(en.value12?en.value12:0)
-             sumVa13 += +(en.value13?en.value13:0)
-             sumVa14 += +(en.value14?en.value14:0)
-             sumVa15 += +(en.value15?en.value15:0)
-             sumVa16 += +(en.value16?en.value16:0)
-             sumVa17 += +(en.value17?en.value17:0)
-             sumVa18 += +(en.value18?en.value18:0)
-             sumVa19 += +(en.value19?en.value19:0)
-             sumVa20 += +(en.value20?en.value20:0)
-             sumVa21 += +(en.value21?en.value21:0)
-             sumVa22 += +(en.value22?en.value22:0)
-             sumVa23 += +(en.value23?en.value23:0)
-             sumVa24 += +(en.value24?en.value24:0)
-             sumVa25 += +(en.value25?en.value25:0)
-             sumVa26 += +(en.value26?en.value26:0)
-             sumVa27 += +(en.value27?en.value27:0)
-             sumVa28 += +(en.value28?en.value28:0)
-             sumVa29 += +(en.value29?en.value29:0)
-             sumVa30 += +(en.value30?en.value30:0)
-        })
-        result.push({
-            name1:'รวม',
-            name2:'รวม',
-            value1:sumVa1,
-            value2:sumVa2,
-            value3:sumVa3,
-            value4:sumVa4,
-            value5:sumVa5,
-            value6:sumVa6,
-            value7:sumVa7,
-            value8:sumVa8,
-            value9:sumVa9,
-            value10:sumVa10,
-            value11:sumVa11,
-            value12:sumVa12,
-            value13:sumVa13,
-            value14:sumVa14,
-            value15:sumVa15,
-            value16:sumVa16,
-            value17:sumVa17,
-            value18:sumVa18,
-            value19:sumVa19,
-            value20:sumVa20,
-            value21:sumVa21,
-            value22:sumVa22,
-            value23:sumVa23,
-            value24:sumVa24,
-            value25:sumVa25,
-            value26:sumVa26,
-            value27:sumVa27,
-            value28:sumVa28,
-            value29:sumVa29,
-            value30:sumVa30,
-        })
-        const header:HeaderReport = {
-            reportType:EReportType.CLASS,
-            reportName:'ผลการคัดกรองนักเรียน',
-            year:'2556',
-            term:'2',
-            className:'ม.6'
-        }
-        const dataList:DataRowModel[] = result.map(m=>{return {
-            name1:m.name1,
-            name2:m.name2,
-            v1:m.value1,
-            v2:m.value2,
-            v3:m.value3,
-            v4:m.value4,
-            v5:m.value5,
-            v6:m.value6,
-            v7:m.value7,
-            v8:m.value8,
-            v9:m.value9,
-            v10:m.value10,
-            v11:m.value11,
-            v12:m.value12,
-            v13:m.value13,
-            v14:m.value14,
-            v15:m.value15,
-            v16:m.value16,
-            v17:m.value17,
-            v18:m.value18,
-            v19:m.value19,
-            v20:m.value20,
-            v21:m.value21,
-            v22:m.value22,
-            v23:m.value23,
-            v24:m.value24,
-            v25:m.value25,
-            v26:m.value26,
-            v27:m.value27,
-            v28:m.value28,
-            v29:m.value29,
-            v30:m.value30,
-           
-        }}) 
-        return this.exportPdfService.getStudentFilterReport(header,dataList)
+        const headerName = 'ผลการคัดกรองนักเรียน'
+        const header:HeaderReport = await this.getHeaderReport(headerName,dto.yearTermId,dto.classId,dto.roomId)
+        return this.exportPdfService.getStudentFilterReport(header,[])
     }
     async getReportStudentFilterByRoom(dto: ExportPdfDto) {
-        const yearTerm = await this.yearTerm.findOne({where:{id:dto.yearTermId}})
-        const classroom = await this.classroom.findOne({where:{id:dto.roomId}})
-        if(!classroom){
-            throw new BadRequestException({describe:'ไม่มีข้อมูลห้องเรียน'})
-        }
-        const classroomType = await this.classroomType.findOne({where:{id:dto.classId}})
-        if(!classroomType){
-            throw new BadRequestException({describe:'ไม่มีข้อมูลชั้นเรียน'})
-        }
+        const headerName = 'ผลการคัดกรองนักเรียน'
+        const header:HeaderReport = await this.getHeaderReport(headerName,dto.yearTermId,dto.classId,dto.roomId)
         const sumarize =await this.reportStudentFilterSumarizeByClassAndRoom.find({where:{yearTermId:dto.yearTermId,classroomId:dto.roomId,classroomTypeId:dto.classId}})
         const personal = await this.reportStudentFilterPosonal.find({where:{classroomId:dto.roomId,classroomTypeId:dto.classId}})
         const personalMaped:DataRowModel[] = personal.map((m,i)=>{
@@ -1324,18 +1450,10 @@ const dontHelp = dontHelp1+dontHelp2
                 v30:''
             }
         })
-        const header:HeaderReport = {
-            reportName:'',
-            reportType:EReportType.ROOM,
-            term:yearTerm.term,
-            year:yearTerm.year,
-            className:classroomType.typeName,
-            roomName:classroom.name
 
-        }
         return this.exportPdfService.getStudentFilterReportByRoom(header,personalMaped,sumarizeMaped)
     }
-  async getNormalPersonTextB(b: number) {
+   getNormalPersonTextB(b: number) {
         if(!b){
             return ''
         }
@@ -1344,13 +1462,13 @@ const dontHelp = dontHelp1+dontHelp2
         }
         return ''
     }
-  async getNormalPersonTextA(a: number) {
+   getNormalPersonTextA(a: number) {
         if(a==1){
             return '/'
         }
         return ''
     }
-  async getNormalPersonText(lernStatus: number) {
+   getNormalPersonText(lernStatus: number) {
         if(!lernStatus){
             return ''
         }
@@ -1359,13 +1477,13 @@ const dontHelp = dontHelp1+dontHelp2
         }
         return 'ป'
     }
-  async getTextNormalPerson(sdq1: string, sdq2: string, sdq3: string) {
+   getTextNormalPerson(sdq1: string, sdq2: string, sdq3: string) {
         if(sdq1 == 'มีปัญหา'|| sdq2 == 'มีปัญหา'|| sdq3 == 'มีปัญหา'||sdq1 == 'เสี่ยง'|| sdq2 == 'เสี่ยง'|| sdq3 == 'เสี่ยง'){
             return 'ส'
         }
         return 'ป'
     }
-  async getNormalPerson(summarize: number) {
+   getNormalPerson(summarize: number) {
         if(!summarize){
             return ''
         }
@@ -1440,72 +1558,24 @@ const dontHelp = dontHelp1+dontHelp2
         @InjectRepository(ReportHomeVisitPersonal)
         private readonly reportHomeVisitPersonal: Repository<ReportHomeVisitPersonal>,
 
-        @InjectRepository(ReportStudentByClass)
-        private readonly studentByClassRepository: Repository<ReportStudentByClass>,
-        @InjectRepository(ReportStudentByRoom)
-        private readonly studentByRoomRepository: Repository<ReportStudentByRoom>,
-        @InjectRepository(ReportStudentSumarize)
-        private readonly studentSumarizeRepository: Repository<ReportStudentSumarize>,
-        @InjectRepository(ReportTeacherBySubject)
-        private readonly teacherBySubjectRepository: Repository<ReportTeacherBySubject>,
-        @InjectRepository(ReportTeacherSumarize)
-        private readonly teacherSumarizeRepository: Repository<ReportTeacherSumarize>,
-        @InjectRepository(ReportCheckStudentSumarize)
-        private readonly checkStudentSumarizeRepository: Repository<ReportCheckStudentSumarize>,
-        @InjectRepository(ReportEqSumarize)
-        private readonly reportEqSumarize: Repository<ReportEqSumarize>,
-        @InjectRepository(ReportEqByRoom)
-        private readonly reportEqByRoom: Repository<ReportEqByRoom>,
-        @InjectRepository(ReportEqByClass)
-        private readonly reportEqByClass: Repository<ReportEqByClass>,
-        @InjectRepository(ReportEqByClassAndRoom)
-        private readonly reportEqByClassAndRoom: Repository<ReportEqByClassAndRoom>,
-
-        @InjectRepository(ReportDepressionSumarize)
-        private readonly reportDepressionSumarize: Repository<ReportDepressionSumarize>,
-        @InjectRepository(ReportDepressionByClass)
-        private readonly reportDepressionByClass: Repository<ReportDepressionByClass>,
-        @InjectRepository(ReportDepressionByClassAndRoom)
-        private readonly reportDepressionByClassAndRoom: Repository<ReportDepressionByClassAndRoom>,
+        @InjectRepository(VwSdqTableList)
+        private readonly sdqRepository: Repository<VwSdqTableList>,
+        @InjectRepository(ReportEq)
+        private readonly reportEq: Repository<ReportEq>,
         @InjectRepository(ReportDepressionPesonal)
         private readonly reportDepressionPesonal: Repository<ReportDepressionPesonal>,
+        
+        @InjectRepository(ReportStudentConsult)
+        private readonly reportStudentConsult: Repository<ReportStudentConsult>,
         @InjectRepository(ReportStudentFilterSumarize)
         private readonly reportStudentFilterSumarize: Repository<ReportStudentFilterSumarize>,
         @InjectRepository(ReportStudentFilterByClass)
         private readonly reportStudentFilterByClass: Repository<ReportStudentFilterByClass>,
         @InjectRepository(ReportStudentFilterByClassAndRoom)
         private readonly reportStudentFilterByClassAndRoom: Repository<ReportStudentFilterByClassAndRoom>,
-        @InjectRepository( ReportStudentFilterByRoom)
-        private readonly reportStudentFilterByRoom: Repository<ReportStudentFilterByRoom>,
-        @InjectRepository(ReportStudentHelpByClass)
-        private readonly reportStudentHelpByClass: Repository<ReportStudentHelpByClass>,
-        @InjectRepository(ReportStudentHelpByRoom)
-        private readonly reportStudentHelpByRoom: Repository<ReportStudentHelpByRoom>,
-        @InjectRepository(ReportStudentHelpByClassAndRoom)
-        private readonly reportStudentHelpByClassAndRoom: Repository<ReportStudentHelpByClassAndRoom>,
-        @InjectRepository(ReportStudentScolarByClass)
-        private readonly reportStudentScolarByClass: Repository<ReportStudentScolarByClass>,
-        @InjectRepository(ReportStudentScolarByRoom)
-        private readonly reportStudentScolarByRoom: Repository<ReportStudentScolarByRoom>,
-        @InjectRepository(ReportStudentScolarByClassAndRoom)
-        private readonly reportStudentScolarByClassAndRoom: Repository<ReportStudentScolarByClassAndRoom>,
-        @InjectRepository(ReportStudentSendToByClass)
-        private readonly reportStudentSendToByClass: Repository<ReportStudentSendToByClass>,
-        @InjectRepository(ReportStudentSendToByRoom)
-        private readonly reportStudentSendToByRoom: Repository<ReportStudentSendToByRoom>,
-        @InjectRepository(ReportStudentSendToByClassAndRoom)
-        private readonly reportStudentSendToByClassAndRoom: Repository<ReportStudentSendToByClassAndRoom>,
-        @InjectRepository(ReportStudentSendToSumarize)
-        private readonly reportStudentSendToSumarize: Repository<ReportStudentSendToSumarize>,
         
-        @InjectRepository(ReportStressSumarize)
-        private readonly reportStressSumarize: Repository<ReportStressSumarize>,
-        @InjectRepository(ReportStressByClass)
-        private readonly reportStressByClass: Repository<ReportStressByClass>,
-        @InjectRepository(ReportStressByClassAndRoom)
-        private readonly reportStressByClassAndRoom: Repository<ReportStressByClassAndRoom>,
-        @InjectRepository(ReportStressByRoom)
-        private readonly reportStressByRoom: Repository<ReportStressByRoom>,
+        @InjectRepository(ReportStress)
+        private readonly reportStress: Repository<ReportStress>,
         @InjectRepository(ReportStudentFilterSumarizeByClassAndRoom)
         private readonly reportStudentFilterSumarizeByClassAndRoom: Repository<ReportStudentFilterSumarizeByClassAndRoom>,
         @InjectRepository(ReportStudentFilterPosonal)

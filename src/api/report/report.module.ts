@@ -5,11 +5,12 @@ import { DropdownService } from 'src/core/shared/services/dropdown.service';
 import { ClassroomType, VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { Classroom, VwClassroomDropdown } from '../classroom/classroom.entity';
 import { ExportPdfModule } from '../export-pdf/export-pdf.module';
+import { VwSdqTableList } from '../sdq-table/sdq-table.entity';
 import { StudentModule } from '../student/student.module';
 import { VwYearTermDropdown, YearTerm } from '../year-term/year-term.entity';
 import { YearTermModule } from '../year-term/year-term.module';
 import { ReportCheckStudentSumarize } from './check-student.entity';
-import { ReportEqSumarize, ReportEqByRoom, ReportEqByClass, ReportEqByClassAndRoom } from './eq.entity';
+import { ReportEq } from './eq.entity';
 import { ReportHomeVisitNeedHelp, ReportHomeVisitSumarize, ReportHomeVisitPersonal } from './home-visit.entity';
 import { ReportDepressionSumarize, ReportDepressionByClass, ReportDepressionByClassAndRoom, ReportDepressionPesonal } from './report-depression.entity';
 import { ReportStudentFilterSumarize, ReportStudentFilterByClass, ReportStudentFilterByClassAndRoom, ReportStudentFilterByRoom, ReportStudentFilterPosonal, ReportStudentFilterSumarizeByClassAndRoom } from './report-student-filter.entity';
@@ -19,7 +20,8 @@ import { ReportStudentSendToByClass, ReportStudentSendToByRoom, ReportStudentSen
 import { ReportController } from './report.controller';
 import { ReportStudentByClass, ReportStudentByRoom, ReportStudentSumarize } from './report.entity';
 import { ReportService } from './report.service';
-import { ReportStressSumarize, ReportStressByClass, ReportStressByClassAndRoom, ReportStressByRoom } from './stress-report.entity';
+import { ReportStress } from './stress-report.entity';
+import { ReportStudentConsult } from './student-consult.entity';
 import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity';
 
 @Module({
@@ -31,10 +33,6 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ReportTeacherBySubject,
       ReportTeacherSumarize,
       ReportCheckStudentSumarize,
-      ReportEqSumarize,
-      ReportEqByRoom,
-      ReportEqByClass,
-      ReportEqByClassAndRoom,
       ReportDepressionSumarize,
       ReportDepressionByClass,
       ReportDepressionByClassAndRoom,
@@ -52,13 +50,11 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ReportStudentSendToByClass,
       ReportStudentSendToByRoom,
       ReportStudentSendToByClassAndRoom,
-      ReportStressSumarize,
-      ReportStressByClass,
-      ReportStressByClassAndRoom,
-      ReportStressByRoom,
+      ReportStress,
       ReportStudentSendToSumarize,
       ReportStudentFilterPosonal,
-      ReportStudentFilterSumarizeByClassAndRoom,YearTerm,
+      ReportStudentFilterSumarizeByClassAndRoom,
+      YearTerm,
       Classroom,
       ClassroomType,
       VwClassroomTypeDropdown,
@@ -66,7 +62,10 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       VwYearTermDropdown,
       ReportHomeVisitNeedHelp,
       ReportHomeVisitSumarize,
-      ReportHomeVisitPersonal
+      ReportHomeVisitPersonal,
+      VwSdqTableList,
+      ReportEq,
+      ReportStudentConsult
     ]),
     ExportPdfModule,YearTermModule,StudentModule,ImagesModule
   ],

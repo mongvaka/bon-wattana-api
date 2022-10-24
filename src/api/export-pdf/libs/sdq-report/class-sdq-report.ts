@@ -10,10 +10,34 @@ export class SdqReportByClass extends BaseReport{
         this.html += this.getCss(CSS_SDQ)
         this.html += this.openTagBody()
         this.html += this.addReport(header,dataList,sumarizeList)
-        
+        this.html += this.addReportSumarize(header,dataList,sumarizeList)
         this.html += this.closeTagBody()
         this.html += this.closeTagHtml()
 
+    }
+    addReportSumarize(header: HeaderReport, dataList: DataRowModel[], sumarizeList: DataRowModel[]) {
+        let report = `<div class="a4">
+            <div class="sumarize">
+            <p class="headerC">
+                สัมพันธภาพทางสังคม
+            </p>
+            <table>
+                <tr>
+                    <th class="cc1">ระดับชั้น</th>
+                    <th class="cc2">มีจุดแข็ง</th>
+                    <th class="cc2">ไม่มีจุดแข็ง</th>
+                </tr>`
+                sumarizeList.forEach(el=>{
+                    report += `                <tr>
+                    <td class="cc1">${el.v1}</td>
+                    <td class="cc2">${el.v2}</td>
+                    <td class="cc2">${el.v3}</td>
+                </tr>`
+                })
+                report += `</table>
+                </div>
+            </div>`
+        return report
     }
    public getHtml(){
         return this.html
@@ -66,26 +90,6 @@ export class SdqReportByClass extends BaseReport{
         dataList.forEach(el=>{
          table += this.getRowData(el)
         })
-        table += ` </table>
-        <div class="sumarize">
-            <p class="headerC">
-                สัมพันธภาพทางสังคม
-            </p>
-            <table>
-                <tr>
-                    <th class="cc1">ระดับชั้น</th>
-                    <th class="cc2">มีจุดแข็ง</th>
-                    <th class="cc2">ไม่มีจุดแข็ง</th>
-                </tr>
-
-            `
-    sumarizeList.forEach(el=>{
-        table += `                <tr>
-        <td class="cc1">${el.v1}</td>
-        <td class="cc2">${el.v2}/td>
-        <td class="cc2">${el.v3}</td>
-    </tr>`
-    })
     table += `</table>
     </div>
 </div>`

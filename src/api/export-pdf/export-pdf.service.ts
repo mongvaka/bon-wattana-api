@@ -199,22 +199,22 @@ export class ExportPdfService {
   async getStudentFilterReport(header:HeaderReport,dataList:DataRowModel[]){
     const service:StudentFilterReport = new StudentFilterReport(header,dataList)
     const html = service.getHtml()  
-    return this.downloadPdf(html,true)
+    return this.downloadPdf(html,true,'10mm','10mm')
   }
   async getStudentFilterReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumarize:DataRowModel[]){
     const service:StudentFilterReportByRoom = new  StudentFilterReportByRoom(header,dataList,sumarize)
     const html = service.getHtml()    
-    return this.downloadPdf(html,true)
+    return this.downloadPdf(html,true,'10mm','10mm')
   }
   
-  private async downloadPdf(html:string,landscape:boolean=false,mt:string ='10mm',mb:string='10mm'){
+  private async downloadPdf(html:string,landscape:boolean=false,mt:string ='0mm',mb:string='0mm'){
         const content = { content: html };
         const options: PDFOptions = {
           format: 'A4',
           landscape:landscape,
           margin:{
-            bottom:'10mm',
-            top:'10mm'
+            bottom:mb,
+            top:mt
           }
         };
         return generatePdf(content, {...options,args:['--no-sandbox',

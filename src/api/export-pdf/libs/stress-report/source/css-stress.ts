@@ -13,7 +13,6 @@ export const CSS_STRESS  = `body{
     height: 297mm;
     width: 209mm;
     font-family: "Sarabun";
-    background-color: antiquewhite;
     padding-left: 15mm;
     padding-right: 15mm;
     padding-top: 15mm;
@@ -43,6 +42,7 @@ p{
 
 }
 .title{
+    margin-top: 10mm;
     text-align: left;
     font-size: 20px;
     

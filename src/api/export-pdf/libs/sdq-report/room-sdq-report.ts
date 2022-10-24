@@ -28,7 +28,7 @@ export class SdqReportByRoom extends BaseReport{
     }
     getReportSumarize(sumarizeList: DataRowModel[], sumarizeList2: DataRowModel) {
         let paper = `<div class="a4">
-        <p class="header left">สรุปผลการประเมิน </p>
+        <p class="header2 left">สรุปผลการประเมิน </p>
         <div class="flex">
             <div class="col">
                 <table>
@@ -64,6 +64,7 @@ export class SdqReportByRoom extends BaseReport{
         </div>
     </div>
     </div>`
+    return paper
     }
     getReportHeader(header: HeaderReport) {
         return `<div class="a4">

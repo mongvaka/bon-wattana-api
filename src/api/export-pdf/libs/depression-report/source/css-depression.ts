@@ -11,15 +11,14 @@ export const CSS_DEPRESSION  = `body{
 .a4{
     
     height: 297mm;
-    width: 209mm;
+    width: 210mm;
     font-family: "Sarabun";
     padding-left: 15mm;
     padding-right: 15mm;
-    padding-top: 5mm;
-    padding-bottom: 5mm;
+    padding-top: 15mm;
+    padding-bottom: 15mm;
 }
 p{
-    margin-top: 0px;
     margin-bottom: 0px;
     padding-bottom: 0px;
     padding-top: 5px;
@@ -43,9 +42,10 @@ p{
 }
 .title{
     text-align: center;
-    margin-top: 15px;
+    margin-top: 15mm;
     margin-bottom: 15px;
 }
+
 span{
     margin-left: 10px;
     margin-right: 10px;

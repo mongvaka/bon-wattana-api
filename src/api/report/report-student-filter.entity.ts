@@ -2032,7 +2032,7 @@ export class ReportStudentFilterSumarizeByClassAndRoom {
     from student s 
     left join (
     select * from student_filter sf 
-    inner join year_term yt  on yt.id = sf."yearTermId" and yt."isParent" 
+    inner join year_term yt  on yt.id = sf."yearTermId"
     ) af on af."studentId" = s.id
     left join classroom c on c.id = s."classroomId" 
     left join classroom_type ct on ct.id  = s."classroomTypeId" 

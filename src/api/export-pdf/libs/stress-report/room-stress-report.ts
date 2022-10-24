@@ -10,15 +10,15 @@ export class StressReportByRoom extends BaseReport{
         this.html += this.getCss(CSS_STRESS)
         this.html += this.openTagBody()
         this.html += this.addReport(header,dataList,sumarizeList)
-        this.html += this.addReportSumarize(sumarizeList)
+        this.html += this.addReportSumarize(sumarizeList,header)
         this.html += this.closeTagBody()
         this.html += this.closeTagHtml()
 
     }
-    addReportSumarize(sumarizeList: DataRowModel) {
+    addReportSumarize(sumarizeList: DataRowModel,header:HeaderReport) {
         return `<div class="a4">
         <div class="content">
-            <p class="title">ผลประเมินโรคซึมเศร้า <span>ม……../…….</span> </p>
+            <p class="title">ผลประเมินโรคซึมเศร้า <span>${header.className}/${header.roomName}</span> </p>
             <div class="flex">
                 <div class="flex1">
                     <p class="title">

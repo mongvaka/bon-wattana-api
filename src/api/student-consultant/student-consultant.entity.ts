@@ -44,7 +44,8 @@ export class StudentConsultant extends BasicData {
 
   @Column({ nullable: true })
   sendNote?: string;
-
+  @Column({ nullable: true })
+  yearTermId?: number;
 
 }
 @ViewEntity({

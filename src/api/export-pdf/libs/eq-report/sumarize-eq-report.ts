@@ -78,7 +78,7 @@ export class EqReportSumarize extends BaseReport{
     private getRowData(el: DataRowModel) {   
           return `    <tr>
 
-          <td class="cb2">${el.v1}/td>
+          <td class="cb2">${el.v1}</td>
           <td class="cb3">${el.v2}</td>
           <td class="cb3">${el.v3}</td>
           <td class="cb3">${el.v4}</td>

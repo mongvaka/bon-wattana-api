@@ -20,7 +20,7 @@ export class SumarizeDepressionReport extends BaseReport{
 
     addDepressionSumarize(header: HeaderReport, depression: DataRowModel[],sucuid: DataRowModel[]) {
         let table = `<div class="a4">
-        <p class="left">ผลประเมินโรคซึมเศร้า</p>
+        <p  class="left  title">ผลประเมินโรคซึมเศร้า</p>
         <div class="content">
             <table>
                 <tr>
@@ -51,7 +51,7 @@ export class SumarizeDepressionReport extends BaseReport{
                 })
         
         table +=`   </table>
-        <p class="left">แนวโน้มการฆ่าตัวตาย</p>`
+        <p  class="left  title">แนวโน้มการฆ่าตัวตาย</p>`
         table+= `
         
             <table>

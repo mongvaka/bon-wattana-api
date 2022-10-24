@@ -147,7 +147,9 @@ export class SdqTable extends BasicData {
     expression: (connection: Connection) => connection.createQueryBuilder()
     .select("sdq_table.id", "id")
     .addSelect("sdq_table.studentId", "studentId")
+    .addSelect("sdq_table.estimateType", "estimateType")
     .addSelect("student.studentCode", "studentCode")
+    .addSelect("student.studentNumber", "studentNumber")
     .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
     .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
     .addSelect("student.classroomId", "classroomId")
@@ -164,11 +166,14 @@ export class SdqTable extends BasicData {
     .leftJoin(Student, "student","student.id = sdq_table.studentId")
     .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
     .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
-    .where("sdq_table.estimateType = 1 ")
 })
 export class VwSdqTableList {
   @ViewColumn()
   id: number;
+  @ViewColumn()
+  estimateType:number
+  @ViewColumn()
+  studentNumber:string
   @ViewColumn()
   studentId: number;
   @ViewColumn()

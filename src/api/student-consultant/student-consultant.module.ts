@@ -6,13 +6,16 @@ import { VwTeacherDropdown } from 'src/api/teacher/teacher.entity';
 import { StudentConsultantController } from './student-consultant.controller';
 import { StudentConsultant, VwStudentConsultantDropdown, VwStudentConsultantItem, VwStudentConsultantList } from './student-consultant.entity';
 import { StudentConsultantService } from './student-consultant.service';
+import { YearTermModule } from '../year-term/year-term.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([StudentConsultant,VwStudentConsultantList,VwStudentConsultantItem,VwStudentConsultantDropdown,
     VwStudentDropdown,
     VwTeacherDropdown,
-    ])
+    ]),
+    YearTermModule
+
   ],
   controllers: [StudentConsultantController],
   providers: [StudentConsultantService,DropdownService],

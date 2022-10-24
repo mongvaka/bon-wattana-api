@@ -13,6 +13,7 @@ import { VwTeacherDropdown } from 'src/api/teacher/teacher.entity';
 import { SearchTeacherDto } from 'src/api/teacher/teacher.dto';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { YearTermService } from '../year-term/year-term.service';
 
 @Injectable()
 export class StudentConsultantService extends BaseService {
@@ -45,7 +46,8 @@ export class StudentConsultantService extends BaseService {
         private readonly vwDropdownStudentRepository:Repository<VwStudentDropdown>,
         @InjectRepository(VwTeacherDropdown)
         private readonly vwDropdownTeacherRepository:Repository<VwTeacherDropdown>,
-        private readonly dropdownService: DropdownService
+        private readonly dropdownService: DropdownService,
+        private readonly yearTrmService:YearTermService
         ){
         super()
     }
@@ -61,8 +63,10 @@ export class StudentConsultantService extends BaseService {
         .getManyAndCount();
         return this.toSearchResult<VwStudentConsultantList>(dto.paginator,count,data);
     }
-    async create(dto:CreateStudentConsultantDto,req:CustomRequest):Promise<StudentConsultant>{        
+    async create(dto:CreateStudentConsultantDto,req:CustomRequest):Promise<StudentConsultant>{   
+        const yearTerm = await this.yearTrmService.findCurrrentTerm()     
         const en = this.toCreateModel(dto,req) as StudentConsultant  
+        en.yearTermId = yearTerm?.id
         return await this.studentconsultantRepository.save(
             this.studentconsultantRepository.create(en)
         );

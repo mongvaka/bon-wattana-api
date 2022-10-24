@@ -23,7 +23,7 @@ export class ClassDepressionReport extends BaseReport{
     }
     addSucuidSumarize(header: HeaderReport, sumDepressions: DataRowModel[], sumSucuids: DataRowModel[]) {
         let table = `<div class="a4">
-        <p class="left">แนวโน้มการฆ่าตัวตาย ชั้นมัธยมศึกษาปีที่ <span>${header.className.replace('ม.','')}</span></p>`
+        <p  class="left title2">แนวโน้มการฆ่าตัวตาย ชั้นมัธยมศึกษาปีที่ <span>${header.className.replace('ม.','')}</span></p>`
         table+= `
         <div class="content">
             <table>
@@ -63,7 +63,7 @@ export class ClassDepressionReport extends BaseReport{
     }
     addDepressionSumarize(header: HeaderReport, sumDepressions: DataRowModel[], sumSucuids: DataRowModel[]) {
         let table = `<div class="a4">
-        <p class="left">ผลประเมินโรคซึมเศร้า ชั้นมัธยมศึกษาปีที่ <span>${header.className.replace('ม.','')}</span></p>
+        <p  class="left  title">ผลประเมินโรคซึมเศร้า ชั้นมัธยมศึกษาปีที่ <span>${header.className.replace('ม.','')}</span></p>
         <div class="content">
             <table>
                 <tr>

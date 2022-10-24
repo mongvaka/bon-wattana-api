@@ -27,7 +27,7 @@ export class RoomDepressionReport extends BaseReport{
     }
     addReportSumarize(header: HeaderReport, sumModel:ISumarizeRoomDepressionReport) {
         return `<div class="a4">
-        <p class="left">ผลประเมินโรคซึมเศร้า <span>${header.className}</span>/ <span>${header.roomName}</span>  </p>
+        <p class="left  title">ผลประเมินโรคซึมเศร้า <span>${header.className}</span>/ <span>${header.roomName}</span>  </p>
         <div class="content">
           <div class="flex">
             <div class="flex1">
