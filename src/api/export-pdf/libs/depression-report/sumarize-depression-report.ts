@@ -42,11 +42,11 @@ export class SumarizeDepressionReport extends BaseReport{
                 </tr>`
                 depression.forEach(el=>{
                     table += `        <tr>
-                    <td class="cb1">${el.v1}</td>
-                    <td class="cb2 right">${el.v2}</td>
-                    <td class="cb2 right">${el.v3}</td>
-                    <td class="cb2 right">${el.v4}</td>
-                    <td class="cb2 right">${el.v5}</td>
+                    <td class="cb1">${el.v1??""}</td>
+                    <td class="cb2 right">${el.v2??""}</td>
+                    <td class="cb2 right">${el.v3??""}</td>
+                    <td class="cb2 right">${el.v4??""}</td>
+                    <td class="cb2 right">${el.v5??""}</td>
                 </tr>`
                 })
         
@@ -75,11 +75,11 @@ export class SumarizeDepressionReport extends BaseReport{
 
                 sucuid.forEach(el=>{
                     table += `        <tr>
-                    <td class="cb1">${el.v1}</td>
-                    <td class="cb2  right">${el.v2}</td>
-                    <td class="cb2  right">${el.v3}</td>
-                    <td class="cb2  right">${el.v4}</td>
-                    <td class="cb2 right">${el.v5}</td>
+                    <td class="cb1">${el.v1??""}</td>
+                    <td class="cb2  right">${el.v2??""}</td>
+                    <td class="cb2  right">${el.v3??""}</td>
+                    <td class="cb2  right">${el.v4??""}</td>
+                    <td class="cb2 right">${el.v5??""}</td>
                 </tr>`
                 })
         
@@ -113,7 +113,7 @@ export class SumarizeDepressionReport extends BaseReport{
             dataList.forEach(el=>{
                 table+= `<tr>
                 <td class="col1">
-                ${el.v1}
+                ${el.v1??""}
                 </td>
                 <td class="col4">
                 ${el.v2??""}

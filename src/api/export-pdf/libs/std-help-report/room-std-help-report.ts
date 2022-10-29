@@ -49,9 +49,9 @@ export class StudentHelpReportByRoom extends BaseReport{
              <p >รวม</p>
          </div>
          <div>
-             <p>จำนวน <span>${sumarizeList.v1}</span> คน</p>
-             <p>จำนวน <span>${sumarizeList.v2}</span> คน</p>
-             <p>จำนวน <span>${sumarizeList.v3}</span> คน</p>
+             <p>จำนวน <span>${sumarizeList.v1??""}</span> คน</p>
+             <p>จำนวน <span>${sumarizeList.v2??""}</span> คน</p>
+             <p>จำนวน <span>${sumarizeList.v3??""}</span> คน</p>
          </div>
         </div>
      </div>
@@ -65,11 +65,11 @@ export class StudentHelpReportByRoom extends BaseReport{
          
    
           return `    <tr>
-          <td class="col1">${el.v1}</td>
-          <td class="col1">${el.v2}</td>
-          <td class="col1">${el.v3}</td>
-          <td class="col1">${el.v4}</td>
-          <td class="col1">${el.v5}</td>
+          <td class="col1">${el.v1??""}</td>
+          <td class="col1">${el.v2??""}</td>
+          <td class="col1">${el.v3??""}</td>
+          <td class="col1">${el.v4??""}</td>
+          <td class="col1">${el.v5??""}</td>
       </tr>`
       }
 }

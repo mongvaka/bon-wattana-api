@@ -1,20 +1,20 @@
 import { ViewEntity, ViewColumn } from "typeorm"
 
-@ViewEntity({
-    name:'rp_teacher_by_subject',
-    expression: `select sg."SubjectGroupName" as name,count(t.id) as value1  from  teacher t 
-    left join subject_group sg on sg.id = t."subjectGroupId" 
-    where t."deletedAt" isnull and t."subjectGroupId" notnull 
-    group by t."subjectGroupId" , sg."SubjectGroupName"
-    order by sg."SubjectGroupName"  
-          `
-})
-export class ReportTeacherBySubject {
-  @ViewColumn()
-  name:string
-  @ViewColumn()
-  value1:number
-}
+// @ViewEntity({
+//     name:'rp_teacher_by_subject',
+//     expression: `select sg."SubjectGroupName" as name,count(t.id) as value1  from  teacher t 
+//     left join subject_group sg on sg.id = t."subjectGroupId" 
+//     where t."deletedAt" isnull and t."subjectGroupId" notnull 
+//     group by t."subjectGroupId" , sg."SubjectGroupName"
+//     order by sg."SubjectGroupName"  
+//           `
+// })
+// export class ReportTeacherBySubject {
+//   @ViewColumn()
+//   name:string
+//   @ViewColumn()
+//   value1:number
+// }
 @ViewEntity({
     name:'rp_teacher_sumarize',
     expression: `select 

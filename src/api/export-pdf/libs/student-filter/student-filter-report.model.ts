@@ -187,7 +187,7 @@ export class StudentFilterReport extends BaseReport{
         nameValue = el.name1
       }
       if(reportType == EReportType.CLASS){
-        nameValue = el.name2
+        nameValue = el.name1
       }
         return `<tr>
         <td class="rowName">

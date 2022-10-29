@@ -1,104 +1,49 @@
 import { ViewEntity, ViewColumn } from "typeorm"
 
 @ViewEntity({
-    name:'rp_student_help_by_class',
+    name:'rp_student_help',
     expression: `select 
-    ct."typeName" as name,
-    a.sumva as value1,
-     b.sumva as value2
-    from classroom_type ct 
-    left join (
-    select count(sh.id) as sumva ,s."classroomTypeId"  from student_help sh 
-    inner join student s on s.id= sh."studentId" 
-    inner join year_term yt on yt.id = sh."yearTermId" and yt."isParent" 
-    where sh."deletedAt" isnull 
-    and sh."resultHelpType" = 1
-    group by s."classroomTypeId" 
-    ) as a on a."classroomTypeId" = ct.id 
-        left join (
-    select count(sh.id) as sumva ,s."classroomTypeId"  from student_help sh 
-    inner join student s on s.id= sh."studentId" 
-    inner join year_term yt on yt.id = sh."yearTermId" and yt."isParent" 
-    where sh."deletedAt" isnull 
-    and sh."resultHelpType" = 2
-    group by s."classroomTypeId" 
-    ) as b on b."classroomTypeId" = ct.id 
-    order by ct."typeName"`
+    sh."nickName",
+    sh."activityName" ,
+    sh."startDate" ,
+    sh."endDate" ,
+    sh."resultHelpType" ,
+    sh."resultText" ,
+    sh."yearTermId" ,
+    s."classroomId" ,
+    s."classroomTypeId" ,
+    s."studentNumber",
+    c."name"  as "roomName",
+    ct."typeName" as "className"
+    from student_help sh 
+    inner join student s  on s.id = sh."studentId" and s."deletedAt" is null 
+    left join classroom c on c.id = s."classroomId" 
+    left join classroom_type ct on ct.id = s."classroomTypeId"`
 })
-export class ReportStudentHelpByClass {
+export class ReportStudentHelp {
   @ViewColumn()
-  name:string
+  nickName:string
   @ViewColumn()
-  value1:number
+  activityName:string
   @ViewColumn()
-  value2:number
-}
-@ViewEntity({
-    name:'rp_student_help_by_room',
-    expression: `select 
-    ct."name" as name,
-    a.sumva as value1,
-    b.sumva as value2
-    from classroom ct 
-    left join (
-    select count(sh.id) as sumva ,s."classroomId"  from student_help sh 
-    inner join student s on s.id= sh."studentId" 
-    inner join year_term yt on yt.id = sh."yearTermId" and yt."isParent" 
-    where sh."deletedAt" isnull 
-    group by s."classroomId" 
-    ) as a on a."classroomId" = ct.id 
-    left join (
-    select count(sh.id) as sumva ,s."classroomId"  from student_help sh 
-    inner join student s on s.id= sh."studentId" 
-    inner join year_term yt on yt.id = sh."yearTermId" and yt."isParent" 
-    where sh."deletedAt" isnull 
-    and sh."resultHelpType" = 2
-    group by s."classroomId" 
-    ) as b on b."classroomId" = ct.id 
-    order by ct."id"`
-})
-export class ReportStudentHelpByRoom {
+  startDate:Date
   @ViewColumn()
-  name:string
+  endDate:Date
   @ViewColumn()
-  value1:number
+  resultHelpType:number
   @ViewColumn()
-  value2:number
-}
-@ViewEntity({
-    name:'rp_student_help_by_class_and_room',
-    expression: `select 
-    ct."typeName" as name,
-    cr."name" as value1,
-    a.sumva as value2,
-    b.sumva as value3
-    from classroom_type ct 
-    left join classroom cr on 1=1
-    left join (
-    select count(sh.id) as sumva ,s."classroomTypeId",s."classroomId"  from student_help sh 
-    inner join student s on s.id= sh."studentId" 
-    inner join year_term yt on yt.id = sh."yearTermId" and yt."isParent" 
-    where sh."deletedAt" isnull 
-    and sh."resultHelpType" = 1
-    group by s."classroomTypeId" ,s."classroomId" 
-    ) as a on a."classroomTypeId" = ct.id and a."classroomId"  = cr.id
-    left join (
-    select count(sh.id) as sumva ,s."classroomTypeId",s."classroomId"  from student_help sh 
-    inner join student s on s.id= sh."studentId" 
-    inner join year_term yt on yt.id = sh."yearTermId" and yt."isParent" 
-    where sh."deletedAt" isnull 
-    and sh."resultHelpType" = 2
-    group by s."classroomTypeId" ,s."classroomId" 
-    ) as b on b."classroomTypeId" = ct.id and b."classroomId"  = cr.id
-    order by ct."typeName" ,cr.id`
-})
-export class ReportStudentHelpByClassAndRoom {
+  resultText:string
   @ViewColumn()
-  name:string
+  yearTermId:number
   @ViewColumn()
-  value1:number
+  classroomId:number
   @ViewColumn()
-  value2:number
+  classroomTypeId:number
   @ViewColumn()
-  value3:number
+  roomName:string
+  @ViewColumn()
+  className:string
+  @ViewColumn()
+  studentNumber:string
+
 }

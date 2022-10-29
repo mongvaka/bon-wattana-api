@@ -1,68 +1,45 @@
 import { ViewEntity, ViewColumn } from "typeorm"
 
 @ViewEntity({
-    name:'rp_student_scolar_by_class',
+    name:'rp_student_scolar',
     expression: `select 
-    ct."typeName" as name,
-    a.sumval as value1
-    from classroom_type ct 
-    left join (
-    select count(ss.id) as sumval,s."classroomTypeId"  from student_scolar ss 
+    concat(s.firstname,' ',s.lastname) as "studentName",
+    s."studentNumber" ,
+    ss."name" ,
+    ss.amount ,
+    ss."getFrom" ,
+    s."classroomId" ,
+    s."classroomTypeId" ,
+    c."name" as "roomName",
+    ct."typeName" as "typeName",
+    ss."inTerm",
+    ss."year" 
+    from student_scolar ss 
     inner join student s on s.id = ss."studentId" 
-    where ss."deletedAt" isnull 
-    group by s."classroomTypeId" 
-    ) as a on a."classroomTypeId" = ct.id
-    order by ct."typeName" `
+    left join classroom c on c.id = s."classroomId" 
+    left join classroom_type ct on ct.id = s."classroomTypeId"`
 })
-export class ReportStudentScolarByClass {
+export class ReportStudentScolar {
+  @ViewColumn()
+  studentName:string
+  @ViewColumn()
+  studentNumber:string
   @ViewColumn()
   name:string
   @ViewColumn()
-  value1:number
-}
-@ViewEntity({
-    name:'rp_student_scolar_by_room',
-    expression: `select 
-    ct."name" as name,
-    a.sumval as value1
-    from classroom  ct 
-    left join (
-    select count(ss.id) as sumval,s."classroomId"  from student_scolar ss 
-    inner join student s on s.id = ss."studentId" 
-    where ss."deletedAt" isnull 
-    group by s."classroomId" 
-    ) as a on a."classroomId" = ct.id
-    order by ct."id" `
-})
-export class ReportStudentScolarByRoom  {
+  amount:number
   @ViewColumn()
-  name:string
+  getFrom:string
   @ViewColumn()
-  value1:number
-  
-}
-@ViewEntity({
-    name:'rp_student_scolar_by_class_and_room',
-    expression: `select 
-    ct."typeName" as name,
-    cr.name as value1,
-    a.sumval as value2
-    from classroom_type ct 
-    left join classroom cr on 1=1
-    left join (
-    select count(ss.id) as sumval,s."classroomTypeId" ,s."classroomId" from student_scolar ss 
-    inner join student s on s.id = ss."studentId" 
-    where ss."deletedAt" isnull 
-    group by s."classroomTypeId" ,s."classroomId"
-    ) as a on a."classroomTypeId" = ct.id and  a."classroomId" = cr.id
-    order by ct."typeName" , cr.id`
-})
-export class ReportStudentScolarByClassAndRoom  {
+  classroomId:number
   @ViewColumn()
-  name:string
+  classroomTypeId:number
   @ViewColumn()
-  value1:number
+  roomName:string
   @ViewColumn()
-  value2:number
-  
+  typeName:string
+  @ViewColumn()
+  inTerm:number
+  @ViewColumn()
+  year:number
 }

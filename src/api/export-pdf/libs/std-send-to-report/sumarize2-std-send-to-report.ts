@@ -2,7 +2,7 @@ import { HeaderReport, DataRowModel } from "../../interface/interface"
 import { BaseReport } from "../shared/base-report"
 import { CSS_STD_SEND_TO } from "./source/css-std-send-to"
 
-export class StudentSendToReportByClass extends BaseReport{
+export class StudentSendToReportSumarize2 extends BaseReport{
     html = ''
     constructor(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
         super()
@@ -20,7 +20,7 @@ export class StudentSendToReportByClass extends BaseReport{
     }
    private addReport(header: HeaderReport, dataList: DataRowModel[],sumarizeList:DataRowModel[]) {
         let report = ``
-        report += this.getHeaderClass(header)
+        report += this.getHeaderSumarize(header)
         report += this.getReportTable(dataList,header,sumarizeList)
         return report
     
@@ -30,7 +30,7 @@ export class StudentSendToReportByClass extends BaseReport{
         let table = `<div class="content">
         <table>
          <tr>
-             <th>ห้อง</th>
+             <th>ระดับชั้น</th>
              <th>ส่งต่อภายใน</th>
              <th>ส่งต่อภายนอก</th>
          </tr>`

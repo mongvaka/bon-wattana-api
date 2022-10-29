@@ -37,12 +37,12 @@ export class StudentScolarReportByClass extends BaseReport{
             <div class="flex2">
              `
         sumarizeList.forEach(el=>{
-            paper += `<p class="title"> ${el.v1} </p>`
+            paper += `<p class="title"> ${el.v1??""} </p>`
         })
         paper += `    </div>
         <div class="flex3">`
         sumarizeList.forEach(el=>{
-            paper += `        <p class="title">จำนวน <span>${el.v2}</span> คน</p>`
+            paper += `        <p class="title">จำนวน <span>${el.v2??""}</span> คน</p>`
         })
         paper += `    </div>
         </div>
@@ -78,12 +78,12 @@ export class StudentScolarReportByClass extends BaseReport{
          
    
            return `    <tr>
-           <td class="col1">${el.v1}</td>
-           <td class="col2">${el.v2}</td>
-           <td class="col2">${el.v3}</td>
-           <td class="col3">${el.v4}</td>
-           <td class="col4">${el.v5}</td>
-           <td class="col5">${el.v6}</td>
+           <td class="col1">${el.v1??""}</td>
+           <td class="col2">${el.v2??""}</td>
+           <td class="col2">${el.v3??""}</td>
+           <td class="col3">${el.v4??""}</td>
+           <td class="col4">${el.v5??""}</td>
+           <td class="col5">${el.v6??""}</td>
        </tr> `
       }
 }

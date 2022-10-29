@@ -44,19 +44,19 @@ export class StressReportByClass extends BaseReport{
             sumarizeList.forEach(el=>{
                 paper += `    <tr>
                 <td class="cols l">
-                    ${el.v1}
+                    ${el.v1??""}
                 </td>
                 <td class="cols r">
-                    ${el.v2}
+                    ${el.v2??""}
                 </td>
                 <td class="cols r">
-                    ${el.v3}
+                    ${el.v3??""}
                 </td>
                 <td class="cols r">
-                    ${el.v4}
+                    ${el.v4??""}
                 </td>
                 <td class="cols r">
-                    ${el.v5}
+                    ${el.v5??""}
                 </td>
             </tr>`
             })
@@ -94,11 +94,11 @@ export class StressReportByClass extends BaseReport{
          
    
            return `    <tr>
-           <td class="col1">${el.v1}</td>
-           <td class="col1">${el.v2}</td>
-           <td class="col2">${el.v3}</td>
-           <td class="col3">${el.v4}</td>
-           <td class="col4">${el.v5}</td>
+           <td class="col1">${el.v1??""}</td>
+           <td class="col1">${el.v2??""}</td>
+           <td class="col2">${el.v3??""}</td>
+           <td class="col3">${el.v4??""}</td>
+           <td class="col4">${el.v5??""}</td>
        </tr> `
       }
 }

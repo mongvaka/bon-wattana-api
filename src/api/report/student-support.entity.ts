@@ -1,89 +1,62 @@
-// import { ViewEntity, ViewColumn } from "typeorm"
+import { ViewEntity, ViewColumn } from "typeorm"
 
-// @ViewEntity({
-//     name:'rp_student_support',
-//     expression: `select 
-//     (
-//         eq ."eqCh1" +
-//         eq ."eqCh2" +
-//         eq ."eqCh3" +
-//         eq ."eqCh4" +
-//         eq ."eqCh5" +
-//         eq ."eqCh6" +
-//         eq ."eqCh7" +
-//         eq ."eqCh8" +
-//         eq ."eqCh9" +
-//         eq ."eqCh10" +
-//         eq ."eqCh11" +
-//         eq ."eqCh12" +
-//         eq ."eqCh13" +
-//         eq ."eqCh14" +
-//         eq ."eqCh15" +
-//         eq ."eqCh16" +
-//         eq ."eqCh17" +
-//         eq ."eqCh18" +
-//         eq ."eqCh19" +
-//         eq ."eqCh20" +
-//         eq ."eqCh21" +
-//         eq ."eqCh22" +
-//         eq ."eqCh23" +
-//         eq ."eqCh24" +
-//         eq ."eqCh25" +
-//         eq ."eqCh26" +
-//         eq ."eqCh27" +
-//         eq ."eqCh28" +
-//         eq ."eqCh29" +
-//         eq ."eqCh30" +
-//         eq ."eqCh31" +
-//         eq ."eqCh32" +
-//         eq ."eqCh33" +
-//         eq ."eqCh34" +
-//         eq ."eqCh35" +
-//         eq ."eqCh36" +
-//         eq ."eqCh37" +
-//         eq ."eqCh38" +
-//         eq ."eqCh39" +
-//         eq ."eqCh40" +
-//         eq ."eqCh41" +
-//         eq ."eqCh42" +
-//         eq ."eqCh43" +
-//         eq ."eqCh44" +
-//         eq ."eqCh45" +
-//         eq ."eqCh46" +
-//         eq ."eqCh47" +
-//         eq ."eqCh48" +
-//         eq ."eqCh49" +
-//         eq ."eqCh50" +
-//         eq ."eqCh51" +
-//         eq ."eqCh52" 
-//         ) as sumva,
-//         eq."yearTermId",
-//         c."name" as "roomName",
-//         ct."typeName" as "className",
-//         s."classroomId" ,
-//         s."classroomTypeId",
-//         s."studentNumber",
-//         concat(s.firstname,' ',s.lastname) as "studentName" 
-//     from emotional_quotient eq 
-//     inner join student s on s.id = eq."studentId" and s."deletedAt" is null
-//     left join classroom c on c.id = s."classroomId" 
-//     left join classroom_type ct on ct.id = s."classroomTypeId"`
-// })
-// export class ReportStudentSupport {
-//   @ViewColumn()
-//   sumva:number
-//   @ViewColumn()
-//   yearTermId:number
-//   @ViewColumn()
-//   roomName:string
-//   @ViewColumn()
-//   studentNumber:string
-//   @ViewColumn()
-//   className:string
-//   @ViewColumn()
-//   classroomId:number
-//   @ViewColumn()
-//   classroomTypeId:number
-//   @ViewColumn()
-//   studentName:string
-// }
+@ViewEntity({
+    name:'rp_student_support',
+    expression: `select 
+    concat(s.firstname,' ',s.lastname) as "studentName",
+    s."studentCode" ,
+    s."studentNumber" ,
+    s."classroomId" ,
+    s."classroomTypeId" ,
+    c."name" as "roomName",
+    ct."typeName" as "className",
+    ss."startDate" ,
+    ss."endDate" ,
+    ss."activityName" ,
+    ss.performance ,
+    ss.department ,
+    ss."result" ,
+    ss."teacherId",
+    concat(t.firstname,' ',t.lastname) as "teacherName",
+    ss."yearTermId"
+    from student_has_support shs  
+    inner join student_support ss on ss.id = shs."studentSupportId"  and shs."deletedAt" is null 
+    inner  join student s on s.id = shs ."studentId" and s."deletedAt" is null
+    inner join teacher t on t.id = ss."teacherId" 
+    left join classroom c on c.id = s."classroomId" 
+    left join classroom_type ct on ct.id = s."classroomTypeId"`
+})
+export class ReportStudentSupport {
+  @ViewColumn()
+  studentName:string
+  @ViewColumn()
+    studentCode:string
+    @ViewColumn()
+    studentNumber:string
+    @ViewColumn()
+    classroomId:number
+    @ViewColumn()
+    classroomTypeId
+    @ViewColumn()
+    roomName:string
+    @ViewColumn()
+    className:string
+    @ViewColumn()
+    startDate:Date
+    @ViewColumn()
+    endDate:Date
+    @ViewColumn()
+    activityName:string
+    @ViewColumn()
+    performance:number
+    @ViewColumn()
+    department:number
+    @ViewColumn()
+    result:number
+    @ViewColumn()
+    teacherId:number
+    @ViewColumn()
+    yearTermId:number
+    @ViewColumn()
+    teacherName:string
+}

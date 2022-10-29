@@ -14,15 +14,15 @@ import { ReportEq } from './eq.entity';
 import { ReportHomeVisitNeedHelp, ReportHomeVisitSumarize, ReportHomeVisitPersonal } from './home-visit.entity';
 import { ReportDepressionSumarize, ReportDepressionByClass, ReportDepressionByClassAndRoom, ReportDepressionPesonal } from './report-depression.entity';
 import { ReportStudentFilterSumarize, ReportStudentFilterByClass, ReportStudentFilterByClassAndRoom, ReportStudentFilterByRoom, ReportStudentFilterPosonal, ReportStudentFilterSumarizeByClassAndRoom } from './report-student-filter.entity';
-import { ReportStudentHelpByClass, ReportStudentHelpByRoom, ReportStudentHelpByClassAndRoom } from './report-student-help.entity';
-import { ReportStudentScolarByClass, ReportStudentScolarByRoom, ReportStudentScolarByClassAndRoom } from './report-student-scolar.entity';
-import { ReportStudentSendToByClass, ReportStudentSendToByRoom, ReportStudentSendToByClassAndRoom, ReportStudentSendToSumarize } from './report-student-send-to.entity';
+import { ReportStudentHelp } from './report-student-help.entity';
+import { ReportStudentScolar } from './report-student-scolar.entity';
 import { ReportController } from './report.controller';
 import { ReportStudentByClass, ReportStudentByRoom, ReportStudentSumarize } from './report.entity';
 import { ReportService } from './report.service';
 import { ReportStress } from './stress-report.entity';
 import { ReportStudentConsult } from './student-consult.entity';
-import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity';
+import { ReportStudentSupport } from './student-support.entity';
+import {  ReportTeacherSumarize } from './teacher.entity';
 
 @Module({
   imports: [
@@ -30,7 +30,6 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ReportStudentByClass,
       ReportStudentByRoom,
       ReportStudentSumarize,
-      ReportTeacherBySubject,
       ReportTeacherSumarize,
       ReportCheckStudentSumarize,
       ReportDepressionSumarize,
@@ -41,17 +40,11 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ReportStudentFilterByClass,
       ReportStudentFilterByClassAndRoom,
       ReportStudentFilterByRoom,
-      ReportStudentHelpByClass,
-      ReportStudentHelpByRoom,
-      ReportStudentHelpByClassAndRoom,
-      ReportStudentScolarByClass,
-      ReportStudentScolarByRoom,
-      ReportStudentScolarByClassAndRoom,
-      ReportStudentSendToByClass,
-      ReportStudentSendToByRoom,
-      ReportStudentSendToByClassAndRoom,
+      ReportStudentHelp,
+      ReportStudentScolar,
+
+
       ReportStress,
-      ReportStudentSendToSumarize,
       ReportStudentFilterPosonal,
       ReportStudentFilterSumarizeByClassAndRoom,
       YearTerm,
@@ -65,7 +58,8 @@ import { ReportTeacherBySubject, ReportTeacherSumarize } from './teacher.entity'
       ReportHomeVisitPersonal,
       VwSdqTableList,
       ReportEq,
-      ReportStudentConsult
+      ReportStudentConsult,
+      ReportStudentSupport
     ]),
     ExportPdfModule,YearTermModule,StudentModule,ImagesModule
   ],

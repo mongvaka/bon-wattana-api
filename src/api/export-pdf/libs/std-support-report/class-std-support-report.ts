@@ -35,16 +35,16 @@ export class StudentSupportReportByClass extends BaseReport{
                 </tr>`
                 sumarizeList.forEach(el=>{
                     paper += `        <tr>
-                    <td class="col2">${el.v1}</td>
-                    <td class="col8 right">${el.v1}</td>
-                    <td class="col8 right">${el.v2}</td>
-                    <td class="col8 right">${el.v3}</td>
-                    <td class="col8 right">${el.v4}</td>
-                    <td class="col8 right">${el.v5}</td>
-                    <td class="col8 right">${el.v6}</td>
-                    <td class="col8 right">${el.v7}</td>
-                    <td class="col8 right">${el.v8}</td>
-                    <td class="col8 right">${el.v9}</td>
+                    <td class="col2">${el.v1??""}</td>
+                    <td class="col8 right">${el.v1??""}</td>
+                    <td class="col8 right">${el.v2??""}</td>
+                    <td class="col8 right">${el.v3??""}</td>
+                    <td class="col8 right">${el.v4??""}</td>
+                    <td class="col8 right">${el.v5??""}</td>
+                    <td class="col8 right">${el.v6??""}</td>
+                    <td class="col8 right">${el.v7??""}</td>
+                    <td class="col8 right">${el.v8??""}</td>
+                    <td class="col8 right">${el.v9??""}</td>
                 </tr>`
                 })
                 paper +=`       </table>
@@ -92,15 +92,15 @@ export class StudentSupportReportByClass extends BaseReport{
          
    
            return `    <tr>
-           <td class="col1">${el.v1}</td>
-           <td class="col2">${el.v2}</td>
-           <td class="col2">${el.v3}</td>
-           <td class="col3">${el.v4}</td>
-           <td class="col4">${el.v5}</td>
-           <td class="col5">${el.v6}</td>
-           <td class="col6">${el.v7}</td>
-           <td class="col7">${el.v8}</td>
-           <td class="col8">${el.v9}</td>
+           <td class="col1">${el.v1??""}</td>
+           <td class="col2">${el.v2??""}</td>
+           <td class="col2">${el.v3??""}</td>
+           <td class="col3">${el.v4??""}</td>
+           <td class="col4">${el.v5??""}</td>
+           <td class="col5">${el.v6??""}</td>
+           <td class="col6">${el.v7??""}</td>
+           <td class="col7">${el.v8??""}</td>
+           <td class="col8">${el.v9??""}</td>
        </tr> `
       }
 }

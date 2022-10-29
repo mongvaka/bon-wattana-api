@@ -2013,7 +2013,6 @@ export class ReportStudentFilterSumarizeByClassAndRoom {
     CONCAT(s.firstname,' ',s.lastname) as "studentValue",
     c.name as "room",
     ct."typeName",
-    CONCAT(af.skill1,' ',af.skill2,' ',af.skill3) as "specialSkill",
     af."lernStatus",
     af."healtyStatus",
     af."feelingStatus",
@@ -2028,9 +2027,11 @@ export class ReportStudentFilterSumarizeByClassAndRoom {
     sdq1."sumScore_value" as "sdq1",
     sdq2."sumScore_value" as "sdq2",
     sdq3."sumScore_value" as "sdq3",
-    concat(af.skill1,af.skill2,af.skill3) as skill 
+    concat(af.skill1,af.skill2,af.skill3) as skill,
+   	af."yearTermId",
+   	af."specialSkill"
     from student s 
-    left join (
+    inner join (
     select * from student_filter sf 
     inner join year_term yt  on yt.id = sf."yearTermId"
     ) af on af."studentId" = s.id
@@ -2058,6 +2059,8 @@ id:number
 @ViewColumn()
 classroomId:number
 @ViewColumn()
+yearTermId:number
+@ViewColumn()
 classroomTypeId:number
 @ViewColumn()
 studentCode:string
@@ -2067,8 +2070,6 @@ studentValue:string
 room:string
 @ViewColumn()
 typeName:string
-@ViewColumn()
-specialSkill:string
 @ViewColumn()
 lernStatus:number
 @ViewColumn()
@@ -2097,5 +2098,6 @@ sdq1:string
 sdq2:string
 @ViewColumn()
 sdq3:string
-
+@ViewColumn()
+specialSkill:boolean
 }

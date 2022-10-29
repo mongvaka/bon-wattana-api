@@ -32,15 +32,15 @@ export class StudentSupportReportByRoom extends BaseReport{
                     <p class="order">9.อื่น ๆ</p>     
                 </div>
                 <div>
-                    <p class="order">จำนวน <span>${s.v1}</span> คน</p>
-                    <p class="order">จำนวน <span>${s.v2}</span> คน</p>
-                    <p class="order">จำนวน <span>${s.v3}</span> คน</p>
-                    <p class="order">จำนวน <span>${s.v4}</span> คน</p>
-                    <p class="order">จำนวน <span>${s.v5}</span> คน</p>
-                    <p class="order">จำนวน <span>${s.v6}</span> คน</p>
-                    <p class="order">จำนวน <span>${s.v7}</span> คน</p>
-                    <p class="order">จำนวน <span>${s.v8}</span> คน</p>
-                    <p class="order">จำนวน <span>${s.v9}</span> คน</p>
+                    <p class="order">จำนวน <span>${s.v1??""}</span> คน</p>
+                    <p class="order">จำนวน <span>${s.v2??""}</span> คน</p>
+                    <p class="order">จำนวน <span>${s.v3??""}</span> คน</p>
+                    <p class="order">จำนวน <span>${s.v4??""}</span> คน</p>
+                    <p class="order">จำนวน <span>${s.v5??""}</span> คน</p>
+                    <p class="order">จำนวน <span>${s.v6??""}</span> คน</p>
+                    <p class="order">จำนวน <span>${s.v7??""}</span> คน</p>
+                    <p class="order">จำนวน <span>${s.v8??""}</span> คน</p>
+                    <p class="order">จำนวน <span>${s.v9??""}</span> คน</p>
                 </div>
             </div>
             
@@ -87,14 +87,14 @@ export class StudentSupportReportByRoom extends BaseReport{
          
    
            return `    <tr>
-           <td class="col1">${el.v1}</td>
-           <td class="col2">${el.v2}</td>
-           <td class="col3">${el.v3}</td>
-           <td class="col4">${el.v4}</td>
-           <td class="col5">${el.v5}</td>
-           <td class="col6">${el.v6}</td>
-           <td class="col7">${el.v7}</td>
-           <td class="col8">${el.v8}</td>
+           <td class="col1">${el.v1??""}</td>
+           <td class="col2">${el.v2??""}</td>
+           <td class="col3">${el.v3??""}</td>
+           <td class="col4">${el.v4??""}</td>
+           <td class="col5">${el.v5??""}</td>
+           <td class="col6">${el.v6??""}</td>
+           <td class="col7">${el.v7??""}</td>
+           <td class="col8">${el.v8??""}</td>
        </tr>`
       }
 }

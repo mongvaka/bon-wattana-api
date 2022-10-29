@@ -9,7 +9,7 @@ export class StudentSendToReportSumarize extends BaseReport{
         this.html += this.openTagHtml()
         this.html += this.getCss(CSS_STD_SEND_TO)
         this.html += this.openTagBody()
-        this.html += this.addReport(header,dataList)
+        //this.html += this.addReport(header,dataList)
         this.html += this.addReport2(header,dataList2)
         this.html += this.closeTagBody()
         this.html += this.closeTagHtml()
@@ -50,8 +50,7 @@ export class StudentSendToReportSumarize extends BaseReport{
          table += this.getRowData2(el)
         })
         table += `  </table>
-        <p class="reportName fontWeight">สรุปผลการคัดกรองนักเรียน  </p>
-        <table class="nonBorder">`
+        `
         return table
     }
     private getReportTable(dataList: DataRowModel[],header:HeaderReport) {
@@ -76,9 +75,9 @@ export class StudentSendToReportSumarize extends BaseReport{
          
    
            return `    <tr>
-           <td class="cols">${el.v1}</td>
-           <td class="cols r">${el.v2}</td>
-           <td class="cols r">${el.v3}</td>
+           <td class="cols">${el.v1??""}</td>
+           <td class="cols r">${el.v2??""}</td>
+           <td class="cols r">${el.v3??""}</td>
        </tr> `
       }
       private getRowData2(el: DataRowModel) {
@@ -86,8 +85,8 @@ export class StudentSendToReportSumarize extends BaseReport{
    
         return `    <tr>
 
-        <td class="col1">${el.v1}</td>
-        <td class="col2 r">${el.v2}</td>
+        <td class="col1">${el.v1??""}</td>
+        <td class="col2 r">${el.v2??""}</td>
     </tr> `
    }
 }

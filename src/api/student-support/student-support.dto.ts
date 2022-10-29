@@ -7,6 +7,12 @@ export class SearchStudentSupportDto extends SearchParameter {
 @ApiPropertyOptional({ type: Date})
     endDate?:Date
 }
+export class SearchStudentExistDto{
+    @ApiPropertyOptional({ type: Number})
+    studentId:number
+    @ApiPropertyOptional({ type: Number})
+    id:number
+}
 export class StudentSupportDto {
 @ApiPropertyOptional({ type: Date})
     startDate:Date
@@ -22,6 +28,10 @@ export class StudentSupportDto {
     result:string
 @ApiPropertyOptional({ type: Number})
     teacherId:number
+    @ApiPropertyOptional({ type: [String]})
+    studentIdAdd:string[]
+    @ApiPropertyOptional({ type: [String]})
+    studentIdRemove:string[]
 } 
 export class CreateStudentSupportDto extends StudentSupportDto{
 

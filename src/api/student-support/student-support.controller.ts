@@ -5,8 +5,11 @@ import { BaseController } from "src/core/shared/controller/base-controller";
 import { CustomRequest } from "src/core/shared/models/request-model";
 import { DropdownService } from "src/core/shared/services/dropdown.service";
 import { SearchTeacherDto } from "src/api/teacher/teacher.dto";
-import { CreateStudentSupportDto, SearchStudentSupportDto, UpdateStudentSupportDto } from "./student-support.dto";
+import { CreateStudentSupportDto, SearchStudentExistDto, SearchStudentSupportDto, UpdateStudentSupportDto } from "./student-support.dto";
 import { StudentSupportService } from "./student-support.service";
+import { SearchClassroomTypeDto } from "../classroom-type/classroom-type.dto";
+import { SearchClassroomDto } from "../classroom/classroom.dto";
+import { SearchStudentDto } from "../student/student.dto";
 @ApiTags("student-support")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -32,6 +35,32 @@ export class StudentSupportController extends BaseController{
       return this.error(e)
     }
   }
+  @Post('check-is-exist')
+  async findExist(@Body() dto: SearchStudentExistDto) {
+    try{      
+      return this.success(await this.studentsupportService.findExist(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Post('list-student')
+  async findAllStudent(@Body() dto: SearchStudentDto) {
+    try{ 
+           
+      return this.success(await this.studentsupportService.listStudent(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Post('list-has-student')
+  async findAllHasStudent(@Body() dto: SearchStudentDto) {
+    try{ 
+           
+      return this.success(await this.studentsupportService.listHasStudent(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
   @Get('teacher-dropdown')
   async teacherDropdown(@Body() dto: SearchTeacherDto) {
     try{      
@@ -40,6 +69,23 @@ export class StudentSupportController extends BaseController{
       return this.error(e)
     }
   }
+  @Get('classroom-dropdown')
+  async classroomDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.studentsupportService.classroomDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-type-dropdown')
+  async classroomTypeDropdown(@Body() dto: SearchClassroomTypeDto) {
+    try{      
+      return this.success(await this.studentsupportService.classroomTypeDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+
   @Post('create')
   async create(@Body() dto: CreateStudentSupportDto, @Req() req:CustomRequest,){ 
     try{      

@@ -165,6 +165,9 @@ table{
     padding-top: 10mm;
     padding-left: 10mm;
 }
+.content2{
+    padding-left: 10mm;
+}
 .textTitle{
     font-size: 14px;
     margin-left: auto;

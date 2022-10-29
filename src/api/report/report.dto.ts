@@ -39,7 +39,14 @@ export class ReportDto{
     @ApiPropertyOptional({ type: Number})
     classroomTypeId:number
 }
-export class ExportPdfDto {
+export class ExportPdfScolarDto {
+    @ApiPropertyOptional({ type: String})
+    term:string
+    @ApiPropertyOptional({ type: String})
+    year:string
+
+}
+export class ExportPdfDto extends ExportPdfScolarDto  {
     @ApiPropertyOptional({ type: Number})
     yearTermId:number
     @ApiPropertyOptional({ type: Number})
@@ -50,4 +57,6 @@ export class ExportPdfDto {
     reportType:string
     @ApiPropertyOptional({ type: String})
     reportName:string
+    @ApiPropertyOptional({ type: String})
+    special:string
 }

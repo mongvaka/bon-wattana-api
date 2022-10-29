@@ -73,19 +73,19 @@ export class StudentHomeVisitReportByRoom extends BaseReport{
                     <th>คิดเป็นร้อยละ</th>
                 </tr>
                 <tr>
-                    <td class="tdColB1" >${sumModel.v1}</td>
-                    <td class="tdColB2">${sumModel.v2}</td>
-                    <td class="tdColB3">${sumModel.v3}</td>
+                    <td class="tdColB1" >${sumModel.v1??""}</td>
+                    <td class="tdColB2">${sumModel.v2??""}</td>
+                    <td class="tdColB3">${sumModel.v3??""}</td>
                 </tr>
                 <tr>
-                    <td class="tdColB1" >${sumModel.v4}</td>
-                    <td class="tdColB2">${sumModel.v5}</td>
-                    <td class="tdColB3">${sumModel.v6}</td>
+                    <td class="tdColB1" >${sumModel.v4??""}</td>
+                    <td class="tdColB2">${sumModel.v5??""}</td>
+                    <td class="tdColB3">${sumModel.v6??""}</td>
                 </tr>
                 <tr>
-                <td class="tdColB1" >${sumModel.v7}</td>
-                <td class="tdColB2">${sumModel.v8}</td>
-                <td class="tdColB3">${sumModel.v9}</td>
+                <td class="tdColB1" >${sumModel.v7??""}</td>
+                <td class="tdColB2">${sumModel.v8??""}</td>
+                <td class="tdColB3">${sumModel.v9??""}</td>
             </tr>
             </table>
         </div>
@@ -109,10 +109,10 @@ export class StudentHomeVisitReportByRoom extends BaseReport{
         paper += this.getHeader(header)
         sumarizeList.forEach(el=>{
             paper += `            <tr>
-            <td class="tdCol1" >${el.v1}</td>
-            <td class="tdCol2">${el.v2}</td>
-            <td class="tdCol3">${el.v3}</td>
-            <td class="tdCol4">${el.v4}</td>
+            <td class="tdCol1" >${el.v1??""}</td>
+            <td class="tdCol2">${el.v2??""}</td>
+            <td class="tdCol3">${el.v3??""}</td>
+            <td class="tdCol4">${el.v4??""}</td>
         </tr>`
         })
         paper += `        </table>

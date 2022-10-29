@@ -57,16 +57,16 @@ export class StudentSupportReportSumarize extends BaseReport{
          
    
            return `        <tr>
-           <td class="col2">${el.v1}</td>
-           <td class="col8 right">${el.v2}</td>
-           <td class="col8 right">${el.v3}</td>
-           <td class="col8 right">${el.v4}</td>
-           <td class="col8 right">${el.v5}</td>
-           <td class="col8 right">${el.v6}</td>
-           <td class="col8 right">${el.v7}</td>
-           <td class="col8 right">${el.v8}</td>
-           <td class="col8 right">${el.v9}</td>
-           <td class="col8 right">${el.v10}</td>
+           <td class="col2">${el.v1??""}</td>
+           <td class="col8 right">${el.v2??""}</td>
+           <td class="col8 right">${el.v3??""}</td>
+           <td class="col8 right">${el.v4??""}</td>
+           <td class="col8 right">${el.v5??""}</td>
+           <td class="col8 right">${el.v6??""}</td>
+           <td class="col8 right">${el.v7??""}</td>
+           <td class="col8 right">${el.v8??""}</td>
+           <td class="col8 right">${el.v9??""}</td>
+           <td class="col8 right">${el.v10??""}</td>
        </tr> `
       }
 }

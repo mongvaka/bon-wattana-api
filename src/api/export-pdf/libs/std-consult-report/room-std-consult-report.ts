@@ -57,8 +57,8 @@ export class StudentConsultReportByRoom extends BaseReport{
              <p class="left bold">2. นักเรียนที่ส่งต่อ</p>
          </div>
          <div class="flex3">
-             <p class="left bold">จำนวน <span>${sumarizeList.v1}</span> คน</p>
-             <p class="left bold">จำนวน <span>${sumarizeList.v2}</span> คน</p>
+             <p class="left bold">จำนวน <span>${sumarizeList.v1??""}</span> คน</p>
+             <p class="left bold">จำนวน <span>${sumarizeList.v2??""}</span> คน</p>
          </div>
         </div>
      </div>
@@ -71,12 +71,12 @@ export class StudentConsultReportByRoom extends BaseReport{
     }
     private getRowData(el: DataRowModel) {
           return `    <tr>
-          <td class="col1">${el.v1}</td>
-          <td class="col2">${el.v2}</td>
-          <td class="col3">${el.v3}</td>
-          <td class="col4">${el.v4}</td>
-          <td class="col5">${el.v5}</td>
-          <td class="col6">${el.v6}</td>
+          <td class="col1">${el.v1??""}</td>
+          <td class="col2">${el.v2??""}</td>
+          <td class="col3">${el.v3??""}</td>
+          <td class="col4">${el.v4??""}</td>
+          <td class="col5">${el.v5??""}</td>
+          <td class="col6">${el.v6??""}</td>
       </tr>`
       }
 }

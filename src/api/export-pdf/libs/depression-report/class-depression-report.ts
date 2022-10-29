@@ -47,11 +47,11 @@ export class ClassDepressionReport extends BaseReport{
 
                 sumSucuids.forEach(el=>{
                     table += `        <tr>
-                    <td class="cb1">${el.v1}</td>
-                    <td class="cb2  right">${el.v2}</td>
-                    <td class="cb2  right">${el.v3}</td>
-                    <td class="cb2  right">${el.v4}</td>
-                    <td class="cb2 right">${el.v5}</td>
+                    <td class="cb1">${el.v1??""}</td>
+                    <td class="cb2  right">${el.v2??""}</td>
+                    <td class="cb2  right">${el.v3??""}</td>
+                    <td class="cb2  right">${el.v4??""}</td>
+                    <td class="cb2 right">${el.v5??""}</td>
                 </tr>`
                 })
         
@@ -85,11 +85,11 @@ export class ClassDepressionReport extends BaseReport{
                 </tr>`
                 sumDepressions.forEach(el=>{
                     table += `        <tr>
-                    <td class="cb1">${el.v1}</td>
-                    <td class="cb2 right">${el.v2}</td>
-                    <td class="cb2 right">${el.v3}</td>
-                    <td class="cb2 right">${el.v4}</td>
-                    <td class="cb2 right">${el.v5}</td>
+                    <td class="cb1">${el.v1??""}</td>
+                    <td class="cb2 right">${el.v2??""}</td>
+                    <td class="cb2 right">${el.v3??""}</td>
+                    <td class="cb2 right">${el.v4??""}</td>
+                    <td class="cb2 right">${el.v5??""}</td>
                 </tr>`
                 })
         
@@ -121,13 +121,13 @@ export class ClassDepressionReport extends BaseReport{
             dataList.forEach(el=>{
                 table+= `<tr>
                 <td class="col1">
-                ${el.v1}
+                ${el.v1??""}
                 </td>
                 <td class="col4">
-                ${el.v2}
+                ${el.v2??""}
                 </td>
                 <td class="col4">
-                ${el.v3}
+                ${el.v3??""}
                 </td>
                 <td class="col3">
                 ${getDepressionLabel(el.v4)}
@@ -136,7 +136,7 @@ export class ClassDepressionReport extends BaseReport{
                 ${getSucuidLabel(el.v5) }
                 </td>
                 <td class="col3">
-                ${el.v6}
+                ${el.v6??""}
                 </td>
             </tr>`
              })

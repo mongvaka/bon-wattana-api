@@ -63,10 +63,10 @@ export class StudentHelpReportSumarize extends BaseReport{
   `
         sumarizeList.forEach(el=>{
             table += `         <tr>
-            <td class="col1a">${el.v1}</td>
-            <td class="col2a">${el.v2}</td>
-            <td class="col2a">${el.v3}</td>
-            <td class="col1a">${el.v4}</td>
+            <td class="col1a">${el.v1??""}</td>
+            <td class="col2a">${el.v2??""}</td>
+            <td class="col2a">${el.v3??""}</td>
+            <td class="col1a">${el.v4??""}</td>
         </tr>`
         })
      table += `      </table>
@@ -80,13 +80,13 @@ export class StudentHelpReportSumarize extends BaseReport{
     }
     private getRowData(el: DataRowModel) {
            return `    <tr>
-           <td class="col1">${el.v1}</td>
-           <td class="col2">${el.v2}</td>
-           <td class="col2">${el.v3}</td>
-           <td class="col1">${el.v4}</td>
-           <td class="col1">${el.v5}</td>
-           <td class="col1">${el.v6}</td>
-           <td class="col1">${el.v7}</td>
+           <td class="col1">${el.v1??""}</td>
+           <td class="col2">${el.v2??""}</td>
+           <td class="col2">${el.v3??""}</td>
+           <td class="col1">${el.v4??""}</td>
+           <td class="col1">${el.v5??""}</td>
+           <td class="col1">${el.v6??""}</td>
+           <td class="col1">${el.v7??""}</td>
        </tr> `
       }
 }

@@ -48,7 +48,7 @@ export class StudentScolarReportByRoom extends BaseReport{
              <p class="title">นักเรียนที่ได้รับทุนการศึกษา </p>
          </div>
          <div class="flex3">
-             <p class="title">จำนวน <span>${sumarizeList.v1}</span> คน</p>
+             <p class="title">จำนวน <span>${sumarizeList.v1??""}</span> คน</p>
          </div>
         </div>
      </div>
@@ -62,11 +62,11 @@ export class StudentScolarReportByRoom extends BaseReport{
          
    
            return `    <tr>
-           <td class="col1">${el.v1}</td>
-           <td class="col2">${el.v2}</td>
-           <td class="col3">${el.v3}</td>
-           <td class="col4">${el.v4}</td>
-           <td class="col5">${el.v5}</td>
+           <td class="col1">${el.v1??""}</td>
+           <td class="col2">${el.v2??""}</td>
+           <td class="col3">${el.v3??""}</td>
+           <td class="col4">${el.v4??""}</td>
+           <td class="col5">${el.v5??""}</td>
        </tr> `
       }
 }

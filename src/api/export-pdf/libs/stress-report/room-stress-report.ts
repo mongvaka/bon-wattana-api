@@ -36,16 +36,16 @@ export class StressReportByRoom extends BaseReport{
                 </div>
                 <div class="flex2">
                     <p class="title">
-                        จำนวน <span>${sumarizeList.v1}</span> คน
+                        จำนวน <span>${sumarizeList.v1??""}</span> คน
                     </p>
                     <p class="title">
-                        จำนวน <span>${sumarizeList.v2}</span> คน
+                        จำนวน <span>${sumarizeList.v2??""}</span> คน
                     </p>
                     <p class="title">
-                        จำนวน <span>${sumarizeList.v3}</span> คน
+                        จำนวน <span>${sumarizeList.v3??""}</span> คน
                     </p>
                     <p class="title">
-                        จำนวน <span>${sumarizeList.v4}</span> คน
+                        จำนวน <span>${sumarizeList.v4??""}</span> คน
                     </p>
                 </div>
             </div>
@@ -91,10 +91,10 @@ export class StressReportByRoom extends BaseReport{
          
    
            return `    <tr>
-           <td class="col1">${el.v1}</td>
-           <td class="col2">${el.v2}</td>
-           <td class="col3">${el.v3}</td>
-           <td class="col4">${el.v4}</td>
+           <td class="col1">${el.v1??""}</td>
+           <td class="col2">${el.v2??""}</td>
+           <td class="col3">${el.v3??""}</td>
+           <td class="col4">${el.v4??""}</td>
        </tr> `
       }
 }

@@ -26,6 +26,9 @@ export class StudentHelp extends BasicData {
 
   @Column({nullable: true})
   resultText?: string;
+  @Column({nullable: true})
+  nickName?: string;
+  
 }
 @ViewEntity({
     name:'student_help_list',
@@ -41,7 +44,8 @@ export class StudentHelp extends BasicData {
     sh."startDate" ,
     sh."endDate" ,
     sh."resultHelpType" ,
-    sh."resultText" 
+    sh."resultText" ,
+    sh."nickName"
     from student s 
     inner join (
     select * from sdq_table st 
@@ -82,6 +86,10 @@ export class VwStudentHelpList {
 
     @ViewColumn()
     resultText: string;
+
+    @ViewColumn()
+    nickName: string;
+    
 }
 
 @ViewEntity({

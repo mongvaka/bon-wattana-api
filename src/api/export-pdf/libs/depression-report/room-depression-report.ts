@@ -85,10 +85,10 @@ export class RoomDepressionReport extends BaseReport{
              dataList.forEach(el=>{
                 table+= `<tr>
                 <td class="col1">
-                    ${el.v1}
+                    ${el.v1??""}
                 </td>
                 <td class="col2">
-                ${el.v2}
+                ${el.v2??""}
                 </td>
                 <td class="col2">
                 ${getDepressionLabel(el.v3)}
@@ -97,7 +97,7 @@ export class RoomDepressionReport extends BaseReport{
                 ${getSucuidLabel(el.v4) }
                 </td>
                 <td class="col2">
-                ${el.v5}
+                ${el.v5??""}
                 </td>
             </tr>`
              })

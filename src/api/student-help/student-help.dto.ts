@@ -22,6 +22,8 @@ export class StudentHelpDto {
     resultText:string
     @ApiPropertyOptional({ type: Number})
     yearTermId:number
+    @ApiPropertyOptional({ type: String})
+    nickName:string
 } 
 export class CreateStudentHelpDto extends StudentHelpDto{
 

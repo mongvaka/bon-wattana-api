@@ -61,10 +61,10 @@ export class EqReportSumarize extends BaseReport{
              <p class="bold left">รวม</p>
          </div>
          <div >
-             <p class="bold left">จำนวน <span>${sumarizeList.v1}</span> คน</p>
-             <p class="bold left">จำนวน <span>${sumarizeList.v2}</span> คน</p>
-             <p class="bold left">จำนวน <span>${sumarizeList.v3}</span> คน</p>
-             <p class="bold left">จำนวน <span>${sumarizeList.v4}</span> คน</p>
+             <p class="bold left">จำนวน <span>${sumarizeList.v1??""}</span> คน</p>
+             <p class="bold left">จำนวน <span>${sumarizeList.v2??""}</span> คน</p>
+             <p class="bold left">จำนวน <span>${sumarizeList.v3??""}</span> คน</p>
+             <p class="bold left">จำนวน <span>${sumarizeList.v4??""}</span> คน</p>
          </div>
         </div>
      </div>
@@ -78,10 +78,10 @@ export class EqReportSumarize extends BaseReport{
     private getRowData(el: DataRowModel) {   
           return `    <tr>
 
-          <td class="cb2">${el.v1}</td>
-          <td class="cb3">${el.v2}</td>
-          <td class="cb3">${el.v3}</td>
-          <td class="cb3">${el.v4}</td>
+          <td class="cb2">${el.v1??""}</td>
+          <td class="cb3">${el.v2??""}</td>
+          <td class="cb3">${el.v3??""}</td>
+          <td class="cb3">${el.v4??""}</td>
       </tr>`
       }
 }

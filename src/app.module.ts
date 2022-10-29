@@ -120,7 +120,7 @@ import { SarOrderedPositionModule  } from './api/sar-ordered-position/sar-ordere
           database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
 
           useUTC: true,
-          logging: false,
+          logging: true,
           synchronize: configService.get<string>('SYNC_DATABASE', 'true')!='false',
 
           entities: ["dist/**/**/*.entity{.ts,.js}"],

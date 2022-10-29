@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { generatePdf } from 'html-pdf-node-ts';
 import { PDFOptions } from 'puppeteer';
+import { EReportType } from "./enum/report-enum";
 import { DataRowModel, HeaderReport } from "./interface/interface";
 import { ClassDepressionReport } from "./libs/depression-report/class-depression-report";
 import { ISumarizeRoomDepressionReport, RoomDepressionReport } from "./libs/depression-report/room-depression-report";
@@ -22,6 +23,7 @@ import { StudentScolarReportByRoom } from "./libs/std-scolar-report/room-std-sco
 import { StudentScolarReportSumarize } from "./libs/std-scolar-report/sumarize-std-scolar-report";
 import { StudentSendToReportByClass } from "./libs/std-send-to-report/class-std-send-to-report";
 import { StudentSendToReportSumarize } from "./libs/std-send-to-report/sumarize-std-send-to-report";
+import { StudentSendToReportSumarize2 } from "./libs/std-send-to-report/sumarize2-std-send-to-report";
 import { StudentSupportReportByClass } from "./libs/std-support-report/class-std-support-report";
 import { StudentSupportReportByRoom } from "./libs/std-support-report/room-std-support-report";
 import { StudentSupportReportSumarize } from "./libs/std-support-report/sumarize-std-support-report";
@@ -173,7 +175,14 @@ export class ExportPdfService {
       return this.downloadPdf(html)
     }
 
-
+    async getStudentSendToReportSumarize2(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+      if(dataList.length==0){
+  throw new BadRequestException('ไม่มีข้อมูล')
+}
+const service:StudentSendToReportSumarize2 = new StudentSendToReportSumarize2(header,dataList,sumarizeList)
+const html = service.getHtml() 
+return this.downloadPdf(html)
+}
 
     async getStudentSupportReportByClass(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
             if(dataList.length==0){
@@ -285,11 +294,11 @@ export class ExportPdfService {
     const html = service.getHtml()  
     return this.downloadPdf(html,true,'10mm','10mm')
   }
-  async getStudentFilterReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumarize:DataRowModel[]){
+  async getStudentFilterReportByRoom(header:HeaderReport,dataList:DataRowModel[],sumarize:DataRowModel[],countSpecial:number){
           if(dataList.length==0){
         throw new BadRequestException('ไม่มีข้อมูล')
       }
-      const service:StudentFilterReportByRoom = new  StudentFilterReportByRoom(header,dataList,sumarize)
+      const service:StudentFilterReportByRoom = new  StudentFilterReportByRoom(header,dataList,sumarize,countSpecial)
     const html = service.getHtml()    
     return this.downloadPdf(html,true,'10mm','10mm')
   }

@@ -43,10 +43,10 @@ export class SdqReportByRoom extends BaseReport{
        `
        sumarizeList.forEach(el=>{
         paper += `                    <tr>
-        <td class="cb1" >${el.v1}</td>
-        <td class="cb2">${el.v2}</td>
-        <td class="cb2">${el.v3}</td>
-        <td class="cb2">${el.v4}</td>
+        <td class="cb1" >${el.v1??""}</td>
+        <td class="cb2">${el.v2??""}</td>
+        <td class="cb2">${el.v3??""}</td>
+        <td class="cb2">${el.v4??""}</td>
     </tr>`
        })
         paper += `         </table>
@@ -56,11 +56,11 @@ export class SdqReportByRoom extends BaseReport{
                 สัมพันธภาพทางสังคม
             </p>
             <p>มีจุดแข็ง</p>
-            <p>จำนวน <span>${sumarizeList2.v1}</span>คน</p>
+            <p>จำนวน <span>${sumarizeList2.v1??""}</span>คน</p>
             <p>ไม่มีจุดแข็ง</p>
-            <p>จำนวน <span>${sumarizeList2.v2}</span>คน</p>
+            <p>จำนวน <span>${sumarizeList2.v2??""}</span>คน</p>
             <p>รวม</p>
-            <p>จำนวน <span>${sumarizeList2.v3}</span>คน</p>
+            <p>จำนวน <span>${sumarizeList2.v3??""}</span>คน</p>
         </div>
     </div>
     </div>`
@@ -103,14 +103,14 @@ export class SdqReportByRoom extends BaseReport{
     }
     private getRowData(el: DataRowModel) {
           return `        <tr>
-          <td class="c1" >${el.v1}</td>
-          <td class="c2">${el.v2}</td>
-          <td class="c2">${el.v3}</td>
-          <td class="c2">${el.v4}</td>
-          <td class="c2">${el.v5}</td>
-          <td class="c2">${el.v6}</td>
-          <td class="c3">${el.v7}</td>
-          <td class="c2">${el.v8}</td>
+          <td class="c1" >${el.v1??""}</td>
+          <td class="c2">${el.v2??""}</td>
+          <td class="c2">${el.v3??""}</td>
+          <td class="c2">${el.v4??""}</td>
+          <td class="c2">${el.v5??""}</td>
+          <td class="c2">${el.v6??""}</td>
+          <td class="c3">${el.v7??""}</td>
+          <td class="c2">${el.v8??""}</td>
 
       </tr>`
       }

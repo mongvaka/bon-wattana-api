@@ -5,13 +5,13 @@ import { CSS_STUDENT_FILTER, CSS_STUDENT_FILTER_BY_ROOM } from "./source/css-stu
 
 export class StudentFilterReportByRoom extends BaseReport{
     html = ''
-    constructor(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[]){
+    constructor(header:HeaderReport,dataList:DataRowModel[],sumarizeList:DataRowModel[],countSpecial:number){
         super()
         this.html += this.openTagHtml()
         this.html += this.getCss(CSS_STUDENT_FILTER_BY_ROOM)
         this.html += this.openTagBody()
-        this.html += this.addReport(header,dataList,sumarizeList)
-        
+        this.html += this.addReport(header,dataList,sumarizeList,countSpecial)
+        this.html += this.addReportSumarize(header,dataList,sumarizeList,countSpecial)
         this.html += this.closeTagBody()
         this.html += this.closeTagHtml()
 
@@ -19,14 +19,74 @@ export class StudentFilterReportByRoom extends BaseReport{
    public getHtml(){
         return this.html
     }
-   private addReport(header: HeaderReport, dataList: DataRowModel[],sumarizeList:DataRowModel[]) {
+    private addReportSumarize(header: HeaderReport, dataList: DataRowModel[],sumarizeList:DataRowModel[],countSpecial:number) {
+      let report = `<div class="a4">
+      <div class="content2">
+      <p class="reportName fontWeight">สรุปผลการคัดกรองนักเรียน  </p>
+        <table class="nonBorder">
+      `
+      sumarizeList.forEach(el=>{
+        report += this.getRowDataSumarize(el,header.reportType)
+       })
+      report += `  </table>
+      <p class="sumSkill fontWeight">นักเรียนความสามารถพิเศษ		<span>จำนวน ${countSpecial??'0'} คน</span>   </p>
+      <table class="allBorder tableSign">
+        <tr class="nonBorder mt">
+          <th colspan="4" class="nonBorder">
+            <p>ลงชื่อ.................................................ผู้คัดกรองนักเรียน</p>
+            <p class="padleft1"> (........................................................) </p>
+          </th>
+          <th colspan="4" class="nonBorder">
+            <p>ลงชื่อ.................................................ผู้คัดกรองนักเรียน</p>
+            <p class="padleft1"> (........................................................) </p>
+          </th>
+          <th colspan="4" class="nonBorder">
+            <p>ลงชื่อ.................................................หัวหน้าระดับชั้น</p>
+            <p  class="padleft1"> (................................................................) </p>
+          </th>
+    
+        </tr>
+        <br>
+        <tr  class="nonBorder mt">
+          <th  colspan="6" class="nonBorder">
+            <p>ลงชื่อ........................................................หัวหน้างานระบบดูแลฯ</p>
+            <p  class="padleft2"> (................................................................) </p>
+          </th>
+          <th  colspan="6" class="nonBorder">
+            <p>ลงชื่อ........................................................รองผู้อำนวยการฝ่ายกิจการนักเรียน</p>
+            <p  class="padleft2"> (........................................................) </p>
+          </th>
+    
+        </tr>
+        <tr>
+          <th class="nonBorder sign" ></th>
+          <th class="nonBorder sign" ></th>
+          <th class="nonBorder sign" ></th>
+          <th class="nonBorder sign" ></th>
+          <th class="nonBorder sign" ></th>
+          <th class="nonBorder sign" ></th>
+          <th class="nonBorder sign" ></th>
+          <th class="nonBorder sign" ></th>
+          <th class="nonBorder sign" ></th>
+          <th class="nonBorder sign" ></th>
+          <th class="nonBorder sign" ></th>
+          <th class="nonBorder sign" ></th>
+        </tr>
+      </table>
+      </div>
+      </div>  
+      `
+      return report
+  
+  }
+   private addReport(header: HeaderReport, dataList: DataRowModel[],sumarizeList:DataRowModel[],countSpecial:number) {
         let report = ``
         report += this.getReportHeader(header)
-        report += this.getReportTable(dataList,header,sumarizeList)
+        report += this.getReportTable(dataList,header,sumarizeList,countSpecial)
         return report
     
     }
-    private getReportTable(dataList: DataRowModel[],header:HeaderReport,sumarizeList:DataRowModel[]) {
+    private getReportTable(dataList: DataRowModel[],header:HeaderReport,sumarizeList:DataRowModel[],countSpecial:number) {
   
         let table = `  <table>
         <tr>
@@ -82,58 +142,9 @@ export class StudentFilterReportByRoom extends BaseReport{
          table += this.getRowData(el,header.reportType)
         })
         table += `  </table>
-        <p class="reportName fontWeight">สรุปผลการคัดกรองนักเรียน  </p>
-        <table class="nonBorder">`
-        sumarizeList.forEach(el=>{
-            table += this.getRowDataSumarize(el,header.reportType)
-           })
-        table += `  </table>
-        <p class="sumSkill fontWeight">นักเรียนความสามารถพิเศษ		<span>จำนวน 0 คน</span>   </p>
-        <br>
-        <table class="allBorder tableSign">
-          <br>
-          <tr class="nonBorder mt">
-            <th colspan="4" class="nonBorder">
-              <p>ลงชื่อ.................................................ผู้คัดกรองนักเรียน</p>
-              <p class="padleft1"> (........................................................) </p>
-            </th>
-            <th colspan="4" class="nonBorder">
-              <p>ลงชื่อ.................................................ผู้คัดกรองนักเรียน</p>
-              <p class="padleft1"> (........................................................) </p>
-            </th>
-            <th colspan="4" class="nonBorder">
-              <p>ลงชื่อ.................................................หัวหน้าระดับชั้น</p>
-              <p  class="padleft1"> (................................................................) </p>
-            </th>
-      
-          </tr>
-          <br>
-          <tr  class="nonBorder mt">
-            <th  colspan="6" class="nonBorder">
-              <p>ลงชื่อ........................................................หัวหน้างานระบบดูแลฯ</p>
-              <p  class="padleft2"> (................................................................) </p>
-            </th>
-            <th  colspan="6" class="nonBorder">
-              <p>ลงชื่อ........................................................รองผู้อำนวยการฝ่ายกิจการนักเรียน</p>
-              <p  class="padleft2"> (........................................................) </p>
-            </th>
-      
-          </tr>
-          <tr>
-            <th class="nonBorder sign" ></th>
-            <th class="nonBorder sign" ></th>
-            <th class="nonBorder sign" ></th>
-            <th class="nonBorder sign" ></th>
-            <th class="nonBorder sign" ></th>
-            <th class="nonBorder sign" ></th>
-            <th class="nonBorder sign" ></th>
-            <th class="nonBorder sign" ></th>
-            <th class="nonBorder sign" ></th>
-            <th class="nonBorder sign" ></th>
-            <th class="nonBorder sign" ></th>
-            <th class="nonBorder sign" ></th>
-          </tr>
-        </table>
+        `
+
+        table += `
       </div>
       </div>  `
         return table
@@ -143,41 +154,41 @@ export class StudentFilterReportByRoom extends BaseReport{
     }
     getRowDataSumarize(el: DataRowModel, reportType: EReportType) {
         return `    <tr class="nonBorder">
-        <th class="nonBorder sumWidthName">${el.v1}</th>
-        <th class="nonBorder sumWidth">ปกติ ${el.v2} คน</th>
-        <th class="nonBorder sumWidth">เสี่ยง ${el.v3} คน</th>
-        <th class="nonBorder sumWidth">มีปัญหา ${el.v4} คน</th>
+        <th class="nonBorder sumWidthName">${el.v1??""}</th>
+        <th class="nonBorder sumWidth">ปกติ ${el.v2??""} คน</th>
+        <th class="nonBorder sumWidth">เสี่ยง ${el.v3??""} คน</th>
+        <th class="nonBorder sumWidth">มีปัญหา ${el.v4??""} คน</th>
       </tr>`
     }
     private getRowData(el: DataRowModel,reportType:EReportType) {
        
  
         return `    <tr>
-        <td class="no">${el.v1}</td>
-        <td class="stdName">${el.v2}</td>
-        <td class="normal">${el.v3}</td>
-        <td class="relation" >${el.v4}</td>
-        <td class="skill">${el.v5}</td>
-        <td>${el.v6}</td>
-        <td>${el.v7}</td>
-        <td>${el.v8}</td>
-        <td>${el.v9}</td>
-        <td>${el.v10}</td>
-        <td>${el.v11}</td>
-        <td>${el.v12}</td>
-        <td>${el.v13}</td>
-        <td>${el.v14}</td>
-        <td>${el.v15}</td>
-        <td>${el.v16}</td>
-        <td>${el.v17}</td>
-        <td>${el.v18}</td>
-        <td>${el.v19}</td>
-        <td>${el.v20}</td>
-        <td>${el.v21}</td>
-        <td>${el.v22}</td>
-        <td>${el.v23}</td>
-        <td>${el.v24}</td>
-        <td>${el.v25}</td>
+        <td class="no">${el.v1??""}</td>
+        <td class="stdName">${el.v2??""}</td>
+        <td class="normal">${el.v3??""}</td>
+        <td class="relation" >${el.v4??""}</td>
+        <td class="skill">${el.v5??""}</td>
+        <td>${el.v6??""}</td>
+        <td>${el.v7??""}</td>
+        <td>${el.v8??""}</td>
+        <td>${el.v9??""}</td>
+        <td>${el.v10??""}</td>
+        <td>${el.v11??""}</td>
+        <td>${el.v12??""}</td>
+        <td>${el.v13??""}</td>
+        <td>${el.v14??""}</td>
+        <td>${el.v15??""}</td>
+        <td>${el.v16??""}</td>
+        <td>${el.v17??""}</td>
+        <td>${el.v18??""}</td>
+        <td>${el.v19??""}</td>
+        <td>${el.v20??""}</td>
+        <td>${el.v21??""}</td>
+        <td>${el.v22??""}</td>
+        <td>${el.v23??""}</td>
+        <td>${el.v24??""}</td>
+        <td>${el.v25??""}</td>
         <td class="sumarize" >${el.v26}</td>
       </tr>`
     }

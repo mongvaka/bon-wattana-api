@@ -25,12 +25,12 @@ export class StudentScolarReportSumarize extends BaseReport{
             </div>
             <div class="flex2">`
         sumarizeList.forEach(el=>{
-            paper += `        <p class="title">${el.v1} </p>`
+            paper += `        <p class="title">${el.v1??""} </p>`
         })
         paper += `    </div>
         <div class="flex3">`
         sumarizeList.forEach(ev=>{
-            paper += `        <p class="title">จำนวน <span>${ev.v2}</span> คน</p>`
+            paper += `        <p class="title">จำนวน <span>${ev.v2??""}</span> คน</p>`
         })
         paper += `    </div>
         </div>
@@ -55,6 +55,7 @@ export class StudentScolarReportSumarize extends BaseReport{
            <table>
             <tr>
                 <th>ชื่อ-สกุล</th>
+                <th>ระดับชั้น</th>
                 <th>ห้อง</th>
                 <th>เลขที่</th>
                 <th>ชื่อทุนการศึกษา</th>
@@ -77,12 +78,13 @@ export class StudentScolarReportSumarize extends BaseReport{
          
    
            return `    <tr>
-           <td class="col1">${el.v1}</td>
-           <td class="col2">${el.v2}</td>
-           <td class="col2">${el.v3}</td>
-           <td class="col3">${el.v4}</td>
-           <td class="col4">${el.v5}</td>
-           <td class="col5">${el.v6}</td>
+           <td class="col1">${el.v1??""}</td>
+           <td class="col2">${el.v2??""}</td>
+           <td class="col2">${el.v3??""}</td>
+           <td class="col2">${el.v4??""}</td>
+           <td class="col3">${el.v5??""}</td>
+           <td class="col4">${el.v6??""}</td>
+           <td class="col5">${el.v7??""}</td>
        </tr> `
       }
 }
