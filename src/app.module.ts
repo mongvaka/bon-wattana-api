@@ -81,6 +81,7 @@ import { SarActivitiesModule  } from './api/sar-activities/sar-activities.module
 import { SarAdviseClassModule  } from './api/sar-advise-class/sar-advise-class.module';
 import { SarUploadImgModule  } from './api/sar-upload-img/sar-upload-img.module';
 import { SarOrderedPositionModule  } from './api/sar-ordered-position/sar-ordered-position.module';
+import { WordModule } from './core/word/word.module';
 @Module({
   imports: [
     // ConfigModule.forRoot(
@@ -204,7 +205,8 @@ import { SarOrderedPositionModule  } from './api/sar-ordered-position/sar-ordere
     SarActivitiesModule,
     SarAdviseClassModule,
     SarUploadImgModule,
-    SarOrderedPositionModule
+    SarOrderedPositionModule,
+    WordModule
   ],
   controllers: [AppController],
   providers: [AppService],

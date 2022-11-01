@@ -39,7 +39,7 @@ export class ReportStudentScolar {
   @ViewColumn()
   typeName:string
   @ViewColumn()
-  inTerm:number
+  inTerm:string
   @ViewColumn()
-  year:number
+  year:string
 }

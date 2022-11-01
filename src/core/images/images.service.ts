@@ -37,7 +37,7 @@ export class ImagesService extends BaseService {
           }
     }
     async removeWithRefId(id: number) {
-        return this.repository.remove(await this.repository.find({refId:id})) 
+        return this.repository.remove(await this.repository.find({where:{refId:id}})) 
     }
     constructor(
         @InjectRepository(Images)
