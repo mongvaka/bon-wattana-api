@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { BaseService } from "../shared/services/base.service";
 import * as fs from "fs";
 import { Document, ImageRun, NumberFormat, OverlapType, Packer, PageBreak, Paragraph, RelativeHorizontalPosition, RelativeVerticalPosition, SectionType, Table, TableAnchorType, TableCell, TableLayoutType, TableRow, TextRun, WidthType } from "docx";
+import { SarReportModel } from "./libs/sar-template/sar-report";
 @Injectable()
 export class WordService extends BaseService {
     constructor(
@@ -11,6 +12,7 @@ export class WordService extends BaseService {
     }
     async demo(){
         const path: string = `assert/images/logo.jpeg`;
+        const sarService = new SarReportModel()
         const table = new Table({
             rows:[
                 new TableRow({
@@ -70,6 +72,8 @@ export class WordService extends BaseService {
                         },
                     },
                     children: [
+                    
+                        sarService.setMemoPage(),
                         new Paragraph({
                             children: [
                                 new TextRun({
