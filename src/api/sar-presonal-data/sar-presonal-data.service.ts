@@ -65,24 +65,46 @@ export class SarPresonalDataService extends BaseService {
     async initialByTeacherId(id:number):Promise<any>{
         const teacher = await this.teacherService.item(id);
         const education = await this.educationbackground.getListByTeacherId(id)
-       // console.log("teacher>>>?",teacher)
-       var dob = new Date(teacher.birthDate.toLocaleDateString("en-US"));
-       //calculate month difference from current date in time
-       var month_diff = Date.now() - dob.getTime();
-       
-       //convert the calculated difference in date format
-       var age_dt = new Date(month_diff); 
-       
-       //extract year from date    
-       var year = age_dt.getUTCFullYear();
-       
-       //now calculate the age of the user
-       var age = Math.abs(year - 1970);
-       var dob2 = new Date(teacher.setInDate.toLocaleDateString("en-US"));
-       var month_diff2 = Date.now() - dob2.getTime();
-       var month_diff2_dt = new Date(month_diff2); 
-       var year2 = month_diff2_dt.getUTCFullYear();
-       var setInTotalYear = Math.abs(year2 - 1970);
+
+  var age = null;
+  teacher.birthDateValue = null;
+  if(teacher.birthDate !=null){
+//cal age
+  var dob = new Date(teacher.birthDate.toLocaleDateString("en-US"));
+  //calculate month difference from current date in time
+  var month_diff = Date.now() - dob.getTime();
+  //convert the calculated difference in date format
+  var age_dt = new Date(month_diff); 
+  //extract year from date    
+  var year = age_dt.getUTCFullYear();
+  //now calculate the age of the user
+   age = Math.abs(year - 1970);
+   teacher.birthDateValue = teacher.birthDate.toLocaleDateString("th-TH", {
+     year: 'numeric',
+     month: 'long',
+     day: 'numeric',
+   });
+  }
+  teacher.age= age;
+
+
+  var setInTotalYear=null;
+  teacher.setInDateValue =null;
+  if( teacher.setInDate!==null){
+     //cal  setInTotalYear
+  var dob2 = new Date(teacher.setInDate.toLocaleDateString("en-US"));
+  var month_diff2 = Date.now() - dob2.getTime();
+  var month_diff2_dt = new Date(month_diff2); 
+  var year2 = month_diff2_dt.getUTCFullYear();
+   setInTotalYear = Math.abs(year2 - 1970);
+  teacher.setInDateValue = teacher.setInDate.toLocaleDateString("th-TH", {
+     year: 'numeric',
+     month: 'long',
+     day: 'numeric',
+   });
+
+  }
+  teacher.setInTotalYear=setInTotalYear;
         return {
             teacherId:teacher.id,
             practitionerLevelNameValue:teacher.practitionerLevelNameValue,
