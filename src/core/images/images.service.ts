@@ -45,7 +45,7 @@ export class ImagesService extends BaseService {
         ){
         super()
     }
-    async list(id:number):Promise<SearchResult<Images>>{
+    async list(id:number,type:number):Promise<SearchResult<Images>>{
         const searchDto = new SearchImagesDto()
         searchDto.refTable = 'IMAGES'
         searchDto.tableKey = 'IMAGES'
@@ -57,7 +57,17 @@ export class ImagesService extends BaseService {
             inputType:ColumnType.INT,
             equalityOperator: Operators.EQUAL,
             operator:Operators.EQUAL
-        }]
+        },
+        {
+            columnName:'refType',
+            tableName:'IMAGES',
+            feildName:'refType',
+            value:`${type}`,
+            inputType:ColumnType.INT,
+            equalityOperator: Operators.EQUAL,
+            operator:Operators.EQUAL
+        }
+    ]
         const builder = this.createQueryBuiderCustom<Images>(searchDto,this.repository)
         const [data, count] = await builder
         .getManyAndCount();

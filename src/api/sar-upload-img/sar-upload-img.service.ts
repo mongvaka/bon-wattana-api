@@ -88,7 +88,7 @@ export class SarUploadImgService extends BaseService {
     async item(id:number):Promise<any>{
         return await this.itemRepository.findOne({where:{id:id}})
     }
-    async getListByRefId(refIdValue:string):Promise<VwSarUploadImgItem[]>{
-        return await this.itemRepository.find({where:{refId:refIdValue}})
+    async getListByRefId(refIdValue:string):Promise<VwSarUploadImgList[]>{
+        return await this.vwSarUploadImgRepository.find({where:{refId:refIdValue}})
     }
 }

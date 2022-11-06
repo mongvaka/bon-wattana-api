@@ -21,10 +21,10 @@ export class ImagesController extends BaseController{
     
     return of(res.sendFile(join(process.cwd(),'public/uploads/images',image))) 
   }
-  @Get('/url/:id')
-  async urlList(@Param('id') id: number) {    
+  @Get('/url/:id/:type')
+  async urlList(@Param('id') id: number,@Param('type') type: number) {    
     try{
-      return this.success(await this.service.list(id))
+      return this.success(await this.service.list(id,type))
     }catch(e){
       return this.error(e)
     }   

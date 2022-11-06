@@ -302,6 +302,10 @@ export class SarService extends BaseService {
         where: { teacherId: parseInt(teacherId), year: schoolYear, term: "2" },
       });
     const saruploadimg = await this.saruploadimg.getListByRefId(refIdValue);
+    console.log(refIdValue);
+    console.log(saruploadimg);
+    
+    
     const sarorderedposition = await this.sarorderedposition.getListByRefId(
       refIdValue
     );
@@ -502,7 +506,7 @@ export class SarService extends BaseService {
     model.appendix = saruploadimg.map(m=>{
       const en: ApendexTable = {
         name:m.titleName,
-        imageUrls:['ebf4f695-76a5-452b-8a20-ec0820920c01-0g9i7j9b.png','ebf4f695-76a5-452b-8a20-ec0820920c01-0g9i7j9b.png','ebf4f695-76a5-452b-8a20-ec0820920c01-0g9i7j9b.png','ebf4f695-76a5-452b-8a20-ec0820920c01-0g9i7j9b.png','ebf4f695-76a5-452b-8a20-ec0820920c01-0g9i7j9b.png']
+        imageUrls:m.images?.split(',')??[]
       }
       return en
     })

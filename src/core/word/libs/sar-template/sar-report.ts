@@ -462,7 +462,7 @@ export class SarReportModel{
             new Paragraph({
                 children: [
                     new TextRun({
-                        text:`(นางสาวอรวรรณ ผันผาย)`,
+                        text:`(                         )`,
                         ...this.fontHeaderNoneBreak,
     
                     }),
@@ -472,7 +472,7 @@ export class SarReportModel{
             new Paragraph({
                 children: [
                     new TextRun({
-                        text:`ตำแหน่ง ครูชำนาญการ`,
+                        text:`ตำแหน่ง               `,
                         ...this.fontHeaderNoneBreak,
     
                     }),
@@ -494,7 +494,7 @@ export class SarReportModel{
             new Paragraph({
                 children: [
                     new TextRun({
-                        text:`(นายประสิทธิ์ เลิศล้ำ)`,
+                        text:`(                     )`,
                         ...this.fontHeaderNoneBreak,
     
                     }),
@@ -504,7 +504,7 @@ export class SarReportModel{
             new Paragraph({
                 children: [
                     new TextRun({
-                        text:` หัวหน้ากลุ่มสาระการเรียนรู้วิทยาศาสตร์`,
+                        text:` หัวหน้ากลุ่มสาระ  `,
                         ...this.fontHeaderNoneBreak,
     
                     }),
