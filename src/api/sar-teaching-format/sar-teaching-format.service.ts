@@ -57,7 +57,7 @@ export class SarTeachingFormatService extends BaseService {
     async teacherDropdown(dto: SearchTeacherDto):Promise<SelectItems[]> {
         return await this.dropdownService.teacherDropdown(dto,this.vwDropdownTeacherRepository);
       }
-      async getItemByRefId(refIdValue:string):Promise<any>{
+      async getItemByRefId(refIdValue:string):Promise<VwSarTeachingFormatItem>{
         return await this.itemRepository.findOne({where:{refId:refIdValue}})
     }
 }

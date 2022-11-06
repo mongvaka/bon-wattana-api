@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "src/core/authentications/jwt-auth.guard";
 import { BaseController } from "src/core/shared/controller/base-controller";
@@ -7,9 +7,10 @@ import { DropdownService } from "src/core/shared/services/dropdown.service";
 import { SearchTeacherDto } from "src/api/teacher/teacher.dto";
 import { CreateSarDto, SearchSarDto, UpdateSarDto } from "./sar.dto";
 import { SarService } from "./sar.service";
+import { ExportWordDto } from "src/core/word/word.dto";
 @ApiTags("sar")
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
+// @UseGuards(JwtAuthGuard)
+// @ApiBearerAuth()
 @Controller('sar')
 export class SarController extends BaseController{
     constructor(private readonly sarService:SarService,
@@ -30,6 +31,22 @@ export class SarController extends BaseController{
       return this.success(await this.sarService.list(dto))
     }catch(e){
       return this.error(e)
+    }
+  }
+  @Post('export-to-word')
+  async downloadReport(@Body() dto:ExportWordDto,@Res() response) {
+
+    try {
+      const pdfFile = await this.sarService.exportReport(dto.id);
+      const fileName = 'test'
+      response.writeHead(200, {
+       'Content-Type': 'application/docx',
+       'Content-disposition': `attachment;filename=${fileName}.docx`,
+      });
+      response.end(pdfFile);
+    } catch (e){      
+      console.log(e);
+      throw new BadRequestException('ไม่มีข้อมูล')
     }
   }
   @Get('teacher-dropdown')

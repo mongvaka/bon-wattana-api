@@ -77,7 +77,7 @@ export class EducationBackgroundService extends BaseService {
     async item(id:number):Promise<any>{
         return this.itemRepository.findOne({where:{id:id}})
     }
-    async getListByTeacherId(id:number):Promise<any>{
+    async getListByTeacherId(id:number):Promise<VwEducationBackgroundItem[]>{
         return this.itemRepository.find({where:{teacherId:id}})
     }
 }

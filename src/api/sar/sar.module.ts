@@ -40,6 +40,7 @@ import { VwSarCrudAssessmentList} from 'src/api/sar-crud-assessment/sar-crud-ass
 import { VwSarCompetencyAssessmentList} from 'src/api/sar-competency-assessment/sar-competency-assessment.entity'
 import { SarUploadImgModule } from '../sar-upload-img/sar-upload-img.module';
 import { SarOrderedPositionModule} from 'src/api/sar-ordered-position/sar-ordered-position.module'
+import { WordModule } from 'src/core/word/word.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Sar,VwSarList,VwSarItem,VwSarDropdown,
@@ -50,7 +51,8 @@ import { SarOrderedPositionModule} from 'src/api/sar-ordered-position/sar-ordere
     SarResearchInClassModule,SarIntegratedLearningModule,SarTeachingFormatModule,SarTeachingConditionModule,
     SarSelfDevelopmentModule,SarAwardModule,SarInvitedSpeakerModule,SarPerformingSpecialDutiesModule,SarStudentEstimateTeachingModule,
     SarSelfAssessmentModule,SarQualityOfLearnersModule,SarQualityEvidenceModule,SarStandard2Module,SarStandard3Module,SarStandard4Module,
-    SarCompetencyAssessmentModule,SarCrudAssessmentModule,SarActivitiesModule,SarAdviseClassModule,SarUploadImgModule,SarOrderedPositionModule
+    SarCompetencyAssessmentModule,SarCrudAssessmentModule,SarActivitiesModule,SarAdviseClassModule,SarUploadImgModule,SarOrderedPositionModule,
+    WordModule
   ],
   controllers: [SarController],
   providers: [SarService,DropdownService],

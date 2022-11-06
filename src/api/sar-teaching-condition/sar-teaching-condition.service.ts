@@ -58,7 +58,7 @@ export class SarTeachingConditionService extends BaseService {
     async item(id:number):Promise<any>{
         return await this.itemRepository.findOne({where:{id:id}})
     }
-    async getItemByRefId(refIdValue:string):Promise<any>{
+    async getItemByRefId(refIdValue:string):Promise<VwSarTeachingConditionItem>{
         return await this.itemRepository.findOne({where:{refId:refIdValue}})
     }
 }

@@ -97,7 +97,7 @@ export class SarPresonalDataService extends BaseService {
             education:education
         };
     }
-    async getItemByRefId(refIdValue:string):Promise<any>{
+    async getItemByRefId(refIdValue:string):Promise<VwSarPresonalDataItem>{
         return await this.itemRepository.findOne({where:{refId:refIdValue}})
     }
 }

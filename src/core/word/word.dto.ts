@@ -9,5 +9,6 @@ export class SearchExportWordDto  extends SearchParameter{
     
 }
 export class ExportWordDto {
-    
+    @ApiProperty({type:Number,description:'id SAR'})
+    id:number
 }

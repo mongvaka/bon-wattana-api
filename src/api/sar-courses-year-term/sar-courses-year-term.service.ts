@@ -66,7 +66,7 @@ export class SarCoursesYearTermService extends BaseService {
         return await this.itemRepository.findOne({where:{id:id}})
     }
     
-    async getListByRefIdAndTerm(refIdValue:string,term:string):Promise<any>{
+    async getListByRefIdAndTerm(refIdValue:string,term:string):Promise<VwSarCoursesYearTermItem[]>{
         return await this.itemRepository.find({where:{refId:refIdValue,term:term}})
     }
 }

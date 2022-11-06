@@ -58,7 +58,7 @@ export class SarAwardService extends BaseService {
     async item(id:number):Promise<any>{
         return await this.itemRepository.findOne({where:{id:id}})
     }
-    async getListByRefId(refIdValue:string):Promise<any>{
+    async getListByRefId(refIdValue:string):Promise<VwSarAwardItem[]>{
         return await this.itemRepository.find({where:{refId:refIdValue}})
     }
 }

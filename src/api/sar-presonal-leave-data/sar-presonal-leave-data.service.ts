@@ -58,7 +58,7 @@ export class SarPresonalLeaveDataService extends BaseService {
         return this.dropdownService.teacherDropdown(dto,this.vwDropdownTeacherRepository);
       }
 
-      async getListByRefId(refIdValue:string):Promise<any>{
+      async getListByRefId(refIdValue:string):Promise<VwSarPresonalLeaveDataItem[]>{
         return await this.itemRepository.find({where:{refId:refIdValue}})
     }
 }
