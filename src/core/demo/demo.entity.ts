@@ -103,3 +103,49 @@ export class VwDemoItem {
     @ViewColumn({name:'DEMO_ENUM'})
     demoEnum: string;
 }
+
+@ViewEntity({
+  name:'DB_STUDENT_BY_CLASS',
+  expression: `select count(s.id),ct."typeName"  from 
+  classroom_type ct   
+  left join
+  student s on s."classroomTypeId"  = ct.id  and ct."deletedAt" is null
+  where s."deletedAt" is null 
+  group by s."classroomTypeId",ct."typeName",ct.id 
+  order by ct.id `
+})
+export class VwbStudentByClass {
+
+  @ViewColumn()
+    count: number;
+    @ViewColumn()
+    typeName: string;
+}
+@ViewEntity({
+  name:'DB_STUDENT_BY_GENDAR',
+  expression: `select count(s.id),g."gendarName"  from gendar g 
+  left join student s on g.id = s."gendarId" 
+  group by g.id,g."gendarName"
+  order by g.id `
+})
+export class VwbStudentByGendar {
+
+  @ViewColumn()
+  count: number;
+  @ViewColumn()
+  gendarName: string;
+}
+@ViewEntity({
+  name:'DB_TEACHER_BY_GENDAR',
+  expression: `select count(t.id),g."gendarName"  from gendar g 
+  left join teacher t on g.id = t."gendarId" 
+  group by g.id,g."gendarName"
+  order by g.id`
+})
+export class VwbTeacherByGendar {
+  @ViewColumn()
+  count: number;
+  @ViewColumn()
+  gendarName: string;
+
+}

@@ -6,7 +6,7 @@ import { Classroom } from "../classroom/classroom.entity";
 import { District } from "../district/district.entity";
 import { Gendar } from "../gendar/gendar.entity";
 import { Province } from "../province/province.entity";
-import { Student } from "../student/student.entity";
+import { Student, TitleName } from "../student/student.entity";
 import { SubDistrict } from "../sub-district/sub-district.entity";
 
 @Entity('student_support')

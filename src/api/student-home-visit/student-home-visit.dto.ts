@@ -86,6 +86,7 @@ export class StudentHomeVisitDto {
     parentTel:string;
     adviserName:string;
     images: string[];
+    googleMap:string;
 } 
 export class CreateStudentHomeVisitDto extends StudentHomeVisitDto{
  

@@ -385,7 +385,7 @@ export class StudentFilter extends BasicData {
     s."classroomId",
     s."classroomTypeId",
     s."studentCode" ,
-    CONCAT(s.firstname,' ',s.lastname) as "studentValue",
+    concat(title."titleName", ' ',s.firstname, ' ', s.lastname) as "studentValue",
     c.name as "room",
     ct."typeName",
     CONCAT(af.skill1,' ',af.skill2,' ',af.skill3) as "specialSkill",
@@ -424,6 +424,7 @@ export class StudentFilter extends BasicData {
     where sdq3."estimateType" = 3
     order by id desc limit 1
     ) sdq3 on sdq3."studentId" = s.id 
+    LEFT JOIN title_name title ON title.id = s.title
     `
 })
 export class VwStudentFilterList {

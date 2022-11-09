@@ -38,7 +38,7 @@ export class StudentHelp extends BasicData {
     s."classroomTypeId" ,
     c."name" as room,
     ct."typeName" ,
-    concat(s.firstname,' ',s.lastname) as "studentValue",
+    concat(title."titleName", ' ',s.firstname, ' ', s.lastname) as "studentValue",
     s."studentCode",
     sh."activityName" ,
     sh."startDate" ,
@@ -55,6 +55,7 @@ export class StudentHelp extends BasicData {
     left join student_help sh 
     on sh."studentId"  = s.id
     left join classroom c on c.id = s."classroomId" 
+    LEFT JOIN title_name title ON title.id = s.title
     left join classroom_type ct on ct.id = s."classroomTypeId" `
 })
 export class VwStudentHelpList {

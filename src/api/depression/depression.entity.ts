@@ -79,7 +79,7 @@ export class Depression extends BasicData {
     expression: `select
     s.id ,
     s."studentCode" ,
-    CONCAT(s.firstname, ' ', s.lastname) as "studentValue",
+    concat(title."titleName", ' ',s.firstname, ' ', s.lastname) as "studentValue",
     ct."typeName" ,
     c."name" as room,
     ct."id" as "classroomTypeId" ,
@@ -125,6 +125,7 @@ export class Depression extends BasicData {
     ct.id = s."classroomTypeId"
   left join classroom c on
     c.id = s. "classroomId"
+  LEFT JOIN title_name title ON title.id = s.title
     where s."deletedAt" isnull 
   group by
     s.id ,
@@ -135,6 +136,7 @@ export class Depression extends BasicData {
     c."name" ,
     ct."id" ,
     c."id" ,
+    title."titleName",
     de."updatedAt"`
 })
 export class VwDepressionList {

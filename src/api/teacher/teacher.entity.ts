@@ -33,9 +33,24 @@ export class Teacher extends BasicData {
 
   @Column({ nullable: true })
   title?: number;
-
+  @Column({ nullable: true })
+  titleEn?: number;
+  @Column({ nullable: true })
+  ernlyDate?: Date;
+  @Column({ nullable: true })
+  actionWorkSpecial: string;
+  @Column({ nullable: true })
+  actionWorkSpecial2: string;
+  @Column({ nullable: true })
+  actionWorkSpecial3: string;
+  @Column({ nullable: true })
+  actionWorkSpecial4: string;
   @Column({ nullable: true })
   firstname?: string;
+  @Column({ nullable: true })
+  otherEducationText?: string;
+  @Column({ nullable: true })
+  isTeacher?: boolean;
 
   @Column({ nullable: true })
   lastname?: string;
@@ -148,8 +163,7 @@ export class Teacher extends BasicData {
   setInDateSchool: Date
   @Column({ nullable: true })
   actionWork: string;
-  @Column({ nullable: true })
-  actionWorkSpecial: string;
+
   @Column({ nullable: true })
   activityStudentId: number;
 
@@ -163,7 +177,6 @@ export class Teacher extends BasicData {
     .addSelect("teacher.educationMajor", "educationMajor")
     .addSelect("teacher.educationMinor", "educationMinor")
     .addSelect("teacher.actionWork", "actionWork")
-    .addSelect("teacher.actionWorkSpecial", "actionWorkSpecial")
     .addSelect("teacher.setInDateSchool", "setInDateSchool")
     .addSelect("teacher.practitionerNo", "practitionerNo")
     .addSelect("teacher.teacherCode", "teacherCode")
@@ -175,12 +188,37 @@ export class Teacher extends BasicData {
     .addSelect("CONCAT(practitioner_level_id.levelName , ' ' , practitioner_level_id.levelDescription)", "practitionerLevelValue")
     .addSelect("teacher.subjectGroupId", "subjectGroupId")
     .addSelect("practicle.name", "subjectGroupValue")
+    .addSelect("teacher.titleEn", "titleEn")
+    .addSelect("teacher.ernlyDate", "ernlyDate")
+    .addSelect("teacher.actionWorkSpecial", "actionWorkSpecial")
+    .addSelect("teacher.actionWorkSpecial2", "actionWorkSpecial2")
+    .addSelect("teacher.actionWorkSpecial3", "actionWorkSpecial3")
+    .addSelect("teacher.actionWorkSpecial4", "actionWorkSpecial4")
+    .addSelect("teacher.otherEducationText", "otherEducationText")
+    .addSelect("teacher.isTeacher", "isTeacher")
     .from(Teacher, "teacher")
     .leftJoin(PractitionerLevel, "practitioner_level_id", "practitioner_level_id.Id = teacher.practitionerLevelId")
     .leftJoin(Practicle, 'practicle', 'practicle.id = teacher.subjectGroupId')
 })
 
 export class VwTeacherList {
+  @ViewColumn()
+  titleEn?: number;
+  @ViewColumn()
+  ernlyDate?: Date;
+  @ViewColumn()
+  actionWorkSpecial: string;
+  @ViewColumn()
+  actionWorkSpecial2: string;
+  @ViewColumn()
+  actionWorkSpecial3: string;
+  @ViewColumn()
+  actionWorkSpecial4: string;
+  @ViewColumn()
+  otherEducationText?: string;
+  @ViewColumn()
+  isTeacher?: boolean;
+
   @ViewColumn()
   id: number;
 
@@ -225,8 +263,7 @@ export class VwTeacherList {
   educationMinor?: string;
   @ViewColumn()
   actionWork: string;
-  @ViewColumn()
-  actionWorkSpecial: string;
+
   @ViewColumn()
   setInDateSchool: Date
 
@@ -310,8 +347,15 @@ export class VwTeacherDropdown {
         .addSelect("sub_district_id.name", "subDistrictValue")
         .addSelect("practicle.name", "subjectGroupValue")
         .addSelect("teacher.actionWork", "actionWork")
-        .addSelect("teacher.actionWorkSpecial", "actionWorkSpecial")
         .addSelect("teacher.activityStudentId", "activityStudentId")
+        .addSelect("teacher.titleEn", "titleEn")
+        .addSelect("teacher.ernlyDate", "ernlyDate")
+        .addSelect("teacher.actionWorkSpecial", "actionWorkSpecial")
+        .addSelect("teacher.actionWorkSpecial2", "actionWorkSpecial2")
+        .addSelect("teacher.actionWorkSpecial3", "actionWorkSpecial3")
+        .addSelect("teacher.actionWorkSpecial4", "actionWorkSpecial4")
+        .addSelect("teacher.otherEducationText", "otherEducationText")
+        .addSelect("teacher.isTeacher", "isTeacher")
         .addSelect("activity_student.activityMainName", "activityStudentValue")
       .from(Teacher, "teacher")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = teacher.gendarId")
@@ -330,11 +374,24 @@ export class VwTeacherDropdown {
         .leftJoin(ActivityStudent,'activity_student','activity_student.id = teacher.activityStudentId')
 })
 export class VwTeacherItem {
-
   @ViewColumn()
-  actionWork: string;
+  titleEn?: number;
+  @ViewColumn()
+  ernlyDate?: Date;
   @ViewColumn()
   actionWorkSpecial: string;
+  @ViewColumn()
+  actionWorkSpecial2: string;
+  @ViewColumn()
+  actionWorkSpecial3: string;
+  @ViewColumn()
+  actionWorkSpecial4: string;
+  @ViewColumn()
+  otherEducationText?: string;
+  @ViewColumn()
+  isTeacher?: boolean;
+  @ViewColumn()
+  actionWork: string;
   @ViewColumn()
   activityStudentId: number;
   @ViewColumn()

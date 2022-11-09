@@ -2,7 +2,7 @@ import { BasicData } from "src/core/shared/entities/basic-data";
 import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
 import { ClassroomType } from "../classroom-type/classroom-type.entity";
 import { Classroom } from "../classroom/classroom.entity";
-import { Student } from "../student/student.entity";
+import { Student, TitleName } from "../student/student.entity";
 import { YearTerm } from "../year-term/year-term.entity";
 
 @Entity('sdq_table')
@@ -150,7 +150,7 @@ export class SdqTable extends BasicData {
     .addSelect("sdq_table.estimateType", "estimateType")
     .addSelect("student.studentCode", "studentCode")
     .addSelect("student.studentNumber", "studentNumber")
-    .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
+    .addSelect(`CONCAT(title."titleName",' ',student.firstname,' ',student.lastname) `, "nameValue")
     .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
     .addSelect("student.classroomId", "classroomId")
     .addSelect("student.classroomTypeId", "classroomTypeId")
@@ -166,6 +166,8 @@ export class SdqTable extends BasicData {
     .leftJoin(Student, "student","student.id = sdq_table.studentId")
     .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
     .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
+    .leftJoin(TitleName, 'title', 'title.id = student.title')
+
 })
 export class VwSdqTableList {
   @ViewColumn()

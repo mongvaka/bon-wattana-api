@@ -5,7 +5,7 @@ import { Classroom } from "../classroom/classroom.entity";
 import { District } from "../district/district.entity";
 import { Gendar } from "../gendar/gendar.entity";
 import { Province } from "../province/province.entity";
-import { Student } from "../student/student.entity";
+import { Student, TitleName } from "../student/student.entity";
 import { SubDistrict } from "../sub-district/sub-district.entity";
 //import { null } from "src/api/null/null.entity";
 
@@ -197,6 +197,8 @@ export class StudentHomeVisit extends BasicData {
   lat?: string;
   @Column({nullable: true})
   lon?: string;
+  @Column({nullable: true})
+  googleMap?: string;
 }
 @ViewEntity({
     name:'student_home_visit_list',
@@ -211,11 +213,12 @@ export class StudentHomeVisit extends BasicData {
     .addSelect("student_home_visit.homeVisitday", "homeVisitday")
     .addSelect("student_home_visit.studentId", "studentId")
     .addSelect("student_home_visit.yearTermId", "yearTermId")
-    .addSelect("CONCAT(student.firstname , ' ' , student.lastname)", "studentValue")
+    .addSelect(`CONCAT(title."titleName",' ',student.firstname,' ',student.lastname) `, "studentValue")
     .from(Student, "student")
     .leftJoin(StudentHomeVisit,"student_home_visit" ,"student_home_visit.studentId = student.id")
     .leftJoin(Classroom, "classroom","classroom.Id = student.classroomId")
     .leftJoin(ClassroomType, "classroom_type","classroom_type.Id = student.classroomTypeId")
+    .leftJoin(TitleName, 'title', 'title.id = student.title')
 
 })
 export class VwStudentHomeVisitList {
@@ -267,7 +270,6 @@ export class VwStudentHomeVisitDropdown {
   .select("student_home_visit.id", "id")
         .addSelect("student_home_visit.homeVisitday", "homeVisitday")
         .addSelect("student_home_visit.studentId", "studentId")
-        .addSelect("CONCAT(student.firstname , ' ' , student.lastname)", "studentValue")
         .addSelect("student_home_visit.getMoneyForSchool", "getMoneyForSchool")
         .addSelect("student_home_visit.liveWith", "liveWith")
         .addSelect("student_home_visit.liveWithOther", "liveWithOther")
@@ -324,12 +326,12 @@ export class VwStudentHomeVisitDropdown {
         .addSelect("student_home_visit.healthNeed", "healthNeed")
         .addSelect("student_home_visit.moneyNeed", "moneyNeed")
         .addSelect("student_home_visit.speacialNeed", "speacialNeed")
+        .addSelect("student_home_visit.googleMap", "googleMap")
         .addSelect("student_home_visit.lat", "lat")
         .addSelect("student_home_visit.lon", "lon")
         .addSelect("student_home_visit.yearTermId", "yearTermId")
       .from(StudentHomeVisit, "student_home_visit")
       .leftJoin(Student , 'student','student.id = student_home_visit.studentId')
-
 })
 export class VwStudentHomeVisitItem {
 
@@ -338,8 +340,9 @@ export class VwStudentHomeVisitItem {
 
     @ViewColumn()
     homeVisitday: Date;
-
-
+    
+    @ViewColumn()
+    googleMap: string;
     @ViewColumn()
     studentId: number;
 

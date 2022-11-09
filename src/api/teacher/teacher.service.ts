@@ -53,7 +53,7 @@ export class TeacherService extends BaseService {
     for (const el of data) {
       console.log('el',el);
       
-      const model:Teacher = {...el,birthDate:null}
+      const model:Teacher = {...el,birthDate:this.getDate(el.birthDate)}
       const studentIsexist = await this.teacherRepository.findOne({where:{teacherCode:el.teacherCode,deleted:false}})
       if(!studentIsexist){
         const info = await this.teacherRepository.save(
@@ -74,6 +74,20 @@ export class TeacherService extends BaseService {
     }
     return {}
 
+}
+getDate(birthDate: any) {
+  if(birthDate){
+    const datArr = birthDate.split('/')
+    if(datArr.length == 3){
+      const year = this.getYear(datArr[2])
+      return `${year}/${datArr[1]}/${datArr[0]}`
+    }
+    return undefined
+  }
+
+}
+getYear(arg0: any) {
+  return (+arg0)-543
 }
 async export(dto:SearchExportExcelDto):Promise<any>{
   const builder = this.createQueryBuider<VwTeacherItem>(dto,this.itemRepository)

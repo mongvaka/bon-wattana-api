@@ -1,6 +1,6 @@
 import { BasicData } from "src/core/shared/entities/basic-data";
 import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
-import { Student } from "src/api/student/student.entity";
+import { Student, TitleName } from "src/api/student/student.entity";
 
 @Entity('student_scolar')
 export class StudentScolar extends BasicData {
@@ -30,7 +30,7 @@ export class StudentScolar extends BasicData {
     expression: (connection: Connection) => connection.createQueryBuilder()
         .select("student_scolar.id", "id")
         .addSelect("student_scolar.studentId", "studentId")
-        .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
+        .addSelect(`CONCAT(title."titleName",' ',student_id.firstname,' ',student_id.lastname) `, "studentValue")
         .addSelect("student_scolar.name", "name")
         .addSelect("student_scolar.amount", "amount")
         .addSelect("student_scolar.year", "year")
@@ -38,6 +38,7 @@ export class StudentScolar extends BasicData {
         .addSelect("student_scolar.getFrom", "getFrom")
         .from(StudentScolar, "student_scolar")
         .leftJoin(Student, "student_id","student_id.Id = student_scolar.studentId")
+        .leftJoin(TitleName, 'title', 'title.id = student_id.title')
 })
 export class VwStudentScolarList {
     @ViewColumn()

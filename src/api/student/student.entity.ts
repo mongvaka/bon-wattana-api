@@ -13,7 +13,19 @@ import { Classroom } from "src/api/classroom/classroom.entity";
 import { ClassroomType } from "../classroom-type/classroom-type.entity";
 import { SdqTable } from "src/api/sdq-table/sdq-table.entity";
 import { YearTerm } from "src/api/year-term/year-term.entity";
+import { title } from "process";
+@Entity('title_name')
+export class TitleName extends BasicData {
+  @PrimaryGeneratedColumn({type: 'bigint'})
+  id?: number;
 
+  @Column({nullable: true})
+  titleName?: string;
+  @Column({ nullable: true })
+  status?: number;
+  @Column({ nullable: true })
+  lang?: number;
+}
 @Entity('student')
 export class Student extends BasicData {
   @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -34,7 +46,8 @@ export class Student extends BasicData {
 
   @Column({ nullable: true })
   title?: number;
-
+  @Column({ nullable: true })
+  titleEn?: number;
   @Column({ nullable: true })
   firstname?: string;
 
@@ -54,7 +67,8 @@ export class Student extends BasicData {
 
   @Column({ nullable: true })
   birthDate?: Date;
-
+  @Column({ nullable: true })
+  acceptDate?: Date;
   @Column({ nullable: true })
   nationalityId?: number;
 
@@ -275,7 +289,7 @@ export class Student extends BasicData {
     .addSelect("student.status", "status")
     .addSelect("student.firstname", "firstname")
     .addSelect("student.lastname", "lastname")
-    .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
+    .addSelect(`CONCAT(title."titleName",' ',student.firstname,' ',student.lastname) `, "nameValue")
     .addSelect("student.gendarId", "gendarId")
     .addSelect("TO_CHAR(student.birthDate, 'DD/MM/YYYY') ", "birthDate")
     .addSelect("student.personalCode", "personalCode")
@@ -294,6 +308,7 @@ export class Student extends BasicData {
     .leftJoin(Province, 'province', 'student.provinceId = province.id')
     .leftJoin(District, 'district', 'district.id = student.districtId')
     .leftJoin(SubDistrict, 'sub_district', 'sub_district.id = student.subDistrictId')
+    .leftJoin(TitleName, 'title', 'title.id = student.title')
 
 })
 export class VwStudentList {
@@ -368,6 +383,7 @@ export class VwStudentDropdown {
     .addSelect("student.studentNumber", "studentNumber")
     .addSelect("student.status", "status")
     .addSelect("student.title", "title")
+    .addSelect("student.titleEn", "titleEn")
     .addSelect("student.firstname", "firstname")
     .addSelect("student.lastname", "lastname")
     .addSelect("student.firstnameEn", "firstnameEn")
@@ -375,6 +391,7 @@ export class VwStudentDropdown {
     .addSelect("student.gendarId", "gendarId")
     .addSelect("gendar_id.gendarName", "gendarValue")
     .addSelect("student.birthDate", "birthDate")
+    .addSelect("student.acceptDate", "acceptDate")
     .addSelect("student.nationalityId", "nationalityId")
     .addSelect("nationality_id.nationalityName", "nationalityValue")
     .addSelect("student.ethnicityId", "ethnicityId")
@@ -510,7 +527,8 @@ export class VwStudentItem {
 
   @ViewColumn()
   title: number;
-
+  @ViewColumn()
+  titleEn: number;
   @ViewColumn()
   firstname: string;
 
@@ -531,7 +549,8 @@ export class VwStudentItem {
 
   @ViewColumn()
   birthDate: Date;
-
+  @ViewColumn()
+  acceptDate: Date;
   @ViewColumn()
   nationalityId: number;
 
@@ -789,7 +808,7 @@ export class VwStudentItem {
     .addSelect("sdq_table.studentId", "studentId")
     .addSelect("student.studentCode", "studentCode")
     .addSelect("student.studentNumber", "studentNumber")
-    .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
+    .addSelect(`CONCAT(title."titleName",' ',student.firstname,' ',student.lastname) `, "nameValue")
     .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
     .addSelect("student.classroomId", "classroomId")
     .addSelect("student.classroomTypeId", "classroomTypeId")
@@ -845,6 +864,7 @@ END`, "sumScore_value_display")
     .leftJoin(YearTerm, "year_term", "year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
     .leftJoin(Classroom, "classroom", "classroom.Id = student.classroomId")
     .leftJoin(ClassroomType, "classroom_type", "classroom_type.Id = student.classroomTypeId")
+    .leftJoin(TitleName, 'title', 'title.id = student.title')
 })
 export class VwSdqTableListForTeacher {
 
@@ -910,11 +930,10 @@ export class VwSdqTableListForTeacher {
     .addSelect("sdq_table.studentId", "studentId")
     .addSelect("student.studentCode", "studentCode")
     .addSelect("student.studentNumber", "studentNumber")
-    .addSelect("CONCAT(student.firstname,' ',student.lastname) ", "nameValue")
+    .addSelect(`CONCAT(title."titleName",' ',student.firstname,' ',student.lastname) `, "nameValue")
     .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
     .addSelect("student.classroomId", "classroomId")
     .addSelect("student.classroomTypeId", "classroomTypeId")
-    .addSelect("sdq_table.sumScore_value", "sumScore_value")
     .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
     .addSelect(`CASE
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'เป็นจุดแข็ง' THEN 'มีจุดแข็ง'
@@ -966,6 +985,7 @@ END`, "sumScore_value_display")
     .leftJoin(YearTerm, "year_term", "year_term.year = sdq_table.atYear and year_term.isParent =true and year_term.active = true")
     .leftJoin(Classroom, "classroom", "classroom.Id = student.classroomId")
     .leftJoin(ClassroomType, "classroom_type", "classroom_type.Id = student.classroomTypeId")
+    .leftJoin(TitleName, 'title', 'title.id = student.title')
 })
 export class VwSdqTableListForParent {
   @ViewColumn()
@@ -1040,41 +1060,35 @@ export class VwSdqTableListForParent {
     .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
     .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
     .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
-    .addSelect("sdq_table.socialBehaviorScore05_value", "socialBehaviorScore05_value")
     .addSelect(`CASE
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'เป็นจุดแข็ง' THEN 'มีจุดแข็ง'
                         WHEN "sdq_table"."socialBehaviorScore05_value" = 'ไม่มีจุดแข็ง' THEN 'ไม่มีจุดแข็ง'
                         ELSE '-'
                     END`, "socialBehaviorScore05_value_display")
-    .addSelect("sdq_table.friendBehaviorScore04_value", "friendBehaviorScore04_value")
     .addSelect(`CASE
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."friendBehaviorScore04_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "friendBehaviorScore04_value_display")
-    .addSelect("sdq_table.ADHDBehaviorScore03_value", "ADHDBehaviorScore03_value")
     .addSelect(`CASE
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."ADHDBehaviorScore03_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "ADHDBehaviorScore03_value_display")
-    .addSelect("sdq_table.nomalBehaviorScore02_value", "nomalBehaviorScore02_value")
     .addSelect(`CASE
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."nomalBehaviorScore02_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "nomalBehaviorScore02_value_display")
-    .addSelect("sdq_table.emotionalBehaviorScore01_value", "emotionalBehaviorScore01_value")
     .addSelect(`CASE
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'เสี่ยง' THEN 'ส'
   WHEN "sdq_table"."emotionalBehaviorScore01_value" = 'มีปัญหา' THEN 'ห'
   ELSE '-'
 END`, "emotionalBehaviorScore01_value_display")
-    .addSelect("sdq_table.sumScore_value", "sumScore_value")
     .addSelect(`CASE
   WHEN "sdq_table"."sumScore_value" = 'ปกติ' THEN 'ป'
   WHEN "sdq_table"."sumScore_value" = 'เสี่ยง' THEN 'ส'

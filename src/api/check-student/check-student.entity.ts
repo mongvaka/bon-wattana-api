@@ -132,12 +132,13 @@ export class CheckStudent extends BasicData {
     classroom_type."typeName" AS "classroomTypeValue",
     classroom.name AS "classroomValue",
     check_student.weight / ((check_student.height / 100::double precision) * (check_student.height / 100::double precision)) AS bmi,
-    concat(student.firstname, ' ', student.lastname) AS "studentValue"
+    concat(title."titleName", ' ',student.firstname, ' ', student.lastname) AS "studentValue"
    FROM student student
      LEFT JOIN check_student check_student ON check_student."studentId" = student.id AND check_student."deletedAt" IS NULL
      LEFT JOIN classroom_type classroom_type ON classroom_type.id = student."classroomTypeId" AND classroom_type."deletedAt" IS NULL
      LEFT JOIN classroom classroom ON classroom.id = student."classroomId" AND classroom."deletedAt" IS NULL
      LEFT JOIN gendar gendar ON gendar.id = student."gendarId" AND gendar."deletedAt" IS NULL
+     LEFT JOIN title_name title ON title.id = student.title
   WHERE student."deletedAt" IS null`
 })
 export class VwCheckStudentList {

@@ -168,7 +168,7 @@ export class StudentFilterReportByRoom extends BaseReport{
         <td class="stdName">${el.v2??""}</td>
         <td class="normal">${el.v3??""}</td>
         <td class="relation" >${el.v4??""}</td>
-        <td class="skill">${el.v5??""}</td>
+        <td class="skill">${(el.v5 == "true"? '/':"")}</td>
         <td>${el.v6??""}</td>
         <td>${el.v7??""}</td>
         <td>${el.v8??""}</td>

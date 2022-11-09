@@ -12,12 +12,15 @@ export class StudentDto {
     imageProfile:string[]
     status:number
     title:number
+    titleEn:number
+    acceptDate:Date
     firstname:string
     lastname:string
     firstnameEn:string
     lastnameEn:string
     gendarId:number
     birthDate:Date
+
     nationalityId:number
     ethnicityId:number
     religionId:number

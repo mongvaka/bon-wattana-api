@@ -1,6 +1,6 @@
 import { BasicData } from "src/core/shared/entities/basic-data";
 import { Column, Connection, Entity, PrimaryGeneratedColumn, ViewColumn, ViewEntity } from "typeorm";
-import { Student } from "src/api/student/student.entity";
+import { Student, TitleName } from "src/api/student/student.entity";
 import { Teacher } from "src/api/teacher/teacher.entity";
 
 @Entity('student_consultant')
@@ -53,7 +53,7 @@ export class StudentConsultant extends BasicData {
   expression: (connection: Connection) => connection.createQueryBuilder()
     .select("student_consultant.id", "id")
     .addSelect("student_consultant.studentId", "studentId")
-    .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
+    .addSelect(`CONCAT(title."titleName",' ',student_id.firstname,' ',student_id.lastname) `, "studentValue")
     .addSelect("student_consultant.activityDate", "activityDate")
     .addSelect("student_consultant.startTime", "startTime")
     .addSelect("student_consultant.endTime", "endTime")
@@ -64,6 +64,7 @@ export class StudentConsultant extends BasicData {
     .addSelect("student_consultant.sendNote", "sendNote")
     .from(StudentConsultant, "student_consultant")
     .leftJoin(Student, "student_id", "student_id.Id = student_consultant.studentId")
+    .leftJoin(TitleName, 'title', 'title.id = student_id.title')
 })
 export class VwStudentConsultantList {
   @ViewColumn()

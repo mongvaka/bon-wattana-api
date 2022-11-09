@@ -7,8 +7,6 @@ import { DropdownService } from "src/core/shared/services/dropdown.service";
 import { CreateDemoDto, SearchDemoDto, UpdateDemoDto } from "./demo.dto";
 import { DemoService } from "./demo.service";
 @ApiTags("demo")
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
 @Controller('demo')
 export class DemoController extends BaseController{
     constructor(private readonly demoService:DemoService,
@@ -35,6 +33,14 @@ export class DemoController extends BaseController{
   async demoDropdown(@Body() dto: SearchDemoDto) {
     try{      
       return this.success(await this.demoService.demoDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('dashboard')
+  async dashboard() {
+    try{      
+      return this.success(await this.demoService.dashboard())
     }catch(e){
       return this.error(e)
     }

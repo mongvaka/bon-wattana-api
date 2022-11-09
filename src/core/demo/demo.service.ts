@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Student } from 'src/api/student/student.entity';
+import { Teacher } from 'src/api/teacher/teacher.entity';
 import { CustomRequest } from 'src/core/shared/models/request-model';
 import { SearchResult, SelectItems } from 'src/core/shared/models/search-param-model';
 import { BaseService } from 'src/core/shared/services/base.service';
@@ -8,11 +10,44 @@ import { Repository } from 'typeorm';
 import { ImagesService } from '../images/images.service';
 import { savefileWithName } from '../shared/services/files.service';
 import { filename } from '../shared/utils/image.util';
-import { CreateDemoDto, DemoDto, SearchDemoDto, UpdateDemoDto } from './demo.dto';
-import { Demo, VwDemoDropdown, VwDemoItem, VwDemoList } from './demo.entity';
+import { CreateDemoDto, DashboardDto, DemoDto, SearchDemoDto, UpdateDemoDto } from './demo.dto';
+import { Demo, VwbStudentByClass, VwbStudentByGendar, VwbTeacherByGendar, VwDemoDropdown, VwDemoItem, VwDemoList } from './demo.entity';
 
 @Injectable()
 export class DemoService extends BaseService {
+   async dashboard(): Promise<DashboardDto> {
+      const studentCount = await this.studentRepository.count()
+      const teacherCount = await this.teacherRepository.count()
+      const studentByClass = await this.vwbStudentByClassRepository.find()
+      const studentByGendar = await this.vwbStudentByGendarRepository.find()
+      const teacherByGendar = await this.vwbTeacherByGendarRepository.find()
+      const model:DashboardDto = {
+        studentByClass:studentByClass.map(m=>{return{name:m.typeName,count:m.count}}),
+        studentByGendar:studentByGendar.map(m=>{return{name:m.gendarName,count:m.count}}),
+        teacherByGendar:teacherByGendar.map(m=>{return{name:m.gendarName,count:m.count}}),
+        studentCount:studentCount,
+        teacherCount:teacherCount,
+        dataDate:this.getCurrentDateLabel()
+      }
+      return model
+    }
+    getCurrentDateLabel(): string {
+        const MOUNTH_LABEL = [
+        `มกราคม`,
+        `กุมภาพันธ์`,
+        `มีนาคม`,
+        `เมษายน`,
+        `พฤษภาคม`,
+        `มิถุนายน`,
+        `กรกฎาคม`,
+        `สิงหาคม`,
+        `กันยายน`,
+        `ตุลาคม`,
+        `พฤศจิกายน`,
+        `ธันวาคม`]
+        const date = new Date()
+        return `(ข้อมูล ณ วันที่ ${date.getDate()} ${MOUNTH_LABEL[date.getMonth()]} ${date.getFullYear()+543})`
+    }
 
     constructor(
         @InjectRepository(Demo)
@@ -23,6 +58,16 @@ export class DemoService extends BaseService {
         private readonly itemRepository:Repository<VwDemoItem>,
         @InjectRepository(VwDemoDropdown)
         private readonly vwDropdownDemoRepository:Repository<VwDemoDropdown>,
+        @InjectRepository(VwbStudentByClass)
+        private readonly vwbStudentByClassRepository:Repository<VwbStudentByClass>,
+        @InjectRepository(VwbStudentByGendar)
+        private readonly vwbStudentByGendarRepository:Repository<VwbStudentByGendar>,
+        @InjectRepository(VwbTeacherByGendar)
+        private readonly vwbTeacherByGendarRepository:Repository<VwbTeacherByGendar>,
+        @InjectRepository(Teacher)
+        private readonly teacherRepository:Repository<Teacher>,
+        @InjectRepository(Student)
+        private readonly studentRepository:Repository<Student>,
         private readonly dropdownService: DropdownService,
         private readonly imagesService:ImagesService
         ){

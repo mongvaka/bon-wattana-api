@@ -22,3 +22,11 @@ export class UpdateDemoDto extends DemoDto{
     id:number
 
 }
+export class DashboardDto {
+    studentByClass:{name:string,count:number}[]
+    studentByGendar:{name:string,count:number}[]
+    teacherByGendar:{name:string,count:number}[]
+    studentCount:number
+    teacherCount:number
+    dataDate:string
+}

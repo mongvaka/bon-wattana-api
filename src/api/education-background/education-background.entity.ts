@@ -30,6 +30,9 @@ export class EducationBackground extends BasicData {
 
    @Column({nullable: true})
   status?: number;
+  @Column({nullable: true})
+  otherEducationText?: string;
+  
 }
 @ViewEntity({
     name:'education_background_list',
@@ -103,11 +106,13 @@ export class VwEducationBackgroundDropdown {
         .addSelect("education_background.educationYear", "educationYear")
         .addSelect("education_background.institutionName", "institutionName")
         .addSelect("education_background.status", "status")
+        .addSelect("education_background.otherEducationText", "otherEducationText")
       .from(EducationBackground, "education_background")
         .leftJoin(Teacher, "teacher_id","teacher_id.Id = education_background.teacherId")
 })
 export class VwEducationBackgroundItem {
-
+  @ViewColumn()
+  otherEducationText
   @ViewColumn()
     id: number;
 

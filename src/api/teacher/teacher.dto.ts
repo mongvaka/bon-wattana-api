@@ -108,12 +108,30 @@ export class TeacherDto {
     classroomTypeValue: string;
     @ApiPropertyOptional({ type: String })
     actionWork: string;
-    @ApiPropertyOptional({ type: String })
-    actionWorkSpecial: string;
+
     @ApiPropertyOptional({ type: Number })
     activityStudentId: number;
     @ApiPropertyOptional({ type: String })
     activityStudentValue: string;
+
+    @ApiPropertyOptional({ type: Number })
+  titleEn?: number;
+  @ApiPropertyOptional({ type: Date })
+  ernlyDate?: Date;
+  @ApiPropertyOptional({ type: String })
+  actionWorkSpecial: string;
+  @ApiPropertyOptional({ type: String })
+  actionWorkSpecial2: string;
+  @ApiPropertyOptional({ type: String })
+  actionWorkSpecial3: string;
+  @ApiPropertyOptional({ type: String })
+  actionWorkSpecial4: string;
+  @ApiPropertyOptional({ type: String })
+  otherEducationText?: string;
+  @ApiPropertyOptional({ type: Boolean })
+  isTeacher?: boolean;
+
+    
 }
 export class CreateTeacherDto extends TeacherDto {
 

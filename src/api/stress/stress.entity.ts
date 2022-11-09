@@ -84,7 +84,7 @@ export class Stress extends BasicData {
     ct."id" as "classroomTypeId" ,
     c."id" as "classroomId" ,
     st."updatedAt",
-    CONCAT(s.firstname, ' ' , s.lastname) as "studentValue",
+    concat(title."titleName", ' ',s.firstname, ' ', s.lastname) as "studentValue",
     SUM(coalesce(st."stressCh1", -1) 
       + coalesce(st."stressCh2", -1)
       + coalesce(st."stressCh3", -1)
@@ -114,6 +114,7 @@ export class Stress extends BasicData {
       ct.id = s."classroomTypeId"
     left join classroom c on
       c.id = s."classroomId"
+    LEFT JOIN title_name title ON title.id = s.title
             where  s."deletedAt" isnull
     group by s.id, s."studentCode" ,
       s.firstname ,
@@ -122,7 +123,8 @@ export class Stress extends BasicData {
       ct."id" ,
       c."id" ,
       c."name" ,
-      st."updatedAt"
+      st."updatedAt",
+      title."titleName"
     `
 })
 export class VwStressList {
