@@ -23,6 +23,7 @@ import { VwStudentItem } from '../student/student.entity';
 import { VwTeacherItem } from 'src/api/teacher/teacher.entity';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { getStatusLabel } from 'src/core/shared/functions';
 
 //import { VwnullDropdown } from 'src/api/null/null.entity';
 //import { SearchnullDto } from 'src/api/null/null.dto';
@@ -42,9 +43,19 @@ export class StudentHomeVisitService extends BaseService {
         )
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
-        const builder = this.createQueryBuider<VwStudentHomeVisitItem>(dto,this.itemRepository)
+        const builder = this.createQueryBuider<VwStudentHomeVisitList>(dto,this.vwStudentHomeVisitRepository)
         const data = await builder
         .getMany();
+        const filterData = data.map(m=>{
+            return{
+               'ชื่อนักเรียน':m.studentValue,
+               'ชั้นเรียน':m.classroomTypeValue ,
+               'ห้อง':m.classroomValue ,
+               'สถานะ':getStatusLabel(m.yearTermId),
+    
+            }
+        })
+        return exportExcel(filterData)
         return exportExcel(data)
       }
     constructor(

@@ -11,6 +11,8 @@ import { VwTeacherDropdown } from 'src/api/teacher/teacher.entity';
 import { SearchTeacherDto } from 'src/api/teacher/teacher.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
+import { getLabelEnum } from 'src/core/shared/functions';
+import { EDUCATION } from 'src/core/shared/constans/dropdown-constanst';
 
 @Injectable()
 export class EducationBackgroundService extends BaseService {
@@ -18,7 +20,19 @@ export class EducationBackgroundService extends BaseService {
         const builder = this.createQueryBuider<VwEducationBackgroundItem>(dto,this.itemRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'ชื่อครู':m.teacherValue,
+                'ชื่อวุฒิการศึกษา':getLabelEnum(EDUCATION,m.educationId) ,
+                'วิชาเอก':m.educationMajor,
+                'ชื่อวุฒิย่อภาษาไทย':m.educationShotNameTh,
+                'ชื่อวุฒิย่อภาษาอังกฤษ':m.educationShotNameEn,
+                'ปีการศึกษา':m.educationYear,
+                'ชื่อหน่วยงาน':m.institutionName,
+
+            }
+        })
+        return exportExcel(filterData)
       }
       async import(data: any[]): Promise<any> {        
         const dataBulkInsert:EducationBackground[] = []

@@ -30,11 +30,65 @@ export class SdqTableService extends BaseService {
             this.sdqtableRepository.create(dataBulkInsert)
         )
     }
-    async export(dto:SearchExportExcelDto):Promise<any>{
-        const builder = this.createQueryBuider<VwSdqTableItem>(dto,this.itemRepository)
+    async exportStd(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwSdqTableListForStudent>(dto,this.vwSdqTableListForStudentRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'รหัสประจำตัว':m.studentCode,
+               'ชื่อ-สกุล':m.nameValue,
+               'ชั้น':m.classroomValue,
+               'ด้านอารมณ์':m.emotionalBehaviorScore01_value_display,
+               'ด้านความประพฤติ':m.nomalBehaviorScore02_value_display,
+               'ไม่อยู่นิ่ง':m.ADHDBehaviorScore03_value_display,
+               'สัมพันธ์เพื่อน':m.friendBehaviorScore04_value_display,
+               'ทางสังคม':m.socialBehaviorScore05_value_display,
+               'รวม4ด้าน':m.sumScore_value_display,
+               'สถานะ':m.status_display,
+            }
+        })
+        return exportExcel(filterData)
+      }
+      async exportPar(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwSdqTableListForParent>(dto,this.vwSdqTableListForParentRepository)
+        const data = await builder
+        .getMany();
+        const filterData = data.map(m=>{
+            return{
+               'รหัสประจำตัว':m.studentCode,
+               'ชื่อ-สกุล':m.nameValue,
+               'ชั้น':m.classroomValue,
+               'ด้านอารมณ์':m.emotionalBehaviorScore01_value_display,
+               'ด้านความประพฤติ':m.nomalBehaviorScore02_value_display,
+               'ไม่อยู่นิ่ง':m.ADHDBehaviorScore03_value_display,
+               'สัมพันธ์เพื่อน':m.friendBehaviorScore04_value_display,
+               'ทางสังคม':m.socialBehaviorScore05_value_display,
+               'รวม4ด้าน':m.sumScore_value_display,
+               'สถานะ':m.status_display,
+            }
+        })
+        return exportExcel(filterData)
+      }
+      async exportTea(dto:SearchExportExcelDto):Promise<any>{
+        const builder = this.createQueryBuider<VwSdqTableListForTeacher>(dto,this.vwSdqTableListForTeacherRepository)
+        const data = await builder
+        .getMany();
+        const filterData = data.map(m=>{
+            return{
+               'รหัสประจำตัว':m.studentCode,
+               'ชื่อ-สกุล':m.nameValue,
+               'ชั้น':m.classroomValue,
+               'ด้านอารมณ์':m.emotionalBehaviorScore01_value_display,
+               'ด้านความประพฤติ':m.nomalBehaviorScore02_value_display,
+               'ไม่อยู่นิ่ง':m.ADHDBehaviorScore03_value_display,
+               'สัมพันธ์เพื่อน':m.friendBehaviorScore04_value_display,
+               'ทางสังคม':m.socialBehaviorScore05_value_display,
+               'รวม4ด้าน':m.sumScore_value_display,
+               'สถานะ':m.status_display,
+            }
+        })
+        return exportExcel(filterData)
       }
     constructor(
         @InjectRepository(SdqTable)

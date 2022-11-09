@@ -19,6 +19,7 @@ import { SearchStudentDto } from '../student/student.dto';
 import { VwStudentList } from '../student/student.entity';
 import { StudentService } from '../student/student.service';
 import { YearTermService } from '../year-term/year-term.service';
+import { getDateLabel } from 'src/core/shared/functions';
 
 @Injectable()
 export class StudentSupportService extends BaseService {
@@ -43,10 +44,22 @@ export class StudentSupportService extends BaseService {
         )
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
-        const builder = this.createQueryBuider<VwStudentSupportItem>(dto,this.itemRepository)
+        const builder = this.createQueryBuider<VwStudentSupportList>(dto,this.vwStudentSupportRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'วันที่ทำกิจกรรม':getDateLabel(m.startDate),
+               'วันที่สิ้นสุดกิจกรรม':getDateLabel(m.endDate),
+               'กิจกรรมที่เข้าร่วม':m.activityName,
+               'ศักยภาพด้าน':m.performance ,
+               'หน่วยงานที่จัด':m.department,
+               'ผลกิจกรรม':m.result ,
+               'ชื่อครู':m.teacherValue ,
+
+            }
+        })
+        return exportExcel(filterData)
       }
     constructor(
         @InjectRepository(StudentSupport)

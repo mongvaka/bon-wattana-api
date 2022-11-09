@@ -6,5 +6,10 @@ export class ImportExcelDto {
     base64:string
 } 
 export class SearchExportExcelDto  extends SearchParameter{
-    
+    @ApiPropertyOptional({type:[String]})
+    bindingField:{
+        en:string,
+        th:string,
+        active:boolean
+    }[]
 }

@@ -274,6 +274,7 @@ export class VwStudentHomeVisitDropdown {
         .addSelect("student_home_visit.liveWith", "liveWith")
         .addSelect("student_home_visit.liveWithOther", "liveWithOther")
         .addSelect("student_home_visit.totalHouseholdMember", "totalHouseholdMember")
+        .addSelect(`CONCAT(title."titleName",' ',student.firstname,' ',student.lastname) `, "studentValue")
         .addSelect("student_home_visit.totalIncludeStudent", "totalIncludeStudent")
         .addSelect("student_home_visit.totalBrother1", "totalBrother1")
         .addSelect("student_home_visit.totalBrather2", "totalBrather2")
@@ -332,6 +333,7 @@ export class VwStudentHomeVisitDropdown {
         .addSelect("student_home_visit.yearTermId", "yearTermId")
       .from(StudentHomeVisit, "student_home_visit")
       .leftJoin(Student , 'student','student.id = student_home_visit.studentId')
+      .leftJoin(TitleName, 'title', 'title.id = student.title')
 })
 export class VwStudentHomeVisitItem {
 

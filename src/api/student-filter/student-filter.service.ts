@@ -17,6 +17,7 @@ import { VwClassroomDropdown } from '../classroom/classroom.entity';
 import { YearTermService } from '../year-term/year-term.service';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { getStatusLabel } from 'src/core/shared/functions';
 
 @Injectable()
 export class StudentFilterService extends BaseService {
@@ -33,11 +34,40 @@ export class StudentFilterService extends BaseService {
         )
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
-        const builder = this.createQueryBuider<VwStudentFilterItem>(dto,this.itemRepository)
+        const builder = this.createQueryBuider<VwStudentFilterList>(dto,this.vwStudentFilterRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'รหัสประจำตัว':m.studentCode,
+               'ชื่อนักเรียน':m.studentValue,
+               'ด้านการเรียน':this.getFilterLabel(m.lernStatus) ,
+               'ด้านสุขภาพ':this.getFilterLabel(m.healtyStatus) ,
+               'ด้านพฤติกรรมทางเพศ':this.getFilterLabel(m.sexualStatus) ,
+               'ด้านพฤติกรรมการใช้สารเสพติด':this.getFilterLabel(m.drugStatus) ,
+               'ด้านพฤติกรรมติดเกม':this.getFilterLabel(m.gameStatus) ,
+               'ด้านเศรษฐกิจ':this.getFilterLabel(m.economicStatus) ,
+               'ด้านสวัสดิภาพและความปลอดภัย':this.getFilterLabel(m.securityStatus),
+               'นักเรียนที่มีความต้องการพิเศษ':this.getFilterLabel(m.specialStatus),
+               'ด้านการใช้เครื่องมือสื่อสารอิเล็กทรอนิกส์':this.getFilterLabel(m.economicStatus),
+               'สรุป':this.getFilterLabel(m.summarize),
+               'สถานะ':getStatusLabel(m.summarize),
+            }
+        })
+        return exportExcel(filterData)
       }
+    getFilterLabel(lernStatus: number): any {
+        switch(lernStatus){
+            case 1:
+                return `ป`
+                case 2:
+                return `ส`
+                case 3:
+                return `ห`
+                default:
+                    return ``
+        }
+    }
     constructor(
         @InjectRepository(StudentFilter)
         private readonly studentfilterRepository: Repository<StudentFilter>,
@@ -112,3 +142,7 @@ export class StudentFilterService extends BaseService {
         return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
       }
 }
+
+
+
+

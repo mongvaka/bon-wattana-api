@@ -10,7 +10,7 @@ export enum ModuleName{
     EDUCATION_BACKGROUND = 'education_background',
     PRACTITIONER_LEVEL = 'practitioner_level',
     TEACHER_WORK = 'teacher_work',
-    TEACHER_DEVELOP = 'teacher_develop',
+    TEACHER_DEVELOP = 'teachers_develop',
     TEACHER = 'teacher',
     STUDENT = 'student',
     ALIVE_WITH = 'alive_with',

@@ -40,7 +40,7 @@ import { UserType } from 'src/core/shared/constans/enum-constans';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { Teacher } from '../teacher/teacher.entity';
-import { STUDENT_TITLE } from 'src/core/shared/constans/dropdown-constanst';
+import {  TITLE } from 'src/core/shared/constans/dropdown-constanst';
 import { getLabelEnum } from 'src/core/shared/functions';
 
 @Injectable()
@@ -57,7 +57,7 @@ export class StudentService extends BaseService {
           const birthDate = this.getBirthDate(el.birthDate)  
           console.log('birthDate',birthDate);
                   
-          const model:Student = {...el,birthDate:birthDate}
+          const model:Student = {...el,birthDate:birthDate,acceptDate:this.getBirthDate(el.acceptDate)}
           const studentIsexist = await this.studentRepository.findOne({where:{studentCode:el.studentCode,deleted:false}})
           if(!studentIsexist){
             const info = await this.studentRepository.save(
@@ -300,14 +300,29 @@ export class StudentService extends BaseService {
       const builder = this.createQueryBuider<VwStudentItem>(dto,this.itemRepository)
       const data = await builder
       .getMany();
-      const list = data.map(m=>{
-        return {
-          "คำนำหน้าชื่อ":getLabelEnum(STUDENT_TITLE,m.title),
-          "ชื่อ":m.firstname
-        }
-      })
-
-      return exportExcel(list)
+      return exportExcel(data)
     }
+    async exportTH(dto:SearchExportExcelDto):Promise<any>{
+      const builder = this.createQueryBuider<VwStudentItem>(dto,this.itemRepository)
+      const data = await builder
+      .getMany();
+      let dataFilter = []
+      data.forEach(el=>{
+        let model={}
+        dto.bindingField.forEach(en=>{
+          if(en.active){
+            model[en.th] = el[en.en]
+            if(en.en=='title'){
+              model[en.th] =getLabelEnum(TITLE, el[en.en]) 
+            }
+            if(en.en=='titleEn'){
+              model[en.th] = getLabelEnum(TITLE, el[en.en]) 
+            }
+          }
 
+        })
+        dataFilter.push(model)
+      })
+      return exportExcel(dataFilter)
+    }
 }

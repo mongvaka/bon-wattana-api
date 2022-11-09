@@ -1,6 +1,6 @@
 export const RESULT_HELP_TYPE =[
     {
-      label: 'ENUM.GOOD',
+      label: 'ดีขึ้น',
       value: 1,
       styleClass: null,
       icon: null,
@@ -8,7 +8,7 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.NOTGOOD',
+      label: 'ไม่ดีขึ้น',
       value: 2,
       styleClass: null,
       icon: null,
@@ -16,9 +16,9 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
   ]
-  export const SENT_TYPE_TEACHER =[
+  export const SENT_TYPE =[
     {
-      label: 'ENUM.TRY_AGAIN',
+      label: 'นัดหมายครั้งต่อไป',
       value: 1,
       styleClass: null,
       icon: null,
@@ -26,7 +26,7 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.GET_PARENT',
+      label: 'ประสานผู้ปกครอง',
       value: 2,
       styleClass: null,
       icon: null,
@@ -34,7 +34,15 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.TO_GUID',
+      label: 'ส่งต่อหน่วยงานภายนอก',
+      value: 3,
+      styleClass: null,
+      icon: null,
+      title: null,
+      disabled: false,
+    },
+    {
+      label: 'ส่งต่อครูแนะแนว',
       value: 4,
       styleClass: null,
       icon: null,
@@ -42,7 +50,7 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.TO_HOPITAL',
+      label: 'ส่งต่องานพยาบาล',
       value: 5,
       styleClass: null,
       icon: null,
@@ -50,43 +58,18 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.TO_ROLE_GARD',
-      value: 5,
+      label: 'ส่งต่องานปกครอง',
+      value: 6,
       styleClass: null,
       icon: null,
       title: null,
       disabled: false,
     },
   ]
-  export const SENT_TYPE_GUID =[
-    {
-      label: 'ENUM.TRY_AGAIN',
-      value: 1,
-      styleClass: null,
-      icon: null,
-      title: null,
-      disabled: false,
-    },
-    {
-      label: 'ENUM.GET_PARENT',
-      value: 2,
-      styleClass: null,
-      icon: null,
-      title: null,
-      disabled: false,
-    },
-    {
-      label: 'ENUM.TO_OTHER',
-      value: 3,
-      styleClass: null,
-      icon: null,
-      title: null,
-      disabled: false,
-    },
-  ]
+ 
   export const RESULT_TYPE =[
     {
-      label: 'ENUM.SUCCESS',
+      label: 'นักเรียนสามารถแก้ปัญหาได้',
       value: 1,
       styleClass: null,
       icon: null,
@@ -94,7 +77,7 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.FAIL',
+      label: 'นักเรียนไม่สามารถแก้ปัญหาได้',
       value: 2,
       styleClass: null,
       icon: null,
@@ -104,7 +87,7 @@ export const RESULT_HELP_TYPE =[
   ]
   export const STORY_TYPE =[
     {
-      label: 'ENUM.LERNING',
+      label: 'การเรียน',
       value: 1,
       styleClass: null,
       icon: null,
@@ -112,7 +95,7 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.PERSONAL_SOCIAL',
+      label: 'ส่วนตัวและสังคม',
       value: 2,
       styleClass: null,
       icon: null,
@@ -120,7 +103,7 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.STUDY_AND_CAREER',
+      label: 'การศึกษาและอาชีพ',
       value: 3,
       styleClass: null,
       icon: null,
@@ -412,7 +395,7 @@ export const RESULT_HELP_TYPE =[
   ];
   export const EDUCATION = [
     {
-      label: 'ENUM.PHD',
+      label: "ปริญญาเอก",
       value: 1,
       styleClass: null,
       icon: null,
@@ -420,7 +403,7 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.MASTER_DEGREE',
+      label: "ปริญญาโท",
       value: 2,
       styleClass: null,
       icon: null,
@@ -428,7 +411,7 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.ฺBACHELOR_DEGREE',
+      label: "ปริญญาตรี",
       value: 3,
       styleClass: null,
       icon: null,
@@ -436,8 +419,16 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.DIPLOMA',
+      label: "อนุปริญญา",
       value: 4,
+      styleClass: null,
+      icon: null,
+      title: null,
+      disabled: false,
+    },
+    {
+      label: "อื่นๆ",
+      value: 5,
       styleClass: null,
       icon: null,
       title: null,
@@ -508,18 +499,11 @@ export const RESULT_HELP_TYPE =[
       }
     ];
     export const FATHER_TITLE = [
-      {
-        label: 'ENUM.MR',
-        value: 3,
-        styleClass: null,
-        icon: null,
-        title: null,
-        disabled: false,
-      }
+
     ];
-    export const STUDENT_TITLE = [
+    export const TITLE = [
       {
-        label: 'ENUM.OLDMISS',
+        label: 'เด็กชาย',
         value: 1,
         styleClass: null,
         icon: null,
@@ -527,7 +511,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.MR',
+        label: 'เด็กหญิง',
         value: 2,
         styleClass: null,
         icon: null,
@@ -535,7 +519,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.MISS',
+        label: 'นาย',
         value: 3,
         styleClass: null,
         icon: null,
@@ -543,8 +527,16 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.MASTER',
+        label: 'นาง',
         value: 4,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: 'นางสาว',
+        value: 5,
         styleClass: null,
         icon: null,
         title: null,

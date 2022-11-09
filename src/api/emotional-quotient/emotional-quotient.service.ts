@@ -18,6 +18,7 @@ import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity
 import { VwClassroomDropdown } from '../classroom/classroom.entity';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { getStatusLabel } from 'src/core/shared/functions';
 
 @Injectable()
 export class EmotionalQuotientService extends BaseService {
@@ -34,10 +35,75 @@ export class EmotionalQuotientService extends BaseService {
         )
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
-        const builder = this.createQueryBuider<VwEmotionalQuotientItem>(dto,this.itemRepository)
+        const builder = this.createQueryBuider<VwEmotionalQuotientList>(dto,this.vwEmotionalQuotientRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'รหัสประจำตัว':m.studentCode,
+               'ชื่อนักเรียน':m.studentValue,
+               'ชั้นเรียน':m.typeName,
+               'ห้อง':m.room,
+               'องค์ประกอบดี':this.getEqGood(m.eqGood) ,
+               'องค์ประกอบเก่ง':this.getEqGreet(m.eqGreet) ,
+               'องค์ประกอบสุข':this.getEqHappy(m.eqHappy) ,
+               'คะแนน EQ รวม':this.getEqSum(m.eqSum) ,
+               'สถานะ':getStatusLabel(m.eqSum),
+            }
+        })
+        return exportExcel(filterData)
+      }
+      getEqGreet(value: any) {
+        let des = "-";
+        if (value > 0 && value < 45) {
+          des = "ต่ำกว่าปกติ";
+        }
+        if (value >= 45 && value <= 57) {
+          des = "เกณฑ์ปกติ";
+        }
+        if (value > 170) {
+          des = "สูงกว่าปกติ";
+        }
+        return des;
+      }
+      getEqGood(value: any) {
+        let des = "-";
+        if (value > 0 && value < 48) {
+          des = "ต่ำกว่าปกติ";
+        }
+        if (value >= 48 && value <= 58) {
+          des = "เกณฑ์ปกติ";
+        }
+        if (value > 170) {
+          des = "สูงกว่าปกติ";
+        }
+        return des;
+      }
+      getEqHappy(value: any) {
+        let des = "-";
+        if (value > 0 && value < 40) {
+          des = "ต่ำกว่าปกติ";
+        }
+        if (value >= 40 && value <= 55) {
+          des = "เกณฑ์ปกติ";
+        }
+        if (value > 55) {
+          des = "สูงกว่าปกติ";
+        }
+        return des;
+      }
+      getEqSum(value: any) {
+        let des = "-";
+        if (value > 0 && value < 140) {
+          des = "ต่ำกว่าปกติ";
+        }
+        if (value >= 140 && value <= 140) {
+          des = "เกณฑ์ปกติ";
+        }
+        if (value > 170) {
+          des = "สูงกว่าปกติ";
+        }
+        return des;
       }
     constructor(
         @InjectRepository(EmotionalQuotient)

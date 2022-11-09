@@ -44,6 +44,8 @@ import { VwClassroomDropdown } from '../classroom/classroom.entity';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { SearchActivityStudentDto } from '../activity-student/activity-student.dto';
 import { VwActivityStudentDropdown } from '../activity-student/activity-student.entity';
+import { getLabelEnum } from 'src/core/shared/functions';
+import { TITLE } from 'src/core/shared/constans/dropdown-constanst';
 
 @Injectable()
 export class TeacherService extends BaseService {
@@ -53,7 +55,7 @@ export class TeacherService extends BaseService {
     for (const el of data) {
       console.log('el',el);
       
-      const model:Teacher = {...el,birthDate:this.getDate(el.birthDate)}
+      const model:Teacher = {...el,birthDate:this.getDate(el.birthDate),setInDate:this.getDate(el.setInDate),setInDateSchool:this.getDate(el.setInDateSchool)}
       const studentIsexist = await this.teacherRepository.findOne({where:{teacherCode:el.teacherCode,deleted:false}})
       if(!studentIsexist){
         const info = await this.teacherRepository.save(
@@ -96,6 +98,35 @@ async export(dto:SearchExportExcelDto):Promise<any>{
   return exportExcel(data)
 }
 
+async exportTH(dto:SearchExportExcelDto):Promise<any>{
+  const builder = this.createQueryBuider<VwTeacherItem>(dto,this.itemRepository)
+  const data = await builder
+  .getMany();
+  // const dataList = data.map(m=>{
+  //   return {
+  //     "คำนำหน้าชื่อ":getLabelEnum(TITLE,m.title),
+  //     "ชื่อ":m.firstname
+  //   }
+  // })
+  let dataFilter = []
+  data.forEach(el=>{
+    let model={}
+    dto.bindingField.forEach(en=>{
+      if(en.active){
+        model[en.th] = el[en.en]
+        if(en.en=='title'){
+          model[en.th] =getLabelEnum(TITLE, el[en.en]) 
+        }
+        if(en.en=='titleEn'){
+          model[en.th] = getLabelEnum(TITLE, el[en.en]) 
+        }
+        
+      }
+    })
+    dataFilter.push(model)
+  })
+  return exportExcel(dataFilter)
+}
     constructor(
         @InjectRepository(Teacher)
         private readonly teacherRepository: Repository<Teacher>,

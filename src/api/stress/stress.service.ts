@@ -18,6 +18,7 @@ import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity
 import { VwClassroomDropdown } from '../classroom/classroom.entity';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { getDateLabel, getStatusLabel } from 'src/core/shared/functions';
 
 @Injectable()
 export class StressService extends BaseService {
@@ -34,10 +35,43 @@ export class StressService extends BaseService {
         )
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
-        const builder = this.createQueryBuider<VwStressItem>(dto,this.itemRepository)
+        const builder = this.createQueryBuider<VwStressList>(dto,this.vwStressRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'รหัสประจำตัว':m.studentCode,
+               'ชื่อสกุล':m.studentValue,
+               'ชั้นเรียน':m.typeName,
+               'ห้อง':m.room,
+               'ผลประเมินความเครียด':this.getStress(m.sumValue) ,
+               'วันที่ทำแบบประเมิน':getDateLabel(m.updatedAt) ,
+               'สถานะ':getStatusLabel(m.sumValue) ,
+
+            }
+        })
+        console.log(filterData);
+        
+        return exportExcel(filterData)
+      }
+      getStress(value: any) {
+        let des = "-";
+        // if(value == 0){
+        //   des = 'ไม่มี'
+        // }
+        if (value > 0) {
+          des = "ระดับความเครียดน้อย";
+        }
+        if (value > 23) {
+          des = "ระดับความเครียดปานกลาง";
+        }
+        if (value > 41) {
+          des = "มีความเครียดในระดับสูง";
+        }
+        if (value > 61) {
+          des = "มีระดับความเครียดรุนแรง";
+        }
+        return des;
       }
     constructor(
         @InjectRepository(Stress)
@@ -119,3 +153,5 @@ export class StressService extends BaseService {
         return this.yearTermService.findCurrrentTerm()
      }
 }
+
+

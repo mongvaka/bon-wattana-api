@@ -93,7 +93,19 @@ export class ExcelService extends BaseService {
         ){
         super()
     }
+    async exportTh(module:string,dto:SearchExportExcelDto):Promise<any> {
+        switch(module){
+            case ModuleName.STUDENT:
+            return this.studentService.exportTH(dto)
+            case ModuleName.TEACHER:
+            return this.teacherService.exportTH(dto)
+            default :
+            throw new BadRequestException('Module incorrect')
+        }
+    }
     async export(module:string,dto:SearchExportExcelDto):Promise<any> {
+        console.log(module);
+        
         switch(module){
             case ModuleName.STUDENT:
             return this.studentService.export(dto)
@@ -127,19 +139,20 @@ export class ExcelService extends BaseService {
             return this.activityStudentService.export(dto)
             case ModuleName.CURRICULUM:
             return this.curriculumService.export(dto)
-            case ModuleName.EDUCATION_BACKGROUND:
-            return this.educationBackgroundService.export(dto)
+
             case ModuleName.PRACTITIONER_LEVEL:
             return this.practitionerLevelService.export(dto)
             case ModuleName.PRACTICLE:
             return this.practicleService.export(dto)
             case ModuleName.TEACHER:
             return this.teacherService.export(dto)
+
             case ModuleName.TEACHER_WORK:
             return this.teacherWorkService.export(dto)
             case ModuleName.TEACHER_DEVELOP:
             return this.teachersDevelopService.export(dto)
-
+            case ModuleName.EDUCATION_BACKGROUND:
+            return this.educationBackgroundService.export(dto)
 
             case ModuleName.TEACHER_SCHEDULE :
             return this.teachingScheduleService.export(dto)
@@ -148,11 +161,11 @@ export class ExcelService extends BaseService {
             case ModuleName.CHECK_STUDENT :
             return this.checkStudentService.export(dto)
             case ModuleName.SDQ_TABLE :
-            return this.sdqTableService.export(dto)
+            return this.sdqTableService.exportStd(dto)
             case ModuleName.SDQ_TEACHER :
-            return this.sdqTeacherService.export(dto)
+            return this.sdqTeacherService.exportTea(dto)
             case ModuleName.SDQ_PARENT :
-            return this.sdqParentService.export(dto)
+            return this.sdqParentService.exportPar(dto)
             case ModuleName.STRESS :
             return this.stressService.export(dto)
             case ModuleName.EQ :

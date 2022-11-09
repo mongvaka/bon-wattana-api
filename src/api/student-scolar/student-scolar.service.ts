@@ -30,10 +30,21 @@ export class StudentScolarService extends BaseService {
         )
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
-        const builder = this.createQueryBuider<VwStudentScolarItem>(dto,this.itemRepository)
+        const builder = this.createQueryBuider<VwStudentScolarList>(dto,this.vwStudentScolarRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'นักเรียน':m.studentValue,
+               'ชื่อทุนการศึกษา':m.name,
+               'จำนวน(บาท)':m.amount ,
+               'ปี':m.year,
+               'ภาคเรียน':m.inTerm ,
+               'ได้รับจาก':m.getFrom ,
+
+            }
+        })
+        return exportExcel(filterData)
       }
     constructor(
         @InjectRepository(StudentScolar)

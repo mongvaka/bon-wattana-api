@@ -33,10 +33,23 @@ export class CheckStudentService extends BaseService {
         )
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
-        const builder = this.createQueryBuider<VwCheckStudentItem>(dto,this.itemRepository)
+        const builder = this.createQueryBuider<VwCheckStudentList>(dto,this.vwCheckStudentRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'รหัสประจำตัว':m.studentCode,
+               'ชื่อนักเรียน':m.studentValue,
+               'เพศ':m.gendarValue,
+               'ชั้นเรียน':m.classroomTypeValue,
+               'ห้อง':m.classroomValue,
+               'ดัชนีมวลกาย':m.bmi,
+    
+
+
+            }
+        })
+        return exportExcel(filterData)
       }
 
     constructor(

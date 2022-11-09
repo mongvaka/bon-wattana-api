@@ -14,6 +14,8 @@ import { SearchTeacherDto } from 'src/api/teacher/teacher.dto';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
 import { YearTermService } from '../year-term/year-term.service';
+import { getDateLabel, getLabelEnum } from 'src/core/shared/functions';
+import { CONSULTANT_TYPE, RESULT_TYPE, SENT_TYPE, STORY_TYPE } from 'src/core/shared/constans/dropdown-constanst';
 
 @Injectable()
 export class StudentConsultantService extends BaseService {
@@ -30,10 +32,22 @@ export class StudentConsultantService extends BaseService {
         )
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
-        const builder = this.createQueryBuider<VwStudentConsultantItem>(dto,this.itemRepository)
+        const builder = this.createQueryBuider<VwStudentConsultantList>(dto,this.vwStudentConsultantRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'ชื่อนักเรียน':m.studentValue,
+               'วันที่ให้คำปรึกษา':getDateLabel(m.activityDate) ,
+               'เวลาที่ให้คำปรึกษา':m.startTime ,
+               'เวลาที่สิ้นสุดให้คำปรึกษา':m.endTime,
+               'เรื่องที่ให้คำปรึกษา':getLabelEnum(STORY_TYPE,m.storyType)  ,
+               'ผลการให้คำปรึกษา':getLabelEnum(RESULT_TYPE,m.resultType)  ,
+               'การส่งต่อ':getLabelEnum(SENT_TYPE,m.sentType) ,
+    
+            }
+        })
+        return exportExcel(filterData)
       }
     constructor(
         @InjectRepository(StudentConsultant)

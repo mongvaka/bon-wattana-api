@@ -25,6 +25,14 @@ export class ExcelController extends BaseController{
       return this.error(e)
     }
   }
+  @Post('export-th/:module')
+  async exportTh(@Param('module') module: string,@Body() dto: SearchExportExcelDto) {
+    try{
+      return this.success(await this.service.exportTh(module,dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
   @Post('import')
   async import(@Body() dto: ImportExcelDto) {
     

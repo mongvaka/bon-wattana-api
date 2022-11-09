@@ -192,7 +192,8 @@ export class VwStressDropdown {
         .addSelect("stress.stressCh18", "stressCh18")
         .addSelect("stress.stressCh19", "stressCh19")
         .addSelect("stress.stressCh20", "stressCh20")
-
+        .addSelect("student_id.classroomId", "classroomId")
+        .addSelect("student_id.classroomTypeId", "classroomTypeId")
 
 
         .addSelect("CONCAT(year_term_id.year , ' ' , year_term_id.term)", "yearTermValue")
@@ -207,7 +208,10 @@ export class VwStressItem {
 
     @ViewColumn()
     studentId: number;
-
+    @ViewColumn()
+    classroomTypeId: number;
+    @ViewColumn()
+    classroomId: number;
     @ViewColumn()
     studentValue: string;
 

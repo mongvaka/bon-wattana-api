@@ -121,7 +121,7 @@ import { WordModule } from './core/word/word.module';
           database: configService.get<string>('DATABASE_SCHEMA', 'postgres'),
 
           useUTC: true,
-          logging: true,
+          logging: false,
           synchronize: configService.get<string>('SYNC_DATABASE', 'true')!='false',
 
           entities: ["dist/**/**/*.entity{.ts,.js}"],

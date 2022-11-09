@@ -23,7 +23,24 @@ export class TeachersDevelopService extends BaseService {
         const builder = this.createQueryBuider<VwTeachersDevelopItem>(dto,this.itemRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'ชื่อครู':m.teacherValue,
+
+                'ปีการศึกษา':m.educationYear,
+
+                'ชื่อหลักสูตร':m.subjectName,
+
+                'ประเภทหลักสูตร':m.curriculumValue,
+                'สังกัดกลุ่มสาระ':m.practicleValue,
+                'จำนวนชั่วโมง':m.totalHour,
+                'หน่วยงานที่จัด':m.institutionName
+
+            }
+        })
+        console.log(filterData);
+        
+        return exportExcel(filterData)
       }
       async import(data: any[]): Promise<any> {        
         const dataBulkInsert:TeachersDevelop[] = []

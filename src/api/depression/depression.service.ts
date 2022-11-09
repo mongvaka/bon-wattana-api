@@ -18,6 +18,7 @@ import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity
 import { VwClassroomDropdown } from '../classroom/classroom.entity';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { getDateLabel, getStatusLabel } from 'src/core/shared/functions';
 
 @Injectable()
 export class DepressionService extends BaseService {
@@ -34,10 +35,58 @@ export class DepressionService extends BaseService {
         )
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
-        const builder = this.createQueryBuider<VwDepressionItem>(dto,this.itemRepository)
+        const builder = this.createQueryBuider<VwDepressionList>(dto,this.vwDepressionRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'รหัสประจำตัว':m.studentCode,
+               'ชื่อนักเรียน':m.studentValue,
+               'ชั้นเรียน':m.typeName,
+               'ห้อง':m.room,
+               'ผลประเมิณโรคซึมเศร้า':this.getDepression(m.option1) ,
+               'แนวโน้มการฆ่าตัวตาย':this.getSucied(m.option2) ,
+               'วันที่ทำแบบประเมิน':getDateLabel (m.updatedAt) ,
+               'สถานะ':getStatusLabel(m.option3),
+            }
+        })
+        return exportExcel(filterData)
+      }
+      getDepression(value: any) {
+        let des = "-";
+        if (value == 0) {
+          des = "ไม่มี";
+        }
+        if (value > 0) {
+          des = "มีความเสี่ยง";
+        }
+        if (value > 7) {
+          des = "ระดับน้อย";
+        }
+        if (value > 12) {
+          des = "ระดับปานกลาง";
+        }
+        if (value > 18) {
+          des = "ระดับรุนแรง";
+        }
+        return des;
+      }
+      getSucied(value: any) {
+        let des = "-";
+        if (value == 0) {
+          des = "ไม่มี";
+        }
+        if (value > 0) {
+          des = "ระดับน้อย";
+        }
+        if (value > 8) {
+          des = "ระดับปานกลาง";
+        }
+        if (value > 16) {
+          des = "ระดับรุนแรง";
+        }
+    
+        return des;
       }
     constructor(
         @InjectRepository(Depression)

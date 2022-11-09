@@ -12,6 +12,8 @@ import { SearchStudentDto } from 'src/api/student/student.dto';
 import { YearTermService } from '../year-term/year-term.service';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { getDateLabel, getLabelEnum } from 'src/core/shared/functions';
+import { RESULT_HELP_TYPE } from 'src/core/shared/constans/dropdown-constanst';
 
 @Injectable()
 export class StudentHelpService extends BaseService {
@@ -28,10 +30,21 @@ export class StudentHelpService extends BaseService {
         )
     }
     async export(dto:SearchExportExcelDto):Promise<any>{
-        const builder = this.createQueryBuider<VwStudentHelpItem>(dto,this.itemRepository)
+        const builder = this.createQueryBuider<VwStudentHelpList>(dto,this.vwStudentHelpRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'นักเรียน':m.studentValue,
+               'กิจกรรมที่เข้าร่วม':m.activityName,
+               'วันที่ทำกิจกรรม':getDateLabel(m.startDate)  ,
+               'วันที่สิ้นสุดกิจกรรม':getDateLabel(m.endDate) ,
+               'ผลการเข้าร่วมกิจกรรม':getLabelEnum(RESULT_HELP_TYPE, m.resultHelpType) ,
+               'สาเหตุ':m.resultText ,
+    
+            }
+        })
+        return exportExcel(filterData)
       }
     constructor(
         @InjectRepository(StudentHelp)

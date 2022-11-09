@@ -18,7 +18,19 @@ export class TeacherWorkService extends BaseService {
         const builder = this.createQueryBuider<VwTeacherWorkItem>(dto,this.itemRepository)
         const data = await builder
         .getMany();
-        return exportExcel(data)
+        const filterData = data.map(m=>{
+            return{
+               'ชื่อครู':m.teacherValue,
+
+                'ปี':m.workYear,
+
+                'ชื่อหน่วยงาน':m.institutionName,
+
+                'ตำแหน่ง':m.positionName
+
+            }
+        })
+        return exportExcel(filterData)
       }
       async import(data: any[]): Promise<any> {        
         const dataBulkInsert:TeacherWork[] = []
