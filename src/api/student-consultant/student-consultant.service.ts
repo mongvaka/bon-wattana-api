@@ -16,6 +16,9 @@ import { exportExcel } from 'src/core/shared/services/export-excel.service';
 import { YearTermService } from '../year-term/year-term.service';
 import { getDateLabel, getLabelEnum } from 'src/core/shared/functions';
 import { CONSULTANT_TYPE, RESULT_TYPE, SENT_TYPE, STORY_TYPE } from 'src/core/shared/constans/dropdown-constanst';
+import { SearchClassroomDto } from '../classroom/classroom.dto';
+import { VwClassroomDropdown } from '../classroom/classroom.entity';
+import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 
 @Injectable()
 export class StudentConsultantService extends BaseService {
@@ -60,6 +63,10 @@ export class StudentConsultantService extends BaseService {
         private readonly vwDropdownStudentRepository:Repository<VwStudentDropdown>,
         @InjectRepository(VwTeacherDropdown)
         private readonly vwDropdownTeacherRepository:Repository<VwTeacherDropdown>,
+        @InjectRepository(VwClassroomDropdown)
+        private readonly vwDropdownClassroomRepository:Repository<VwClassroomDropdown>,
+        @InjectRepository(VwClassroomTypeDropdown)
+        private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
         private readonly dropdownService: DropdownService,
         private readonly yearTrmService:YearTermService
         ){
@@ -102,4 +109,10 @@ export class StudentConsultantService extends BaseService {
     async item(id:number):Promise<any>{
         return await this.itemRepository.findOne({where:{id:id}})
     }
+    async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
+      }
+      async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
+      }
 }

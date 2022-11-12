@@ -7,12 +7,16 @@ import { StudentConsultantController } from './student-consultant.controller';
 import { StudentConsultant, VwStudentConsultantDropdown, VwStudentConsultantItem, VwStudentConsultantList } from './student-consultant.entity';
 import { StudentConsultantService } from './student-consultant.service';
 import { YearTermModule } from '../year-term/year-term.module';
+import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { VwClassroomDropdown } from '../classroom/classroom.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([StudentConsultant,VwStudentConsultantList,VwStudentConsultantItem,VwStudentConsultantDropdown,
     VwStudentDropdown,
     VwTeacherDropdown,
+    VwClassroomDropdown,
+    VwClassroomTypeDropdown
     ]),
     YearTermModule
 

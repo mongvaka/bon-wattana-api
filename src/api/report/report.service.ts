@@ -513,31 +513,31 @@ const dontHelp = dontHelp1+dontHelp2
         })
         const sumarizeList:DataRowModel[] = [
             {
-                v1:'',
+                v1:'1.ด้านอารมณ์',
                 v2:this.getChoice1(dataList,'ป'),
                 v3:this.getChoice1(dataList,'ส'),
                 v4:this.getChoice1(dataList,'ห')
             },
             {
-                v1:'',
+                v1:'2.ดวามประพฤติ',
                 v2:this.getChoice2(dataList,'ป'),
                 v3:this.getChoice2(dataList,'ส'),
                 v4:this.getChoice2(dataList,'ห')
             },
             {
-                v1:'',
+                v1:'3.ไม่อยู่นิ่ง',
                 v2:this.getChoice3(dataList,'ป'),
                 v3:this.getChoice3(dataList,'ส'),
                 v4:this.getChoice3(dataList,'ห')
             },
             {
-                v1:'',
+                v1:'4.สัมพันธ์เพื่อน',
                 v2:this.getChoice4(dataList,'ป'),
                 v3:this.getChoice4(dataList,'ส'),
                 v4:this.getChoice4(dataList,'ห')
             },
             {
-                v1:'',
+                v1:'รวม',
                 v2:this.getChoiceSum(dataList,'ป'),
                 v3:this.getChoiceSum(dataList,'ส'),
                 v4:this.getChoiceSum(dataList,'ห')
@@ -803,6 +803,7 @@ const dontHelp = dontHelp1+dontHelp2
             v3:this.sumEq(-1,result,171,500),
             v4:result.filter(fl=>fl.classroomId!=null).length
         }
+        
         return this.exportPdfService.getEqReportByClass(header,dataList,sumModel)
     }
     sumEq(id: number, result: ReportEq[], arg2: number, arg3: number): any {
@@ -834,8 +835,8 @@ const dontHelp = dontHelp1+dontHelp2
         })
         const sumModel:DataRowModel={
             v1:this.getSumEq(dataList,'v3'),
-            v2:this.getSumEq(dataList,'v3'),
-            v3:this.getSumEq(dataList,'v3'),
+            v2:this.getSumEq(dataList,'v4'),
+            v3:this.getSumEq(dataList,'v5'),
             v4:dataList.length
         }
         return this.exportPdfService.getEqReportByRoom(header,dataList,sumModel)
@@ -903,10 +904,12 @@ const dontHelp = dontHelp1+dontHelp2
             v1:m.studentName,
             v2:m.roomName,
             v3:m.studentNumber,
-            v4:m.activityName,
-            v5:this.getPerformanceLabel(m.performance),
-            v6:m.department,
-            v7:m.teacherName
+            v4:`${this.getDateLabel(m.startDate)} - ${this.getDateLabel(m.endDate)}`,
+            v5:m.activityName,
+            v6:this.getPerformanceLabel(m.performance),
+            v7:m.department,
+            v8:m.result,
+            v9:m.teacherName
         }})
         const sumarizeList:DataRowModel[] = roomResult.map(m=>{
             return{
@@ -958,11 +961,13 @@ const dontHelp = dontHelp1+dontHelp2
         const result = await this.reportStudentSupport.find({where:{yearTermId:dto.yearTermId,classroomTypeId:dto.classId,classroomId:dto.roomId},order:{classroomTypeId:'ASC',classroomId:'ASC',studentNumber:'ASC'}})
         const dataList:DataRowModel[] = result.map(m=>{return{
             v1:m.studentName,
-            v2:m.studentNumber,
-            v3:m.activityName,
-            v4:this.getPerformanceLabel(m.performance),
-            v5:m.department,
-            v6:m.teacherName
+            v2:m.roomName,
+            v3:`${this.getDateLabel(m.startDate)} - ${this.getDateLabel(m.endDate)}`,
+            v4:m.activityName,
+            v5:this.getPerformanceLabel(m.performance),
+            v6:m.department,
+            v7:m.result,
+            v8:m.teacherName
         }})
         const sumModel:DataRowModel = {
             v1:this.sumStudentHelp(result,1),

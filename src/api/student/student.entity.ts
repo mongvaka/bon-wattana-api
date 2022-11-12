@@ -365,10 +365,15 @@ export class VwStudentList {
   expression: (connection: Connection) => connection.createQueryBuilder()
     .select("student.id", "value")
     .addSelect("CONCAT(student.firstname , ' ' , student.lastname)", "label")
+    .addSelect("student.classroomId", "classroomId")
+    .addSelect("student.classroomTypeId", "classroomTypeId")
     .from(Student, "student")
 })
 export class VwStudentDropdown {
-
+  @ViewColumn()
+  classroomId: number;
+  @ViewColumn()
+  classroomTypeId: number;
   @ViewColumn()
   value: number;
 
@@ -451,8 +456,8 @@ export class VwStudentDropdown {
     .addSelect("alive_with_id.aliveWithName", "aliveWithValue")
     .addSelect("student.parentStatus", "parentStatus")
     .addSelect("student.classroomId", "classroomId")
-    .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomValue")
-    .addSelect("CONCAT(classroom_type.typeName,'/',classroom.name)", "classroomTypeValue")
+    .addSelect("classroom.name", "classroomValue")
+    .addSelect("classroom_type.typeName", "classroomTypeValue")
     .addSelect("student.fatherTitle", "fatherTitle")
     .addSelect("student.fatherFirstname", "fatherFirstname")
     .addSelect("student.fatherLastname", "fatherLastname")

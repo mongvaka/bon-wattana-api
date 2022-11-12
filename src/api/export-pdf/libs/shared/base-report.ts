@@ -10,6 +10,9 @@ export class BaseReport{
             font-style: normal;
             src: url(${SARABAN});
             }
+            .center{
+              text-align: center;
+            }
             html {
               -webkit-print-color-adjust: exact;
             }

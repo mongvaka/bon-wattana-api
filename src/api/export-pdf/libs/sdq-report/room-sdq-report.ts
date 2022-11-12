@@ -69,7 +69,7 @@ export class SdqReportByRoom extends BaseReport{
     getReportHeader(header: HeaderReport) {
         return `<div class="a4">
         <p class="header center">ผลประเมินตนเอง ( SDQ ) <span>${header.reportName}</span> </p>
-        <p class="header center">ชั้นมัธยมศึกษาปีที่<span>${this.getClassOnly(header.className)}</span>/ <span>${header.reportName}</span> ปีการศึกษา <span>${header.term}/${header.year}</span></p>
+        <p class="header center">ชั้นมัธยมศึกษาปีที่<span>${this.getClassOnly(header.className)}</span>/ ${header.roomName} <span>${header.reportName}</span> ปีการศึกษา <span>${header.term}/${header.year}</span></p>
         `
     }
     private getReportTable(dataList: DataRowModel[],header:HeaderReport,sumarizeList:DataRowModel[]) {

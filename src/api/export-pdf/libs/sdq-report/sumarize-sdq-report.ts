@@ -80,8 +80,8 @@ export class SdqReportSumarize extends BaseReport{
             sumarizeList.forEach(el=>{
                 table += `<tr>
                 <td class="cc1">${el.v1??""}</td>
-                <td class="cc2">${el.v2??""}</td>
-                <td class="cc2">${el.v3??""}</td>
+                <td class="cc2 center">${el.v2??""}</td>
+                <td class="cc2 center">${el.v3??""}</td>
             </tr>`
             })
             table += `        </table>
@@ -96,21 +96,21 @@ export class SdqReportSumarize extends BaseReport{
     private getRowData(el: DataRowModel) {
           return `<tr>
           <td class="cc1">${el.v1??""}</td>
-          <td>${el.v2??""}</td>
-          <td>${el.v3??""}</td>
-          <td>${el.v4??""}</td>
-          <td>${el.v5??""}</td>
-          <td>${el.v6??""}</td>
-          <td>${el.v7??""}</td>
-          <td>${el.v8??""}</td>
-          <td>${el.v9??""}</td>
-          <td>${el.v10??""}</td>
-          <td>${el.v11??""}</td>
-          <td>${el.v12??""}</td>
-          <td>${el.v13??""}</td>
-          <td>${el.v14??""}</td>
-          <td>${el.v15??""}</td>
-          <td>${el.v16??""}</td>
+          <td class="center">${el.v2??""}</td>
+          <td class="center">${el.v3??""}</td>
+          <td class="center">${el.v4??""}</td>
+          <td class="center">${el.v5??""}</td>
+          <td class="center">${el.v6??""}</td>
+          <td class="center">${el.v7??""}</td>
+          <td class="center">${el.v8??""}</td>
+          <td class="center">${el.v9??""}</td>
+          <td class="center">${el.v10??""}</td>
+          <td class="center">${el.v11??""}</td>
+          <td class="center">${el.v12??""}</td>
+          <td class="center">${el.v13??""}</td>
+          <td class="center">${el.v14??""}</td>
+          <td class="center">${el.v15??""}</td>
+          <td class="center">${el.v16??""}</td>
       </tr>`
       }
 }

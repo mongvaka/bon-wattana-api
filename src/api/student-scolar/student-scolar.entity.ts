@@ -27,22 +27,28 @@ export class StudentScolar extends BasicData {
 }
 @ViewEntity({
     name:'student_scolar_list',
-    expression: (connection: Connection) => connection.createQueryBuilder()
-        .select("student_scolar.id", "id")
-        .addSelect("student_scolar.studentId", "studentId")
-        .addSelect(`CONCAT(title."titleName",' ',student_id.firstname,' ',student_id.lastname) `, "studentValue")
-        .addSelect("student_scolar.name", "name")
-        .addSelect("student_scolar.amount", "amount")
-        .addSelect("student_scolar.year", "year")
-        .addSelect("student_scolar.inTerm", "inTerm")
-        .addSelect("student_scolar.getFrom", "getFrom")
-        .from(StudentScolar, "student_scolar")
-        .leftJoin(Student, "student_id","student_id.Id = student_scolar.studentId")
-        .leftJoin(TitleName, 'title', 'title.id = student_id.title')
+    expression: `SELECT student_scolar.id,
+    student_scolar.name,
+    student_scolar.amount,
+    student_scolar.year,
+    student_scolar."inTerm",
+    student_scolar."getFrom",
+    concat(title."titleName", ' ', student.firstname, ' ', student.lastname) AS "studentValue",
+    student."classroomId" ,
+    student ."classroomTypeId",
+     student."id" as "studentId"
+   FROM student student
+     LEFT JOIN student_scolar student_scolar ON student_scolar."studentId"  = student."id" AND student."deletedAt" IS null AND student_scolar."deletedAt" IS null 
+     LEFT JOIN title_name title ON title.id = student.title AND title."deletedAt" IS NULL
+  WHERE student_scolar."deletedAt" IS NULL;`
 })
 export class VwStudentScolarList {
-    @ViewColumn()
+  @ViewColumn()
     id: number;
+    @ViewColumn()
+    classroomId: number;
+    @ViewColumn()
+    classroomTypeId: number;
 
     @ViewColumn()
     studentId: number;

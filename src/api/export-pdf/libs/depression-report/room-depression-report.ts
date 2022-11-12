@@ -87,16 +87,16 @@ export class RoomDepressionReport extends BaseReport{
                 <td class="col1">
                     ${el.v1??""}
                 </td>
-                <td class="col2">
+                <td class="col2 center">
                 ${el.v2??""}
                 </td>
-                <td class="col2">
+                <td class="col2 center">
                 ${getDepressionLabel(el.v3)}
                 </td>
-                <td class="col2">
+                <td class="col2 center">
                 ${getSucuidLabel(el.v4) }
                 </td>
-                <td class="col2">
+                <td class="col2 center">
                 ${el.v5??""}
                 </td>
             </tr>`

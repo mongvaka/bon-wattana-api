@@ -36,15 +36,15 @@ export class StudentSupportReportByClass extends BaseReport{
                 sumarizeList.forEach(el=>{
                     paper += `        <tr>
                     <td class="col2">${el.v1??""}</td>
-                    <td class="col8 right">${el.v1??""}</td>
-                    <td class="col8 right">${el.v2??""}</td>
-                    <td class="col8 right">${el.v3??""}</td>
-                    <td class="col8 right">${el.v4??""}</td>
-                    <td class="col8 right">${el.v5??""}</td>
-                    <td class="col8 right">${el.v6??""}</td>
-                    <td class="col8 right">${el.v7??""}</td>
-                    <td class="col8 right">${el.v8??""}</td>
-                    <td class="col8 right">${el.v9??""}</td>
+                    <td class="col8 center">${el.v2??""}</td>
+                    <td class="col8 center">${el.v3??""}</td>
+                    <td class="col8 center">${el.v4??""}</td>
+                    <td class="col8 center">${el.v5??""}</td>
+                    <td class="col8 center">${el.v6??""}</td>
+                    <td class="col8 center">${el.v7??""}</td>
+                    <td class="col8 center">${el.v8??""}</td>
+                    <td class="col8 center">${el.v9??""}</td>
+                    <td class="col8 center">${el.v10??""}</td>
                 </tr>`
                 })
                 paper +=`       </table>

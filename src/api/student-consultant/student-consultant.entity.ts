@@ -50,26 +50,35 @@ export class StudentConsultant extends BasicData {
 }
 @ViewEntity({
   name: 'student_consultant_list',
-  expression: (connection: Connection) => connection.createQueryBuilder()
-    .select("student_consultant.id", "id")
-    .addSelect("student_consultant.studentId", "studentId")
-    .addSelect(`CONCAT(title."titleName",' ',student_id.firstname,' ',student_id.lastname) `, "studentValue")
-    .addSelect("student_consultant.activityDate", "activityDate")
-    .addSelect("student_consultant.startTime", "startTime")
-    .addSelect("student_consultant.endTime", "endTime")
-    .addSelect("student_consultant.storyType", "storyType")
-    .addSelect("student_consultant.resultType", "resultType")
-    .addSelect("student_consultant.sentType", "sentType")
-    .addSelect("student_consultant.nickName", "nickName")
-    .addSelect("student_consultant.sendNote", "sendNote")
-    .from(StudentConsultant, "student_consultant")
-    .leftJoin(Student, "student_id", "student_id.Id = student_consultant.studentId")
-    .leftJoin(TitleName, 'title', 'title.id = student_id.title')
+  expression: `SELECT student_consultant.id,
+  student."id" as "studentId",
+  student_consultant."activityDate",
+  student_consultant."startTime",
+  student_consultant."endTime",
+  student_consultant."storyType",
+  student_consultant."resultType",
+  student_consultant."sentType",
+  student_consultant."nickName",
+  student_consultant."sendNote",
+  concat(title."titleName", ' ', student.firstname, ' ', student.lastname) AS "studentValue",
+  student."classroomId" ,
+  student."classroomTypeId",
+  student_consultant."yearTermId" 
+ FROM student student
+   LEFT JOIN student_consultant student_consultant ON student_consultant."studentId"  = student."id" AND student."deletedAt" IS NULL
+   LEFT JOIN title_name title ON title.id = student.title AND title."deletedAt" IS NULL
+WHERE student_consultant."deletedAt" IS null
+order by student."classroomTypeId" asc ,student."classroomId" , student."studentNumber" ASC;`
 })
 export class VwStudentConsultantList {
   @ViewColumn()
+  yearTermId: number;
+  @ViewColumn()
+  classroomTypeId: number;
+  @ViewColumn()
+  classroomId: number;
+  @ViewColumn()
   id: number;
-
   @ViewColumn()
   studentId: number;
 

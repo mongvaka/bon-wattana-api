@@ -8,6 +8,7 @@ import { SearchStudentDto } from "src/api/student/student.dto";
 import { SearchTeacherDto } from "src/api/teacher/teacher.dto";
 import { CreateStudentConsultantDto, SearchStudentConsultantDto, UpdateStudentConsultantDto } from "./student-consultant.dto";
 import { StudentConsultantService } from "./student-consultant.service";
+import { SearchClassroomDto } from "../classroom/classroom.dto";
 @ApiTags("student-consultant")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -45,6 +46,22 @@ export class StudentConsultantController extends BaseController{
   async teacherDropdown(@Body() dto: SearchTeacherDto) {
     try{      
       return this.success(await this.studentconsultantService.teacherDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-dropdown')
+  async classroomDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.studentconsultantService.classroomDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-type-dropdown')
+  async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.studentconsultantService.classroomTypeDropdown(dto))
     }catch(e){
       return this.error(e)
     }

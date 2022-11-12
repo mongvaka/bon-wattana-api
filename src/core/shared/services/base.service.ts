@@ -15,8 +15,9 @@ export class BaseService{
     toSearchResult<T>(page:Paginator,count:number,data:any):SearchResult<T>{
         const result = new SearchResult<T>();
         const paginator:Paginator = page?page:new Paginator()
-        paginator.rows = count;
+        paginator.rows = page?.rows??10;
         paginator.totalRecord = count;
+        paginator.first = page?.first??0;
         paginator.pageCount = Math.ceil(count / paginator?.rows);
         result.paginator = paginator
         result.results = data        

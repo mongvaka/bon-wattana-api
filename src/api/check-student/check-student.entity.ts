@@ -113,6 +113,26 @@ export class CheckStudent extends BasicData {
   dentalCavitiesTxt: string;
   @Column({nullable: true})
   dentalLimestoneTxt: string;
+  @Column({nullable: true})
+  rightNormal:boolean
+  @Column({nullable: true})
+  rightShort :boolean
+  @Column({nullable: true})
+  rightLong :boolean
+  @Column({nullable: true})
+  rightBend :boolean
+  @Column({nullable: true})
+  leftNormal :boolean
+  @Column({nullable: true})
+  leftShort :boolean
+  @Column({nullable: true})
+  leftLong :boolean
+  @Column({nullable: true})
+  leftBend:boolean
+  @Column({nullable: true})
+  colorBlindnessInNormal:boolean
+  @Column({nullable: true})
+  colorBlindnessNormal:boolean
 }
 @ViewEntity({
     name:'check_student_list',
@@ -239,6 +259,21 @@ export class VwCheckStudentDropdown {
         .addSelect("check_student.yearTermId", "yearTermId")
         .addSelect("check_student.dentalCavitiesTxt", "dentalCavitiesTxt")
         .addSelect("check_student.dentalLimestoneTxt", "dentalLimestoneTxt")
+
+        .addSelect("check_student.rightNormal", "rightNormal")
+        .addSelect("check_student.rightShort", "rightShort")
+        .addSelect("check_student.rightLong", "rightLong")
+        .addSelect("check_student.rightBend", "rightBend")
+        .addSelect("check_student.leftNormal", "leftNormal")
+        .addSelect("check_student.leftShort", "leftShort")
+        .addSelect("check_student.leftLong", "leftLong")
+        .addSelect("check_student.leftBend", "leftBend")
+        .addSelect("check_student.colorBlindnessInNormal", "colorBlindnessInNormal")
+        .addSelect("check_student.colorBlindnessNormal", "colorBlindnessNormal")
+
+
+
+
         .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
       .from(CheckStudent, "check_student")
         .leftJoin(Student, "student_id","student_id.Id = check_student.studentId")
@@ -353,4 +388,24 @@ export class VwCheckStudentItem {
 
     @ViewColumn()
     studentValue: string;
+    @ViewColumn()
+    rightNormal:boolean
+    @ViewColumn()
+    rightShort :boolean
+    @ViewColumn()
+    rightLong :boolean
+    @ViewColumn()
+    rightBend :boolean
+    @ViewColumn()
+    leftNormal :boolean
+    @ViewColumn()
+    leftShort :boolean
+    @ViewColumn()
+    leftLong :boolean
+    @ViewColumn()
+    leftBend:boolean
+    @ViewColumn()
+    colorBlindnessInNormal:boolean
+    @ViewColumn()
+    colorBlindnessNormal:boolean
 }
