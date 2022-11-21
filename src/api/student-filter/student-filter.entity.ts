@@ -500,7 +500,7 @@ export class VwStudentFilterDropdown {
         .addSelect("student_id.classroomTypeId", "classroomTypeId")
         .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
         .addSelect("student_filter.yearTermId", "yearTermId")
-        .addSelect("CONCAT(year_term_id.year , ' ' , year_term_id.term)", "yearTermValue")
+        .addSelect("CONCAT(year_term_id.term , '/' , year_term_id.year)", "yearTermValue")
         .addSelect("student_filter.specialSkill", "specialSkill")
         .addSelect("student_filter.skill1", "skill1")
         .addSelect("student_filter.skill2", "skill2")

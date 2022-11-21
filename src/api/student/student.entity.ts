@@ -68,6 +68,9 @@ export class Student extends BasicData {
   @Column({ nullable: true })
   birthDate?: Date;
   @Column({ nullable: true })
+  leaveDate?: Date;
+  
+  @Column({ nullable: true })
   acceptDate?: Date;
   @Column({ nullable: true })
   nationalityId?: number;
@@ -294,6 +297,8 @@ export class Student extends BasicData {
     .addSelect(`CONCAT(title."titleName",' ',student.firstname,' ',student.lastname) `, "nameValue")
     .addSelect("student.gendarId", "gendarId")
     .addSelect("TO_CHAR(student.birthDate, 'DD/MM/YYYY') ", "birthDate")
+    .addSelect("TO_CHAR(student.leaveDate, 'DD/MM/YYYY') ", "leaveDate")
+    
     .addSelect("student.personalCode", "personalCode")
     .addSelect("CONCAT(student.houseNumber,' ',student.road,'  ',student.village, ' ' ,sub_district.name, ' ' ,district.name, ' ' ,province.name)", "addressValue")
     .addSelect("student.classroomId", "classroomId")
@@ -334,6 +339,11 @@ export class VwStudentList {
   nameValue: string;
   @ViewColumn()
   birthDate: string;
+
+  @ViewColumn()
+  leaveDate: string;
+
+
   @ViewColumn()
   addressValue: string;
 
@@ -398,6 +408,7 @@ export class VwStudentDropdown {
     .addSelect("student.gendarId", "gendarId")
     .addSelect("gendar_id.gendarName", "gendarValue")
     .addSelect("student.birthDate", "birthDate")
+    .addSelect("student.leaveDate", "leaveDate")
     .addSelect("student.acceptDate", "acceptDate")
     .addSelect("student.nationalityId", "nationalityId")
     .addSelect("nationality_id.nationalityName", "nationalityValue")
@@ -556,6 +567,10 @@ export class VwStudentItem {
 
   @ViewColumn()
   birthDate: Date;
+  @ViewColumn()
+  leaveDate: Date;
+
+  
   @ViewColumn()
   acceptDate: Date;
   @ViewColumn()
