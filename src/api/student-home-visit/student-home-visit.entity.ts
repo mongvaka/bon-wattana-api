@@ -206,6 +206,7 @@ export class StudentHomeVisit extends BasicData {
 
     .select("student.id", "id")
     .addSelect("student.classroomId", "classroomId")
+    .addSelect("student.studentNumber", "studentNumber")
     .addSelect("student.classroomTypeId", "classroomTypeId")
     .addSelect("classroom.name", "classroomValue")
     .addSelect("classroom_type.typeName", "classroomTypeValue")
@@ -239,10 +240,13 @@ export class VwStudentHomeVisitList {
     @ViewColumn()
     homeVisitday: Date;
 
-
+    
 
     @ViewColumn()
     studentId: number;
+
+    @ViewColumn()
+    studentNumber: string;
 
    @ViewColumn()
    studentValue: string;
@@ -274,6 +278,8 @@ export class VwStudentHomeVisitDropdown {
         .addSelect("student_home_visit.liveWith", "liveWith")
         .addSelect("student_home_visit.liveWithOther", "liveWithOther")
         .addSelect("student_home_visit.totalHouseholdMember", "totalHouseholdMember")
+        .addSelect("student.studentNumber", "studentNumber")
+
         .addSelect(`CONCAT(title."titleName",' ',student.firstname,' ',student.lastname) `, "studentValue")
         .addSelect("student_home_visit.totalIncludeStudent", "totalIncludeStudent")
         .addSelect("student_home_visit.totalBrother1", "totalBrother1")
@@ -334,6 +340,7 @@ export class VwStudentHomeVisitDropdown {
       .from(StudentHomeVisit, "student_home_visit")
       .leftJoin(Student , 'student','student.id = student_home_visit.studentId')
       .leftJoin(TitleName, 'title', 'title.id = student.title')
+      .orderBy( 'student.id','ASC')
 })
 export class VwStudentHomeVisitItem {
 
@@ -345,6 +352,10 @@ export class VwStudentHomeVisitItem {
     
     @ViewColumn()
     googleMap: string;
+    @ViewColumn()
+    studentNumber: string;
+    
+
     @ViewColumn()
     studentId: number;
 

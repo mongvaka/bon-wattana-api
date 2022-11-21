@@ -287,6 +287,8 @@ export class Student extends BasicData {
     .addSelect("student.studentCode", "studentCode")
     .addSelect("student.studentNumber", "studentNumber")
     .addSelect("student.status", "status")
+
+    .addSelect("title.titleName", "titleName")
     .addSelect("student.firstname", "firstname")
     .addSelect("student.lastname", "lastname")
     .addSelect(`CONCAT(title."titleName",' ',student.firstname,' ',student.lastname) `, "nameValue")
