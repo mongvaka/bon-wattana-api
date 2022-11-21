@@ -36,7 +36,8 @@ export class StudentScolar extends BasicData {
     concat(title."titleName", ' ', student.firstname, ' ', student.lastname) AS "studentValue",
     student."classroomId" ,
     student ."classroomTypeId",
-     student."id" as "studentId"
+     student."id" as "studentId",
+     student."studentNumber" as "studentNumber"
    FROM student student
      LEFT JOIN student_scolar student_scolar ON student_scolar."studentId"  = student."id" AND student."deletedAt" IS null AND student_scolar."deletedAt" IS null 
      LEFT JOIN title_name title ON title.id = student.title AND title."deletedAt" IS NULL
@@ -52,9 +53,11 @@ export class VwStudentScolarList {
 
     @ViewColumn()
     studentId: number;
-
     @ViewColumn()
     studentValue: string;
+
+    @ViewColumn()
+    studentNumber: string;
 
     @ViewColumn()
     name: string;

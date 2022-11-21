@@ -385,6 +385,7 @@ export class StudentFilter extends BasicData {
     s."classroomId",
     s."classroomTypeId",
     s."studentCode" ,
+    s."studentNumber" ,
     concat(title."titleName", ' ',s.firstname, ' ', s.lastname) as "studentValue",
     c.name as "room",
     ct."typeName",
@@ -432,6 +433,8 @@ export class VwStudentFilterList {
     id: number;
     @ViewColumn()
     studentCode: string;
+    @ViewColumn()
+    studentNumber: string;
     @ViewColumn()
     studentValue: string;
     @ViewColumn()

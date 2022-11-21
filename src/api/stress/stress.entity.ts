@@ -79,6 +79,7 @@ export class Stress extends BasicData {
     expression: `select 
     s."id" ,
     s."studentCode" ,
+    s."studentNumber" ,
     ct."typeName" ,
     c."name" as room ,
     ct."id" as "classroomTypeId" ,
@@ -132,6 +133,8 @@ export class VwStressList {
   id: number;
   @ViewColumn()
   studentCode: string;
+  @ViewColumn()
+  studentNumber: string;
   @ViewColumn()
   studentValue: string;
   @ViewColumn()

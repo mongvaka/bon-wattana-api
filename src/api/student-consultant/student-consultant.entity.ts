@@ -52,6 +52,7 @@ export class StudentConsultant extends BasicData {
   name: 'student_consultant_list',
   expression: `SELECT student_consultant.id,
   student."id" as "studentId",
+  student."studentNumber" as "studentNumber",
   student_consultant."activityDate",
   student_consultant."startTime",
   student_consultant."endTime",
@@ -84,7 +85,8 @@ export class VwStudentConsultantList {
 
   @ViewColumn()
   studentValue: string;
-
+  @ViewColumn()
+  studentNumber: string;
   @ViewColumn()
   activityDate: Date;
 
