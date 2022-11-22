@@ -20,6 +20,7 @@ export class StudentDto {
     lastnameEn:string
     gendarId:number
     birthDate:Date
+    leaveDate:Date
 
     nationalityId:number
     ethnicityId:number

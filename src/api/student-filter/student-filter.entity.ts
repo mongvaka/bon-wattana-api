@@ -385,6 +385,7 @@ export class StudentFilter extends BasicData {
     s."classroomId",
     s."classroomTypeId",
     s."studentCode" ,
+    s."studentNumber" ,
     concat(title."titleName", ' ',s.firstname, ' ', s.lastname) as "studentValue",
     c.name as "room",
     ct."typeName",
@@ -432,6 +433,8 @@ export class VwStudentFilterList {
     id: number;
     @ViewColumn()
     studentCode: string;
+    @ViewColumn()
+    studentNumber: string;
     @ViewColumn()
     studentValue: string;
     @ViewColumn()
@@ -497,7 +500,7 @@ export class VwStudentFilterDropdown {
         .addSelect("student_id.classroomTypeId", "classroomTypeId")
         .addSelect("CONCAT(student_id.firstname , ' ' , student_id.lastname)", "studentValue")
         .addSelect("student_filter.yearTermId", "yearTermId")
-        .addSelect("CONCAT(year_term_id.year , ' ' , year_term_id.term)", "yearTermValue")
+        .addSelect("CONCAT(year_term_id.term , '/' , year_term_id.year)", "yearTermValue")
         .addSelect("student_filter.specialSkill", "specialSkill")
         .addSelect("student_filter.skill1", "skill1")
         .addSelect("student_filter.skill2", "skill2")

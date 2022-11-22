@@ -202,6 +202,7 @@ export class EmotionalQuotient extends BasicData {
     expression: `select
     s.id ,
     s."studentCode" ,
+    s."studentNumber" ,
     concat(title."titleName", ' ',s.firstname, ' ', s.lastname)  as "studentValue",
     ct."typeName" ,
     c."name" as room,
@@ -412,6 +413,8 @@ export class VwEmotionalQuotientList {
   id: number;
   @ViewColumn()
   studentCode: string;
+  @ViewColumn()
+  studentNumber: string;
   @ViewColumn()
   studentValue: string;
   @ViewColumn()

@@ -14,13 +14,25 @@ import { Practicle } from "../practicle/practicle.entity";
 import { Classroom } from "../classroom/classroom.entity";
 import { ClassroomType } from "../classroom-type/classroom-type.entity";
 import { ActivityStudent } from "../activity-student/activity-student.entity";
+@Entity('title_name')
+export class TitleName extends BasicData {
+  @PrimaryGeneratedColumn({type: 'bigint'})
+  id?: number;
 
+  @Column({nullable: true})
+  titleName?: string;
+  @Column({ nullable: true })
+  status?: number;
+  @Column({ nullable: true })
+  lang?: number;
+}
 @Entity('teacher')
 export class Teacher extends BasicData {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
-
+  @Column({ nullable: true })
+  titleName?: string;
 
   @Column({ nullable: true })
   posonalCode?: string;
@@ -180,6 +192,7 @@ export class Teacher extends BasicData {
     .addSelect("teacher.setInDateSchool", "setInDateSchool")
     .addSelect("teacher.practitionerNo", "practitionerNo")
     .addSelect("teacher.teacherCode", "teacherCode")
+    .addSelect("title.titleName", "titleName")
     .addSelect("teacher.firstname", "firstname")
     .addSelect("teacher.lastname", "lastname")
     .addSelect("teacher.positionNumber", "positionNumber")
@@ -199,6 +212,7 @@ export class Teacher extends BasicData {
     .from(Teacher, "teacher")
     .leftJoin(PractitionerLevel, "practitioner_level_id", "practitioner_level_id.Id = teacher.practitionerLevelId")
     .leftJoin(Practicle, 'practicle', 'practicle.id = teacher.subjectGroupId')
+    .leftJoin(TitleName, 'title', 'title.id = teacher.title')
 })
 
 export class VwTeacherList {
@@ -218,6 +232,9 @@ export class VwTeacherList {
   otherEducationText?: string;
   @ViewColumn()
   isTeacher?: boolean;
+  
+  @ViewColumn()
+  titleName: string;
 
   @ViewColumn()
   id: number;
@@ -594,6 +611,7 @@ export class VwTeachingScheduleTeacherList {
 
   @ViewColumn()
   teacherCode: string;
+
 
   @ViewColumn()
   firstname: string;

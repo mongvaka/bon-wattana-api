@@ -34,6 +34,7 @@ export class StudentHelp extends BasicData {
     name:'student_help_list',
     expression: `select 
     s.id,
+    s."studentNumber",
     s."classroomId" ,
     s."classroomTypeId" ,
     c."name" as room,
@@ -69,7 +70,8 @@ export class VwStudentHelpList {
     room: string;
     @ViewColumn()
     typeName: string;
-
+    @ViewColumn()
+    studentNumber: string;
     @ViewColumn()
     studentValue: string;
 

@@ -138,6 +138,7 @@ export class CheckStudent extends BasicData {
     name:'check_student_list',
     expression: ` SELECT student.id,
     student."studentCode",
+    student."studentNumber",
     student."classroomId",
     student."classroomTypeId",
     gendar."gendarName" AS "gendarValue",
@@ -159,7 +160,10 @@ export class CheckStudent extends BasicData {
      LEFT JOIN classroom classroom ON classroom.id = student."classroomId" AND classroom."deletedAt" IS NULL
      LEFT JOIN gendar gendar ON gendar.id = student."gendarId" AND gendar."deletedAt" IS NULL
      LEFT JOIN title_name title ON title.id = student.title
-  WHERE student."deletedAt" IS null`
+  WHERE student."deletedAt" IS null
+  ORDER BY student."studentNumber" ASC
+  `
+  
 })
 export class VwCheckStudentList {
   @ViewColumn()
@@ -170,6 +174,8 @@ export class VwCheckStudentList {
   birthDate:Date
   @ViewColumn()
   studentCode:string
+  @ViewColumn()
+  studentNumber:string
   @ViewColumn()
   classroomTypeValue:string
   @ViewColumn()
