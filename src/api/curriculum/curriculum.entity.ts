@@ -35,7 +35,7 @@ export class VwCurriculumList {
   name:'curriculum_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("curriculum.id", "value")
-  .addSelect("CONCAT(curriculum.curriculumName , ' ' , curriculum.curriculumDescription)", "label")
+  .addSelect("curriculum.curriculumName", "label")
       .from(Curriculum, "curriculum")
 })
 export class VwCurriculumDropdown {

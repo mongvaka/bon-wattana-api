@@ -35,7 +35,7 @@ export class VwPractitionerLevelList {
   name:'practitioner_level_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("practitioner_level.id", "value")
-  .addSelect("CONCAT(practitioner_level.levelName , ' ' , practitioner_level.levelDescription)", "label")
+  .addSelect("practitioner_level.levelName", "label")
       .from(PractitionerLevel, "practitioner_level")
 })
 export class VwPractitionerLevelDropdown {

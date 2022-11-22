@@ -35,7 +35,7 @@ export class VwPracticleList {
   name:'practicle_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("practicle.id", "value")
-  .addSelect("CONCAT(practicle.name , ' ' , practicle.descrition)", "label")
+  .addSelect("practicle.name", "label")
       .from(Practicle, "practicle")
 })
 export class VwPracticleDropdown {
