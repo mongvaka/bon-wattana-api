@@ -42,7 +42,7 @@ export class VwYearTermList {
   name:'year_term_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("year_term.id", "value")
-  .addSelect("CONCAT( year_term.term , ' / ' ,year_term.year  )", "label")
+  .addSelect("CONCAT('ปีการศึกษา ',year_term.year  , ' ภาคเรียนที่' , year_term.term )", "label")
       .from(YearTerm, "year_term")
 })
 export class VwYearTermDropdown {

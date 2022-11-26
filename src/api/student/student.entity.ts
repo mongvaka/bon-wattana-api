@@ -104,7 +104,8 @@ export class Student extends BasicData {
 
   @Column({ nullable: true })
   birthSubDistrictId?: number;
-
+  @Column({ nullable: true })
+  birthPostCode?: string;
   @Column({ nullable: true })
   houseNumber?: string;
 
@@ -146,7 +147,8 @@ export class Student extends BasicData {
 
   @Column({ nullable: true })
   contractSubDistrictId?: number;
-
+  @Column({ nullable: true })
+  contractPostCode?: string;
   @Column({ nullable: true })
   oldSchoolName?: string;
 
@@ -161,7 +163,8 @@ export class Student extends BasicData {
 
   @Column({ nullable: true })
   oldSchoolSubDistrictId?: number;
-
+  @Column({ nullable: true })
+  oldSchoolPostCode?: string;
   @Column({ nullable: true })
   closeFriendInClass?: string;
 
@@ -282,6 +285,9 @@ export class Student extends BasicData {
 
   @Column({ nullable: true })
   parentPhone?: string;
+  @Column({ nullable: true })
+  postCode?: string;
+  
 }
 @ViewEntity({
   name: 'student_list',
@@ -497,6 +503,10 @@ export class VwStudentDropdown {
     .addSelect("student.parentPhone", "parentPhone")
     .addSelect("student.personalCode", "personalCode")
     .addSelect("student.classroomTypeId", "classroomTypeId")
+    .addSelect("student.oldSchoolPostCode", "oldSchoolPostCode")
+    .addSelect("student.contractPostCode", "contractPostCode")
+    .addSelect("student.birthPostCode", "birthPostCode")
+    .addSelect("student.postCode", "postCode")
     .from(Student, "student")
     .leftJoin(Gendar, "gendar_id", "gendar_id.Id = student.gendarId")
     .leftJoin(Nationality, "nationality_id", "nationality_id.Id = student.nationalityId")
@@ -524,6 +534,14 @@ export class VwStudentItem {
   @ViewColumn()
   studentCode: string;
 
+  @ViewColumn()
+  oldSchoolPostCode: string;
+  @ViewColumn()
+  contractPostCode: string;
+  @ViewColumn()
+  birthPostCode: string;
+  @ViewColumn()
+  postCode: string;
   @ViewColumn()
   studentNumber: string;
 

@@ -102,32 +102,38 @@ async createFrom(dto:CreateUsersDto,req:CustomRequest):Promise<Users>{
   if(duplicateEmail!= undefined){
     throw new BadRequestException('ชื่อผู้ถูกสร้างไปแล้ว...')
   }    
+  console.log('dto.type',dto.type);
+  
   if(dto.type == UserType.TEACHER){
     const teacher = new CreateTeacherDto()
     teacher.firstname = dto.firstname
     teacher.lastname = dto.lastname
     const teaEn = this.toCreateModel(teacher,req)
-    const teacherResult = await this.teacherRepository.save(
+    const teacherResult:Teacher = await this.teacherRepository.save(
       this.teacherRepository.create(teaEn)
-    )
-    refId = teacherResult[0]?.id
+    ) as Teacher
+    console.log('teacherResult',teacherResult);
+    
+    refId = teacherResult.id
   }
   if(dto.type == UserType.STUDENT){
     const student = new CreateStudentDto()
     student.firstname = dto.firstname
     student.lastname = dto.lastname
     const stdEn = this.toCreateModel(student,req)
-    const studentResult = await this.studentRepository.save(
+    const studentResult:Student = await this.studentRepository.save(
       this.studentRepository.create(stdEn)
-      )
-    refId = studentResult[0]?.id
+      ) as Student
+    refId = studentResult.id
   }
-
+  console.log('refId',refId);
+  
   const hasepassword = await bcrypt.hash(dto.password,12);
   dto.password = hasepassword
   
     const en = this.toCreateModel(dto,req) as Users  
       en.inforId = refId
+      console.log('en',en);
     return await this.usersRepository.save(
         this.usersRepository.create(en)
     );

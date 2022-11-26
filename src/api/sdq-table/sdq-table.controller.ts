@@ -8,6 +8,7 @@ import { CreateSdqTableDto, SearchSdqTableDto, UpdateSdqTableDto } from "./sdq-t
 import { SdqTableService } from "./sdq-table.service";
 import { SearchClassroomDto } from "src/api/classroom/classroom.dto";
 import { SearchStudentDto } from "src/api/student/student.dto";
+import { SearchYearTermDto } from "../report/report.dto";
 @ApiTags("sdq-table")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -92,4 +93,20 @@ export class SdqTableController extends BaseController{
       return this.error(e)
     }
   }
+  @Get('student-dropdown')
+async studentDropdown(@Body() dto: SearchStudentDto) {
+  try{      
+    return this.success(await this.sdqtableService.studentDropdown(dto))
+  }catch(e){
+    return this.error(e)
+  }
+}
+@Get('year-term-dropdown')
+async yearTermDropdown(@Body() dto: SearchYearTermDto) {
+  try{      
+    return this.success(await this.sdqtableService.yearTermDropdown(dto))
+  }catch(e){
+    return this.error(e)
+  }
+}
 }

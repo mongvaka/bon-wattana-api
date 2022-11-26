@@ -57,6 +57,7 @@ export class VwSubDistrictList {
   .select("sub_district.id", "value")
   .addSelect("sub_district.districtId", "refId")
   .addSelect("sub_district.name", "label")
+  .addSelect("sub_district.postCode", "postCode")
       .from(SubDistrict, "sub_district")
 })
 export class VwSubDistrictDropdown {
@@ -67,6 +68,9 @@ export class VwSubDistrictDropdown {
 
     @ViewColumn()
     label: string;
+    @ViewColumn()
+    postCode: string;
+    
 }
 @ViewEntity({
   name:'sub_district_item',

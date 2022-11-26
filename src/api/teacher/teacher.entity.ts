@@ -50,13 +50,13 @@ export class Teacher extends BasicData {
   @Column({ nullable: true })
   ernlyDate?: Date;
   @Column({ nullable: true })
-  actionWorkSpecial: string;
+  actionWorkSpecial?: string;
   @Column({ nullable: true })
-  actionWorkSpecial2: string;
+  actionWorkSpecial2?: string;
   @Column({ nullable: true })
-  actionWorkSpecial3: string;
+  actionWorkSpecial3?: string;
   @Column({ nullable: true })
-  actionWorkSpecial4: string;
+  actionWorkSpecial4?: string;
   @Column({ nullable: true })
   firstname?: string;
   @Column({ nullable: true })
@@ -130,9 +130,9 @@ export class Teacher extends BasicData {
   @Column({ nullable: true })
   subjectGroupId?: number;
   @Column({ nullable: true })
-  isOtherSubjectGroup: boolean;
+  isOtherSubjectGroup?: boolean;
   @Column({ nullable: true })
-  subjectGroupText: string;
+  subjectGroupText?: string;
   @Column({ nullable: true })
   teacherEmail?: string;
 
@@ -172,17 +172,19 @@ export class Teacher extends BasicData {
   @Column({ nullable: true })
   educationMinor?: string;
   @Column({ nullable: true })
-  setInDateSchool: Date
+  setInDateSchool?: Date
   @Column({ nullable: true })
-  actionWork: string;
+  actionWork?: string;
 
   @Column({ nullable: true })
-  activityStudentId: number;
+  activityStudentId?: number;
   @Column({ nullable: true })
-  actionTeach: number;
+  actionTeach?: number;
   @Column({ nullable: true })
-  actionTeachText: string;
-
+  actionTeachText?: string;
+  @Column({ nullable: true })
+  postCode?: string;
+  
 }
 @ViewEntity({
   name: 'teacher_list',
@@ -380,6 +382,7 @@ export class VwTeacherDropdown {
         .addSelect("teacher.actionTeach", "actionTeach")
         .addSelect("teacher.actionTeachText", "actionTeachText")
         .addSelect("activity_student.activityMainName", "activityStudentValue")
+        .addSelect("teacher.postCode", "postCode")
       .from(Teacher, "teacher")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = teacher.gendarId")
         .leftJoin(Nationality, "nationality_id","nationality_id.Id = teacher.nationalityId")
@@ -405,6 +408,9 @@ export class VwTeacherItem {
   actionTeach: number;
   @ViewColumn()
   actionTeachText: string;
+  @ViewColumn()
+  postCode: string;
+  
   @ViewColumn()
   actionWorkSpecial: string;
   @ViewColumn()

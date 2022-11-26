@@ -10,12 +10,13 @@ import { SdqTable, VwSdqTableDropdown, VwSdqTableItem, VwSdqTableList} from './s
 import { SearchClassroomDto } from 'src/api/classroom/classroom.dto';
 import { VwClassroomDropdown } from 'src/api/classroom/classroom.entity';
 import { VwClassroomTypeDropdown } from 'src/api/classroom-type/classroom-type.entity';
-import { VwYearTermItem } from 'src/api/year-term/year-term.entity';
+import { VwYearTermDropdown, VwYearTermItem } from 'src/api/year-term/year-term.entity';
 import { VwTeacherItem } from 'src/api/teacher/teacher.entity';
-import { VwStudentItem,VwSdqTableListForTeacher,VwSdqTableListForParent,VwSdqTableListForStudent  } from 'src/api/student/student.entity';
+import { VwStudentItem,VwSdqTableListForTeacher,VwSdqTableListForParent,VwSdqTableListForStudent, VwStudentDropdown  } from 'src/api/student/student.entity';
 import { SearchStudentDto, StudentDto } from 'src/api/student/student.dto';
 import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
+import { SearchYearTermDto } from '../year-term/year-term.dto';
 @Injectable()
 export class SdqTableService extends BaseService {
     async import(data: any[]): Promise<any> {        
@@ -115,6 +116,10 @@ export class SdqTableService extends BaseService {
         private readonly itemYearTermRepository:Repository<VwYearTermItem>,
         @InjectRepository(VwTeacherItem)
         private readonly itemTeacherRepository:Repository<VwTeacherItem>,
+        @InjectRepository(VwStudentDropdown)
+        private readonly vwDropdownStudentRepository:Repository<VwStudentDropdown>,
+        @InjectRepository(VwYearTermDropdown)
+        private readonly vwDropdownYearTermRepository:Repository<VwYearTermDropdown>,
         private readonly dropdownService: DropdownService
         ){
         super()
@@ -504,6 +509,7 @@ export class SdqTableService extends BaseService {
             lastname: std.lastname,
             classroomTypeValue:std.classroomTypeValue,
             birthDate:std.birthDate,
+            studentId:std?.id,
             choice01: sdq.choice01 ,
             choice02: sdq.choice02,
             choice03: sdq.choice03,
@@ -552,6 +558,7 @@ if(yearInit!=undefined){
             lastname: std.lastname,
             classroomTypeValue:std.classroomTypeValue,
             birthDate:std.birthDate,
+            studentId:std?.id,
             choice01: null ,
            choice02: null,
            choice03:null,
@@ -626,6 +633,7 @@ if(yearInit!=undefined){
            lastname: std.lastname,
            classroomTypeValue:std.classroomTypeValue,
            birthDate:std.birthDate,
+           studentId:std?.id,
            choice01: sdq.choice01 ,
            choice02: sdq.choice02,
            choice03: sdq.choice03,
@@ -692,6 +700,7 @@ atSemester =yearInit.term;
        lastname: std.lastname,
        classroomTypeValue:std.classroomTypeValue,
        birthDate:std.birthDate,
+       studentId:std?.id,
        choice01: sdq.choice01 ,
        choice02: sdq.choice02,
        choice03: sdq.choice03,
@@ -828,5 +837,10 @@ async getSumSDQTeacher(teacherId:any):Promise<any>{
 
 };
 }
-
+async studentDropdown(dto: SearchStudentDto):Promise<SelectItems[]> {
+    return await this.dropdownService.studentDropdown(dto,this.vwDropdownStudentRepository);
+  }
+async yearTermDropdown(dto: SearchYearTermDto):Promise<SelectItems[]> {
+    return await this.dropdownService.yeartermDropdown(dto,this.vwDropdownYearTermRepository);
+  }
 }

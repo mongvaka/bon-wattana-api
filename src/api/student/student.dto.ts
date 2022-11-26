@@ -93,6 +93,10 @@ export class StudentDto {
     parentOccupation:string
     parentPhone:string
     personalCode:string
+    oldSchoolPostCode: string;
+    contractPostCode: string;
+    birthPostCode: string;
+    postCode: string;
 } 
 export class CreateStudentDto extends StudentDto{
    

@@ -134,7 +134,8 @@ export class TeacherDto {
   actionTeachText:string
   @ApiPropertyOptional({ type: Number })
   actionTeach:number
-
+  @ApiPropertyOptional({ type: String })
+  postCode:string
     
 }
 export class CreateTeacherDto extends TeacherDto {
