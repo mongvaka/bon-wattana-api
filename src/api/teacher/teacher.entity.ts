@@ -178,6 +178,10 @@ export class Teacher extends BasicData {
 
   @Column({ nullable: true })
   activityStudentId: number;
+  @Column({ nullable: true })
+  actionTeach: number;
+  @Column({ nullable: true })
+  actionTeachText: string;
 
 }
 @ViewEntity({
@@ -373,6 +377,8 @@ export class VwTeacherDropdown {
         .addSelect("teacher.actionWorkSpecial4", "actionWorkSpecial4")
         .addSelect("teacher.otherEducationText", "otherEducationText")
         .addSelect("teacher.isTeacher", "isTeacher")
+        .addSelect("teacher.actionTeach", "actionTeach")
+        .addSelect("teacher.actionTeachText", "actionTeachText")
         .addSelect("activity_student.activityMainName", "activityStudentValue")
       .from(Teacher, "teacher")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = teacher.gendarId")
@@ -395,6 +401,10 @@ export class VwTeacherItem {
   titleEn?: number;
   @ViewColumn()
   ernlyDate?: Date;
+  @ViewColumn()
+  actionTeach: number;
+  @ViewColumn()
+  actionTeachText: string;
   @ViewColumn()
   actionWorkSpecial: string;
   @ViewColumn()

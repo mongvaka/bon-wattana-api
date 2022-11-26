@@ -11,6 +11,12 @@ import { DropdownService } from '../shared/services/dropdown.service';
 import { SearchResult } from '../shared/models/search-param-model';
 import { BaseService } from '../shared/services/base.service';
 import { UserType } from '../shared/constans/enum-constans';
+import { TeacherService } from 'src/api/teacher/teacher.service';
+import { StudentService } from 'src/api/student/student.service';
+import { CreateTeacherDto } from 'src/api/teacher/teacher.dto';
+import { CreateStudentDto } from 'src/api/student/student.dto';
+import { Teacher } from 'src/api/teacher/teacher.entity';
+import { Student } from 'src/api/student/student.entity';
 
 @Injectable()
 export class UsersService extends BaseService {
@@ -24,7 +30,12 @@ export class UsersService extends BaseService {
     private readonly vwUsersRepository: Repository<VwUsersList>,
     @InjectRepository(VwUsersItem)
     private readonly itemRepository:Repository<VwUsersItem>,
-    private readonly dropdownService: DropdownService
+    private readonly dropdownService: DropdownService,
+    @InjectRepository(Teacher)
+    private readonly teacherRepository:Repository<Teacher>,
+    @InjectRepository(Student)
+    private readonly studentRepository:Repository<Student>,
+
   ) {
     super()
   }
@@ -86,14 +97,37 @@ export class UsersService extends BaseService {
     return this.toSearchResult<VwUsersList>(dto.paginator,count,data);
 }
 async createFrom(dto:CreateUsersDto,req:CustomRequest):Promise<Users>{  
+  let refId = 0
   const duplicateEmail = await this.findByEmail(dto.username)  
   if(duplicateEmail!= undefined){
     throw new BadRequestException('ชื่อผู้ถูกสร้างไปแล้ว...')
   }    
+  if(dto.type == UserType.TEACHER){
+    const teacher = new CreateTeacherDto()
+    teacher.firstname = dto.firstname
+    teacher.lastname = dto.lastname
+    const teaEn = this.toCreateModel(teacher,req)
+    const teacherResult = await this.teacherRepository.save(
+      this.teacherRepository.create(teaEn)
+    )
+    refId = teacherResult[0]?.id
+  }
+  if(dto.type == UserType.STUDENT){
+    const student = new CreateStudentDto()
+    student.firstname = dto.firstname
+    student.lastname = dto.lastname
+    const stdEn = this.toCreateModel(student,req)
+    const studentResult = await this.studentRepository.save(
+      this.studentRepository.create(stdEn)
+      )
+    refId = studentResult[0]?.id
+  }
+
   const hasepassword = await bcrypt.hash(dto.password,12);
   dto.password = hasepassword
-
+  
     const en = this.toCreateModel(dto,req) as Users  
+      en.inforId = refId
     return await this.usersRepository.save(
         this.usersRepository.create(en)
     );
@@ -115,6 +149,26 @@ async update(id:number,dto:UpdateUsersDto,req:CustomRequest):Promise<UsersDto>{
 }
 async delete(id:number,req:CustomRequest):Promise<UsersDto>{
     let m = await this.usersRepository.findOne({where:{id:id}})
+    if(m.type==UserType.STUDENT){
+      const student = await this.studentRepository.findOne({where:{id:m.inforId}})
+      if(student){
+        await this.studentRepository.softRemove(
+          await this.studentRepository.save(
+            this.toDeleteModel(student,req)
+          )
+        )
+      }
+    }
+    if(m.type==UserType.TEACHER){
+      const teacher = await this.teacherRepository.findOne({where:{id:m.inforId}})
+      if(teacher){
+        await this.teacherRepository.softRemove(
+          await this.teacherRepository.save(
+            this.toDeleteModel(teacher,req)
+          )
+        )
+      }
+    }
     return await this.usersRepository.softRemove(
         await this.usersRepository.save(
             this.toDeleteModel(m,req)

@@ -14,6 +14,9 @@ import { SearchExportExcelDto } from 'src/core/excel/excel.dto';
 import { exportExcel } from 'src/core/shared/services/export-excel.service';
 import { getDateLabel, getLabelEnum } from 'src/core/shared/functions';
 import { RESULT_HELP_TYPE } from 'src/core/shared/constans/dropdown-constanst';
+import { SearchClassroomDto } from '../classroom/classroom.dto';
+import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { VwClassroomDropdown } from '../classroom/classroom.entity';
 
 @Injectable()
 export class StudentHelpService extends BaseService {
@@ -55,6 +58,10 @@ export class StudentHelpService extends BaseService {
         private readonly itemRepository:Repository<VwStudentHelpItem>,
         @InjectRepository(VwStudentDropdown)
         private readonly vwDropdownStudentRepository:Repository<VwStudentDropdown>,
+        @InjectRepository(VwClassroomDropdown)
+        private readonly vwDropdownClassroomRepository:Repository<VwClassroomDropdown>,
+        @InjectRepository(VwClassroomTypeDropdown)
+        private readonly vwDropdownClassroomTypeRepository:Repository<VwClassroomTypeDropdown>,
         private readonly dropdownService: DropdownService,
         private readonly yearTermService:YearTermService
         ){
@@ -104,4 +111,10 @@ export class StudentHelpService extends BaseService {
             isUpdateMode:false
         }
     }
+    async classroomDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomDropdown(dto,this.vwDropdownClassroomRepository);
+      }
+      async classroomTypeDropdown(dto: SearchClassroomDto):Promise<SelectItems[]> {
+        return this.dropdownService.classroomTypeDropdown(dto,this.vwDropdownClassroomTypeRepository);
+      }
 }

@@ -46,6 +46,7 @@ import { SearchActivityStudentDto } from '../activity-student/activity-student.d
 import { VwActivityStudentDropdown } from '../activity-student/activity-student.entity';
 import { getLabelEnum } from 'src/core/shared/functions';
 import { TITLE } from 'src/core/shared/constans/dropdown-constanst';
+import { Users } from 'src/core/users/users.entity';
 
 @Injectable()
 export class TeacherService extends BaseService {
@@ -164,6 +165,8 @@ async exportTH(dto:SearchExportExcelDto):Promise<any>{
         private readonly vwActivityStudentDropdownRepository:Repository<VwActivityStudentDropdown>,
         @InjectRepository(VwPracticleDropdown)
         private readonly vwDropdownPracticleRepository:Repository<VwPracticleDropdown>,
+        @InjectRepository(Users)
+        private readonly usersRepository:Repository<Users>,
         
         private readonly dropdownService: DropdownService,
         private readonly imagesService:ImagesService,
@@ -271,6 +274,10 @@ async exportTH(dto:SearchExportExcelDto):Promise<any>{
     }
     async delete(id:number,req:CustomRequest):Promise<TeacherDto>{
         let m = await this.teacherRepository.findOne({where:{id:id}})
+        const user = await this.usersRepository.findOne({where:{inforId:m.id}})
+        await this.usersRepository.softRemove(
+          await this.usersRepository.save(this.toDeleteModel(user,req))
+        )
         return this.teacherRepository.softRemove(
             await this.teacherRepository.save(
                 this.toDeleteModel(m,req)

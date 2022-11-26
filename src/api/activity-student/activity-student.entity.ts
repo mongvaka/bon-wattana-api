@@ -35,7 +35,7 @@ export class VwActivityStudentList {
   name:'activity_student_dropdown',
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("activity_student.id", "value")
-  .addSelect("CONCAT(activity_student.activityMainName , ' ' , activity_student.activitySubName)", "label")
+  .addSelect("activity_student.activityMainName", "label")
       .from(ActivityStudent, "activity_student")
 })
 export class VwActivityStudentDropdown {

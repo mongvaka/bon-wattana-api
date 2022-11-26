@@ -130,6 +130,10 @@ export class TeacherDto {
   otherEducationText?: string;
   @ApiPropertyOptional({ type: Boolean })
   isTeacher?: boolean;
+  @ApiPropertyOptional({ type: String })
+  actionTeachText:string
+  @ApiPropertyOptional({ type: Number })
+  actionTeach:number
 
     
 }

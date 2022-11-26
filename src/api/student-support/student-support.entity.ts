@@ -31,7 +31,9 @@ export class StudentSupport extends BasicData {
 
   @Column({nullable: true})
   result?: string;
-
+  @Column({nullable: true})
+  performanceText?: string;
+  
   @Column({nullable: true})
   teacherId?: number;
   @Column({nullable: true})
@@ -245,6 +247,7 @@ export class VwStudentSupportDropdown {
         .addSelect("student_support.performance", "performance")
         .addSelect("student_support.department", "department")
         .addSelect("student_support.result", "result")
+        .addSelect("student_support.performanceText", "performanceText")
         .addSelect("student_support.teacherId", "teacherId")
         .addSelect("CONCAT(teacher_id.firstname , ' ' , teacher_id.lastname)", "teacherValue")
       .from(StudentSupport, "student_support")
@@ -263,7 +266,9 @@ export class VwStudentSupportItem {
 
     @ViewColumn()
     activityName: string;
-
+    @ViewColumn()
+    performanceText: string;
+    
     @ViewColumn()
     performance: number;
 

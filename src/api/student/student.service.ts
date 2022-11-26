@@ -42,6 +42,7 @@ import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity
 import { Teacher } from '../teacher/teacher.entity';
 import {  TITLE } from 'src/core/shared/constans/dropdown-constanst';
 import { getLabelEnum } from 'src/core/shared/functions';
+import { Users } from 'src/core/users/users.entity';
 
 @Injectable()
 export class StudentService extends BaseService {
@@ -144,6 +145,9 @@ export class StudentService extends BaseService {
         private readonly vwDropdownParentStatusRepository:Repository<VwParentStatusDropdown>,
         @InjectRepository(Teacher)
         private readonly teacherRepository:Repository<Teacher>,
+        @InjectRepository(Users)
+        private readonly usersRepository:Repository<Users>,
+        
         private readonly dropdownService: DropdownService,
         private readonly imagesService:ImagesService,
         private readonly authService: AuthenticationsService
@@ -293,6 +297,10 @@ export class StudentService extends BaseService {
     }
     async delete(id:number,req:CustomRequest):Promise<StudentDto>{
         let m = await this.studentRepository.findOne({where:{id:id}})
+        const user = await this.usersRepository.findOne({where:{inforId:m.id}})
+        await this.usersRepository.softRemove(
+          await this.usersRepository.save(this.toDeleteModel(user,req))
+        )
         return this.studentRepository.softRemove(
             await this.studentRepository.save(
                 this.toDeleteModel(m,req)

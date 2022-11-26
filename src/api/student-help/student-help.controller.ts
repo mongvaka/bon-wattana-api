@@ -7,6 +7,7 @@ import { DropdownService } from "src/core/shared/services/dropdown.service";
 import { SearchStudentDto } from "src/api/student/student.dto";
 import { CreateStudentHelpDto, SearchStudentHelpDto, UpdateStudentHelpDto } from "./student-help.dto";
 import { StudentHelpService } from "./student-help.service";
+import { SearchClassroomDto } from "../classroom/classroom.dto";
 @ApiTags("student-help")
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -36,6 +37,22 @@ export class StudentHelpController extends BaseController{
   async studentDropdown(@Body() dto: SearchStudentDto) {
     try{      
       return this.success(await this.studenthelpService.studentDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-dropdown')
+  async classroomDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.studenthelpService.classroomDropdown(dto))
+    }catch(e){
+      return this.error(e)
+    }
+  }
+  @Get('classroom-type-dropdown')
+  async classroomTypeDropdown(@Body() dto: SearchClassroomDto) {
+    try{      
+      return this.success(await this.studenthelpService.classroomTypeDropdown(dto))
     }catch(e){
       return this.error(e)
     }

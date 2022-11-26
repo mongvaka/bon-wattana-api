@@ -26,6 +26,9 @@ export class StudentSupportDto {
     department:string
 @ApiPropertyOptional({ type: String})
     result:string
+    @ApiPropertyOptional({ type: String})
+    performanceText:string
+    
 @ApiPropertyOptional({ type: Number})
     teacherId:number
     @ApiPropertyOptional({ type: [String]})

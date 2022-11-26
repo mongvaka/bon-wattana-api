@@ -7,11 +7,13 @@ import { StudentHelp, VwStudentHelpDropdown, VwStudentHelpItem, VwStudentHelpLis
 import { StudentHelpService } from './student-help.service';
 import { YearTermService } from '../year-term/year-term.service';
 import { YearTermModule } from '../year-term/year-term.module';
+import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
+import { VwClassroomDropdown } from '../classroom/classroom.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([StudentHelp,VwStudentHelpList,VwStudentHelpItem,VwStudentHelpDropdown,
-    VwStudentDropdown,
+    VwStudentDropdown,VwClassroomTypeDropdown,VwClassroomDropdown
     ]),
     YearTermModule
   ],

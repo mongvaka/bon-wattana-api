@@ -19,6 +19,7 @@ import { ImagesModule } from 'src/core/images/images.module';
 import { AuthenticationsModule } from 'src/core/authentications/authentications.module';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { Teacher } from '../teacher/teacher.entity';
+import { Users } from 'src/core/users/users.entity';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { Teacher } from '../teacher/teacher.entity';
     VwClassroomDropdown,
     VwParentStatusDropdown,
     VwClassroomTypeDropdown,
-    Teacher
+    Teacher,
+    Users
     ]),
     ImagesModule,
     AuthenticationsModule
