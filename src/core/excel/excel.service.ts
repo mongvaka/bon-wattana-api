@@ -233,7 +233,7 @@ export class ExcelService extends BaseService {
             case ModuleName.PRACTICLE:
                 return this.practicleService.import(data)
             case ModuleName.TEACHER:
-                return this.teacherService.import(data)
+                return this.teacherService.import(data,null)
             case ModuleName.TEACHER_WORK:
                 return this.teacherWorkService.import(data)
             case ModuleName.TEACHER_DEVELOP:

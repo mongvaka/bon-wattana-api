@@ -46,7 +46,8 @@ export class StudentHelp extends BasicData {
     sh."endDate" ,
     sh."resultHelpType" ,
     sh."resultText" ,
-    sh."nickName"
+    sh."nickName",
+    s.id AS "studentId"
     from student s 
     inner join (
     select * from sdq_table st 
@@ -64,6 +65,9 @@ export class VwStudentHelpList {
     id: number;
     @ViewColumn()
     classroomId: number;
+    @ViewColumn()
+    studentId: number;
+    
     @ViewColumn()
     classroomTypeId: number;
     @ViewColumn()

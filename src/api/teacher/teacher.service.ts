@@ -50,7 +50,7 @@ import { Users } from 'src/core/users/users.entity';
 
 @Injectable()
 export class TeacherService extends BaseService {
-  async import(data: any[]): Promise<any> {    
+  async import(data: any[],req:CustomRequest): Promise<any> {    
     const dataMapped:any[] = data.map(m=>{
       return {
         posonalCode:m['เลขบัตรประชาชน']	,
@@ -120,7 +120,9 @@ export class TeacherService extends BaseService {
       const studentIsexist = await this.teacherRepository.findOne({where:{teacherCode:el.teacherCode,deleted:false}})
       if(!studentIsexist){
         const info = await this.teacherRepository.save(
-          this.teacherRepository.create(model)
+          this.teacherRepository.create(
+            model
+            )
         )
         
         const regisModel:RegisterDto = {
@@ -139,15 +141,17 @@ export class TeacherService extends BaseService {
 
 }
 getDate(birthDate: any) {
+  console.log(birthDate);
+  
   if(!birthDate){
-    return undefined
+    return 'ggg'
   }
   const datArr = birthDate.split('/')
   if(datArr.length == 3){
     const year = this.getYear(datArr[2])
     return `${year}/${datArr[1]}/${datArr[0]}`
   }
-  return undefined
+  return 'ggg'
 
 }
 getYear(arg0: any) {

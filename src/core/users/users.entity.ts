@@ -3,14 +3,14 @@ import {BasicData} from "../shared/entities/basic-data";
 @Entity('USERS')
 export class Users extends BasicData {
   @PrimaryGeneratedColumn({type: 'bigint'})
-  id: number;
+  id?: number;
   @Column({ nullable: true, length: 65})
-  username: string;
+  username?: string;
 
   @Column({ nullable: true})
-  password: string;
+  password?: string;
   @Column({ nullable: true})
-  token: string;
+  token?: string;
   @Column({ nullable: true})
   firstname?:string;
   @Column({nullable: true})
@@ -20,7 +20,7 @@ export class Users extends BasicData {
   @Column({nullable: true})
   inforId?:number
   @Column({nullable: true})
-  isGuid: boolean;
+  isGuid?: boolean;
 }
 @ViewEntity({
   name:'users_list',
