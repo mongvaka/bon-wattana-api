@@ -287,6 +287,10 @@ export class Student extends BasicData {
   parentPhone?: string;
   @Column({ nullable: true })
   postCode?: string;
+  @Column({ nullable: true })
+  classSpecial?: number;
+    @Column({ nullable: true })
+  classSpecialText?: string;
   
 }
 @ViewEntity({
@@ -507,6 +511,9 @@ export class VwStudentDropdown {
     .addSelect("student.contractPostCode", "contractPostCode")
     .addSelect("student.birthPostCode", "birthPostCode")
     .addSelect("student.postCode", "postCode")
+
+    .addSelect("student.classSpecial", "classSpecial")
+    .addSelect("student.classSpecialText", "classSpecialText")
     .from(Student, "student")
     .leftJoin(Gendar, "gendar_id", "gendar_id.Id = student.gendarId")
     .leftJoin(Nationality, "nationality_id", "nationality_id.Id = student.nationalityId")
@@ -533,7 +540,10 @@ export class VwStudentItem {
 
   @ViewColumn()
   studentCode: string;
-
+  @ViewColumn()
+  classSpecial?: number;
+  @ViewColumn()
+  classSpecialText?: string;
   @ViewColumn()
   oldSchoolPostCode: string;
   @ViewColumn()

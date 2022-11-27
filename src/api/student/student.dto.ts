@@ -97,6 +97,8 @@ export class StudentDto {
     contractPostCode: string;
     birthPostCode: string;
     postCode: string;
+    classSpecial?: number;
+    classSpecialText?: string;
 } 
 export class CreateStudentDto extends StudentDto{
    
