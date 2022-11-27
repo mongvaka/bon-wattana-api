@@ -53,25 +53,129 @@ export class StudentService extends BaseService {
         console.log('countStd',countStd);
         return countStd
     }
-    async import(data: any[]): Promise<any> {        
-        for (const el of data) {
-          const birthDate = this.getBirthDate(el.birthDate)  
-          const leaveDate = this.getLeaveDate(el.leaveDate)  
-          console.log('birthDate',birthDate);
-                  //leaveDate
-          const model:Student = {...el,birthDate:birthDate,acceptDate:this.getBirthDate(el.acceptDate)}
-          // const model:Student = {...el,birthDate:leaveDate,acceptDate:this.getLeaveDate(el.acceptDate)}
+    async import(data: any[]): Promise<any> {   
+      const dataMapped:any[] = data.map(m=>{
+        return{
+          studentCode:m['รหัสประจำตัว'],
+          studentNumber:m['เลขที่'],
+          personalCode:m['รหัสบัตรประชาชน'],
+          classroomTypeId:m['รหัสชั้นเรียน'],
+          classroomId:m['รหัสห้อง'],
+          classSpecial:m['รหัสห้องเรียนพิเศษ'],
+          classSpecialText:m['ห้องเรียนพิเศษอื่นๆ'],
+          status:m['รหัสสถานะ'],
+          leaveDate:m['วันที่ออกย้ายพัก'],
+          title:m['รหัสคำนำหน้า'],
+          firstname:m['ชื่อ'],
+          lastname:m['นามสกุล'],
+          titleEn:m['รหัสคำนำหน้าEn'],
+          firstnameEn:m['ชื่อEn'],
+          lastnameEn:m['นามสกุลEn'],
+          gendarId:m['รหัสเพศ'],
+          acceptDate:m['วันมอบตัว'],
+          birthDate:m['วันที่เกิด'],
+          nationalityId:m['รหัสสัญชาติ'],
+          ethnicityId:m['รหัสเชื้อชาติ'],
+          religionId:m['รหัสศาสนา'],
+          email:m['ที่อยู่อีเมลล์'],
+          phoneNumber:m['เบอร์โทรศํพท์'],
+          specialAbility:m['ความสามารถพิเศษ'],
+
+          birthHospital:m['โรงพยาบาล'],
+          birthCountryId:m['รหัสประเทศโรงพยาบาล'],
+          birthProvinceId:m['รหัสจังหวัดโรงพยาบาล'],
+          birthDistrictId:m['รหัสอำเภอโรงพยาบาล'],
+          birthSubDistrictId:m['รหัสตำบลโรงพยาบาล'],
+          birthPostCode:m['รหัสไปรษณีย์โรงพยาบาล'],
+
+          houseNumber:m['บ้านเลขที่ตามทะเบียนบ้าน'],
+          village:m['หมู่ที่ตามทะเบียนบ้าน'],
+          road:m['ถนนตามทะเบียนบ้าน'],
+          countryId:m['รหัสประเทศตามทะเบียนบ้าน'],
+          provinceId:m['รหัสจังหวัดตามทะเบียนบ้าน'],
+          districtId:m['รหัสอำเภอตามทะเบียนบ้าน'],
+          subDistrictId:m['รหัสตำบลตามทะเบียนบ้าน'],
+          postCode:m['รหัสไปรษณีย์ตามทะเบียนบ้าน'],
+
+          contractHouseNumber:m['บ้านเลขที่ติดต่อ'],
+          contractVillage:m['หมู่ที่ติดต่อ'],
+          contractRoad:m['ถนนติดต่อ'],
+          contractCountryId:m['รหัสประเทศติดต่อ'],
+          contractProvinceId:m['รหัสจังหวัดติดต่อ'],
+          contractDistrictId:m['รหัสอำเภอติดต่อ'],
+          contractSubDistrictId:m['รหัสตำบลติดต่อ'],
+          contractPostCode:m['รหัสไปรษณีย์ติดต่อ'],
+
+          oldSchoolName:m['ชื่อโรงเรียน'],
+          oldSchoolCountryId:m['รหัสประเทศโรงเรียนเดิม'],
+          oldSchoolProvinceId:m['รหัสจังหวัดโรงเรียนเดิม'],
+          oldSchoolDistrictId:m['รหัสอำเภอโรงเรียนเดิม'],
+          oldSchoolSubDistrictId:m['รหัสตำบลโรงเรียนเดิม'],
+          oldSchoolPostCode:m['รหัสไปรษณีย์โรงเรียนเดิม'],
+
+          closeFriendInClass:m['ชื่อเพื่อนสนิทในชั้นเรียน'],
+          closeFriendInClassNickname:m['ชื่อเล่นเพื่อนสนิทในชั้นเรียน'],
+          closeFriendInClassSchool:m['โรงเรียนเพื่อนสนิทในชั้นเรียน'],
+          closeFriendInClassPhone:m['เบอร์โทรเพื่อนสนิทในชั้นเรียน'],
+
+          closeFriendOtherClass:m['ชื่อเพื่อนสนิทต่างชั้นเรียน'],
+          closeFriendOtherClassNickname:m['ชื่อเล่นเพื่อนสนิทต่างชั้นเรียน'],
+          closeFriendOtherClassSchool:m['โรงเรียนเพื่อนสนิทต่างชั้นเรียน'],
+          closeFriendOtherClassPhone:m['เบอร์โทรเพื่อนสนิทต่างชั้นเรียน'],
+
+          bloodType:m['รหัสหมู่เลือด'],
+          congenitalDisease:m['โรคประจำตัว'],
+          height:m['ส่วนสูง'],
+          weight:m['น้ําหนัก'],
+          defect:m['ข้อบกพร่อง'],
+
+          aliveWithId:m['รหัสปัจจุบันอาศัยอยู่กับ'],
+          parentStatus:m['รหัสสถานะผู้ปกครองปัจจุบัน'],
+
+          fatherTitle:m['รหัสคำนำหน้าบิดา'],
+          fatherFirstname:m['ชื่อบิดา'],
+          fatherLastname:m['นามสกุลบิดา'],
+          fatherPersonalCode:m['หมายเลขบัตรประชาชนบิดา'],
+          fatherBloodType:m['รหัสหมู่เลือดบิดา'],
+          fatherIncome:m['รายได้บิดา'],
+          fatherOccupation:m['อาชีพบิดา'],
+          fatherPhone:m['เบอร์โทรศํพท์บิดา'],
+
+          motherTitle:m['รหัสคำนำหน้ามารดา'],
+          motherFirstname:m['ชื่อมารดา'],
+          motherLastname:m['นามสกุลมารดา'],
+          motherPersonalCode:m['หมายเลขบัตรประชาชนมารดา'],
+          motherBloodType:m['รหัสหมู่เลือดมารดา'],
+          motherIncome:m['รายได้มารดา'],
+          motherOccupation:m['อาชีพมารดา'],
+          motherPhone:m['เบอร์โทรศํพท์มารดา'],
+
+          parentTitle:m['รหัสคำนำหน้าผู้ปกครอง'],
+          parentFirstname:m['ชื่อผู้ปกครอง'],
+          parentLastname:m['นามสกุลผู้ปกครอง'],
+          parentPersonalCode:m['หมายเลขบัตรประชาชนผู้ปกครอง'],
+          parentBloodType:m['รหัสหมู่เลือดผู้ปกครอง'],
+          parentIncome:m['รายได้ผู้ปกครอง'],
+          parentOccupation:m['อาชีพผู้ปกครอง'],
+          parentPhone:m['เบอร์โทรศํพท์ผู้ปกครอง'],
+        }
+      })
+      
+        for (const el of dataMapped) {
+          const birthDate = this.getDate(el.birthDate)  
+          const leaveDate = this.getDate(el.leaveDate)  
+          const acceptDate = this.getDate(el.acceptDate)
+          const model:Student = {...el,birthDate:birthDate,acceptDate:acceptDate,leaveDate:leaveDate}
           const studentIsexist = await this.studentRepository.findOne({where:{studentCode:el.studentCode,deleted:false}})
           if(!studentIsexist){
             const info = await this.studentRepository.save(
               this.studentRepository.create(model)
             )
-            
             const regisModel:RegisterDto = {
               email:`${el.studentCode}`,
               password:`${el.studentCode}`,
-              firstname:'',
-              lastname:'',
+              firstname:el.firstname,
+              lastname:el.lastname,
               inforId:info.id,
               type:UserType.STUDENT
             }
@@ -82,6 +186,12 @@ export class StudentService extends BaseService {
         return {}
 
     }
+  getDate(birthDate: any) {
+    if(!birthDate){
+      return undefined
+    }
+   return new Date(Date.UTC(0, 0, birthDate - 1, 0, 0, 0))
+  }
   getBirthDate(birthDate: any) {
     if(birthDate){
       const datArr = birthDate.split('/')
@@ -324,7 +434,113 @@ export class StudentService extends BaseService {
       const builder = this.createQueryBuider<VwStudentItem>(dto,this.itemRepository)
       const data = await builder
       .getMany();
-      return exportExcel(data)
+      const dataMapped:any[] = data.map(m=>{
+        return{
+          'รหัสประจำตัว':m.studentCode,
+          'เลขที่':m.studentNumber,
+          'รหัสบัตรประชาชน':m.personalCode,
+          'รหัสชั้นเรียน':m.classroomTypeId,
+          'รหัสห้อง':m.classroomId,
+          'รหัสห้องเรียนพิเศษ':m.classSpecial,
+          'ห้องเรียนพิเศษอื่นๆ':m.classSpecialText,
+          'รหัสสถานะ':m.status,
+          'วันที่ออกย้ายพัก':m.leaveDate,
+          'รหัสคำนำหน้า':m.title,
+          'ชื่อ':m.firstname,
+          'นามสกุล':m.lastname,
+          'รหัสคำนำหน้าEn':m.titleEn,
+          'ชื่อEn':m.firstnameEn,
+          'นามสกุลEn':m.lastnameEn,
+          'รหัสเพศ':m.gendarId,
+          'วันมอบตัว':m.acceptDate,
+          'วันที่เกิด':m.birthDate,
+          'รหัสสัญชาติ':m.nationalityId,
+          'รหัสเชื้อชาติ':m.ethnicityId,
+          'รหัสศาสนา':m.religionId,
+          'ที่อยู่อีเมลล์':m.email,
+          'เบอร์โทรศํพท์':m.phoneNumber,
+          'ความสามารถพิเศษ':m.specialAbility,
+
+          'โรงพยาบาล':m.birthHospital,
+          'รหัสประเทศโรงพยาบาล':m.birthCountryId,
+          'รหัสจังหวัดโรงพยาบาล':m.birthProvinceId,
+          'รหัสอำเภอโรงพยาบาล':m.birthDistrictId,
+          'รหัสตำบลโรงพยาบาล':m.birthSubDistrictId,
+          'รหัสไปรษณีย์โรงพยาบาล':m.birthPostCode,
+
+          'บ้านเลขที่ตามทะเบียนบ้าน':m.houseNumber,
+          'หมู่ที่ตามทะเบียนบ้าน':m.village,
+          'ถนนตามทะเบียนบ้าน':m.road,
+          'รหัสประเทศตามทะเบียนบ้าน':m.countryId,
+          'รหัสจังหวัดตามทะเบียนบ้าน':m.provinceId,
+          'รหัสอำเภอตามทะเบียนบ้าน':m.districtId,
+          'รหัสตำบลตามทะเบียนบ้าน':m.subDistrictId,
+          'รหัสไปรษณีย์ตามทะเบียนบ้าน':m.postCode,
+
+          'บ้านเลขที่ติดต่อ':m.contractHouseNumber,
+          'หมู่ที่ติดต่อ':m.contractVillage,
+          'ถนนติดต่อ':m.contractRoad,
+          'รหัสประเทศติดต่อ':m.contractCountryId,
+          'รหัสจังหวัดติดต่อ':m.contractProvinceId,
+          'รหัสอำเภอติดต่อ':m.contractDistrictId,
+          'รหัสตำบลติดต่อ':m.contractSubDistrictId,
+          'รหัสไปรษณีย์ติดต่อ':m.contractPostCode,
+
+          'ชื่อโรงเรียน':m.oldSchoolName,
+          'รหัสประเทศโรงเรียนเดิม':m.oldSchoolCountryId,
+          'รหัสจังหวัดโรงเรียนเดิม':m.oldSchoolProvinceId,
+          'รหัสอำเภอโรงเรียนเดิม':m.oldSchoolDistrictId,
+          'รหัสตำบลโรงเรียนเดิม':m.oldSchoolSubDistrictId,
+          'รหัสไปรษณีย์โรงเรียนเดิม':m.oldSchoolPostCode,
+
+          'ชื่อเพื่อนสนิทในชั้นเรียน':m.closeFriendInClass,
+          'ชื่อเล่นเพื่อนสนิทในชั้นเรียน':m.closeFriendInClassNickname,
+          'โรงเรียนเพื่อนสนิทในชั้นเรียน':m.closeFriendInClassSchool,
+          'เบอร์โทรเพื่อนสนิทในชั้นเรียน':m.closeFriendInClassPhone,
+
+          'ชื่อเพื่อนสนิทต่างชั้นเรียน':m.closeFriendOtherClass,
+          'ชื่อเล่นเพื่อนสนิทต่างชั้นเรียน':m.closeFriendOtherClassNickname,
+          'โรงเรียนเพื่อนสนิทต่างชั้นเรียน':m.closeFriendOtherClassSchool,
+          'เบอร์โทรเพื่อนสนิทต่างชั้นเรียน':m.closeFriendOtherClassPhone,
+
+          'รหัสหมู่เลือด':m.bloodType,
+          'โรคประจำตัว':m.congenitalDisease,
+          'ส่วนสูง':m.height,
+          'น้ําหนัก':m.weight,
+          'ข้อบกพร่อง':m.defect,
+
+          'รหัสปัจจุบันอาศัยอยู่กับ':m.aliveWithId,
+          'รหัสสถานะผู้ปกครองปัจจุบัน':m.parentStatus,
+
+          'รหัสคำนำหน้าบิดา':m.fatherTitle,
+          'ชื่อบิดา':m.fatherFirstname,
+          'นามสกุลบิดา':m.fatherLastname,
+          'หมายเลขบัตรประชาชนบิดา':m.fatherPersonalCode,
+          'รหัสหมู่เลือดบิดา':m.fatherBloodType,
+          'รายได้บิดา':m.fatherIncome,
+          'อาชีพบิดา':m.fatherOccupation,
+          'เบอร์โทรศํพท์บิดา':m.fatherPhone,
+
+          'รหัสคำนำหน้ามารดา':m.motherTitle,
+          'ชื่อมารดา':m.motherFirstname,
+          'นามสกุลมารดา':m.motherLastname,
+          'หมายเลขบัตรประชาชนมารดา':m.motherPersonalCode,
+          'รหัสหมู่เลือดมารดา':m.motherBloodType,
+          'รายได้มารดา':m.motherIncome,
+          'อาชีพมารดา':m.motherOccupation,
+          'เบอร์โทรศํพท์มารดา':m.motherPhone,
+
+          'รหัสคำนำหน้าผู้ปกครอง':m.parentTitle,
+          'ชื่อผู้ปกครอง':m.parentFirstname,
+          'นามสกุลผู้ปกครอง':m.parentLastname,
+          'หมายเลขบัตรประชาชนผู้ปกครอง':m.parentPersonalCode,
+          'รหัสหมู่เลือดผู้ปกครอง':m.parentBloodType,
+          'รายได้ผู้ปกครอง':m.parentIncome,
+          'อาชีพผู้ปกครอง':m.parentOccupation,
+          'เบอร์โทรศํพท์ผู้ปกครอง':m.parentPhone,
+        }
+      })
+      return exportExcel(dataMapped)
     }
     async exportTH(dto:SearchExportExcelDto):Promise<any>{
       const builder = this.createQueryBuider<VwStudentItem>(dto,this.itemRepository)

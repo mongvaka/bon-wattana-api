@@ -51,10 +51,68 @@ import { Users } from 'src/core/users/users.entity';
 @Injectable()
 export class TeacherService extends BaseService {
   async import(data: any[]): Promise<any> {    
-    console.log('import');
+    const dataMapped:any[] = data.map(m=>{
+      return {
+        posonalCode:m['เลขบัตรประชาชน']	,
+      status:m['รหัสสถานะ']	,
+      ernlyDate:m['วันที่ย้ายเกษียนออก']	,
+      teacherCode:m['เลขประจำตำแหน่ง']	,
+      title:m['รหัสคำนำหน้า']	,
+      firstname:m['ชื่อ']	,
+      lastname:m['นามสกุล']	,
+      titleEn:m['รหัสคำนำหน้าEn']	,
+      firstnameEn:m['ชื่อEn']	,
+      lastnameEn:m['นามสกุลEn']	,
+      birthDate:m['วันที่เกิด']	,
+      gendarId:m['รหัสเพศ']	,
+      nationalityId:m['รหัสสัญชาติ']	,
+      ethnicityId:m['รหัสเชื้อชาติ']	,
+      religionId:m['รหัสศาสนา']	,
+      isTeacher:m['ครู']	,
+      positionNumber:m['เลขที่ตำแหน่ง']	,
+      positionName:m['ตำแหน่ง']	,
+      practitionerLevelId:m['รหัสวิทยฐานะ']	,
+      practitionerNo:m['รหัสอันดับ']	,
+      educationBackgroundId:m['รหัสวุฒิการศึกษาสูงสุด']	,
+      otherEducationText:m['วุฒิการศึกษาสูงสุดอื่นๆ']	,
+      educationMajor:m['สาขาวิชาเอก']	,
+      educationMinor:m['วิชาโท']	,
+      setInDate:m['วันที่เข้ารับราชการ']	,
+      setInDateSchool:m['วันที่ดำรงตำแหน่งที่โรงเรียนบุญวัฒนา']	,
+      classroomTypeId :m['รหัสประจำชั้น']	,
+      classroomId:m['รหัสประจำห้อง']	,
+      actionTeach:m['รหัสปฎิบัติหน้าที่สอน']	,
+      actionTeachText:m['ปฎิบัติหน้าที่สอนอื่นๆ']	,
+      teacherClass1:m['ระดับชั้นที่สอนม1']	,
+      teacherClass2:m['ระดับชั้นที่สอนม2']	,
+      teacherClass3:m['ระดับชั้นที่สอนม3']	,
+      teacherClass4:m['ระดับชั้นที่สอนม4']	,
+      teacherClass5:m['ระดับชั้นที่สอนม5']	,
+      teacherClass6:m['ระดับชั้นที่สอนม6']	,
+      subjectGroupId:m['รหัสสังกัด']	,
+      isOtherSubjectGroup:m['ใช้สังกัดอื่นๆ']	,
+      subjectGroupText:m['สังกัดอื่นๆ']	,
+      actionWork:m['วิชาหลักที่สอน']	,
+      actionWorkSpecial :m['ฝ่ายวิชาการ']	,
+      actionWorkSpecial2:m['ฝ่ายอำนวยการ']	,
+      actionWorkSpecial3:m['ฝ่ายกิจการนักเรียน'],
+      actionWorkSpecial4:m['ฝ่ายบริหารทั่วไป']	,
+      activityStudentId:m['รหัสกิจกรรมพัฒนาผู้เรียน']	,
+      teacherEmail:m['ที่อยู่อีเมลล์']	,
+      phoneNumber:m['เบอร์โทรศํพท์']	,
+      houseNumber:m['บ้านเลขที่']	,
+      village:m['หมู่ที่']	,
+      road:m['ถนน']	,
+      countryId:m['รหัสประเทศ']	,
+      provinceId:m['รหัสจังหวัด']	,
+      districtId:m['รหัสอำเภอ']	,
+      subDistrictId:m['รหัสตำบล']	,
+      postCode:m['รหัสไปรษณีย์']	,
+      }
+    })
         
-    for (const el of data) {
-      console.log('el',el);
+    for (const el of dataMapped) {
+  
       
       const model:Teacher = {...el,birthDate:this.getDate(el.birthDate),setInDate:this.getDate(el.setInDate),setInDateSchool:this.getDate(el.setInDateSchool)}
       const studentIsexist = await this.teacherRepository.findOne({where:{teacherCode:el.teacherCode,deleted:false}})
@@ -79,14 +137,16 @@ export class TeacherService extends BaseService {
 
 }
 getDate(birthDate: any) {
-  if(birthDate){
-    const datArr = birthDate.split('/')
-    if(datArr.length == 3){
-      const year = this.getYear(datArr[2])
-      return `${year}/${datArr[1]}/${datArr[0]}`
-    }
+  if(!birthDate){
     return undefined
   }
+  console.log('birthDate',birthDate);
+  const oldDate = new Date(birthDate)
+  console.log('oldDate',oldDate.toString());
+  
+ const date = new Date(Date.UTC(0, 0, birthDate - 1, 0, 0, 0))
+ console.log('date',date);
+ return date
 
 }
 getYear(arg0: any) {
@@ -96,7 +156,66 @@ async export(dto:SearchExportExcelDto):Promise<any>{
   const builder = this.createQueryBuider<VwTeacherItem>(dto,this.itemRepository)
   const data = await builder
   .getMany();
-  return exportExcel(data)
+  const mapedData:any[] = data.map(m=>{
+    return{
+      'เลขบัตรประชาชน':m.posonalCode	,
+      'รหัสสถานะ':m.status	,
+      'วันที่ย้ายเกษียนออก':m.ernlyDate	,
+      'เลขประจำตำแหน่ง':m.teacherCode	,
+      'รหัสคำนำหน้า':m.title	,
+      'ชื่อ':m.firstname	,
+      'นามสกุล':m.lastname	,
+      'รหัสคำนำหน้าEn':m.titleEn	,
+      'ชื่อEn':m.firstnameEn	,
+      'นามสกุลEn':m.lastnameEn	,
+      'วันที่เกิด':m.birthDate	,
+      'รหัสเพศ':m.gendarId	,
+      'รหัสสัญชาติ':m.nationalityId	,
+      'รหัสเชื้อชาติ':m.ethnicityId	,
+      'รหัสศาสนา':m.religionId	,
+      'ครู':m.isTeacher	,
+      'เลขที่ตำแหน่ง':m.positionNumber	,
+      'ตำแหน่ง':m.positionName	,
+      'รหัสวิทยฐานะ':m.practitionerLevelId	,
+      'รหัสอันดับ':m.practitionerNo	,
+      'รหัสวุฒิการศึกษาสูงสุด':m.educationBackgroundId	,
+      'วุฒิการศึกษาสูงสุดอื่นๆ':m.otherEducationText	,
+      'สาขาวิชาเอก':m.educationMajor	,
+      'วิชาโท':m.educationMinor	,
+      'วันที่เข้ารับราชการ':m.setInDate	,
+      'วันที่ดำรงตำแหน่งที่โรงเรียนบุญวัฒนา':m.setInDateSchool	,
+      'รหัสประจำชั้น':m.classroomTypeId	,
+      'รหัสประจำห้อง':m.classroomId	,
+      'รหัสปฎิบัติหน้าที่สอน':m.actionTeach	,
+      'ปฎิบัติหน้าที่สอนอื่นๆ':m.actionTeachText	,
+      'ระดับชั้นที่สอนม1':m.teacherClass1	,
+      'ระดับชั้นที่สอนม2':m.teacherClass2	,
+      'ระดับชั้นที่สอนม3':m.teacherClass3	,
+      'ระดับชั้นที่สอนม4':m.teacherClass4	,
+      'ระดับชั้นที่สอนม5':m.teacherClass5	,
+      'ระดับชั้นที่สอนม6':m.teacherClass6	,
+      'รหัสสังกัด':m.subjectGroupId	,
+      'ใช้สังกัดอื่นๆ':m.isOtherSubjectGroup	,
+      'สังกัดอื่นๆ':m.subjectGroupText	,
+      'วิชาหลักที่สอน':m.actionWork	,
+      'ฝ่ายวิชาการ':m.actionWorkSpecial	,
+      'ฝ่ายอำนวยการ':m.actionWorkSpecial2	,
+      'ฝ่ายกิจการนักเรียน':m.actionWorkSpecial3,
+      'ฝ่ายบริหารทั่วไป':m.actionWorkSpecial4	,
+      'รหัสกิจกรรมพัฒนาผู้เรียน':m.activityStudentId	,
+      'ที่อยู่อีเมลล์':m.teacherEmail	,
+      'เบอร์โทรศํพท์':m.phoneNumber	,
+      'บ้านเลขที่':m.houseNumber	,
+      'หมู่ที่':m.village	,
+      'ถนน':m.road	,
+      'รหัสประเทศ':m.countryId	,
+      'รหัสจังหวัด':m.provinceId	,
+      'รหัสอำเภอ':m.districtId	,
+      'รหัสตำบล':m.subDistrictId	,
+      'รหัสไปรษณีย์':m.postCode	,
+    }
+  })
+  return exportExcel(mapedData)
 }
 
 async exportTH(dto:SearchExportExcelDto):Promise<any>{
@@ -241,8 +360,8 @@ async exportTH(dto:SearchExportExcelDto):Promise<any>{
         const regisModel:RegisterDto = {
           email:`${result.teacherCode}`,
           password:`${result.teacherCode}`,
-          firstname:'',
-          lastname:'',
+          firstname:result.firstname,
+          lastname:result.lastname,
           inforId:result.id,
           type:UserType.TEACHER
         }
