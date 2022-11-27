@@ -33,7 +33,7 @@ export class StudentHelp extends BasicData {
 @ViewEntity({
     name:'student_help_list',
     expression: `select 
-    s.id,
+    sh.id,
     s."studentNumber",
     s."classroomId" ,
     s."classroomTypeId" ,

@@ -114,7 +114,9 @@ export class TeacherService extends BaseService {
     for (const el of dataMapped) {
   
       
-      const model:Teacher = {...el,birthDate:this.getDate(el.birthDate),setInDate:this.getDate(el.setInDate),setInDateSchool:this.getDate(el.setInDateSchool)}
+      const model:Teacher = {...el,birthDate:this.getDate(el.birthDate),setInDate:this.getDate(el.setInDate),setInDateSchool:this.getDate(el.setInDateSchool),ernlyDate:this.getDate(el.ernlyDate)}
+      console.log(model);
+      
       const studentIsexist = await this.teacherRepository.findOne({where:{teacherCode:el.teacherCode,deleted:false}})
       if(!studentIsexist){
         const info = await this.teacherRepository.save(
@@ -140,13 +142,12 @@ getDate(birthDate: any) {
   if(!birthDate){
     return undefined
   }
-  console.log('birthDate',birthDate);
-  const oldDate = new Date(birthDate)
-  console.log('oldDate',oldDate.toString());
-  
- const date = new Date(Date.UTC(0, 0, birthDate - 1, 0, 0, 0))
- console.log('date',date);
- return date
+  const datArr = birthDate.split('/')
+  if(datArr.length == 3){
+    const year = this.getYear(datArr[2])
+    return `${year}/${datArr[1]}/${datArr[0]}`
+  }
+  return undefined
 
 }
 getYear(arg0: any) {
@@ -160,7 +161,7 @@ async export(dto:SearchExportExcelDto):Promise<any>{
     return{
       'เลขบัตรประชาชน':m.posonalCode	,
       'รหัสสถานะ':m.status	,
-      'วันที่ย้ายเกษียนออก':m.ernlyDate	,
+      'วันที่ย้ายเกษียนออก':this.getDateExport(m.ernlyDate)	,
       'เลขประจำตำแหน่ง':m.teacherCode	,
       'รหัสคำนำหน้า':m.title	,
       'ชื่อ':m.firstname	,
@@ -168,7 +169,7 @@ async export(dto:SearchExportExcelDto):Promise<any>{
       'รหัสคำนำหน้าEn':m.titleEn	,
       'ชื่อEn':m.firstnameEn	,
       'นามสกุลEn':m.lastnameEn	,
-      'วันที่เกิด':m.birthDate	,
+      'วันที่เกิด':this.getDateExport( m.birthDate)	,
       'รหัสเพศ':m.gendarId	,
       'รหัสสัญชาติ':m.nationalityId	,
       'รหัสเชื้อชาติ':m.ethnicityId	,
@@ -182,8 +183,8 @@ async export(dto:SearchExportExcelDto):Promise<any>{
       'วุฒิการศึกษาสูงสุดอื่นๆ':m.otherEducationText	,
       'สาขาวิชาเอก':m.educationMajor	,
       'วิชาโท':m.educationMinor	,
-      'วันที่เข้ารับราชการ':m.setInDate	,
-      'วันที่ดำรงตำแหน่งที่โรงเรียนบุญวัฒนา':m.setInDateSchool	,
+      'วันที่เข้ารับราชการ':this.getDateExport(m.setInDate)	,
+      'วันที่ดำรงตำแหน่งที่โรงเรียนบุญวัฒนา':this.getDateExport(m.setInDateSchool)	,
       'รหัสประจำชั้น':m.classroomTypeId	,
       'รหัสประจำห้อง':m.classroomId	,
       'รหัสปฎิบัติหน้าที่สอน':m.actionTeach	,
@@ -217,6 +218,15 @@ async export(dto:SearchExportExcelDto):Promise<any>{
   })
   return exportExcel(mapedData)
 }
+  getDateExport(date: Date): any {
+    if(!date){
+      return ''
+    }
+    const day = date.getDate()
+    const mount = date.getMonth()+1
+    const year = date.getFullYear()+543
+    return `${day}/${mount}/${year}`
+  }
 
 async exportTH(dto:SearchExportExcelDto):Promise<any>{
   const builder = this.createQueryBuider<VwTeacherItem>(dto,this.itemRepository)

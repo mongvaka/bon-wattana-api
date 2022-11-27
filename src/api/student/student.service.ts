@@ -193,14 +193,15 @@ export class StudentService extends BaseService {
    return new Date(Date.UTC(0, 0, birthDate - 1, 0, 0, 0))
   }
   getBirthDate(birthDate: any) {
-    if(birthDate){
-      const datArr = birthDate.split('/')
-      if(datArr.length == 3){
-        const year = this.getYear(datArr[2])
-        return `${year}/${datArr[1]}/${datArr[0]}`
-      }
-      return
+    if(!birthDate){
+      return undefined
     }
+    const datArr = birthDate.split('/')
+    if(datArr.length == 3){
+      const year = this.getYear(datArr[2])
+      return `${year}/${datArr[1]}/${datArr[0]}`
+    }
+    return undefined
 
   }
 
@@ -216,7 +217,15 @@ export class StudentService extends BaseService {
 
   }
 
-
+  getDateExport(date: Date): any {
+    if(!date){
+      return ''
+    }
+    const day = date.getDate()
+    const mount = date.getMonth()+1
+    const year = date.getFullYear()+543
+    return `${day}/${mount}/${year}`
+  }
   getYear(arg0: any) {
     return (+arg0)-543
   }
@@ -444,7 +453,7 @@ export class StudentService extends BaseService {
           'รหัสห้องเรียนพิเศษ':m.classSpecial,
           'ห้องเรียนพิเศษอื่นๆ':m.classSpecialText,
           'รหัสสถานะ':m.status,
-          'วันที่ออกย้ายพัก':m.leaveDate,
+          'วันที่ออกย้ายพัก':this.getDateExport( m.leaveDate),
           'รหัสคำนำหน้า':m.title,
           'ชื่อ':m.firstname,
           'นามสกุล':m.lastname,
@@ -452,8 +461,8 @@ export class StudentService extends BaseService {
           'ชื่อEn':m.firstnameEn,
           'นามสกุลEn':m.lastnameEn,
           'รหัสเพศ':m.gendarId,
-          'วันมอบตัว':m.acceptDate,
-          'วันที่เกิด':m.birthDate,
+          'วันมอบตัว':this.getDateExport(m.acceptDate) ,
+          'วันที่เกิด':this.getDateExport(m.birthDate) ,
           'รหัสสัญชาติ':m.nationalityId,
           'รหัสเชื้อชาติ':m.ethnicityId,
           'รหัสศาสนา':m.religionId,
