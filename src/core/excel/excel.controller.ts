@@ -39,6 +39,8 @@ export class ExcelController extends BaseController{
     try{            
       return this.success(await this.service.import(dto))
     }catch(e){
+      console.log(e);
+      
       return this.error(e)
     }
   }

@@ -358,9 +358,11 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
   ];
-  export const TEACHER_STATUS = [
+
+  
+  export const PRACTITIONER_NO = [
     {
-      label: 'ENUM.TEACH',
+      label: "คศ.1",
       value: 1,
       styleClass: null,
       icon: null,
@@ -368,7 +370,7 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.OUT',
+      label: "คศ.2",
       value: 2,
       styleClass: null,
       icon: null,
@@ -376,7 +378,7 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.MOVE',
+      label: "คศ.3",
       value: 3,
       styleClass: null,
       icon: null,
@@ -384,7 +386,77 @@ export const RESULT_HELP_TYPE =[
       disabled: false,
     },
     {
-      label: 'ENUM.ERNLY',
+      label: "คศ.4",
+      value: 4,
+      styleClass: null,
+      icon: null,
+      title: null,
+      disabled: false,
+    },
+     
+  ];
+  export const TEACER_POSITION_NAME = [
+    {
+      label: "ผู้บริหาร",
+      value: 1,
+      styleClass: null,
+      icon: null,
+      title: null,
+      disabled: false,
+    },
+    {
+      label: "ครู",
+      value: 2,
+      styleClass: null,
+      icon: null,
+      title: null,
+      disabled: false,
+    },
+    {
+      label: "เจ้าหน้าที่",
+      value: 3,
+      styleClass: null,
+      icon: null,
+      title: null,
+      disabled: false,
+    },
+    {
+      label: "บุคลากรทางการศึกษา",
+      value: 4,
+      styleClass: null,
+      icon: null,
+      title: null,
+      disabled: false,
+    },
+  ];
+  
+  export const TEACHER_STATUS = [
+    {
+      label: 'สอน',
+      value: 1,
+      styleClass: null,
+      icon: null,
+      title: null,
+      disabled: false,
+    },
+    {
+      label: 'ออก',
+      value: 2,
+      styleClass: null,
+      icon: null,
+      title: null,
+      disabled: false,
+    },
+    {
+      label: 'ย้าย',
+      value: 3,
+      styleClass: null,
+      icon: null,
+      title: null,
+      disabled: false,
+    },
+    {
+      label: 'เกษียน',
       value: 4,
       styleClass: null,
       icon: null,
@@ -501,6 +573,122 @@ export const RESULT_HELP_TYPE =[
     export const FATHER_TITLE = [
 
     ];
+    export const TITLE_EN = [
+      {
+        label: 'Mr.',
+        value: 1,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: 'Miss',
+        value: 2,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: 'Mr.',
+        value: 3,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: 'Mrs.',
+        value: 4,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: 'Miss',
+        value: 5,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+    ]
+    export const CLASS_SPECIAL = [
+      {
+        label: "ห้องเรียนพิเศษ EP",
+        value: 1,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: "ห้องเรียนพิเศษ ISMEP",
+        value: 2,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: "ห้องเรียนพิเศษ SMTE",
+        value: 3,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: "ห้องเรียนพิเศษ วิทยาศาสตร์- คณิตศาสตร์",
+        value: 4,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: "ห้องเรียนพิเศษ คณิตศาสตร์-ภาษาอังกฤษ",
+        value: 5,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: "ห้องเรียนพิเศษ ภาษาศาสตร์ - ภาษาอังกฤษ",
+        value: 6,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: "ห้องเรียนพิเศษ ภาษาศาสตร์ - จีน",
+        value: 7,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: "ห้องเรียนพิเศษ ภาษาศาสตร์ - ญี่ปุ่น",
+        value: 8,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+      {
+        label: "อื่นๆ",
+        value: 9,
+        styleClass: null,
+        icon: null,
+        title: null,
+        disabled: false,
+      },
+    ]
     export const TITLE = [
       {
         label: 'เด็กชาย',
@@ -605,7 +793,7 @@ export const RESULT_HELP_TYPE =[
     ]
     export const BLOOD_TYPE = [
       {
-        label: 'ENUM.A',
+        label: 'A',
         value: 1,
         styleClass: null,
         icon: null,
@@ -613,7 +801,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.B',
+        label: 'B',
         value: 2,
         styleClass: null,
         icon: null,
@@ -621,7 +809,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.O',
+        label: 'O',
         value: 3,
         styleClass: null,
         icon: null,
@@ -629,7 +817,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.AB',
+        label: 'AB',
         value: 4,
         styleClass: null,
         icon: null,
@@ -637,7 +825,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.A-',
+        label: 'A-',
         value: 5,
         styleClass: null,
         icon: null,
@@ -645,7 +833,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.B-',
+        label: 'B-',
         value: 6,
         styleClass: null,
         icon: null,
@@ -653,7 +841,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.O-',
+        label: 'O-',
         value: 7,
         styleClass: null,
         icon: null,
@@ -661,7 +849,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.AB-',
+        label: 'AB-',
         value: 8,
         styleClass: null,
         icon: null,
@@ -669,7 +857,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.A+',
+        label: 'A+',
         value: 9,
         styleClass: null,
         icon: null,
@@ -677,7 +865,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.B+',
+        label: 'B+',
         value: 10,
         styleClass: null,
         icon: null,
@@ -685,7 +873,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.O+',
+        label: 'O+',
         value: 11,
         styleClass: null,
         icon: null,
@@ -693,7 +881,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.AB+',
+        label: 'AB+',
         value: 12,
         styleClass: null,
         icon: null,

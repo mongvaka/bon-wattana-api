@@ -40,7 +40,7 @@ import { UserType } from 'src/core/shared/constans/enum-constans';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { Teacher } from '../teacher/teacher.entity';
-import {  TITLE } from 'src/core/shared/constans/dropdown-constanst';
+import {  BLOOD_TYPE, CLASS_SPECIAL, TITLE, TITLE_EN } from 'src/core/shared/constans/dropdown-constanst';
 import { getLabelEnum } from 'src/core/shared/functions';
 import { Users } from 'src/core/users/users.entity';
 
@@ -190,7 +190,12 @@ export class StudentService extends BaseService {
     if(!birthDate){
       return undefined
     }
-   return new Date(Date.UTC(0, 0, birthDate - 1, 0, 0, 0))
+    const datArr = birthDate.split('/')
+    if(datArr.length == 3){
+      const year = this.getYear(datArr[2])
+      return new Date(`${year}/${datArr[1]}/${datArr[0]}`) 
+    }
+    return undefined
   }
   getBirthDate(birthDate: any) {
     if(!birthDate){
@@ -565,8 +570,42 @@ export class StudentService extends BaseService {
               model[en.th] =getLabelEnum(TITLE, el[en.en]) 
             }
             if(en.en=='titleEn'){
-              model[en.th] = getLabelEnum(TITLE, el[en.en]) 
+              model[en.th] = getLabelEnum(TITLE_EN, el[en.en]) 
             }
+            if(en.en=='bloodType'){
+              model[en.th] = getLabelEnum(BLOOD_TYPE, el[en.en]) 
+            }
+            if(en.en=='motherBloodType'){
+              model[en.th] = getLabelEnum(BLOOD_TYPE, el[en.en]) 
+            }
+            if(en.en=='fatherBloodType'){
+              model[en.th] = getLabelEnum(BLOOD_TYPE, el[en.en]) 
+            }
+            if(en.en=='parentBloodType'){
+              model[en.th] = getLabelEnum(BLOOD_TYPE, el[en.en]) 
+            }
+            if(en.en=='fatherTitle'){
+              model[en.th] =getLabelEnum(TITLE, el[en.en]) 
+            }
+            if(en.en=='motherTitle'){
+              model[en.th] =getLabelEnum(TITLE, el[en.en]) 
+            }
+            if(en.en=='parentTitle'){
+              model[en.th] =getLabelEnum(TITLE, el[en.en]) 
+            }
+            if(en.en=='classSpecial'){
+              model[en.th] =getLabelEnum(CLASS_SPECIAL, el[en.en]) 
+            }
+            if(en.en=='acceptDate'){
+              model[en.th] =this.getDateExport(el[en.en])
+            }
+            if(en.en=='birthDate'){
+              model[en.th] =this.getDateExport(el[en.en])
+            }
+            if(en.en=='leaveDate'){
+              model[en.th] =this.getDateExport( el[en.en])
+            }
+
           }
 
         })

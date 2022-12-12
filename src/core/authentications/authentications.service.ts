@@ -167,6 +167,8 @@ export class AuthenticationsService {
 
   async signIn(dto: AuthenticationsDto) {
     const user = await this.usersService.findByUsernameAndActive(dto.username);
+    console.log(user);
+    
     const matchPassword = dto.password == dto.username
     if (user) {
       const iscorrect = await bcrypt.compareSync(dto.password,user.password);

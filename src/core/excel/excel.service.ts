@@ -279,7 +279,6 @@ export class ExcelService extends BaseService {
         let row:any[] =[]
         let masterKey:string[] = [] 
         let masterModel:{} = {}
-        // console.log(workbook);
         
         const cell = Object.keys(workbook.Sheets.sheet1)
         const modelList:{}[] =[]

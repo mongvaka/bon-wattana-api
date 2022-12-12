@@ -1,4 +1,4 @@
-export function getLabelEnum(enumOption:any[], title: number): any {
+export function getLabelEnum(enumOption:any[], title: any): any {
     return enumOption.find(fn=>fn.value == title)?.label
   }
  export function onlyUnique(value:any, index:any, self:any) {

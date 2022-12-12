@@ -45,7 +45,7 @@ import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity
 import { SearchActivityStudentDto } from '../activity-student/activity-student.dto';
 import { VwActivityStudentDropdown } from '../activity-student/activity-student.entity';
 import { getLabelEnum } from 'src/core/shared/functions';
-import { TITLE } from 'src/core/shared/constans/dropdown-constanst';
+import { EDUCATION, PRACTITIONER_NO, TEACER_POSITION_NAME, TEACHER_STATUS, TITLE, TITLE_EN } from 'src/core/shared/constans/dropdown-constanst';
 import { Users } from 'src/core/users/users.entity';
 
 @Injectable()
@@ -113,8 +113,18 @@ export class TeacherService extends BaseService {
         
     for (const el of dataMapped) {
   
+      const  birthDate=this.getDate(el.birthDate)
+      const setInDate=this.getDate(el.setInDate)
+      const setInDateSchool=this.getDate(el.setInDateSchool)
+      const  ernlyDate=this.getDate(el.ernlyDate)
+      console.log(birthDate,setInDate,setInDateSchool,ernlyDate);
       
-      const model:Teacher = {...el,birthDate:this.getDate(el.birthDate),setInDate:this.getDate(el.setInDate),setInDateSchool:this.getDate(el.setInDateSchool),ernlyDate:this.getDate(el.ernlyDate)}
+      const model:Teacher = {...el
+        ,birthDate:birthDate
+        ,setInDate:setInDate
+        ,setInDateSchool:setInDateSchool
+        ,ernlyDate:ernlyDate
+      }
       console.log(model);
       
       const studentIsexist = await this.teacherRepository.findOne({where:{teacherCode:el.teacherCode,deleted:false}})
@@ -140,18 +150,16 @@ export class TeacherService extends BaseService {
     return {}
 
 }
-getDate(birthDate: any) {
-  console.log(birthDate);
-  
+getDate(birthDate: any) {  
   if(!birthDate){
-    return 'ggg'
+    return undefined
   }
   const datArr = birthDate.split('/')
   if(datArr.length == 3){
     const year = this.getYear(datArr[2])
-    return `${year}/${datArr[1]}/${datArr[0]}`
+    return new Date(`${year}/${datArr[1]}/${datArr[0]}`) 
   }
-  return 'ggg'
+  return undefined
 
 }
 getYear(arg0: any) {
@@ -252,9 +260,33 @@ async exportTH(dto:SearchExportExcelDto):Promise<any>{
           model[en.th] =getLabelEnum(TITLE, el[en.en]) 
         }
         if(en.en=='titleEn'){
-          model[en.th] = getLabelEnum(TITLE, el[en.en]) 
+          model[en.th] = getLabelEnum(TITLE_EN, el[en.en]) 
         }
-        
+        if(en.en=='status'){
+          model[en.th] = getLabelEnum(TEACHER_STATUS, el[en.en]) 
+        }
+        if(en.en=='positionName'){
+          model[en.th] = getLabelEnum(TEACER_POSITION_NAME, el[en.en]) 
+        }
+        if(en.en=='practitionerNo'){
+          model[en.th] = getLabelEnum(PRACTITIONER_NO, el[en.en]) 
+        }
+
+        if(en.en=='educationBackgroundId'){
+          model[en.th] = getLabelEnum(EDUCATION, el[en.en]) 
+        }
+        if(en.en=='setInDateSchool'){
+          model[en.th] =this.getDateExport( el[en.en])
+        }
+        if(en.en=='setInDate'){
+          model[en.th] =this.getDateExport( el[en.en])
+        }
+        if(en.en=='leaveDate'){
+          model[en.th] =this.getDateExport( el[en.en])
+        }
+        if(en.en=='ernlyDate'){
+          model[en.th] =this.getDateExport( el[en.en])
+        }
       }
     })
     dataFilter.push(model)

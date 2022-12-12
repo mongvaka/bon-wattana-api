@@ -67,7 +67,7 @@ export class UsersService extends BaseService {
     console.log('username',username);
     
     return this.usersRepository.findOne({
-      where: {username: username, active: true}
+      where: {username: username.trim(), active: true}
     });
   }
   async findByEmail(
