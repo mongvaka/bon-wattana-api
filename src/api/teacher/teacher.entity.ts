@@ -383,6 +383,8 @@ export class VwTeacherDropdown {
         .addSelect("teacher.actionTeachText", "actionTeachText")
         .addSelect("activity_student.activityMainName", "activityStudentValue")
         .addSelect("teacher.postCode", "postCode")
+        .addSelect("title.titleName", "titleName")
+
       .from(Teacher, "teacher")
         .leftJoin(Gendar, "gendar_id","gendar_id.Id = teacher.gendarId")
         .leftJoin(Nationality, "nationality_id","nationality_id.Id = teacher.nationalityId")
@@ -398,7 +400,9 @@ export class VwTeacherDropdown {
         .leftJoin(Classroom,'classroom','classroom.id = teacher.classroomId')
         .leftJoin(ClassroomType,'classroom_type','classroom_type.id = teacher.classroomTypeId')
         .leftJoin(ActivityStudent,'activity_student','activity_student.id = teacher.activityStudentId')
-})
+        .leftJoin(TitleName, 'title', 'title.id = teacher.title')
+
+      })
 export class VwTeacherItem {
   @ViewColumn()
   titleEn?: number;
@@ -598,6 +602,8 @@ export class VwTeacherItem {
 
     @ViewColumn()
     practitionerLevelNameValue: string;
+    @ViewColumn()
+    titleName: string;
 }
 
 

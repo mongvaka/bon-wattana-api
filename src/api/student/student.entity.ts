@@ -408,6 +408,7 @@ export class VwStudentDropdown {
     .select("student.id", "id")
     .addSelect("student.studentCode", "studentCode")
     .addSelect("student.studentNumber", "studentNumber")
+    .addSelect(`CONCAT(title."titleName",' ',student.firstname,' ',student.lastname) `, "nameValue")
     .addSelect("student.status", "status")
     .addSelect("student.title", "title")
     .addSelect("student.titleEn", "titleEn")
@@ -531,6 +532,7 @@ export class VwStudentDropdown {
     .leftJoin(AliveWith, "alive_with_id", "alive_with_id.Id = student.aliveWithId")
     .leftJoin(Classroom, "classroom", "classroom.Id = student.classroomId")
     .leftJoin(ClassroomType, "classroom_type", "classroom_type.Id = student.classroomTypeId")
+    .leftJoin(TitleName, 'title', 'title.id = student.title')
 
 })
 export class VwStudentItem {
@@ -850,6 +852,8 @@ export class VwStudentItem {
   parentPhone: string;
 
 
+  @ViewColumn()
+  nameValue: string;
 }
 @ViewEntity({
   name: 'sdq_table_list_for_teacher',
