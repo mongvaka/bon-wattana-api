@@ -99,6 +99,7 @@ export class StudentDto {
     postCode: string;
     classSpecial?: number;
     classSpecialText?: string;
+    reasonResign: string;
 } 
 export class CreateStudentDto extends StudentDto{
    

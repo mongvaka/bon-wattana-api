@@ -291,7 +291,9 @@ export class Student extends BasicData {
   classSpecial?: number;
     @Column({ nullable: true })
   classSpecialText?: string;
-  
+
+  @Column({ nullable: true })
+  reasonResign?: string;
 }
 @ViewEntity({
   name: 'student_list',
@@ -515,6 +517,7 @@ export class VwStudentDropdown {
 
     .addSelect("student.classSpecial", "classSpecial")
     .addSelect("student.classSpecialText", "classSpecialText")
+    .addSelect("student.reasonResign", "reasonResign")
     .from(Student, "student")
     .leftJoin(Gendar, "gendar_id", "gendar_id.Id = student.gendarId")
     .leftJoin(Nationality, "nationality_id", "nationality_id.Id = student.nationalityId")
@@ -850,11 +853,14 @@ export class VwStudentItem {
 
   @ViewColumn()
   parentPhone: string;
-
-
+  
   @ViewColumn()
   nameValue: string;
+
+  @ViewColumn()
+  reasonResign: string;
 }
+
 @ViewEntity({
   name: 'sdq_table_list_for_teacher',
   expression: (connection: Connection) => connection.createQueryBuilder()

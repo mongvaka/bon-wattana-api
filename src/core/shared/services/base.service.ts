@@ -213,7 +213,7 @@ export class BaseService{
         console.log('dto.sortColumns',dto.sortColumns);
         
         if(dto.sortColumns.length==0){
-            buider.addOrderBy(`"${dto.tableKey}"."id"`,'DESC')
+            buider.addOrderBy(`"${dto.tableKey}"."studentNumber"`,'ASC')
         }else{
             dto.sortColumns.forEach((el,index)=>{
                 const sortString = `"${dto.sortTable[index]}"."${el}"`

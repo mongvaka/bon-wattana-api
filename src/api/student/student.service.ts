@@ -47,10 +47,10 @@ import { Users } from 'src/core/users/users.entity';
 @Injectable()
 export class StudentService extends BaseService {
     async countByClassRoom(classId: number, roomId: number) {
-      console.log('classId',classId);
-      console.log('roomId',roomId);
+      //console.log('classId',classId);
+      //console.log('roomId',roomId);
         const countStd = await this.studentRepository.count({where:{classroomId:roomId,classroomTypeId:classId,deleted:null}})
-        console.log('countStd',countStd);
+      //  console.log('countStd',countStd);
         return countStd
     }
     async import(data: any[]): Promise<any> {   
@@ -158,6 +158,7 @@ export class StudentService extends BaseService {
           parentIncome:m['รายได้ผู้ปกครอง'],
           parentOccupation:m['อาชีพผู้ปกครอง'],
           parentPhone:m['เบอร์โทรศํพท์ผู้ปกครอง'],
+          reasonResign:m['เหตุผลการลาออก'],
         }
       })
       
@@ -552,6 +553,7 @@ export class StudentService extends BaseService {
           'รายได้ผู้ปกครอง':m.parentIncome,
           'อาชีพผู้ปกครอง':m.parentOccupation,
           'เบอร์โทรศํพท์ผู้ปกครอง':m.parentPhone,
+          'เหตุผลการลาออก':m.reasonResign
         }
       })
       return exportExcel(dataMapped)
