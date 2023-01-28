@@ -414,7 +414,7 @@ export class VwEmotionalQuotientList {
   @ViewColumn()
   studentCode: string;
   @ViewColumn()
-  studentNumber: string;
+  studentNumber: number;
   @ViewColumn()
   studentValue: string;
   @ViewColumn()

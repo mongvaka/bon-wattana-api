@@ -246,7 +246,7 @@ export class VwStudentHomeVisitList {
     studentId: number;
 
     @ViewColumn()
-    studentNumber: string;
+    studentNumber: number;
 
    @ViewColumn()
    studentValue: string;
@@ -353,7 +353,7 @@ export class VwStudentHomeVisitItem {
     @ViewColumn()
     googleMap: string;
     @ViewColumn()
-    studentNumber: string;
+    studentNumber: number;
     
 
     @ViewColumn()

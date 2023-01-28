@@ -32,7 +32,7 @@ export class ReportStudentSupport {
   @ViewColumn()
     studentCode:string
     @ViewColumn()
-    studentNumber:string
+    studentNumber:number
     @ViewColumn()
     classroomId:number
     @ViewColumn()

@@ -57,7 +57,7 @@ export class VwStudentScolarList {
     studentValue: string;
 
     @ViewColumn()
-    studentNumber: string;
+    studentNumber: number;
 
     @ViewColumn()
     name: string;

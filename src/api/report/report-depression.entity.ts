@@ -395,7 +395,7 @@ export class ReportDepressionPesonal {
   @ViewColumn()
   roomName:string
   @ViewColumn()
-  studentNumber:string
+  studentNumber:number
   @ViewColumn()
   yearTermId:number
   @ViewColumn()

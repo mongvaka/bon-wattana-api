@@ -721,7 +721,7 @@ const dontHelp = dontHelp1+dontHelp2
         const result = await this.reportStress.find({where:{yearTermId:dto.yearTermId,classroomId:dto.roomId,classroomTypeId:dto.classId},order:{classroomTypeId:'ASC',classroomId:'ASC',studentNumber:'ASC'}})
         const dataList = result.map(m=>{
             return {
-                v1:m.studentNumber??'',
+                v1:m.studentNumber??null,
                 v2:m.studentName??'',
                 v3:this.getStressLabel(m.sumva),
                 v4:this.getDateLabel(m.updatedAt),
@@ -735,7 +735,7 @@ const dontHelp = dontHelp1+dontHelp2
         }
         return this.exportPdfService.getStressReportByRoom(header,dataList,sum)
     }
-    sumByLabel(dataList: { v1: string; v2: string; v3: any; v4: string; }[], arg1: string): any {
+    sumByLabel(dataList: { v1: number; v2: string; v3: any; v4: string; }[], arg1: string): any {
         return dataList.filter(fl=>fl.v3 == arg1 ).length
     }
     getStressLabel(sumva: number): any {

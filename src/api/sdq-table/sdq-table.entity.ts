@@ -175,7 +175,7 @@ export class VwSdqTableList {
   @ViewColumn()
   estimateType:number
   @ViewColumn()
-  studentNumber:string
+  studentNumber:number
   @ViewColumn()
   studentId: number;
   @ViewColumn()

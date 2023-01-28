@@ -42,7 +42,7 @@ export class ReportStudentConsult {
    @ViewColumn()
    sentText:string
    @ViewColumn()
-   studentNumber:string
+   studentNumber:number
    @ViewColumn()
   studentName:string
   @ViewColumn()

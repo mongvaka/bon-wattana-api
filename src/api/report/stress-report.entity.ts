@@ -35,7 +35,7 @@ export class ReportStress {
   @ViewColumn()
   studentName:string
   @ViewColumn()
-  studentNumber:string
+  studentNumber:number
   @ViewColumn()
   roomName:string
   @ViewColumn()

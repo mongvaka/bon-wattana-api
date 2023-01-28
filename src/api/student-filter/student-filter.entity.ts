@@ -434,7 +434,7 @@ export class VwStudentFilterList {
     @ViewColumn()
     studentCode: string;
     @ViewColumn()
-    studentNumber: string;
+    studentNumber: number;
     @ViewColumn()
     studentValue: string;
     @ViewColumn()

@@ -86,7 +86,7 @@ export class VwStudentConsultantList {
   @ViewColumn()
   studentValue: string;
   @ViewColumn()
-  studentNumber: string;
+  studentNumber: number;
   @ViewColumn()
   activityDate: Date;
 

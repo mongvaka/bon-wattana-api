@@ -141,7 +141,7 @@ export class VwHasStudentList {
   studentCode: string;
 
   @ViewColumn()
-  studentNumber: string;
+  studentNumber: number;
 
   @ViewColumn()
   classroomTypeValue: string;

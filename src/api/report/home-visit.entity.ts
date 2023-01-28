@@ -40,7 +40,7 @@ inner join student s on
 })
 export class ReportHomeVisitSumarize{
 @ViewColumn()
-studentNumber:string
+studentNumber:number
 @ViewColumn()
 studentName:string
 @ViewColumn()

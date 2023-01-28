@@ -175,7 +175,7 @@ export class VwCheckStudentList {
   @ViewColumn()
   studentCode:string
   @ViewColumn()
-  studentNumber:string
+  studentNumber:number
   @ViewColumn()
   classroomTypeValue:string
   @ViewColumn()

@@ -44,6 +44,6 @@ export class ReportStudentHelp {
   @ViewColumn()
   className:string
   @ViewColumn()
-  studentNumber:string
+  studentNumber:number
 
 }

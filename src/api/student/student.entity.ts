@@ -37,7 +37,7 @@ export class Student extends BasicData {
 
  
   @Column({ nullable: true })
-  studentNumber?: string;
+  studentNumber?: number;
   // @Column({nullable: true})
   // imageProfile?: string;
 
@@ -340,7 +340,7 @@ export class VwStudentList {
   studentCode: string;
 
   @ViewColumn()
-  studentNumber: string;
+  studentNumber: number;
 
   @ViewColumn()
   classroomTypeValue: string;
@@ -558,7 +558,7 @@ export class VwStudentItem {
   @ViewColumn()
   postCode: string;
   @ViewColumn()
-  studentNumber: string;
+  studentNumber: number;
 
   @ViewColumn()
   classroomTypeId: number;
@@ -943,7 +943,7 @@ export class VwSdqTableListForTeacher {
   studentCode: string;
 
   @ViewColumn()
-  studentNumber: string;
+  studentNumber: number;
 
   @ViewColumn()
   classroomValue: string;
@@ -1060,7 +1060,7 @@ export class VwSdqTableListForParent {
   studentCode: string;
 
   @ViewColumn()
-  studentNumber: string;
+  studentNumber: number;
   
 
   @ViewColumn()
@@ -1179,7 +1179,7 @@ export class VwSdqTableListForStudent {
   studentCode: string;
 
   @ViewColumn()
-  studentNumber: string;
+  studentNumber: number;
 
   @ViewColumn()
   classroomValue: string;

@@ -77,7 +77,7 @@ export class ReportEq {
   @ViewColumn()
   roomName:string
   @ViewColumn()
-  studentNumber:string
+  studentNumber:number
   @ViewColumn()
   className:string
   @ViewColumn()

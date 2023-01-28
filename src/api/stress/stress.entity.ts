@@ -134,7 +134,7 @@ export class VwStressList {
   @ViewColumn()
   studentCode: string;
   @ViewColumn()
-  studentNumber: string;
+  studentNumber: number;
   @ViewColumn()
   studentValue: string;
   @ViewColumn()
