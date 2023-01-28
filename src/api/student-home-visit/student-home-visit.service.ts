@@ -164,7 +164,8 @@ export class StudentHomeVisitService extends BaseService {
          return {
              atYear: atYear, 
              atSemester: atSemester,
-             title:std?.title,
+            studentTitle:std?.title,
+            parentTitle:std?.parentTitle,
              firstname : std?.firstname,
              lastname: std?.lastname,
              classroomTypeValue:std?.classroomTypeValue,
@@ -220,7 +221,8 @@ export class StudentHomeVisitService extends BaseService {
      
          return {
             ...result,
-            title:std.title,
+            studentTitle:std.title,
+            parentTitle:std.parentTitle,
             firstname : std.firstname,
             lastname: std.lastname,
             classroomTypeValue:std.classroomTypeValue,
