@@ -44,6 +44,7 @@ export class VwClassroomTypeList {
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("classroom_type.id", "value")
   .addSelect("classroom_type.typeName", "label")
+  .orderBy('classroom_type.id','ASC')
       .from(ClassroomType, "classroom_type")
 })
 export class VwClassroomTypeDropdown {

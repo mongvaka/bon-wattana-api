@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Users } from "src/core/users/users.entity";
 import { DeepPartial, Repository, SelectQueryBuilder } from "typeorm";
-import { Operators } from "../constans/constanst";
+import { Operators, TABLE_EXIST_STUDENT_NUMBER } from "../constans/constanst";
 import { ColumnType } from "../constans/enum-system";
 import { CustomRequest } from "../models/request-model";
 
@@ -112,7 +112,7 @@ export class BaseService{
        // console.log('${dto.tableKey}.id',dto.tableKey);
         
         if(dto.sortColumns.length==0){
-            buider.addOrderBy(`${dto.tableKey}.value`,'DESC')
+            buider.addOrderBy(`${dto.tableKey}.value`,'ASC')
         }else{
             dto.sortColumns.forEach((el,index)=>{
                 const sortString = `${dto.sortTable[index]}.${el}`
@@ -213,7 +213,11 @@ export class BaseService{
         console.log('dto.sortColumns',dto.sortColumns);
         
         if(dto.sortColumns.length==0){
-            buider.addOrderBy(`"${dto.tableKey}"."studentNumber"`,'ASC')
+            const isExist= TABLE_EXIST_STUDENT_NUMBER.find(fn=>fn == dto.tableKey)
+            if(isExist){
+                buider.addOrderBy(`"${dto.tableKey}"."studentNumber"`,'ASC')
+
+            }
         }else{
             dto.sortColumns.forEach((el,index)=>{
                 const sortString = `"${dto.sortTable[index]}"."${el}"`

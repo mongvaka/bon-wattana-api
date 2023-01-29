@@ -45,7 +45,9 @@ export class VwClassroomList {
   expression: (connection: Connection) => connection.createQueryBuilder()
   .select("classroom.id", "value")
   .addSelect("classroom.name", "label")
+  .orderBy('classroom.id','ASC')
   .from(Classroom, "classroom")
+  
 })
 export class VwClassroomDropdown {
 
