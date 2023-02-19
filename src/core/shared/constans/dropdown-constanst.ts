@@ -733,7 +733,7 @@ export const RESULT_HELP_TYPE =[
     ];
     export const STUDENT_STATUS = [
       {
-        label: 'ENUM.STUDY',
+        label: 'กำลังศึกษา',
         value: 1,
         styleClass: null,
         icon: null,
@@ -741,7 +741,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.EXCHANGE',
+        label: 'ลาออก',
         value: 2,
         styleClass: null,
         icon: null,
@@ -749,7 +749,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.LEAVE',
+        label: 'สำเร็จการศึกษา',
         value: 3,
         styleClass: null,
         icon: null,
@@ -757,7 +757,7 @@ export const RESULT_HELP_TYPE =[
         disabled: false,
       },
       {
-        label: 'ENUM.COMPLETE_STUDY',
+        label: 'แขวนลอย/พักการเรียน',
         value: 4,
         styleClass: null,
         icon: null,

@@ -40,7 +40,7 @@ import { UserType } from 'src/core/shared/constans/enum-constans';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { VwClassroomTypeDropdown } from '../classroom-type/classroom-type.entity';
 import { Teacher } from '../teacher/teacher.entity';
-import {  BLOOD_TYPE, CLASS_SPECIAL, TITLE, TITLE_EN } from 'src/core/shared/constans/dropdown-constanst';
+import {  BLOOD_TYPE, CLASS_SPECIAL, STUDENT_STATUS, TITLE, TITLE_EN } from 'src/core/shared/constans/dropdown-constanst';
 import { getLabelEnum } from 'src/core/shared/functions';
 import { Users } from 'src/core/users/users.entity';
 
@@ -56,61 +56,61 @@ export class StudentService extends BaseService {
     async import(data: any[]): Promise<any> {   
       const dataMapped:any[] = data.map(m=>{
         return{
-          studentCode:m['รหัสประจำตัว'],
+          studentCode:m['รหัสประจำตัว']==''?0:m['รหัสประจำตัว'],
           studentNumber:m['เลขที่'],
           personalCode:m['รหัสบัตรประชาชน'],
-          classroomTypeId:m['รหัสชั้นเรียน'],
-          classroomId:m['รหัสห้อง'],
-          classSpecial:m['รหัสห้องเรียนพิเศษ'],
+          classroomTypeId:m['รหัสชั้นเรียน']==''?0:m['รหัสชั้นเรียน'],
+          classroomId:m['รหัสห้อง']==''?0:m['รหัสห้อง'],
+          classSpecial:m['รหัสห้องเรียนพิเศษ']==''?0:m['รหัสห้องเรียนพิเศษ'],
           classSpecialText:m['ห้องเรียนพิเศษอื่นๆ'],
-          status:m['รหัสสถานะ'],
+          status:m['รหัสสถานะ']==''?0:m['รหัสสถานะ'],
           leaveDate:m['วันที่ออกย้ายพัก'],
-          title:m['รหัสคำนำหน้า'],
+          title:m['รหัสคำนำหน้า']==''?0:m['รหัสคำนำหน้า'],
           firstname:m['ชื่อ'],
           lastname:m['นามสกุล'],
-          titleEn:m['รหัสคำนำหน้าEn'],
+          titleEn:m['รหัสคำนำหน้าEn']==''?0:m['รหัสคำนำหน้าEn'],
           firstnameEn:m['ชื่อEn'],
           lastnameEn:m['นามสกุลEn'],
-          gendarId:m['รหัสเพศ'],
+          gendarId:m['รหัสเพศ']==''?0:m['รหัสเพศ'],
           acceptDate:m['วันมอบตัว'],
           birthDate:m['วันที่เกิด'],
-          nationalityId:m['รหัสสัญชาติ'],
-          ethnicityId:m['รหัสเชื้อชาติ'],
-          religionId:m['รหัสศาสนา'],
+          nationalityId:m['รหัสสัญชาติ']==''?0:m['รหัสสัญชาติ'],
+          ethnicityId:m['รหัสเชื้อชาติ']==''?0:m['รหัสเชื้อชาติ'],
+          religionId:m['รหัสศาสนา']==''?0:m['รหัสศาสนา'],
           email:m['ที่อยู่อีเมลล์'],
           phoneNumber:m['เบอร์โทรศํพท์'],
           specialAbility:m['ความสามารถพิเศษ'],
 
           birthHospital:m['โรงพยาบาล'],
-          birthCountryId:m['รหัสประเทศโรงพยาบาล'],
-          birthProvinceId:m['รหัสจังหวัดโรงพยาบาล'],
-          birthDistrictId:m['รหัสอำเภอโรงพยาบาล'],
-          birthSubDistrictId:m['รหัสตำบลโรงพยาบาล'],
+          birthCountryId:m['รหัสประเทศโรงพยาบาล']==''?0:m['รหัสประเทศโรงพยาบาล'],
+          birthProvinceId:m['รหัสจังหวัดโรงพยาบาล']==''?0:m['รหัสจังหวัดโรงพยาบาล'],
+          birthDistrictId:m['รหัสอำเภอโรงพยาบาล']==''?0:m['รหัสอำเภอโรงพยาบาล'],
+          birthSubDistrictId:m['รหัสตำบลโรงพยาบาล']==''?0:m['รหัสตำบลโรงพยาบาล'],
           birthPostCode:m['รหัสไปรษณีย์โรงพยาบาล'],
 
           houseNumber:m['บ้านเลขที่ตามทะเบียนบ้าน'],
           village:m['หมู่ที่ตามทะเบียนบ้าน'],
           road:m['ถนนตามทะเบียนบ้าน'],
-          countryId:m['รหัสประเทศตามทะเบียนบ้าน'],
-          provinceId:m['รหัสจังหวัดตามทะเบียนบ้าน'],
-          districtId:m['รหัสอำเภอตามทะเบียนบ้าน'],
-          subDistrictId:m['รหัสตำบลตามทะเบียนบ้าน'],
-          postCode:m['รหัสไปรษณีย์ตามทะเบียนบ้าน'],
+          countryId:m['รหัสประเทศตามทะเบียนบ้าน']==''?0:m['รหัสประเทศตามทะเบียนบ้าน'],
+          provinceId:m['รหัสจังหวัดตามทะเบียนบ้าน']==''?0:m['รหัสจังหวัดตามทะเบียนบ้าน'],
+          districtId:m['รหัสอำเภอตามทะเบียนบ้าน']==''?0:m['รหัสอำเภอตามทะเบียนบ้าน'],
+          subDistrictId:m['รหัสตำบลตามทะเบียนบ้าน']==''?0:m['รหัสตำบลตามทะเบียนบ้าน'],
+          postCode:m['รหัสไปรษณีย์ตามทะเบียนบ้าน']==''?0:m['รหัสไปรษณีย์ตามทะเบียนบ้าน'],
 
           contractHouseNumber:m['บ้านเลขที่ติดต่อ'],
           contractVillage:m['หมู่ที่ติดต่อ'],
           contractRoad:m['ถนนติดต่อ'],
-          contractCountryId:m['รหัสประเทศติดต่อ'],
-          contractProvinceId:m['รหัสจังหวัดติดต่อ'],
-          contractDistrictId:m['รหัสอำเภอติดต่อ'],
-          contractSubDistrictId:m['รหัสตำบลติดต่อ'],
+          contractCountryId:m['รหัสประเทศติดต่อ']==''?0:m['รหัสประเทศติดต่อ'],
+          contractProvinceId:m['รหัสจังหวัดติดต่อ']==''?0:m['รหัสจังหวัดติดต่อ'],
+          contractDistrictId:m['รหัสอำเภอติดต่อ']==''?0:m['รหัสอำเภอติดต่อ'],
+          contractSubDistrictId:m['รหัสตำบลติดต่อ']==''?0:m['รหัสตำบลติดต่อ'],
           contractPostCode:m['รหัสไปรษณีย์ติดต่อ'],
 
           oldSchoolName:m['ชื่อโรงเรียน'],
-          oldSchoolCountryId:m['รหัสประเทศโรงเรียนเดิม'],
-          oldSchoolProvinceId:m['รหัสจังหวัดโรงเรียนเดิม'],
-          oldSchoolDistrictId:m['รหัสอำเภอโรงเรียนเดิม'],
-          oldSchoolSubDistrictId:m['รหัสตำบลโรงเรียนเดิม'],
+          oldSchoolCountryId:m['รหัสประเทศโรงเรียนเดิม']==''?0:m['รหัสประเทศโรงเรียนเดิม'],
+          oldSchoolProvinceId:m['รหัสจังหวัดโรงเรียนเดิม']==''?0:m['รหัสจังหวัดโรงเรียนเดิม'],
+          oldSchoolDistrictId:m['รหัสอำเภอโรงเรียนเดิม']==''?0:m['รหัสอำเภอโรงเรียนเดิม'],
+          oldSchoolSubDistrictId:m['รหัสตำบลโรงเรียนเดิม']==''?0:m['รหัสตำบลโรงเรียนเดิม'],
           oldSchoolPostCode:m['รหัสไปรษณีย์โรงเรียนเดิม'],
 
           closeFriendInClass:m['ชื่อเพื่อนสนิทในชั้นเรียน'],
@@ -123,38 +123,38 @@ export class StudentService extends BaseService {
           closeFriendOtherClassSchool:m['โรงเรียนเพื่อนสนิทต่างชั้นเรียน'],
           closeFriendOtherClassPhone:m['เบอร์โทรเพื่อนสนิทต่างชั้นเรียน'],
 
-          bloodType:m['รหัสหมู่เลือด'],
+          bloodType:m['รหัสหมู่เลือด']==''?0:m['รหัสหมู่เลือด'],
           congenitalDisease:m['โรคประจำตัว'],
-          height:m['ส่วนสูง'],
-          weight:m['น้ําหนัก'],
+          height:m['ส่วนสูง']==''?0:m['ส่วนสูง'],
+          weight:m['น้ําหนัก']==''?0:m['น้ําหนัก'],
           defect:m['ข้อบกพร่อง'],
 
-          aliveWithId:m['รหัสปัจจุบันอาศัยอยู่กับ'],
-          parentStatus:m['รหัสสถานะผู้ปกครองปัจจุบัน'],
+          aliveWithId:m['รหัสปัจจุบันอาศัยอยู่กับ']==''?0:m['รหัสปัจจุบันอาศัยอยู่กับ'],
+          parentStatus:m['รหัสสถานะผู้ปกครองปัจจุบัน']==''?0:m['รหัสสถานะผู้ปกครองปัจจุบัน'],
 
-          fatherTitle:m['รหัสคำนำหน้าบิดา'],
+          fatherTitle:m['รหัสคำนำหน้าบิดา']==''?0:m['รหัสคำนำหน้าบิดา'],
           fatherFirstname:m['ชื่อบิดา'],
           fatherLastname:m['นามสกุลบิดา'],
           fatherPersonalCode:m['หมายเลขบัตรประชาชนบิดา'],
-          fatherBloodType:m['รหัสหมู่เลือดบิดา'],
+          fatherBloodType:m['รหัสหมู่เลือดบิดา']==''?0:m['รหัสหมู่เลือดบิดา'],
           fatherIncome:m['รายได้บิดา'],
           fatherOccupation:m['อาชีพบิดา'],
           fatherPhone:m['เบอร์โทรศํพท์บิดา'],
 
-          motherTitle:m['รหัสคำนำหน้ามารดา'],
+          motherTitle:m['รหัสคำนำหน้ามารดา']==''?0:m['รหัสคำนำหน้ามารดา'],
           motherFirstname:m['ชื่อมารดา'],
           motherLastname:m['นามสกุลมารดา'],
           motherPersonalCode:m['หมายเลขบัตรประชาชนมารดา'],
-          motherBloodType:m['รหัสหมู่เลือดมารดา'],
+          motherBloodType:m['รหัสหมู่เลือดมารดา']==''?0:m['รหัสหมู่เลือดมารดา'],
           motherIncome:m['รายได้มารดา'],
           motherOccupation:m['อาชีพมารดา'],
           motherPhone:m['เบอร์โทรศํพท์มารดา'],
 
-          parentTitle:m['รหัสคำนำหน้าผู้ปกครอง'],
+          parentTitle:m['รหัสคำนำหน้าผู้ปกครอง']==''?0:m['รหัสคำนำหน้าผู้ปกครอง'],
           parentFirstname:m['ชื่อผู้ปกครอง'],
           parentLastname:m['นามสกุลผู้ปกครอง'],
           parentPersonalCode:m['หมายเลขบัตรประชาชนผู้ปกครอง'],
-          parentBloodType:m['รหัสหมู่เลือดผู้ปกครอง'],
+          parentBloodType:m['รหัสหมู่เลือดผู้ปกครอง']==''?0:m['รหัสหมู่เลือดผู้ปกครอง'],
           parentIncome:m['รายได้ผู้ปกครอง'],
           parentOccupation:m['อาชีพผู้ปกครอง'],
           parentPhone:m['เบอร์โทรศํพท์ผู้ปกครอง'],
@@ -573,6 +573,9 @@ export class StudentService extends BaseService {
             }
             if(en.en=='titleEn'){
               model[en.th] = getLabelEnum(TITLE_EN, el[en.en]) 
+            }
+            if(en.en=='status'){
+              model[en.th] = getLabelEnum(STUDENT_STATUS, el[en.en]) 
             }
             if(en.en=='bloodType'){
               model[en.th] = getLabelEnum(BLOOD_TYPE, el[en.en]) 

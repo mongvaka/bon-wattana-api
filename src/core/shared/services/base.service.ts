@@ -171,9 +171,7 @@ export class BaseService{
         
         return buider
     }
-    createQueryBuider<T>(dto:SearchParameter,repository: Repository<T>):SelectQueryBuilder<T>{
-        console.log('tableKey',dto.tableKey);
-        
+    createQueryBuider<T>(dto:SearchParameter,repository: Repository<T>):SelectQueryBuilder<T>{        
         const buider = repository.createQueryBuilder(dto.tableKey);
         const take = dto.paginator?.rows || 10
         const skip = (dto.paginator?.page || 0)*take
@@ -209,9 +207,7 @@ export class BaseService{
 
                 }
             }
-        });
-        console.log('dto.sortColumns',dto.sortColumns);
-        
+        });        
         if(dto.sortColumns.length==0){
             const isExist= TABLE_EXIST_STUDENT_NUMBER.find(fn=>fn == dto.tableKey)
             if(isExist){

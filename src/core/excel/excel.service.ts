@@ -286,7 +286,7 @@ export class ExcelService extends BaseService {
         // console.log('cell',cell);
         
         cell.forEach((el,index)=>{
-            // console.log(el,':',index);
+            console.log(cell.length,':',index);
             
             col = []
             if(index == 1){                
